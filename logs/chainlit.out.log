@@ -1,0 +1,209 @@
+2026-04-18 14:24:05 - INFO - chainlit - Your app is available at http://localhost:8000
+2026-04-18 14:24:06 - WARNING - chainlit - Translated markdown file for en-US not found. Defaulting to chainlit.md.
+2026-04-18 14:24:09 - WARNING - chainlit - Translated markdown file for en-US not found. Defaulting to chainlit.md.
+2026-04-18 14:24:09 - INFO - chainlit - Missing custom logo. Falling back to default logo.
+2026-04-18 14:25:03 - INFO - presidio-analyzer - Using device of type: cpu
+2026-04-18 14:25:04 - INFO - presidio-analyzer - nlp_engine not provided, creating default.
+2026-04-18 14:25:04 - WARNING - presidio-analyzer - Model en_core_web_lg is not installed. Downloading...
+Collecting en-core-web-lg==3.8.0
+  Downloading https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-3.8.0/en_core_web_lg-3.8.0-py3-none-any.whl (400.7 MB)
+     -------------------------------------- 400.7/400.7 MB 4.5 MB/s eta 0:00:00
+Installing collected packages: en-core-web-lg
+Successfully installed en-core-web-lg-3.8.0
+[38;5;2m[+] Download and installation successful[0m
+You can now load the package via spacy.load('en_core_web_lg')
+2026-04-18 14:26:37 - INFO - presidio-analyzer - Finished downloading model en_core_web_lg
+2026-04-18 14:26:39 - INFO - presidio-analyzer - Created NLP engine: spacy. Loaded models: ['en']
+2026-04-18 14:26:39 - INFO - presidio-analyzer - registry not provided, creating default.
+2026-04-18 14:26:39 - INFO - presidio-analyzer - Loaded recognizer: CreditCardRecognizer
+2026-04-18 14:26:39 - INFO - presidio-analyzer - Loaded recognizer: CreditCardRecognizer
+2026-04-18 14:26:39 - INFO - presidio-analyzer - Loaded recognizer: CreditCardRecognizer
+2026-04-18 14:26:39 - INFO - presidio-analyzer - Loaded recognizer: CreditCardRecognizer
+2026-04-18 14:26:39 - INFO - presidio-analyzer - Loaded recognizer: UsBankRecognizer
+2026-04-18 14:26:39 - INFO - presidio-analyzer - Loaded recognizer: UsLicenseRecognizer
+2026-04-18 14:26:39 - INFO - presidio-analyzer - Loaded recognizer: UsItinRecognizer
+2026-04-18 14:26:39 - INFO - presidio-analyzer - Loaded recognizer: UsPassportRecognizer
+2026-04-18 14:26:39 - INFO - presidio-analyzer - Loaded recognizer: UsSsnRecognizer
+2026-04-18 14:26:39 - INFO - presidio-analyzer - Loaded recognizer: NhsRecognizer
+2026-04-18 14:26:39 - INFO - presidio-analyzer - Loaded recognizer: EsNifRecognizer
+2026-04-18 14:26:39 - INFO - presidio-analyzer - Loaded recognizer: EsNieRecognizer
+2026-04-18 14:26:39 - INFO - presidio-analyzer - Loaded recognizer: ItDriverLicenseRecognizer
+2026-04-18 14:26:39 - INFO - presidio-analyzer - Loaded recognizer: ItFiscalCodeRecognizer
+2026-04-18 14:26:39 - INFO - presidio-analyzer - Loaded recognizer: ItVatCodeRecognizer
+2026-04-18 14:26:39 - INFO - presidio-analyzer - Loaded recognizer: ItIdentityCardRecognizer
+2026-04-18 14:26:39 - INFO - presidio-analyzer - Loaded recognizer: ItPassportRecognizer
+2026-04-18 14:26:39 - INFO - presidio-analyzer - Loaded recognizer: PlPeselRecognizer
+2026-04-18 14:26:39 - INFO - presidio-analyzer - Loaded recognizer: CryptoRecognizer
+2026-04-18 14:26:39 - INFO - presidio-analyzer - Loaded recognizer: DateRecognizer
+2026-04-18 14:26:39 - INFO - presidio-analyzer - Loaded recognizer: EmailRecognizer
+2026-04-18 14:26:39 - INFO - presidio-analyzer - Loaded recognizer: IbanRecognizer
+2026-04-18 14:26:39 - INFO - presidio-analyzer - Loaded recognizer: IpRecognizer
+2026-04-18 14:26:39 - INFO - presidio-analyzer - Loaded recognizer: MedicalLicenseRecognizer
+2026-04-18 14:26:39 - INFO - presidio-analyzer - Loaded recognizer: MacAddressRecognizer
+2026-04-18 14:26:39 - INFO - presidio-analyzer - Loaded recognizer: PhoneRecognizer
+2026-04-18 14:26:39 - INFO - presidio-analyzer - Loaded recognizer: UrlRecognizer
+2026-04-18 14:26:39 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: es, registry supported languages: en
+2026-04-18 14:26:39 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: it, registry supported languages: en
+2026-04-18 14:26:39 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: pl, registry supported languages: en
+2026-04-18 14:26:39 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - EsNifRecognizer supported languages: es, registry supported languages: en
+2026-04-18 14:26:39 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - EsNieRecognizer supported languages: es, registry supported languages: en
+2026-04-18 14:26:39 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - ItDriverLicenseRecognizer supported languages: it, registry supported languages: en
+2026-04-18 14:26:39 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - ItFiscalCodeRecognizer supported languages: it, registry supported languages: en
+2026-04-18 14:26:39 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - ItVatCodeRecognizer supported languages: it, registry supported languages: en
+2026-04-18 14:26:39 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - ItIdentityCardRecognizer supported languages: it, registry supported languages: en
+2026-04-18 14:26:39 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - ItPassportRecognizer supported languages: it, registry supported languages: en
+2026-04-18 14:26:39 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - PlPeselRecognizer supported languages: pl, registry supported languages: en
+2026-04-18 14:26:39 - INFO - presidio-analyzer - Loaded recognizer: SpacyRecognizer
+2026-04-18 14:26:39 - INFO - presidio-analyzer - Fetching all recognizers for language en
+2026-04-18 14:26:40 - INFO - presidio-analyzer - nlp_engine not provided, creating default.
+2026-04-18 14:26:42 - INFO - presidio-analyzer - Created NLP engine: spacy. Loaded models: ['en']
+2026-04-18 14:26:42 - INFO - presidio-analyzer - registry not provided, creating default.
+2026-04-18 14:26:42 - INFO - presidio-analyzer - Loaded recognizer: CreditCardRecognizer
+2026-04-18 14:26:42 - INFO - presidio-analyzer - Loaded recognizer: CreditCardRecognizer
+2026-04-18 14:26:42 - INFO - presidio-analyzer - Loaded recognizer: CreditCardRecognizer
+2026-04-18 14:26:42 - INFO - presidio-analyzer - Loaded recognizer: CreditCardRecognizer
+2026-04-18 14:26:42 - INFO - presidio-analyzer - Loaded recognizer: UsBankRecognizer
+2026-04-18 14:26:42 - INFO - presidio-analyzer - Loaded recognizer: UsLicenseRecognizer
+2026-04-18 14:26:42 - INFO - presidio-analyzer - Loaded recognizer: UsItinRecognizer
+2026-04-18 14:26:42 - INFO - presidio-analyzer - Loaded recognizer: UsPassportRecognizer
+2026-04-18 14:26:42 - INFO - presidio-analyzer - Loaded recognizer: UsSsnRecognizer
+2026-04-18 14:26:42 - INFO - presidio-analyzer - Loaded recognizer: NhsRecognizer
+2026-04-18 14:26:42 - INFO - presidio-analyzer - Loaded recognizer: EsNifRecognizer
+2026-04-18 14:26:42 - INFO - presidio-analyzer - Loaded recognizer: EsNieRecognizer
+2026-04-18 14:26:42 - INFO - presidio-analyzer - Loaded recognizer: ItDriverLicenseRecognizer
+2026-04-18 14:26:42 - INFO - presidio-analyzer - Loaded recognizer: ItFiscalCodeRecognizer
+2026-04-18 14:26:42 - INFO - presidio-analyzer - Loaded recognizer: ItVatCodeRecognizer
+2026-04-18 14:26:42 - INFO - presidio-analyzer - Loaded recognizer: ItIdentityCardRecognizer
+2026-04-18 14:26:42 - INFO - presidio-analyzer - Loaded recognizer: ItPassportRecognizer
+2026-04-18 14:26:42 - INFO - presidio-analyzer - Loaded recognizer: PlPeselRecognizer
+2026-04-18 14:26:42 - INFO - presidio-analyzer - Loaded recognizer: CryptoRecognizer
+2026-04-18 14:26:42 - INFO - presidio-analyzer - Loaded recognizer: DateRecognizer
+2026-04-18 14:26:42 - INFO - presidio-analyzer - Loaded recognizer: EmailRecognizer
+2026-04-18 14:26:42 - INFO - presidio-analyzer - Loaded recognizer: IbanRecognizer
+2026-04-18 14:26:42 - INFO - presidio-analyzer - Loaded recognizer: IpRecognizer
+2026-04-18 14:26:42 - INFO - presidio-analyzer - Loaded recognizer: MedicalLicenseRecognizer
+2026-04-18 14:26:42 - INFO - presidio-analyzer - Loaded recognizer: MacAddressRecognizer
+2026-04-18 14:26:42 - INFO - presidio-analyzer - Loaded recognizer: PhoneRecognizer
+2026-04-18 14:26:42 - INFO - presidio-analyzer - Loaded recognizer: UrlRecognizer
+2026-04-18 14:26:42 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: es, registry supported languages: en
+2026-04-18 14:26:42 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: it, registry supported languages: en
+2026-04-18 14:26:42 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: pl, registry supported languages: en
+2026-04-18 14:26:42 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - EsNifRecognizer supported languages: es, registry supported languages: en
+2026-04-18 14:26:42 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - EsNieRecognizer supported languages: es, registry supported languages: en
+2026-04-18 14:26:42 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - ItDriverLicenseRecognizer supported languages: it, registry supported languages: en
+2026-04-18 14:26:42 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - ItFiscalCodeRecognizer supported languages: it, registry supported languages: en
+2026-04-18 14:26:42 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - ItVatCodeRecognizer supported languages: it, registry supported languages: en
+2026-04-18 14:26:42 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - ItIdentityCardRecognizer supported languages: it, registry supported languages: en
+2026-04-18 14:26:42 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - ItPassportRecognizer supported languages: it, registry supported languages: en
+2026-04-18 14:26:42 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - PlPeselRecognizer supported languages: pl, registry supported languages: en
+2026-04-18 14:26:42 - INFO - presidio-analyzer - Loaded recognizer: SpacyRecognizer
+2026-04-18 14:26:42 - INFO - presidio-analyzer - Fetching all recognizers for language en
+2026-04-18 14:26:43 - INFO - httpx - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 14:26:43 - INFO - httpx - HTTP Request: GET http://localhost:6333 "HTTP/1.1 200 OK"
+2026-04-18 14:26:44 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/BAAI/bge-m3/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 14:26:44 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/BAAI/bge-m3/5617a9f61b028005a4858fdac845db406aefb181/config.json "HTTP/1.1 200 OK"
+2026-04-18 14:26:44 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/BAAI/bge-m3/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-18 14:26:44 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/BAAI/bge-m3/5617a9f61b028005a4858fdac845db406aefb181/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-18 14:26:44 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/BAAI/bge-m3/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-18 14:26:45 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/BAAI/bge-m3/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-18 14:26:48 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/BAAI/bge-m3 "HTTP/1.1 200 OK"
+2026-04-18 14:26:48 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/BAAI/bge-m3/revision/main "HTTP/1.1 200 OK"
+2026-04-18 14:26:48 - INFO - FlagEmbedding.finetune.embedder.encoder_only.m3.runner - loading existing colbert_linear and sparse_linear---------
+2026-04-18 14:26:51 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/INTL_TREATIES/points/query "HTTP/1.1 200 OK"
+2026-04-18 14:26:52 - INFO - httpx - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 14:26:53 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/CASE_LAW/points/query "HTTP/1.1 200 OK"
+2026-04-18 14:26:54 - INFO - httpx - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 14:26:55 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/query "HTTP/1.1 200 OK"
+2026-04-18 14:26:56 - INFO - httpx - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 14:26:57 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/COMMENTARY/points/query "HTTP/1.1 200 OK"
+Warning: reranking failed (BAAI/bge-reranker-v2-m3 is not cached; set OMNILEGAL_ENABLE_HEAVY_MODELS=1 to download it), returning top-10 by fusion score
+2026-04-18 14:26:58 - INFO - httpx - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 14:27:00 - INFO - httpx - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 14:27:00 - INFO - presidio-analyzer - nlp_engine not provided, creating default.
+2026-04-18 14:27:02 - INFO - presidio-analyzer - Created NLP engine: spacy. Loaded models: ['en']
+2026-04-18 14:27:02 - INFO - presidio-analyzer - registry not provided, creating default.
+2026-04-18 14:27:02 - INFO - presidio-analyzer - Loaded recognizer: CreditCardRecognizer
+2026-04-18 14:27:02 - INFO - presidio-analyzer - Loaded recognizer: CreditCardRecognizer
+2026-04-18 14:27:02 - INFO - presidio-analyzer - Loaded recognizer: CreditCardRecognizer
+2026-04-18 14:27:02 - INFO - presidio-analyzer - Loaded recognizer: CreditCardRecognizer
+2026-04-18 14:27:02 - INFO - presidio-analyzer - Loaded recognizer: UsBankRecognizer
+2026-04-18 14:27:02 - INFO - presidio-analyzer - Loaded recognizer: UsLicenseRecognizer
+2026-04-18 14:27:02 - INFO - presidio-analyzer - Loaded recognizer: UsItinRecognizer
+2026-04-18 14:27:02 - INFO - presidio-analyzer - Loaded recognizer: UsPassportRecognizer
+2026-04-18 14:27:02 - INFO - presidio-analyzer - Loaded recognizer: UsSsnRecognizer
+2026-04-18 14:27:02 - INFO - presidio-analyzer - Loaded recognizer: NhsRecognizer
+2026-04-18 14:27:02 - INFO - presidio-analyzer - Loaded recognizer: EsNifRecognizer
+2026-04-18 14:27:02 - INFO - presidio-analyzer - Loaded recognizer: EsNieRecognizer
+2026-04-18 14:27:02 - INFO - presidio-analyzer - Loaded recognizer: ItDriverLicenseRecognizer
+2026-04-18 14:27:02 - INFO - presidio-analyzer - Loaded recognizer: ItFiscalCodeRecognizer
+2026-04-18 14:27:02 - INFO - presidio-analyzer - Loaded recognizer: ItVatCodeRecognizer
+2026-04-18 14:27:02 - INFO - presidio-analyzer - Loaded recognizer: ItIdentityCardRecognizer
+2026-04-18 14:27:02 - INFO - presidio-analyzer - Loaded recognizer: ItPassportRecognizer
+2026-04-18 14:27:02 - INFO - presidio-analyzer - Loaded recognizer: PlPeselRecognizer
+2026-04-18 14:27:02 - INFO - presidio-analyzer - Loaded recognizer: CryptoRecognizer
+2026-04-18 14:27:02 - INFO - presidio-analyzer - Loaded recognizer: DateRecognizer
+2026-04-18 14:27:02 - INFO - presidio-analyzer - Loaded recognizer: EmailRecognizer
+2026-04-18 14:27:02 - INFO - presidio-analyzer - Loaded recognizer: IbanRecognizer
+2026-04-18 14:27:02 - INFO - presidio-analyzer - Loaded recognizer: IpRecognizer
+2026-04-18 14:27:02 - INFO - presidio-analyzer - Loaded recognizer: MedicalLicenseRecognizer
+2026-04-18 14:27:02 - INFO - presidio-analyzer - Loaded recognizer: MacAddressRecognizer
+2026-04-18 14:27:02 - INFO - presidio-analyzer - Loaded recognizer: PhoneRecognizer
+2026-04-18 14:27:02 - INFO - presidio-analyzer - Loaded recognizer: UrlRecognizer
+2026-04-18 14:27:02 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: es, registry supported languages: en
+2026-04-18 14:27:02 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: it, registry supported languages: en
+2026-04-18 14:27:02 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: pl, registry supported languages: en
+2026-04-18 14:27:02 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - EsNifRecognizer supported languages: es, registry supported languages: en
+2026-04-18 14:27:02 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - EsNieRecognizer supported languages: es, registry supported languages: en
+2026-04-18 14:27:02 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - ItDriverLicenseRecognizer supported languages: it, registry supported languages: en
+2026-04-18 14:27:02 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - ItFiscalCodeRecognizer supported languages: it, registry supported languages: en
+2026-04-18 14:27:02 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - ItVatCodeRecognizer supported languages: it, registry supported languages: en
+2026-04-18 14:27:02 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - ItIdentityCardRecognizer supported languages: it, registry supported languages: en
+2026-04-18 14:27:02 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - ItPassportRecognizer supported languages: it, registry supported languages: en
+2026-04-18 14:27:02 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - PlPeselRecognizer supported languages: pl, registry supported languages: en
+2026-04-18 14:27:02 - INFO - presidio-analyzer - Loaded recognizer: SpacyRecognizer
+2026-04-18 14:27:02 - INFO - presidio-analyzer - Fetching all recognizers for language en
+2026-04-18 14:27:02 - INFO - presidio-analyzer - nlp_engine not provided, creating default.
+2026-04-18 14:27:04 - INFO - presidio-analyzer - Created NLP engine: spacy. Loaded models: ['en']
+2026-04-18 14:27:04 - INFO - presidio-analyzer - registry not provided, creating default.
+2026-04-18 14:27:04 - INFO - presidio-analyzer - Loaded recognizer: CreditCardRecognizer
+2026-04-18 14:27:04 - INFO - presidio-analyzer - Loaded recognizer: CreditCardRecognizer
+2026-04-18 14:27:04 - INFO - presidio-analyzer - Loaded recognizer: CreditCardRecognizer
+2026-04-18 14:27:04 - INFO - presidio-analyzer - Loaded recognizer: CreditCardRecognizer
+2026-04-18 14:27:04 - INFO - presidio-analyzer - Loaded recognizer: UsBankRecognizer
+2026-04-18 14:27:04 - INFO - presidio-analyzer - Loaded recognizer: UsLicenseRecognizer
+2026-04-18 14:27:04 - INFO - presidio-analyzer - Loaded recognizer: UsItinRecognizer
+2026-04-18 14:27:04 - INFO - presidio-analyzer - Loaded recognizer: UsPassportRecognizer
+2026-04-18 14:27:04 - INFO - presidio-analyzer - Loaded recognizer: UsSsnRecognizer
+2026-04-18 14:27:04 - INFO - presidio-analyzer - Loaded recognizer: NhsRecognizer
+2026-04-18 14:27:04 - INFO - presidio-analyzer - Loaded recognizer: EsNifRecognizer
+2026-04-18 14:27:04 - INFO - presidio-analyzer - Loaded recognizer: EsNieRecognizer
+2026-04-18 14:27:04 - INFO - presidio-analyzer - Loaded recognizer: ItDriverLicenseRecognizer
+2026-04-18 14:27:04 - INFO - presidio-analyzer - Loaded recognizer: ItFiscalCodeRecognizer
+2026-04-18 14:27:04 - INFO - presidio-analyzer - Loaded recognizer: ItVatCodeRecognizer
+2026-04-18 14:27:04 - INFO - presidio-analyzer - Loaded recognizer: ItIdentityCardRecognizer
+2026-04-18 14:27:04 - INFO - presidio-analyzer - Loaded recognizer: ItPassportRecognizer
+2026-04-18 14:27:04 - INFO - presidio-analyzer - Loaded recognizer: PlPeselRecognizer
+2026-04-18 14:27:04 - INFO - presidio-analyzer - Loaded recognizer: CryptoRecognizer
+2026-04-18 14:27:04 - INFO - presidio-analyzer - Loaded recognizer: DateRecognizer
+2026-04-18 14:27:04 - INFO - presidio-analyzer - Loaded recognizer: EmailRecognizer
+2026-04-18 14:27:04 - INFO - presidio-analyzer - Loaded recognizer: IbanRecognizer
+2026-04-18 14:27:04 - INFO - presidio-analyzer - Loaded recognizer: IpRecognizer
+2026-04-18 14:27:04 - INFO - presidio-analyzer - Loaded recognizer: MedicalLicenseRecognizer
+2026-04-18 14:27:04 - INFO - presidio-analyzer - Loaded recognizer: MacAddressRecognizer
+2026-04-18 14:27:04 - INFO - presidio-analyzer - Loaded recognizer: PhoneRecognizer
+2026-04-18 14:27:04 - INFO - presidio-analyzer - Loaded recognizer: UrlRecognizer
+2026-04-18 14:27:04 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: es, registry supported languages: en
+2026-04-18 14:27:04 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: it, registry supported languages: en
+2026-04-18 14:27:04 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: pl, registry supported languages: en
+2026-04-18 14:27:04 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - EsNifRecognizer supported languages: es, registry supported languages: en
+2026-04-18 14:27:04 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - EsNieRecognizer supported languages: es, registry supported languages: en
+2026-04-18 14:27:04 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - ItDriverLicenseRecognizer supported languages: it, registry supported languages: en
+2026-04-18 14:27:04 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - ItFiscalCodeRecognizer supported languages: it, registry supported languages: en
+2026-04-18 14:27:04 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - ItVatCodeRecognizer supported languages: it, registry supported languages: en
+2026-04-18 14:27:04 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - ItIdentityCardRecognizer supported languages: it, registry supported languages: en
+2026-04-18 14:27:04 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - ItPassportRecognizer supported languages: it, registry supported languages: en
+2026-04-18 14:27:04 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - PlPeselRecognizer supported languages: pl, registry supported languages: en
+2026-04-18 14:27:04 - INFO - presidio-analyzer - Loaded recognizer: SpacyRecognizer
+2026-04-18 14:27:04 - INFO - presidio-analyzer - Fetching all recognizers for language en
+2026-04-18 14:38:44 - WARNING - chainlit - Translated markdown file for en-US not found. Defaulting to chainlit.md.
+2026-04-18 14:40:15 - WARNING - chainlit - Translated markdown file for en-US not found. Defaulting to chainlit.md.

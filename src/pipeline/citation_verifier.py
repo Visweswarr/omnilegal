@@ -1,0 +1,981 @@
+"""
+Step 8: citation verification.
+
+Local deterministic defaults:
+- every [N] marker must point to a retrieved passage
+- quoted text near a marker must appear verbatim in that passage
+- unsupported markers are stripped and the response becomes insufficient evidence
+
+Optional production hooks:
+- HHEM-2.1 / NLI entailment when heavy models are enabled
+- Anthropic Citations API can be added without changing the output contract
+"""
+from __future__ import annotations
+
+import re
+import sys
+from pathlib import Path
+from typing import Any
+
+sys.path.append(str(Path(__file__).parent.parent.parent))
+
+from src.config import (
+    GROQ_API_KEY,
+    GROQ_MODEL,
+    GROQ_REQUEST_TIMEOUT_SECONDS,
+    LEGAL_RESEARCH_SHORT_DISCLAIMER,
+    NLI_MODEL,
+    OMNILEGAL_ENABLE_CITATION_SELF_CRITIQUE,
+    OMNILEGAL_ENABLE_HEAVY_MODELS,
+    OMNILEGAL_ENABLE_NLI_VERIFIER,
+)
+from src.pipeline.state import PipelineStateDict
+from src.models.heavy_nlp import get_nli_verifier
+from src.services.answer_format import (
+    format_answer_sections,
+    missing_citation_sentences,
+    sentence_chunks,
+    split_answer_sections,
+)
+from src.services.authority import (
+    authority_gaps_from_status,
+    grounding_status_from_passages,
+    infer_authority_tier,
+    is_merits_citable_tier,
+)
+from src.services.groq_client import generate_groq_chat
+
+_MARKER_RE = re.compile(r"\[(\d+)\]")
+_MARKER_GROUP_RE = re.compile(r"\[((?:\d+\s*,\s*)+\d+)\]")
+_QUOTE_RE = re.compile(r'"([^"]{8,300})"|“([^”]{8,300})”|\'([^\']{8,300})\'')
+
+
+def _normalise_marker_groups(draft: str) -> str:
+    def repl(match: re.Match[str]) -> str:
+        markers = [part.strip() for part in match.group(1).split(",") if part.strip()]
+        return " ".join(f"[{marker}]" for marker in markers)
+
+    return _MARKER_GROUP_RE.sub(repl, draft)
+
+
+def _oscola_citation(meta: dict[str, Any]) -> str:
+    doc_type = meta.get("doc_type", "")
+    source = meta.get("source_name") or meta.get("citation") or "Unknown source"
+    year = meta.get("year") or "n.d."
+    art = meta.get("article_number") or ""
+    if doc_type == "treaty":
+        article = f", art. {art}" if art and art != "preamble" else ""
+        return f"{source}{article} ({year})"
+    if doc_type == "case_law":
+        return f"{source} [{year}]"
+    if meta.get("collection") == "SHAW_PRIVATE":
+        return f"{source}, short private-corpus excerpt"
+    return str(source)
+
+
+def _bluebook_citation(meta: dict[str, Any]) -> str:
+    source = meta.get("source_name") or meta.get("citation") or "Unknown source"
+    year = meta.get("year") or "n.d."
+    art = meta.get("article_number") or ""
+    if art:
+        return f"{source} art. {art} ({year})"
+    return f"{source} ({year})"
+
+
+def _citation_style(meta: dict[str, Any]) -> str:
+    jurisdiction = (meta.get("jurisdiction") or "").lower()
+    return _bluebook_citation(meta) if jurisdiction in {"us", "united_states"} else _oscola_citation(meta)
+
+
+def _claim_before_marker(marker_idx: int, draft: str) -> str:
+    pattern = re.compile(r"([^.!?\n]{20,220}(?:[.!?])?)\s*\[" + str(marker_idx) + r"\]")
+    match = pattern.search(draft)
+    return match.group(1).strip() if match else ""
+
+
+def _quotes_near_marker(marker_idx: int, draft: str) -> list[str]:
+    marker = f"[{marker_idx}]"
+    pos = draft.find(marker)
+    if pos < 0:
+        return []
+    window = draft[max(0, pos - 500): pos + len(marker)]
+    quotes: list[str] = []
+    for match in _QUOTE_RE.finditer(window):
+        quote = next(group for group in match.groups() if group)
+        quotes.append(" ".join(quote.split()))
+    return quotes
+
+
+def _normalise_for_match(text: str) -> str:
+    return " ".join((text or "").lower().split())
+
+
+def _forced_quote_passes(marker_idx: int, draft: str, passage_text: str) -> tuple[bool, list[str]]:
+    quotes = _quotes_near_marker(marker_idx, draft)
+    if not quotes:
+        return True, []
+    passage_norm = _normalise_for_match(passage_text)
+    missing = [quote for quote in quotes if _normalise_for_match(quote) not in passage_norm]
+    return not missing, missing
+
+
+def _lexical_support_ratio(claim_text: str, passage_text: str) -> float:
+    claim_words = set(re.findall(r"\b[a-z]{4,}\b", claim_text.lower()))
+    passage_words = set(re.findall(r"\b[a-z]{4,}\b", passage_text.lower()))
+    if not claim_words:
+        return 0.0
+    return len(claim_words & passage_words) / len(claim_words)
+
+
+_NAMED_AUTHORITIES = [
+    "corfu channel", "nicaragua", "oil platforms", "caroline", "drc v. uganda",
+    "lotus", "barcelona traction", "nottebohm", "chorzow factory",
+    "tinoco", "tinoco arbitration", "island of palmas", "trail smelter",
+    "alabama claims", "rainbow warrior", "tadic", "akayesu", "pinochet",
+    "reparations for injuries", "nuclear tests", "wall advisory opinion",
+    "south west africa", "la grand", "lagrand", "avena",
+]
+
+
+def _named_authority_mismatch(claim_text: str, passage_text: str) -> str | None:
+    claim_lower = claim_text.lower()
+    passage_lower = passage_text.lower()
+    for authority in _NAMED_AUTHORITIES:
+        if authority in claim_lower and authority not in passage_lower:
+            # Only fail hard when the claim explicitly quotes or cites the case
+            # by name (contains "held", "decided", "ruled", or a quote marker).
+            # Otherwise AMBIGUOUS is more appropriate than INCORRECT.
+            if any(word in claim_lower for word in ["held", "decided", "ruled", "stated", '"', "'"]):
+                return authority
+    return None
+
+
+_NOISE_SOURCES = {"nato", "unctad", "african court", "isds"}
+
+
+def _is_noise_source(source_name: str, query: str) -> bool:
+    """Return True if the source is a noise source not mentioned in the query."""
+    lowered_source = (source_name or "").lower()
+    lowered_query = query.lower()
+    for noise in _NOISE_SOURCES:
+        if noise in lowered_source:
+            if noise in lowered_query:
+                return False
+            return True
+    return False
+
+
+def _is_source_discovery_query(query: str) -> bool:
+    lowered = query.lower()
+    return any(
+        term in lowered
+        for term in [
+            "source", "sources", "dataset", "datasets", "corpus", "available",
+            "ingested", "download", "license", "coverage", "api", "where can",
+            "source map", "project reference", "blocked",
+        ]
+    )
+
+
+def _nli_entailment_probability(claim_text: str, passage_text: str) -> float | None:
+    """Optional HHEM/NLI hook. Returns None when the local model is unavailable."""
+    if not OMNILEGAL_ENABLE_HEAVY_MODELS or not OMNILEGAL_ENABLE_NLI_VERIFIER:
+        return None
+
+    model_attempts = [
+        (NLI_MODEL, "trust_remote_code"),
+        ("cross-encoder/nli-deberta-base", ""),
+    ]
+    last_error: Exception | None = None
+    for model_name, kwargs_str in model_attempts:
+        try:
+            nli = get_nli_verifier(model_name, kwargs_str)
+            if nli is None:
+                continue
+            result = nli({"text": passage_text[:2048], "text_pair": claim_text[:512]})
+            if isinstance(result, list):
+                result = result[0]
+            label = str(result.get("label", "")).lower()
+            score = float(result.get("score", 0.0))
+            return score if "entail" in label or "consistent" in label else 1.0 - score
+        except Exception as exc:
+            last_error = exc
+            continue
+    print(f"Warning: NLI verifier unavailable: {last_error}")
+    return None
+
+
+def _two_pass_self_critique(claim_text: str, passage_text: str) -> str | None:
+    """Second-pass Groq check for AMBIGUOUS citations.
+
+    Asks: 'Does this claim follow from this passage?' Returns 'CORRECT',
+    'INCORRECT', or None when the API is unavailable.
+    """
+    if not GROQ_API_KEY or not OMNILEGAL_ENABLE_CITATION_SELF_CRITIQUE:
+        return None
+    try:
+        prompt = (
+            "You are a strict legal fact-checker. "
+            "Answer exactly one word: CORRECT if the claim follows from the passage, "
+            "or INCORRECT if it does not.\n\n"
+            f"PASSAGE:\n{passage_text[:1200]}\n\n"
+            f"CLAIM:\n{claim_text[:400]}\n\n"
+            "Answer (CORRECT or INCORRECT):"
+        )
+        generation = generate_groq_chat(
+            model=GROQ_MODEL,
+            messages=[{"role": "user", "content": prompt}],
+            max_tokens=4,
+            temperature=0.0,
+            timeout=GROQ_REQUEST_TIMEOUT_SECONDS,
+        )
+        if generation.error:
+            return None
+        verdict = generation.text.strip().upper()
+        if verdict.startswith("CORRECT"):
+            return "CORRECT"
+        if verdict.startswith("INCORRECT"):
+            return "INCORRECT"
+        return None
+    except Exception as exc:
+        print(f"Warning: two-pass self-critique unavailable: {exc}")
+        return None
+
+
+def _grade_citation(marker_idx: int, draft: str, retrieved: list[dict[str, Any]], *, query: str = "", state: PipelineStateDict | None = None) -> dict[str, Any]:
+    if marker_idx < 1 or marker_idx > len(retrieved):
+        return {"grade": "INCORRECT", "reason": "marker does not map to a retrieved source"}
+
+    passage = retrieved[marker_idx - 1]
+    passage_text = passage.get("text", "") or ""
+    if not passage_text.strip():
+        return {"grade": "INCORRECT", "reason": "retrieved passage is empty"}
+    meta = passage.get("metadata", {}) or {}
+    non_authority_doc_types = {"source_catalog", "source_map", "project_reference", "ingestion_manifest"}
+    if (
+        str(meta.get("doc_type", "")).lower() in non_authority_doc_types
+        or meta.get("not_legal_authority") is True
+    ) and not _is_source_discovery_query(query):
+        return {
+            "grade": "INCORRECT",
+            "reason": "source metadata or project reference material cannot support a legal-merits claim",
+            "quote_match": True,
+        }
+
+    if _is_noise_source(meta.get("source_name", ""), query):
+        return {
+            "grade": "INCORRECT",
+            "reason": f"noise source ({meta.get('source_name', '')}) not relevant to query",
+            "quote_match": True,
+        }
+
+    quote_ok, missing_quotes = _forced_quote_passes(marker_idx, draft, passage_text)
+    if not quote_ok:
+        return {
+            "grade": "INCORRECT",
+            "reason": "forced quote text was not found verbatim in the cited passage",
+            "missing_quotes": missing_quotes,
+            "quote_match": False,
+        }
+
+    claim_text = _claim_before_marker(marker_idx, draft)
+    if not claim_text:
+        return {"grade": "AMBIGUOUS", "reason": "could not isolate the cited claim", "quote_match": True}
+
+    authority_mismatch = _named_authority_mismatch(claim_text, passage_text)
+    if authority_mismatch:
+        return {
+            "grade": "INCORRECT",
+            "reason": f"cited passage does not mention named authority: {authority_mismatch}",
+            "quote_match": True,
+        }
+
+    ratio = _lexical_support_ratio(claim_text, passage_text)
+    entailment = _nli_entailment_probability(claim_text, passage_text)
+    if entailment is not None and entailment < 0.7:
+        return {
+            "grade": "INCORRECT",
+            "reason": f"NLI entailment below threshold: {entailment:.2f}",
+            "quote_match": True,
+            "entailment_probability": entailment,
+            "lexical_support": ratio,
+        }
+
+    # Evidence-first thresholds: tightened to reduce false-positive citations.
+    # Legal claims must have meaningful lexical overlap with source passages.
+    if ratio >= 0.35:
+        grade = "CORRECT"
+    elif ratio >= 0.15:
+        grade = "AMBIGUOUS"
+    else:
+        grade = "INCORRECT"
+
+    if grade == "CORRECT" and state:
+        iso_codes = state.get("entities", {}).get("iso_country_codes", [])
+        intent_primary = state.get("query_intent", {}).get("primary", [])
+        passage_jur = str(meta.get("jurisdiction", "")).lower()
+        if iso_codes and passage_jur not in {"international", "unknown", ""}:
+            if passage_jur not in [c.lower() for c in iso_codes]:
+                if "jurisdiction_comparison" not in intent_primary and "case_comparison" not in intent_primary:
+                    grade = "AMBIGUOUS"
+                    return {
+                        "grade": grade,
+                        "reason": f"retrieved passage jurisdiction ({passage_jur}) does not match query constraints and comparative intent is absent",
+                        "quote_match": True,
+                        "lexical_support": ratio,
+                        "entailment_probability": entailment,
+                    }
+
+    return {
+
+        "grade": grade,
+        "reason": "lexical support check",
+        "quote_match": True,
+        "lexical_support": ratio,
+        "entailment_probability": entailment,
+    }
+
+
+def _strip_incorrect_markers(draft: str, grades: dict[str, dict[str, Any]]) -> str:
+    verified = draft
+    for marker, detail in sorted(grades.items(), key=lambda item: int(item[0]), reverse=True):
+        if detail["grade"] == "CORRECT":
+            continue
+        verified = verified.replace(f"[{marker}]", "")
+    return verified
+
+
+def _replace_correct_markers(draft: str, grades: dict[str, dict[str, Any]], retrieved: list[dict[str, Any]]) -> str:
+    verified = draft
+    for marker, detail in sorted(grades.items(), key=lambda item: int(item[0]), reverse=True):
+        idx = int(marker)
+        if detail["grade"] != "CORRECT" or idx > len(retrieved):
+            continue
+        meta = retrieved[idx - 1].get("metadata", {})
+        verified = verified.replace(f"[{marker}]", f"[{_citation_style(meta)}]")
+    return verified
+
+
+def _short_excerpt(text: str, limit: int = 220) -> str:
+    clean = " ".join((text or "").split())
+    return clean[:limit]
+
+
+def _clean_source_excerpt(text: str, limit: int = 220) -> str:
+    raw = " ".join((text or "").split())
+    if not raw:
+        return ""
+    if "\n\n" in text:
+        candidate = " ".join(text.split("\n\n", 1)[1].split())
+        if candidate:
+            raw = candidate
+    raw = raw.replace("Source URL:", "").strip()
+    return raw[:limit]
+
+
+def _scenario_sourced_line(index: int, passage: dict[str, Any], scenario_context: dict[str, Any]) -> str:
+    meta = passage.get("metadata", {}) or {}
+    source = meta.get("source_name", "Retrieved source")
+    collection = str(meta.get("collection") or "").upper()
+    jurisdiction = str(meta.get("jurisdiction") or "").strip().lower()
+    text = " ".join(
+        str(part or "")
+        for part in [source, meta.get("citation"), passage.get("text")]
+    ).lower()
+    location_iso = str(scenario_context.get("location_iso") or "").strip().lower()
+    passport_iso = str(scenario_context.get("passport_iso") or "").strip().lower()
+    licence_iso = str(scenario_context.get("licence_issuing_iso") or "").strip().lower()
+    excerpt = _clean_source_excerpt(passage.get("text", ""))
+
+    if collection == "INTL_TREATIES" and "consular" in text:
+        return (
+            "The Vienna Convention on Consular Relations is the retrieved treaty "
+            f"source on consular notification and consular access for detained foreign nationals [{index}]."
+        )
+    if collection == "INTL_TREATIES" and any(
+        term in text
+        for term in ["road traffic", "driving permit", "driving licence", "driving license", "foreign driving"]
+    ):
+        return (
+            "The Convention on Road Traffic is the retrieved treaty overlay on foreign-licence "
+            f"recognition and international driving permits, subject to local implementation rules [{index}]."
+        )
+    if location_iso and jurisdiction == location_iso and any(
+        term in text
+        for term in ["road traffic safety", "administrative offences", "administrative liability", "traffic", "driving", "licence", "license"]
+    ):
+        return (
+            f"{source} appears relevant to how the place-of-stop jurisdiction treats traffic licensing "
+            f"issues and whether the matter is framed as a local road-traffic violation [{index}]."
+        )
+    if location_iso and jurisdiction == location_iso and any(
+        term in text
+        for term in ["detention", "arrest", "police", "procedure", "interpreter", "counsel"]
+    ):
+        return (
+            f"{source} appears relevant if the roadside matter escalates into detention, questioning, "
+            f"or formal criminal procedure in the place-of-stop jurisdiction [{index}]."
+        )
+    if jurisdiction and jurisdiction in {passport_iso, licence_iso} and any(
+        term in text for term in ["passport", "driving", "licence", "license", "permit", "motor vehicles"]
+    ):
+        return (
+            f"{source} is the home-country motor-vehicle and driver-licensing statute, so it is "
+            f"relevant to the status of the Indian driving licence as a home-country document [{index}]."
+        )
+    if excerpt:
+        return f"{source} indicates: {excerpt} [{index}]."
+    return f"{source} appears relevant to the user's scenario [{index}]."
+
+
+def _markers_in_text(text: str) -> list[int]:
+    return [int(marker) for marker in _MARKER_RE.findall(text or "")]
+
+
+def _cited_sentences_only(text: str) -> str:
+    kept = [sentence for sentence in sentence_chunks(text) if _MARKER_RE.search(sentence)]
+    return " ".join(kept).strip()
+
+
+def _state_jurisdictions(state: PipelineStateDict) -> list[str]:
+    values: list[str] = []
+    scenario_context = ((state.get("entities") or {}).get("scenario_context") or {})
+
+    def normalise(value: str) -> str:
+        cleaned = str(value or "").strip().lower()
+        mapping = {
+            "india": "in",
+            "indian": "in",
+            "russia": "ru",
+            "russian federation": "ru",
+            "russian": "ru",
+            "united states": "us",
+            "american": "us",
+            "united kingdom": "gb",
+            "uk": "gb",
+            "british": "gb",
+            "international": "international",
+        }
+        return mapping.get(cleaned, cleaned)
+
+    for code in [
+        scenario_context.get("location_iso"),
+        scenario_context.get("passport_iso"),
+        scenario_context.get("licence_issuing_iso"),
+    ]:
+        cleaned = normalise(str(code or ""))
+        if cleaned and cleaned not in values:
+            values.append(cleaned)
+    for analysis in state.get("jurisdiction_analyses", []) or []:
+        jurisdiction = normalise(str(analysis.get("jurisdiction") or "").strip())
+        if jurisdiction and jurisdiction not in values:
+            values.append(jurisdiction)
+    for code in (state.get("query_intent", {}) or {}).get("iso_codes", []) or []:
+        cleaned = normalise(str(code or "").strip().lower())
+        if cleaned and cleaned not in values:
+            values.append(cleaned)
+    if "international_overlay" in ((state.get("query_intent", {}) or {}).get("labels") or []) and "international" not in values:
+        values.append("international")
+    return values
+
+
+def _state_legal_domains(state: PipelineStateDict) -> list[str]:
+    values: list[str] = []
+    for label in state.get("issue_labels", []) or []:
+        cleaned = str(label or "").strip()
+        if cleaned and cleaned not in values:
+            values.append(cleaned)
+    return values
+
+
+def _normalised_sections(draft: str) -> dict[str, str]:
+    sections = split_answer_sections(draft)
+    sections["disclaimer"] = sections.get("disclaimer") or LEGAL_RESEARCH_SHORT_DISCLAIMER
+    return sections
+
+
+def _grounding_status_for_answer(
+    retrieved: list[dict[str, Any]],
+    *,
+    cited_markers: list[int] | None = None,
+) -> str:
+    if cited_markers:
+        return grounding_status_from_passages(retrieved, cited_markers=cited_markers)
+
+    tiers = {infer_authority_tier((passage.get("metadata") or {})) for passage in retrieved}
+    if "reference_dataset" in tiers and not any(is_merits_citable_tier(tier) for tier in tiers):
+        return "secondary_only"
+    return "no_authority"
+
+
+def _grounded_fallback_draft(query: str, retrieved: list[dict[str, Any]], state: PipelineStateDict) -> str:
+    answer_style = str(state.get("answer_style") or "long")
+    sourced_lines: list[str] = []
+    scenario_context = ((state.get("entities") or {}).get("scenario_context") or {})
+    intent_primary = set((state.get("query_intent") or {}).get("primary") or [])
+    query_terms = {
+        token for token in re.findall(r"[a-z0-9]+", query.lower())
+        if len(token) > 2
+        and token not in {"the", "and", "for", "about", "tell", "what", "how", "case", "law", "legal"}
+    }
+    if "cross_border_scenario" in intent_primary:
+        query_terms |= {"traffic", "road", "driving", "licence", "license", "permit", "foreign", "administrative"}
+        treaty_focus = set(scenario_context.get("treaty_focus") or [])
+        if "consular_notification" in treaty_focus:
+            query_terms |= {"consular", "notification", "access", "detained", "foreign", "nationals"}
+        if "foreign_licence_recognition" in treaty_focus:
+            query_terms |= {"recognition", "driving", "permit", "licence", "license"}
+
+    def match_count(passage: dict[str, Any]) -> int:
+        text = f"{passage.get('metadata', {}).get('source_name', '')} {passage.get('text', '')}".lower()
+        return sum(1 for term in query_terms if term in text)
+
+    def score(passage: dict[str, Any]) -> float:
+        return match_count(passage) + float(passage.get("score", 0.0)) * 0.01
+
+    indexed = list(enumerate(retrieved, 1))
+    matched = [
+        item for item in indexed
+        if match_count(item[1]) > 0 and is_merits_citable_tier(infer_authority_tier(item[1].get("metadata", {})))
+    ]
+
+    if "cross_border_scenario" in intent_primary and matched:
+        def norm_jur(value: str) -> str:
+            lowered = str(value or "").strip().lower()
+            mapping = {
+                "india": "in",
+                "russia": "ru",
+                "international": "international",
+            }
+            return mapping.get(lowered, lowered)
+
+        location_iso = norm_jur(scenario_context.get("location_iso", ""))
+        passport_iso = norm_jur(scenario_context.get("passport_iso", ""))
+        licence_iso = norm_jur(scenario_context.get("licence_issuing_iso", ""))
+        home_isos = {code for code in {passport_iso, licence_iso} if code}
+
+        buckets: dict[str, list[tuple[int, dict[str, Any]]]] = {
+            "traffic_local": [],
+            "treaty_road": [],
+            "treaty_consular": [],
+            "home_documents": [],
+            "procedure_local": [],
+            "other": [],
+        }
+        for item in matched:
+            original_idx, passage = item
+            meta = passage.get("metadata", {}) or {}
+            collection = str(meta.get("collection") or "").upper()
+            jurisdiction = norm_jur(meta.get("jurisdiction", ""))
+            text = " ".join(
+                str(part or "")
+                for part in [meta.get("source_name"), meta.get("citation"), passage.get("text")]
+            ).lower()
+            if collection == "INTL_TREATIES" and "consular" in text:
+                buckets["treaty_consular"].append(item)
+            elif collection == "INTL_TREATIES" and any(term in text for term in ["road traffic", "driving permit", "driving licence", "driving license", "foreign driving"]):
+                buckets["treaty_road"].append(item)
+            elif location_iso and jurisdiction == location_iso and any(term in text for term in ["road traffic", "driving", "licence", "license", "administrative"]):
+                buckets["traffic_local"].append(item)
+            elif location_iso and jurisdiction == location_iso and any(term in text for term in ["procedure", "detention", "arrest", "police", "interpreter", "counsel"]):
+                buckets["procedure_local"].append(item)
+            elif home_isos and jurisdiction in home_isos and any(term in text for term in ["passport", "driving", "licence", "license", "permit", "motor vehicles"]):
+                buckets["home_documents"].append(item)
+            else:
+                buckets["other"].append(item)
+
+        selected: list[tuple[int, dict[str, Any]]] = []
+        seen_indexes: set[int] = set()
+        target_count = 3 if answer_style == "short" else 4
+        for bucket_name in ["traffic_local", "treaty_road", "treaty_consular", "home_documents", "procedure_local", "other"]:
+            bucket = sorted(buckets[bucket_name], key=lambda item: score(item[1]), reverse=True)
+            if not bucket:
+                continue
+            original_idx, passage = bucket[0]
+            if original_idx in seen_indexes:
+                continue
+            selected.append((original_idx, passage))
+            seen_indexes.add(original_idx)
+            if len(selected) >= target_count:
+                break
+        if len(selected) < target_count:
+            for item in sorted(matched, key=lambda item: score(item[1]), reverse=True):
+                original_idx, passage = item
+                if original_idx in seen_indexes:
+                    continue
+                selected.append((original_idx, passage))
+                seen_indexes.add(original_idx)
+                if len(selected) >= target_count:
+                    break
+        ranked = selected
+    else:
+        ranked = sorted(matched, key=lambda item: score(item[1]), reverse=True)
+
+    limit = 3 if answer_style == "short" else 4
+    for original_idx, passage in ranked[:limit]:
+        text = " ".join((passage.get("text") or "").split())
+        if not text:
+            continue
+        if "cross_border_scenario" in intent_primary:
+            sourced_lines.append(_scenario_sourced_line(original_idx, passage, scenario_context))
+        else:
+            excerpt = _clean_source_excerpt(passage.get("text", ""))
+            source = passage.get("metadata", {}).get("source_name", "Retrieved source")
+            sourced_lines.append(f"{source} indicates: {excerpt} [{original_idx}].")
+    tiers = {infer_authority_tier((passage.get("metadata") or {})) for passage in retrieved}
+    general_principles = (
+        "The retrieved materials do not fully resolve the merits question. "
+        "Any broader explanation should be treated as general legal background rather than controlling authority."
+    )
+    if not sourced_lines:
+        general_principles = (
+            "Treat this as practical legal orientation rather than a definitive merits opinion. "
+            "The safest next steps depend on the exact local charge, paperwork, and procedural posture."
+        )
+    if "reference_dataset" in tiers and not sourced_lines:
+        general_principles += " Verify the exact rule and deadline with a qualified local lawyer before acting."
+    sections = {
+        "sourced_authority": " ".join(sourced_lines).strip(),
+        "general_principles": general_principles,
+        "practical_steps": (
+            "Confirm the exact charge, clarify whether the issue is no licence at all or foreign-licence recognition, request an interpreter and local lawyer, and seek consular assistance if detained."
+            if "cross_border_scenario" in intent_primary and answer_style == "short"
+            else "Confirm the exact local charge or administrative protocol, clarify whether the issue is no licence at all, failure to produce it, or foreign-licence recognition, preserve passport and licence documents, request an interpreter and local lawyer, and seek consular assistance where nationality or detention is relevant."
+            if "cross_border_scenario" in intent_primary
+            else "Confirm the exact charge or procedural posture, ask for an interpreter if needed, request local legal counsel, preserve documents, and seek consular assistance where nationality or detention is relevant."
+        ),
+        "disclaimer": LEGAL_RESEARCH_SHORT_DISCLAIMER,
+    }
+    return format_answer_sections(sections)
+
+
+def _insufficient_final(
+    query: str,
+    retrieved: list[dict[str, Any]],
+    grades: dict[str, Any],
+    reason: str,
+    state: PipelineStateDict,
+    *,
+    cited_markers: list[int] | None = None,
+) -> dict[str, Any]:
+    intent_primary = set((state.get("query_intent") or {}).get("primary") or [])
+    query_lower = str(query or "").lower()
+    cross_border = "cross_border_scenario" in intent_primary or (
+        any(term in query_lower for term in ["russia", "russian"])
+        and any(term in query_lower for term in ["india", "indian"])
+        and any(term in query_lower for term in ["licence", "license", "driving"])
+    )
+    if cross_border:
+        general = (
+            "This should be handled as a Russian traffic or administrative-law matter with a foreign-document issue. "
+            "Your passport proves nationality; it usually does not by itself create a right to drive. "
+            "The practical objective is to avoid escalation, identify the exact allegation, and have local counsel assess "
+            "whether the matter can be closed, reduced, paid, appealed, or challenged on procedure."
+        )
+        practical = (
+            "Get the charge, article, protocol number, officer details, court date, and fine or summons in writing; "
+            "ask for an interpreter before signing or answering detailed questions; preserve your passport, visa or registration, "
+            "Indian driving licence, rental or owner-permission papers, insurance, and any international driving permit or translation; "
+            "contact a Russian traffic or administrative lawyer quickly; ask for Indian consular help if detained; and do not drive again "
+            "until counsel confirms you are allowed to do so."
+        )
+    else:
+        general = (
+            "Treat this as a local-law problem first. The safest path is to identify the exact allegation, avoid unclear admissions, "
+            "and get qualified local legal help before deciding whether to pay, contest, appeal, or provide documents."
+        )
+        practical = (
+            "Get the notice or charge in writing, ask for an interpreter if needed, preserve all relevant documents, "
+            "speak with local counsel before signing admissions, and contact your consulate if detained or if your passport is taken."
+        )
+
+    sections = {
+        "sourced_authority": "",
+        "general_principles": general,
+        "practical_steps": practical,
+        "disclaimer": LEGAL_RESEARCH_SHORT_DISCLAIMER,
+    }
+    grounding_status = _grounding_status_for_answer(retrieved, cited_markers=cited_markers or [])
+    authority_gaps = authority_gaps_from_status(grounding_status, retrieved)
+    answer = (
+        f"## General Principles / Common Practice\n{sections['general_principles']}\n\n"
+        f"## Practical Steps\n{sections['practical_steps']}\n\n"
+        f"## Disclaimer\n{sections['disclaimer']}"
+    )
+    return {
+        "query": query,
+        "answer": answer,
+        "citations": [],
+        "sources": retrieved,
+        "jurisdictions_considered": _state_jurisdictions(state),
+        "legal_domains": _state_legal_domains(state),
+        "grounding_status": grounding_status,
+        "authority_gaps": authority_gaps,
+        "answer_style": str(state.get("answer_style") or "long"),
+        "sections": sections,
+        "used_model": GROQ_MODEL,
+        "used_groq": bool(GROQ_API_KEY),
+        "retrieval_strategy": "qdrant_hybrid_rrf_rerank",
+        "verification_grades": grades,
+        "insufficient_context": grounding_status != "primary_present",
+    }
+
+
+def _build_verified_final(
+    query: str,
+    draft: str,
+    retrieved: list[dict[str, Any]],
+    details: dict[str, dict[str, Any]],
+    state: PipelineStateDict,
+) -> tuple[str, dict[str, Any]]:
+    grades = {marker: detail["grade"] for marker, detail in details.items()}
+    ambiguous = [marker for marker, grade in grades.items() if grade == "AMBIGUOUS"]
+    correct_markers = [int(marker) for marker, grade in grades.items() if grade == "CORRECT"]
+    verified = _replace_correct_markers(draft, details, retrieved).strip()
+    sections = _normalised_sections(verified)
+    if ambiguous:
+        note = "Some cited points remain ambiguous and should be checked directly: " + ", ".join(f"[{m}]" for m in ambiguous)
+        existing = sections.get("general_principles", "")
+        sections["general_principles"] = (existing + "\n\n" + note).strip() if existing else note
+    sections["disclaimer"] = LEGAL_RESEARCH_SHORT_DISCLAIMER
+    verified = format_answer_sections(sections)
+
+    citations = []
+    for marker, grade in grades.items():
+        idx = int(marker)
+        if idx > len(retrieved):
+            continue
+        meta = retrieved[idx - 1].get("metadata", {})
+        text = retrieved[idx - 1].get("text", "")
+        citations.append({
+            "marker": marker,
+            "grade": grade,
+            "authority_tier": infer_authority_tier(meta),
+            "source_name": meta.get("source_name", "Unknown"),
+            "jurisdiction": meta.get("jurisdiction", ""),
+            "article": meta.get("article_number", ""),
+            "citation": _citation_style(meta),
+            "excerpt": _short_excerpt(text, 180 if meta.get("collection") == "SHAW_PRIVATE" else 220),
+        })
+
+    grounding_status = _grounding_status_for_answer(retrieved, cited_markers=correct_markers)
+    authority_gaps = authority_gaps_from_status(grounding_status, retrieved)
+    final = {
+        "query": query,
+        "answer": verified,
+        "citations": citations,
+        "sources": retrieved,
+        "jurisdictions_considered": _state_jurisdictions(state),
+        "legal_domains": _state_legal_domains(state),
+        "grounding_status": grounding_status,
+        "authority_gaps": authority_gaps,
+        "answer_style": str(state.get("answer_style") or "long"),
+        "sections": sections,
+        "jurisdiction_analyses": state.get("jurisdiction_analyses", []),
+        "conflicts": state.get("conflicts", []),
+        "used_model": GROQ_MODEL,
+        "used_groq": bool(GROQ_API_KEY),
+        "retrieval_strategy": "qdrant_hybrid_rrf_rerank",
+        "verification_grades": details,
+        "insufficient_context": grounding_status != "primary_present",
+    }
+    return verified, final
+
+
+def _check_source_plan_sufficiency(
+    state: PipelineStateDict,
+    cited_markers: list[int],
+    retrieved: list[dict[str, Any]],
+) -> list[str]:
+    """Verify that required source roles from source_plan are represented in cited passages."""
+    source_plan = state.get("source_plan") or {}
+    required_roles = source_plan.get("required_roles") or []
+    if not required_roles:
+        return []
+
+    cited_roles: set[str] = set()
+    for idx in cited_markers:
+        if 1 <= idx <= len(retrieved):
+            meta = retrieved[idx - 1].get("metadata", {}) or {}
+            role = meta.get("source_role", "") or meta.get("doc_type", "")
+            cited_roles.add(role.lower())
+
+    missing: list[str] = []
+    for req in required_roles:
+        role = req.get("role", "")
+        if role.lower() not in cited_roles:
+            desc = req.get("description", role)
+            missing.append(f"Required {role} source not cited: {desc}")
+    return missing
+
+
+def verify_citations(state: PipelineStateDict) -> PipelineStateDict:
+    draft = _normalise_marker_groups(state.get("draft", "") or "")
+    retrieved = state.get("retrieved", []) or []
+    query = state.get("raw_input", "")
+
+    if not draft.strip():
+        final = _insufficient_final(query, retrieved, {}, "The generation step did not produce a draft.", state)
+        return {**state, "verified_draft": final["answer"], "citation_grades": {}, "verification_grades": {}, "grounding_status": final["grounding_status"], "authority_gaps": final["authority_gaps"], "answer_sections": final["sections"], "insufficient_context": final["insufficient_context"], "final": final}
+
+    markers = [int(m) for m in _MARKER_RE.findall(draft)]
+    if not retrieved:
+        final = _insufficient_final(query, retrieved, {}, "No retrieved source passages were available for verification.", state)
+        return {**state, "verified_draft": final["answer"], "citation_grades": {}, "verification_grades": {}, "grounding_status": final["grounding_status"], "authority_gaps": final["authority_gaps"], "answer_sections": final["sections"], "insufficient_context": final["insufficient_context"], "final": final}
+
+    if not markers:
+        draft = _grounded_fallback_draft(query, retrieved, state)
+        markers = [int(m) for m in _MARKER_RE.findall(draft)]
+        if not markers:
+            final = _insufficient_final(query, retrieved, {}, "The draft did not include source markers, so its claims could not be verified.", state)
+            return {**state, "verified_draft": final["answer"], "citation_grades": {}, "verification_grades": {}, "grounding_status": final["grounding_status"], "authority_gaps": final["authority_gaps"], "answer_sections": final["sections"], "insufficient_context": final["insufficient_context"], "final": final}
+
+    sections = _normalised_sections(draft)
+    sourced_authority_text = sections.get("sourced_authority", "")
+    uncited_sourced_sentences = missing_citation_sentences(sourced_authority_text)
+    if uncited_sourced_sentences:
+        sections["sourced_authority"] = _cited_sentences_only(sourced_authority_text)
+        draft = format_answer_sections(sections)
+        markers = _markers_in_text(draft)
+
+    details = {str(idx): _grade_citation(idx, draft, retrieved, query=query, state=state) for idx in sorted(set(markers))}
+
+    sourced_markers = set(_markers_in_text(sections.get("sourced_authority", "")))
+    for marker in sourced_markers:
+        if marker < 1 or marker > len(retrieved):
+            continue
+        detail = details.get(str(marker))
+        if not detail:
+            continue
+        tier = infer_authority_tier(retrieved[marker - 1].get("metadata", {}))
+        if not is_merits_citable_tier(tier):
+            detail["grade"] = "INCORRECT"
+            detail["reason"] = f"sourced authority may only rely on primary authority or case law, not {tier}"
+
+    # Two-pass self-critique: re-check AMBIGUOUS citations via a second Groq call.
+    for marker, detail in details.items():
+        if detail.get("grade") != "AMBIGUOUS":
+            continue
+        idx = int(marker)
+        if idx < 1 or idx > len(retrieved):
+            continue
+        claim_text = _claim_before_marker(idx, draft)
+        passage_text = (retrieved[idx - 1].get("text") or "")
+        if claim_text and passage_text:
+            verdict = _two_pass_self_critique(claim_text, passage_text)
+            if verdict is not None:
+                detail["grade"] = verdict
+                detail["self_critique"] = verdict
+
+    grades = {marker: detail["grade"] for marker, detail in details.items()}
+
+    incorrect = [marker for marker, grade in grades.items() if grade == "INCORRECT"]
+    ambiguous = [marker for marker, grade in grades.items() if grade == "AMBIGUOUS"]
+
+    if incorrect:
+        correct_count = len([g for g in grades.values() if g == "CORRECT"])
+        quote_failures = [
+            marker for marker in incorrect
+            if details.get(marker, {}).get("quote_match") is False
+        ]
+
+        # Strategy A: try grounded fallback draft first (original path).
+        if not quote_failures:
+            fallback_draft = _grounded_fallback_draft(query, retrieved, state)
+            fallback_markers = [int(m) for m in _MARKER_RE.findall(fallback_draft)]
+            fallback_details = {
+                str(idx): _grade_citation(idx, fallback_draft, retrieved, query=query, state=state)
+                for idx in sorted(set(fallback_markers))
+            }
+            fallback_grades = {marker: detail["grade"] for marker, detail in fallback_details.items()}
+            fallback_incorrect = [
+                marker for marker, grade in fallback_grades.items() if grade == "INCORRECT"
+            ]
+            if fallback_markers and not fallback_incorrect:
+                verified, final = _build_verified_final(
+                    query,
+                    fallback_draft,
+                    retrieved,
+                    fallback_details,
+                    state,
+                )
+                final["rejected_draft"] = _strip_incorrect_markers(draft, details)
+                return {
+                    **state,
+                    "verified_draft": verified,
+                    "citation_grades": fallback_grades,
+                    "verification_grades": fallback_details,
+                    "grounding_status": final["grounding_status"],
+                    "authority_gaps": final["authority_gaps"],
+                    "answer_sections": final["sections"],
+                    "insufficient_context": final["insufficient_context"],
+                    "final": final,
+                }
+
+        # Strategy B: if at least one citation is CORRECT, strip the failed
+        # markers and return a partial answer rather than hard-failing.
+        # This prevents total output loss when only a subset of citations fail.
+        if correct_count > 0:
+            cleaned_draft = _strip_incorrect_markers(draft, details)
+            partial_details = {m: d for m, d in details.items() if d["grade"] != "INCORRECT"}
+            verified, final = _build_verified_final(
+                query,
+                cleaned_draft,
+                retrieved,
+                partial_details,
+                state,
+            )
+            final["partial_verification"] = True
+            final["failed_markers"] = incorrect
+            return {
+                **state,
+                "verified_draft": verified,
+                "citation_grades": {m: d["grade"] for m, d in partial_details.items()},
+                "verification_grades": details,
+                "grounding_status": final["grounding_status"],
+                "authority_gaps": final["authority_gaps"],
+                "answer_sections": final["sections"],
+                "insufficient_context": final["insufficient_context"],
+                "final": final,
+            }
+
+        # Strategy C: all citations failed — produce insufficient_final.
+        cleaned = _strip_incorrect_markers(draft, details)
+        reason = (
+            "All cited claims failed verification. "
+            f"Failed markers: {', '.join(f'[{m}]' for m in incorrect)}."
+        )
+        final = _insufficient_final(query, retrieved, details, reason, state)
+        final["rejected_draft"] = cleaned
+        return {
+            **state,
+            "verified_draft": final["answer"],
+            "citation_grades": grades,
+            "verification_grades": details,
+            "grounding_status": final["grounding_status"],
+            "authority_gaps": final["authority_gaps"],
+            "answer_sections": final["sections"],
+            "insufficient_context": final["insufficient_context"],
+            "final": final,
+        }
+
+    verified, final = _build_verified_final(query, draft, retrieved, details, state)
+
+    # Source-plan sufficiency check: ensure required roles are cited
+    correct_markers = [int(m) for m, d in details.items() if d["grade"] == "CORRECT"]
+    role_gaps = _check_source_plan_sufficiency(state, correct_markers, retrieved)
+    if role_gaps:
+        existing_gaps = final.get("authority_gaps") or []
+        final["authority_gaps"] = existing_gaps + role_gaps
+
+    return {
+        **state,
+        "verified_draft": verified,
+        "citation_grades": grades,
+        "verification_grades": details,
+        "grounding_status": final["grounding_status"],
+        "authority_gaps": final["authority_gaps"],
+        "answer_sections": final["sections"],
+        "insufficient_context": final["insufficient_context"],
+        "final": final,
+    }

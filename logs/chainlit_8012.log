@@ -1,0 +1,6 @@
+2026-04-29 09:57:44 - INFO - chainlit - Your app is available at http://localhost:8012
+2026-04-29 09:57:53 - WARNING - chainlit - Translated markdown file for en-US not found. Defaulting to chainlit.md.
+2026-04-29 09:57:53 - INFO - chainlit - Missing custom logo. Falling back to default logo.
+2026-04-29 09:57:54 - INFO - src.rag.vector_store - Vector backend resolved to: server_qdrant (QDRANT_URL=http://localhost:6333)
+[OmniLegal] Vector backend = 'server_qdrant', QDRANT_URL = 'http://localhost:6333'
+2026-04-29 09:57:54 - INFO - src.rag.vector_store - Connecting to Qdrant server at http://localhost:6333

@@ -1,0 +1,135 @@
+{
+  "jurisdiction": "United States",
+  "sources": [
+    {
+      "name": "CourtListener (Free Law Project)",
+      "url": "https://www.courtlistener.com",
+      "type": "aggregator (non-profit)",
+      "coverage": "~200 federal + state courts; SCOTUS 1754–present; oral-argument audio; judge database; RECAP PACER archive (hundreds of millions of docket/document objects)",
+      "access": "REST API v4 (token, free); bulk S3 (s3://com-courtlistener-storage/bulk-data/ --no-sign-request); 2TB public embeddings bucket; webhooks",
+      "format": "JSON, CSV, plain text, PDF",
+      "license": "Site content CC BY-ND 4.0; underlying opinions/PACER docs are public domain (government edicts). Respect 'blocked' flag in redistribution.",
+      "recommended_for": ["NATIONAL_US", "CASE_LAW"]
+    },
+    {
+      "name": "RECAP Archive",
+      "url": "https://www.courtlistener.com/recap/",
+      "type": "aggregator (crowdsourced PACER mirror)",
+      "coverage": "Tens of millions of PACER documents, dockets, entries, parties, attorneys; mirrored to Internet Archive",
+      "access": "Same CourtListener API (docket, docket-entries, recap_document); bulk available via FLP",
+      "format": "PDF + OCR text + JSON metadata",
+      "license": "Court-authored docs public domain; third-party filings freely shareable per FLP's established RECAP practice",
+      "recommended_for": ["NATIONAL_US", "CASE_LAW"]
+    },
+    {
+      "name": "PACER",
+      "url": "https://pacer.uscourts.gov",
+      "type": "official (AO of the US Courts)",
+      "coverage": "All US federal district/bankruptcy/appellate dockets (>1B documents)",
+      "access": "Per-court CM/ECF; RSS for recent entries; NO bulk download; automated bulk harvesting forbidden by ToS",
+      "format": "HTML dockets, PDF documents",
+      "license": "Documents PD but access metered ($0.10/page, $3.00 cap, quarterly $30 waiver). Prefer RECAP.",
+      "recommended_for": ["NATIONAL_US", "CASE_LAW"]
+    },
+    {
+      "name": "Supreme Court of the United States",
+      "url": "https://www.supremecourt.gov",
+      "type": "official",
+      "coverage": "Slip opinions (current term), orders, argument transcripts, bound U.S. Reports (historical)",
+      "access": "Direct PDF/XML fetch; no API; /xmls/current and /xmls/archive for docket XML; GovInfo bulk for legacy FLITE 1937–1975",
+      "format": "PDF (opinions), XML (dockets)",
+      "license": "Public domain (US government work)",
+      "recommended_for": ["NATIONAL_US", "CASE_LAW"]
+    },
+    {
+      "name": "Caselaw Access Project (Harvard LIL)",
+      "url": "https://case.law",
+      "type": "academic",
+      "coverage": "~6.7M cases / 40M pages; all officially book-published US state + federal case law through 2020 (earliest 1658)",
+      "access": "Bulk download at case.law/caselaw/; native case.law search disabled Sept 2024 and redirected to CourtListener; CAPAPI at api.case.law/v1/ — uncertain — verify post-2024 status. HF mirrors: TeraflopAI/Caselaw_Access_Project, free-law/Caselaw_Access_Project, harvard-lil/cold-cases",
+      "format": "JSON, XML, text; Parquet on HF",
+      "license": "CC0 1.0 (fully open since March 2024 when Ravel/LexisNexis embargo lifted)",
+      "recommended_for": ["NATIONAL_US", "CASE_LAW"]
+    },
+    {
+      "name": "Cornell Legal Information Institute (LII)",
+      "url": "https://www.law.cornell.edu",
+      "type": "academic",
+      "coverage": "US Code, CFR, SCOTUS opinions (1990–present + selected historical), UCC, Federal Rules, Wex legal encyclopedia, state linkouts",
+      "access": "HTML scraping; no official API or bulk dump",
+      "format": "HTML (primary), PDF",
+      "license": "LII value-add (Wex, annotations) under CC BY-NC-SA (uncertain exact variant — verify at law.cornell.edu/lii/terms/documentation). Underlying law is public domain.",
+      "recommended_for": ["NATIONAL_US", "COMMENTARY"]
+    },
+    {
+      "name": "GovInfo (GPO)",
+      "url": "https://www.govinfo.gov",
+      "type": "official",
+      "coverage": "Federal Register, CFR, Public Laws, Statutes at Large, US Code, Congressional Record/Reports/Hearings, USCOURTS, US Reports, CRS Reports, Compilation of Presidential Documents, Bills/Bill Status, and more",
+      "access": "api.govinfo.gov (api.data.gov key, free); bulk repository at /bulkdata (/BILLS, /CFR, /ECFR, /FR, /PLAW, /STATUTE, /USCOURTS, /COMPS)",
+      "format": "XML (USLM for statutes), PDF, MODS metadata, JSON",
+      "license": "Public domain (17 U.S.C. §105)",
+      "recommended_for": ["NATIONAL_US", "CASE_LAW (USCOURTS subset)", "COMMENTARY (CRS)"]
+    },
+    {
+      "name": "eCFR",
+      "url": "https://www.ecfr.gov",
+      "type": "official",
+      "coverage": "Current editorially-updated CFR (50 titles); point-in-time and historical versions; daily updates",
+      "access": "Public web API (no key) at /api/; bulk XML at govinfo.gov/bulkdata/ECFR; annual CFR back to 1996 at /bulkdata/CFR",
+      "format": "XML (primary), HTML, JSON",
+      "license": "Public domain. Note: eCFR is editorial, not the legally-authoritative annual CFR.",
+      "recommended_for": ["NATIONAL_US"]
+    },
+    {
+      "name": "Federal Register 2.0",
+      "url": "https://www.federalregister.gov",
+      "type": "official",
+      "coverage": "All Federal Register documents since 1994 (rules, proposed rules, notices, presidential documents)",
+      "access": "REST API /api/v1 (JSON/CSV, no key required); bulk XML via GovInfo",
+      "format": "JSON, CSV, XML, PDF, HTML",
+      "license": "Public domain",
+      "recommended_for": ["NATIONAL_US"]
+    },
+    {
+      "name": "Congress.gov API",
+      "url": "https://api.congress.gov",
+      "type": "official (Library of Congress)",
+      "coverage": "Bills, amendments, summaries, members, committee reports, nominations, treaties, Congressional Record — back to 81st Congress (1949) for many endpoints",
+      "access": "REST v3 with api.data.gov key; 5,000 req/hr, 250/page. For bulk prefer GovInfo /BILLS, /BILLSTATUS, /BILLSUM, /CREC, /CRPT.",
+      "format": "JSON, XML",
+      "license": "Public domain",
+      "recommended_for": ["NATIONAL_US"]
+    },
+    {
+      "name": "SEC EDGAR",
+      "url": "https://www.sec.gov/edgar",
+      "type": "official",
+      "coverage": "All SEC filings since 1993/94 (10-K, 10-Q, 8-K, 13F, S-1, DEF 14A, 20-F, etc.); 20M+ filings",
+      "access": "data.sec.gov REST (submissions, company-concept, company-facts, frames); bulk ZIPs (companyfacts.zip, submissions.zip); full-text search efts.sec.gov",
+      "format": "HTML, XBRL/XML, JSON",
+      "license": "Public domain. Require descriptive User-Agent.",
+      "recommended_for": ["NATIONAL_US"]
+    },
+    {
+      "name": "Justia",
+      "url": "https://www.justia.com",
+      "type": "aggregator (commercial, free reader access)",
+      "coverage": "SCOTUS (1791–), federal appellate, federal district (partial), state courts (variable), US Code, CFR",
+      "access": "No public bulk API; HTML scraping violates Justia ToS at scale",
+      "format": "HTML, PDF",
+      "license": "Underlying law is PD; Justia annotations may carry copyright; scraping risky",
+      "recommended_for": ["NATIONAL_US", "CASE_LAW (gap-fill only)"]
+    },
+    {
+      "name": "Law Library of Congress / Congress.gov Treaty Documents",
+      "url": "https://www.congress.gov/treaty-document",
+      "type": "official",
+      "coverage": "Senate treaty documents and ratifications; CRS legal reports; foreign law guides",
+      "access": "Treaty endpoint in api.congress.gov v3",
+      "format": "HTML, PDF, XML",
+      "license": "Public domain",
+      "recommended_for": ["NATIONAL_US"]
+    }
+  ]
+}

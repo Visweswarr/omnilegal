@@ -1,0 +1,955 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <title>eGazette Home</title>
+    <meta content="IE=9" http-equiv="X-UA-Compatible" />
+    <meta name="google" content="notranslate" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <link rel="stylesheet" href="css3menu1/style.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="Styles/style.css" />
+    <script src="css3menu1/mmenu.js" type="text/javascript"></script>
+    <script type="text/javascript" src="ImageScrollerJS/jquery-3.6.4.min.js"></script>
+    <script type="text/javascript" src="ImageScrollerJS/bootstrap.min-5.3.0.js"></script>
+    <script language="Javascript" type="text/javascript">
+        history.go(2);
+    </script>
+    <script language="javascript" type="text/javascript">
+        window.history.forward();
+    </script>
+    <script language="javascript" type="text/javascript">
+        function numbersonly(e) {
+            var unicode = e.charCode ? e.charCode : e.keyCode
+
+            if (unicode < 48 || unicode > 57 && unicode < 65 || unicode > 90 && unicode < 97 || unicode > 122) //if not a number
+            { return false } //disable key press
+        }
+    </script>
+    <script language="javascript" type="text/javascript">
+        function onKeyDown() {
+            //current pressed key
+            var pressedKey = String.fromCharCode(event.keyCode).toLowerCase();
+            var pressedKey1 = String.fromCharCode(event.keyCode).toUpperCase();
+            if (event.ctrlKey && (pressedKey == "c" || pressedKey == "v" || pressedKey == "a")) {
+                //disable key press porcessing
+                event.returnValue = false;
+            }
+            if (event.ctrlKey && (pressedKey1 == "C" || pressedKey1 == "V" || pressedKey1 == "A")) {
+                //disable key press porcessing
+                event.returnValue = false;
+            }
+        }
+    </script>
+    <script type="text/javascript" src="Scripts/Pranav.js">
+        document.f1.submit();
+    </script>
+    <script type="text/css" language="javascript">
+		function Randomnumber()
+		{
+			return 67d5a6b72d7ac319c3f31c60adaa9035;
+		}
+    </script>
+    <script type="text/javascript" language="javascript">
+        function noBack() {
+            window.history.forward();
+        }
+    </script>
+    <style type="text/css">
+        ._css3m {
+            display: none;
+        }
+
+        .tb6 {
+            background: #FFFFFF url('css3menu1/applet.png') no-repeat 4px 4px;
+            border: 2px solid #456879;
+            border-radius: 10px;
+            height: 10px;
+            width: Auto;
+            text-align: right;
+            padding-left: 30px;
+            padding-right: 12px;
+        }
+
+        #Img1 {
+            height: 84px;
+            width: 169px;
+        }
+
+        .simple {
+            color: #000 !important;
+            text-align: center;
+        }
+
+            .simple:hover {
+                background: blue;
+                color: #fff !important;
+            }
+
+        #Div_Message {
+            position: fixed;
+            top: 32%;
+            left: 0%;
+            height: 100%;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        #Div_Notice {
+            position: fixed;
+            top: 38%;
+            left: 0%;
+            height: 100%;
+            width: 100%;
+            z-index: 1;
+        }
+
+        .modalImageScroller {
+            position: fixed;
+            height: 380px;
+            left: 50%;
+            top: 55%;
+            margin-top: 1.5%;
+            transform: translate(-50%,-50%);
+            background: lightblue;
+            box-shadow: 0px 0px 10px #000;
+            animation-name: fadeIn_Modal;
+            animation-duration: 0.8s;
+            border-radius: 15px;
+            z-index: 2000;
+        }
+
+        .headerImageScroller {
+            width: 100%;
+            height: 35px;
+            margin-top: 5px;
+        }
+
+            .headerImageScroller a {
+                vertical-align: bottom;
+                text-decoration: solid;
+                float: right;
+                line-height: 30px;
+                margin-top: 5px;
+                margin-right: 5px;
+                color: red;
+                font-size: 22px;
+            }
+
+        .contentImageScroller {
+            width: 100%;
+            height: 220px;
+        }
+
+        .bottomImageScroller {
+            width: 100%;
+            height: 20px;
+        }
+
+        .carousel-inner > .item > Top_ImageScroller > img, .carousel-inner > .item > img, .img-responsive, .thumbnail Top_ImageScroller > img, .thumbnail > img {
+            display: block;
+            max-width: 100%;
+            height: 200px;
+        }
+
+        .img-thumbnail {
+            padding: 4px;
+            line-height: 1.42857143;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            -webkit-transition: all .2s ease-in-out;
+            -o-transition: all .2s ease-in-out;
+            transition: all .2s ease-in-out;
+            display: inline-block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .carousel {
+            position: relative;
+        }
+
+        .carousel-inner {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
+            .carousel-inner > .item {
+                position: relative;
+                display: none;
+                -webkit-transition: .6s ease-in-out left;
+                -o-transition: .6s ease-in-out left;
+                transition: .6s ease-in-out left;
+            }
+
+                .carousel-inner > .item > Top_ImageScroller > img, .carousel-inner > .item > img {
+                    line-height: 1;
+                }
+
+        @media all and (transform-3d),(-webkit-transform-3d) {
+            .carousel-inner > .item {
+                -webkit-transition: -webkit-transform .6s ease-in-out;
+                -o-transition: -o-transform .6s ease-in-out;
+                transition: -webkit-transform .6s ease-in-out;
+                transition: transform .6s ease-in-out;
+                transition: transform .6s ease-in-out,-webkit-transform .6s ease-in-out,-o-transform .6s ease-in-out;
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+                -webkit-perspective: 1000px;
+                perspective: 1000px;
+            }
+
+                .carousel-inner > .item.active.right, .carousel-inner > .item.next {
+                    -webkit-transform: translate3d(100%,0,0);
+                    transform: translate3d(100%,0,0);
+                    left: 0;
+                }
+
+                .carousel-inner > .item.active.left, .carousel-inner > .item.prev {
+                    -webkit-transform: translate3d(-100%,0,0);
+                    transform: translate3d(-100%,0,0);
+                    left: 0;
+                }
+
+                    .carousel-inner > .item.active, .carousel-inner > .item.next.left, .carousel-inner > .item.prev.right {
+                        -webkit-transform: translate3d(0,0,0);
+                        transform: translate3d(0,0,0);
+                        left: 0;
+                    }
+        }
+
+        .carousel-inner > .active, .carousel-inner > .next, .carousel-inner > .prev {
+            display: block;
+        }
+
+        .carousel-inner > .active {
+            left: 0;
+        }
+
+        .carousel-inner > .next, .carousel-inner > .prev {
+            position: absolute;
+            top: 0;
+            width: 100%;
+        }
+
+        .carousel-inner > .next {
+            left: 100%;
+        }
+
+        .carousel-inner > .prev {
+            left: -100%;
+        }
+
+            .carousel-inner > .next.left, .carousel-inner > .prev.right {
+                left: 0;
+            }
+
+        .carousel-inner > .active.left {
+            left: -100%;
+        }
+
+        .carousel-inner > .active.right {
+            left: 100%;
+        }
+
+        .carousel-control {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 15%;
+            font-size: 20px;
+            color: #fff;
+            text-align: center;
+            text-shadow: 0 1px 2px rgba(0,0,0,.6);
+            background-color: rgba(0,0,0,0);
+            filter: alpha(opacity=50);
+            opacity: .5;
+        }
+
+            .carousel-control .glyphicon-chevron-left, .carousel-control .icon-prev {
+                left: 50%;
+                margin-left: -10px;
+            }
+
+            .carousel-control .glyphicon-chevron-right, .carousel-control .icon-next {
+                right: 50%;
+                margin-right: -10px;
+            }
+
+            .carousel-control .icon-next, .carousel-control .icon-prev {
+                width: 20px;
+                height: 20px;
+                font-family: Calibri;
+                line-height: 1;
+            }
+
+                .carousel-control .icon-prev:before {
+                    content: "\2039";
+                }
+
+                .carousel-control .icon-next:before {
+                    content: "\203a";
+                }
+
+        .carousel-indicators {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            z-index: 15;
+            width: 60%;
+            padding-left: 0;
+            margin-left: -30%;
+            text-align: center;
+            list-style: none;
+        }
+
+            .carousel-indicators li {
+                display: inline-block;
+                width: 10px;
+                height: 10px;
+                margin: 0;
+                text-indent: -999px;
+                cursor: pointer;
+                background-color: rgba(0,0,0,0.2);
+                border: 1px solid #000;
+                border-radius: 10px;
+            }
+
+            .carousel-indicators .active {
+                width: 10px;
+                height: 10px;
+                margin: 0;
+                border-color: #000;
+                background: #000;
+            }
+
+        .carousel-caption {
+            position: absolute;
+            right: 15%;
+            bottom: 20px;
+            left: 15%;
+            z-index: 10;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            color: #fff;
+            text-align: center;
+            text-shadow: 0 1px 2px rgba(0,0,0,.6);
+        }
+
+            .carousel-caption .btn {
+                text-shadow: none;
+            }
+    </style>
+</head>
+<body style="background: #F0F8FF" onload="noBack();" onunload="" onpageshow="if(event.persisted)noBack();"
+    ms_positioning="GridLayout">
+    <form method="post" action="./default.aspx" id="Form1">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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" />
+
+
+<script src="/ScriptResource.axd?d=952frTb56PVLihQJEl6DpaYtohr32nech_e5feVWNeTZZ93YWmM_B3yd_pXyDmotvSo3Hcfl89kpFOKoFeSKTmMOKFf9mAEfbq93wDdDy78veBoOlHIOhcpTIl8zXmT4s1bndtiGx2uR6xg_xm73rf736_th6ao6uzipzGic8yY1&amp;t=5c0e0825" type="text/javascript"></script>
+<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="CA0B0334" />
+<input type="hidden" name="__VIEWSTATEENCRYPTED" id="__VIEWSTATEENCRYPTED" value="" />
+<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="pyXyvx3fhqKfsfQfbtnlyUDt+Q+jDKpBPXutOdN2IsFwfVD956K010VjUUF0iRJ26tJiS8E/g/UAxd1kIaiJaW/bAqIO71PPNlp3XWaVeX4f06ZrzZiVMEJgyL2nGlV+mqKv8Z3eRTJSTDB7rcaNYl0MkCbZjC0iZaDhstibrHfI9ar1X2s20/YYzGokfhbhUMhWty7pVzK/EHK08XFYEoEhx1l8ypV7mkCoI+WUdYPBhYNVTi4/hBhzzqXVROPmE7Pw82OnU1YHGpiW0MN+X0Vw9g6aF0vEwrcOyRLVhb/DIXir14Bwk2AXfq2JYCPcKZGxgRTzxGPXGXpmpUp4/lbdb7XK9jSwub8OqHfhoE6usQleZIIuHE/d9+8YEmUOCpB3y1O9aMsoJCQ/cQQ3Yrb7EvI1IK3jvwlHWGYYu+6H5Awex6HBo2qQO1W7zdr+ZWJOGIOf5C/03QnGfWQ2VlWLHrPFIl0TJYH9aMjdrysBnLV4zVtm5NVY5Eg5HJtlFEO1tfGs76OR4WVF7EJb1bxLV6XolAfNfFoJR2KesAMDPGGVkBBjnhl7voGQ+KohwG10rt54/cScg76z0XoCzW4EzXD4PlsCEt3++I5h2C18XXKxapX3gz+Qm+LxIam7zeK6dkXweionl8q+qRdmtxY9JUmFcHmcBTiLHMhLguSjmoT2A6MtYuzoCl5580oFcAfY3HogsMpSzhVkSe0nRxZrS/oApx6ddOIeenT7MGGZQOSl2La7KdyHe2Ier+PgMSBGDhADm3elbLe+ARHICSoMDBrvgdGOqiqEu/i8QS39DsNM15M4Q8v3m28JU5ZZ8D4EbcS7VdkDfNXK4QBoOS98LXd61iaC5bXXv+Xn9mg=" />
+        <div style="margin: 0 auto; background: #7D7D7D; background-image: url('css3menu1/mainbk7 (3).jpg'); background-repeat: repeat; width: 100%;">
+            <table style="margin: 0 auto; width: 100%; border-radius: 1.6em 1.6em; -moz-border-radius: 1.6em 1em; -webkit-border-radius: 1.6em 1em" align="center">
+	<tr>
+		<td width="2%"></td>
+		<td align="left" width="8%">
+                        <img src="images/HEADER1.png" height="100px" alt="" />
+                    </td>
+		<td align="left" width="18%" style="font-size: small; color: #FFFFFF;">
+                        <strong><span>Directorate of Printing<br />
+                            Department of Publication<br />
+                            M/o Housing and Urban Affairs<br />
+                            Government of India</span></strong><br />
+                    </td>
+		<td align="center" style="text-align: center;" title="Union Gazette">
+                        <br />
+                        <img style="height: 50px; width: 125px;" src="Images/IndianFlag.gif" alt="" /><br />
+                        <br />
+                        <span style="font-family: Old English Text MT; font-size: 50px; color: White;">The Gazette
+                        of India</span><br />
+                        <br />
+                    </td>
+		<td align="right" width="26%">
+                        <img src="images/eglogofinal.png" id="Img1" />
+                    </td>
+		<td width="2%"></td>
+	</tr>
+</table>
+
+        </div>
+        
+        <input name="hidden1" type="hidden" id="hidden1" style="position: absolute; left: 8px; z-index: 103; top: 8px; width: 10px" value="67d5a6b72d7ac319c3f31c60adaa9035" />
+        <div id="Div_Functional">
+            <table align="center" width="100%">
+                <tr align="center">
+                    <td align="center" bgcolor="#eeeeee" colspan="3">
+                        <marquee style="z-index: 0" width="100%" scrollamount="4">
+                            <span class="stylemarquee"><b><i><font face="Aparajita" color="Red" size="5">
+                     *** All the Central Government Ministries, Departments, Attached and Subordinate Offices are requested to Register their Organization through e-Publish Option on this Portal for the purpose of e-Publishing of Gazette Notifications *** 
+                            </font></i></b></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
+                    <a href="http://egazette.nic.in/(S(10z20ngggm0lsvihzpi5vhyt))/HelpForOrganization.aspx" style="height: 20px; line-height: 20px; color: #FF0000; font-weight: bold; font-style: italic; font-family: Aparajita; font-size: large;" target="_blank">*** Departments / Offices may avail Help Regarding Pre-requisites and Guides for their Registration through Help Option Available in e-Publish Menu ***
+                    </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                    <span><b><i><font face="Aparajita" color="Red" size="5"> 
+                     *** This Site uses Cookies. Please make Sure that Cookies are Enabled in Your Browser ***
+                    </font></i></b></span>
+                        </marquee>
+                    </td>
+                </tr>
+            </table>
+            <div id="Div_Reform">
+                <table align="center" width="100%">
+                    <tr align="center">
+                        <td align="center" colspan="3">
+                            <br />
+                            <input type="submit" name="btn_Reforms" value="Reforming the process of Gazette Notifications" id="btn_Reforms" class="blink" style="background-color: #F0F8FF; border: 0" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <table align="center" width="100%">
+                <tr align="center">
+                    <td align="center" style="width: 10%;"></td>
+                    <td align="center">
+                        <br />
+                        <span id="lblslogan"><b><i><font face="Aparajita" color="#000099" size="6">India's growth story shall be written on the canvas of<br /> <b>"Planned Urban Development"</b></font></i></b></span>
+                        <br />
+                        <br />
+                    </td>
+                    <td align="center" style="width: 10%;">
+                        <img src="Images/NewItem.gif" id="imgNew" style="height: 18px; width: 32px;" />
+                        <input type="submit" name="btnHindi" value="हिंदी" id="btnHindi" style="color: #000000; background-color: #B5B5B5;" />
+                    </td>
+                </tr>
+            </table>
+            <div id="Div_Menu" style="margin: 0 auto; background: #; width: 100%; border-radius: 1.6em 1.6em; -moz-border-radius: 1.6em 1em; -webkit-border-radius: 1.6em 1em">
+                <center>
+                    <ul id="css3menu1" class="topmenu" style="width: 100%;">
+                        <li style="width: 10.92%;"><a class="pressed" href="Default.aspx" style="height: 20px; line-height: 20px; text-align: center;">
+                            <img src="css3menu1/home2.png" style="height: 22px; width: 22px;" alt="" />Home</a></li>
+                        <li style="width: 10.92%;"><a href="Aboutus.aspx" style="height: 20px; line-height: 20px; text-align: center;"><span>
+                            <img src="css3menu1/service2.png" style="height: 20px; width: 20px;" alt="" />About
+                            Us</span></a></li>
+                        <li style="width: 10.92%;"><a id="sgzt" style="height: 20px; line-height: 20px; text-align: center;" href="javascript:__doPostBack(&#39;sgzt&#39;,&#39;&#39;)">
+                            <img src="css3menu1/find1.png" style="height: 22px; width: 22px;" alt="" />Search</a></li>
+                        <li style="width: 10.92%;"><a href="GazetteDirectory.aspx" style="height: 20px; line-height: 20px; text-align: center;">
+                            <img src="css3menu1/samples1.png" style="height: 20px; width: 20px;" alt="" />Gazette
+                        Directory</a></li>
+                        <li style="width: 10.92%;"><a href="Contact.aspx" style="height: 20px; line-height: 20px; text-align: center;">
+                            <img src="css3menu1/contact.png" style="height: 22px; width: 22px;" alt="" />Contact
+                        Us</a></li>
+                        <li style="width: 10.92%;"><a href="Help.aspx" style="height: 20px; line-height: 20px; text-align: center;">
+                            <img src="css3menu1/Help.png" alt="" style="height: 20px; width: 20px" />Help</a></li>
+                        <li style="width: 10.92%;"><a href="OnboardRequest.aspx" style="height: 20px; line-height: 20px; text-align: center; font-size: 14px; font-weight: bold"
+                            onclick="return confirm('The Organization Registration is only for Central Government Ministries / Departments / Offices / Subordinate / Attached Offices / Autonomous Institutions and Delhi State.\n\nNOT for other States and General Public.\n\nPlease refer guide for Registration and use of Digital Signature Certificate (DSC), available on Help for registration process, before registering your organization.')">
+                            <img src="css3menu1/EPub.png" align="middle" style="height: 20px; width: 20px" alt="" />Registration</a></li>
+                        <li style="width: 10.92%;"><a href="ePublishing_Menu.aspx" style="height: 20px; line-height: 20px; text-align: center; font-size: 14px; font-weight: bold">
+                            <img src="css3menu1/EPub.png" align="middle" style="height: 20px; width: 20px" alt="" />e-Publish</a></li>
+                        <li style="width: 10.92%;"><a style="background-color: transparent; height: 20px; line-height: 20px; text-align: center; font-size: 14px; font-weight: bold">
+                            <select name="ddlkeyword" id="ddlkeyword">
+	<option value="Select Keyword">Select Keyword</option>
+	<option value="Acts">Acts</option>
+	<option value="Appointment">Appointment</option>
+	<option value="Award">Award</option>
+	<option value="Bharat Ratna">Bharat Ratna</option>
+	<option value="Bills">Bills</option>
+	<option value="Election">Election</option>
+	<option value="Indian Army">Indian Army</option>
+	<option value="National">National</option>
+	<option value="Ordinance">Ordinance</option>
+	<option value="Padma Bhushan">Padma Bhushan</option>
+	<option value="Police">Police</option>
+	<option value="President">President</option>
+	<option value="Prime Minister">Prime Minister</option>
+	<option value="Promotion">Promotion</option>
+	<option value="Recruitment Rules">Recruitment Rules</option>
+	<option value="Transfer">Transfer</option>
+
+</select>
+                            &nbsp;
+                        <input type="image" name="Img_Search" id="Img_Search" title="Search" src="images/search-images.png" align="top" /></a> </li>
+                    </ul>
+                </center>
+            </div>
+            <div id="Div_Main" style="margin: 0 auto; background: #ffffff; width: 100%; border-radius: 1.6em 1.6em; -moz-border-radius: 1.6em 1em; -webkit-border-radius: 1.6em 1em">
+                <table id="tbl_Main" cellpadding="2" cellspacing="1" width="100%">
+                    <tbody>
+                        <tr>
+                            <td align="center" valign="top" width="20%">
+                                <table width="100%" style="margin: 0 auto; background: #eeeeee; padding: 5px; border-radius: 1.6em 1.6em; -moz-border-radius: 1.6em 1em; -webkit-border-radius: 1.6em 1em">
+                                    <tr>
+                                        <td align="center" width="20%">
+                                            <div style="height: 18px; background: url(images/h4k.png) #fcfcfc repeat-x 100% 50%; font-weight: bold; color: white; padding-top: 5px; border-radius: 1.6em 1.6em; -moz-border-radius: 1.6em 1em; -webkit-border-radius: 1.6em 1em">
+                                                Gazettes on Demand
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td align="left" width="20%">
+                                            <br />
+                                            <img style="margin-left: 12px" align="absMiddle;" src="images/arrow_pink.gif" alt="" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a href="RecentUploads.aspx?Category=1"><font class="font2">Bills &amp; Acts</font></a><br />
+                                            <hr style="border-top: #6d7b8d 1px dashed; border-right: medium none; border-bottom: medium none; color: #ffffff; margin-left: 45px; border-left: medium none; background-color: #ffffff" />
+                                            <img style="margin-left: 12px" align="absMiddle" src="images/arrow_pink.gif" alt="" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a href="RecentUploads.aspx?Category=2"><font class="font2">Election &amp; Bye-Election</font></a><br />
+                                            <hr style="border-top: #6d7b8d 1px dashed; border-right: medium none; border-bottom: medium none; color: #ffffff; margin-left: 45px; border-left: medium none; background-color: #ffffff" />
+                                            <img style="margin-left: 12px" align="absMiddle" src="images/arrow_pink.gif" alt="" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a href="RecentUploads.aspx?Category=3"><font class="font2">Land Acquisition</font></a><br />
+                                            <hr style="border-top: #6d7b8d 1px dashed; border-right: medium none; border-bottom: medium none; color: #ffffff; margin-left: 45px; border-left: medium none; background-color: #ffffff" />
+                                            <img style="margin-left: 12px" align="absMiddle" src="images/arrow_pink.gif " alt="" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a href="RecentUploads.aspx?Category=4"><font class="font2">Delhi Master Plan</font></a><br />
+                                            <hr style="border-top: #6d7b8d 1px dashed; border-right: medium none; border-bottom: medium none; color: #ffffff; margin-left: 45px; border-left: medium none; background-color: #ffffff" />
+                                            <img style="margin-left: 12px" align="absMiddle" src="images/arrow_pink.gif" alt="" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a href="RecentUploads.aspx?Category=5"><font class="font2">Recruitment Rules</font></a><br />
+                                            <hr style="border-top: #6d7b8d 1px dashed; border-right: medium none; border-bottom: medium none; color: #ffffff; margin-left: 45px; border-left: medium none; background-color: #ffffff" />
+                                        </td>
+
+                                    </tr>
+                                </table>
+                                <br />
+                                <table width="100%" style="margin: 0 auto; background: #eeeeee; padding: 5px; border-radius: 1.6em 1.6em; -moz-border-radius: 1.6em 1em; -webkit-border-radius: 1.6em 1em">
+                                    <tr>
+                                        <td align="center" width="20%">
+                                            <div style="height: 18px; background: url(images/h4k.png) #fcfcfc repeat-x 100% 50%; font-weight: bold; color: white; padding-top: 5px; border-radius: 1.6em 1.6em; -moz-border-radius: 1.6em 1em; -webkit-border-radius: 1.6em 1em">
+                                                Government Gazettes
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td align="left" width="20%">
+                                            <br />
+                                            <img style="margin-left: 12px" align="absMiddle" src="images/arrow_pink.gif" alt="" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a href="StateGazette.aspx"><font class="font2">State Gazettes</font></a><br />
+                                            <hr style="border-top: #6d7b8d 1px dashed; border-right: medium none; border-bottom: medium none; color: #ffffff; margin-left: 45px; border-left: medium none; background-color: #ffffff" />
+                                        </td>
+
+                                    </tr>
+                                </table>
+                                <br />
+                                <table width="100%" style="margin: 0 auto; background: #eeeeee; padding: 5px; border-radius: 1.6em 1.6em; -moz-border-radius: 1.6em 1em; -webkit-border-radius: 1.6em 1em">
+                                    <tr>
+                                        <td align="center" width="20%">
+                                            <div style="height: 18px; background: url(images/h4k.png) #fcfcfc repeat-x 100% 50%; font-weight: bold; color: white; padding-top: 5px; border-radius: 1.6em 1.6em; -moz-border-radius: 1.6em 1em; -webkit-border-radius: 1.6em 1em">
+                                                Important Links
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td align="left" width="20%">
+                                            <br />
+                                            <img style="margin-left: 12px" align="absMiddle" src="images/arrow_pink.gif " alt="" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a href="http://dop.nic.in/" target="_blank"><font class="font2">Directorate of Printing</font></a>
+                                            <br />
+                                            <hr style="border-top: #6d7b8d 1px dashed; border-right: medium none; border-bottom: medium none; color: #ffffff; margin-left: 45px; border-left: medium none; background-color: #ffffff" />
+                                            <img style="margin-left: 12px" align="absMiddle" src="images/arrow_pink.gif" alt="" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a href="http://deptpub.nic.in/" target="_blank"><font class="font2">Department of Publication</font></a>
+                                            <br />
+                                            <hr style="border-top: #6d7b8d 1px dashed; border-right: medium none; border-bottom: medium none; color: #ffffff; margin-left: 45px; border-left: medium none; background-color: #ffffff" />
+                                            <img style="margin-left: 12px" align="absMiddle" src="images/arrow_pink.gif" alt="" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a href="http://mohua.gov.in" target="_blank"><font class="font2">Housing & Urban Affairs</font></a>
+                                            <br />
+                                            <hr style="border-top: #6d7b8d 1px dashed; border-right: medium none; border-bottom: medium none; color: #ffffff; margin-left: 45px; border-left: medium none; background-color: #ffffff" />
+                                            <img style="margin-left: 12px" align="absMiddle" src="images/arrow_pink.gif" alt="" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a href="http://india.gov.in/" target="_blank"><font class="font2">National Portal of
+                                            India</font></a>
+                                            <hr style="border-top: #6d7b8d 1px dashed; border-right: medium none; border-bottom: medium none; color: #ffffff; margin-left: 45px; border-left: medium none; background-color: #ffffff" />
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <br />
+                                        </td>
+
+                                    </tr>
+                                </table>
+                            </td>
+                            <td align="center" valign="top" width="50%">
+                                <table style="margin: 0 auto; background: #eeeeee; padding: 5px; width: 100%; border-radius: 1.6em 1.6em; -moz-border-radius: 1.6em 1em; -webkit-border-radius: 1.6em 1em; height: 294px;">
+                                    <tr valign="top">
+	<td align="center">
+                                            <div style="height: 18px; background: url(images/h4m.png) #fcfcfc repeat-x 100% 50%; font-weight: bold; color: white; padding-top: 5px; border-radius: 1.6em 1.6em; -moz-border-radius: 1.6em 1em; -webkit-border-radius: 1.6em 1em">
+                                                Recent Extra Ordinary Gazettes
+                                            </div>
+                                            <div style="border-left-width: 1px; border-top: transparent 1px dashed; border-right-width: 1px; border-bottom-width: 1px; border-bottom-color: transparent; border-right-color: transparent; border-left-color: transparent">
+                                                <table width="100%" cellpadding="4">
+                                                    <tr>
+                                                        <td width="26%" align="left">
+                                                            <b><font color="#169A9B" style="font-size: 14px; font-weight: bold;">Ministry</font></b>
+                                                        </td>
+	
+                                                        <td align="left">
+                                                            <b><font color="#169A9B" style="font-size: 14px; font-weight: bold">Subject</font></b>
+                                                        </td>
+	
+                                                        <td width="15%" align="center">
+                                                            <b><font color="#169A9B" style="font-size: 14px; font-weight: bold">Publish Date</font></b>
+                                                        </td>
+	
+                                                        <td width="15%" align="center">
+                                                            <font color="#169A9B"><b style="font-size: 14px; font-weight: bold">Gazette ID</b></font>
+                                                        </td>
+	
+                                                        <td width="12%" align="left">
+                                                            <font color="#169A9B"><b style="font-size: 14px; font-weight: bold">Download</b></font>
+                                                        </td>
+	
+                                                    </tr>
+                                                </table>
+                                                
+                                                        <table class="font2" width="100%">
+                                                    
+                                                        <tr>
+                                                            <td style="width: 26%" align="left">
+                                                                <span id="rpt_Extra_lbl_MinistryE_0"><font size="2">Ministry of Railways</font></span>
+                                                            </td>
+	
+                                                            <td align="left">
+                                                                
+                                                                
+                                                                <span id="rpt_Extra_lbl_SubjectE_0" CommandName="Recent"><font color="Black" size="2">SC Railway Publication of Notification under ...</font></span>
+                                                            </td>
+	
+                                                            <td style="width: 15%;" align="center">
+                                                                <span id="rpt_Extra_lbl_DateE_0"><font color="Black" size="2">18-Apr-2026</font></span>
+                                                            </td>
+	
+                                                            <td style="width: 15%;" align="center">
+                                                                <span id="rpt_Extra_lbl_UGIDExtra_0"><font color="Black" size="2">CG-TL-E-18042026-271912</font></span>
+                                                            </td>
+	
+                                                            <td style="width: 12%;" align="left">
+                                                                <input type="image" name="rpt_Extra$ctl01$ImgDownLoadE" id="rpt_Extra_ImgDownLoadE_0" src="images/download-pdf.png" />
+                                                                <span id="rpt_Extra_lbl_FileSizeE_0"><font face="Calibri" size="3">1.38 MB</font></span>
+                                                            </td>
+	
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width: 100%;" colspan="9">
+                                                                <hr style="border: none; border-top: dashed 1px #6D7B8D; color: #ffffff; background-color: #ffffff;">
+                                                            </td>
+                                                        </tr>
+                                                    
+                                                        <tr>
+                                                            <td style="width: 26%" align="left">
+                                                                <span id="rpt_Extra_lbl_MinistryE_1"><font size="2">Bureau of Indian Standards</font></span>
+                                                            </td>
+	
+                                                            <td align="left">
+                                                                
+                                                                
+                                                                <span id="rpt_Extra_lbl_SubjectE_1" CommandName="Recent"><font color="Black" size="2">In pursuance of Sub rule 1 of Rule 15 of the ...</font></span>
+                                                            </td>
+	
+                                                            <td style="width: 15%;" align="center">
+                                                                <span id="rpt_Extra_lbl_DateE_1"><font color="Black" size="2">18-Apr-2026</font></span>
+                                                            </td>
+	
+                                                            <td style="width: 15%;" align="center">
+                                                                <span id="rpt_Extra_lbl_UGIDExtra_1"><font color="Black" size="2">CG-DL-E-18042026-271911</font></span>
+                                                            </td>
+	
+                                                            <td style="width: 12%;" align="left">
+                                                                <input type="image" name="rpt_Extra$ctl02$ImgDownLoadE" id="rpt_Extra_ImgDownLoadE_1" src="images/download-pdf.png" />
+                                                                <span id="rpt_Extra_lbl_FileSizeE_1"><font face="Calibri" size="3">1.06 MB</font></span>
+                                                            </td>
+	
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width: 100%;" colspan="9">
+                                                                <hr style="border: none; border-top: dashed 1px #6D7B8D; color: #ffffff; background-color: #ffffff;">
+                                                            </td>
+                                                        </tr>
+                                                    
+                                                        <tr>
+                                                            <td style="width: 26%" align="left">
+                                                                <span id="rpt_Extra_lbl_MinistryE_2"><font size="2">Ministry of Railways</font></span>
+                                                            </td>
+	
+                                                            <td align="left">
+                                                                
+                                                                
+                                                                <span id="rpt_Extra_lbl_SubjectE_2" CommandName="Recent"><font color="Black" size="2">Publication of E gazette Notification for Dec...</font></span>
+                                                            </td>
+	
+                                                            <td style="width: 15%;" align="center">
+                                                                <span id="rpt_Extra_lbl_DateE_2"><font color="Black" size="2">18-Apr-2026</font></span>
+                                                            </td>
+	
+                                                            <td style="width: 15%;" align="center">
+                                                                <span id="rpt_Extra_lbl_UGIDExtra_2"><font color="Black" size="2">CG-MH-E-18042026-271910</font></span>
+                                                            </td>
+	
+                                                            <td style="width: 12%;" align="left">
+                                                                <input type="image" name="rpt_Extra$ctl03$ImgDownLoadE" id="rpt_Extra_ImgDownLoadE_2" src="images/download-pdf.png" />
+                                                                <span id="rpt_Extra_lbl_FileSizeE_2"><font face="Calibri" size="3">1.2 MB</font></span>
+                                                            </td>
+	
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width: 100%;" colspan="9">
+                                                                <hr style="border: none; border-top: dashed 1px #6D7B8D; color: #ffffff; background-color: #ffffff;">
+                                                            </td>
+                                                        </tr>
+                                                    
+                                                        <tr>
+                                                            <td style="width: 26%" align="left">
+                                                                <span id="rpt_Extra_lbl_MinistryE_3"><font size="2">Ministry of Railways</font></span>
+                                                            </td>
+	
+                                                            <td align="left">
+                                                                
+                                                                
+                                                                <span id="rpt_Extra_lbl_SubjectE_3" CommandName="Recent"><font color="Black" size="2">Publication of notification of extraordinary ...</font></span>
+                                                            </td>
+	
+                                                            <td style="width: 15%;" align="center">
+                                                                <span id="rpt_Extra_lbl_DateE_3"><font color="Black" size="2">18-Apr-2026</font></span>
+                                                            </td>
+	
+                                                            <td style="width: 15%;" align="center">
+                                                                <span id="rpt_Extra_lbl_UGIDExtra_3"><font color="Black" size="2">CG-MH-E-18042026-271909</font></span>
+                                                            </td>
+	
+                                                            <td style="width: 12%;" align="left">
+                                                                <input type="image" name="rpt_Extra$ctl04$ImgDownLoadE" id="rpt_Extra_ImgDownLoadE_3" src="images/download-pdf.png" />
+                                                                <span id="rpt_Extra_lbl_FileSizeE_3"><font face="Calibri" size="3">1.3 MB</font></span>
+                                                            </td>
+	
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width: 100%;" colspan="9">
+                                                                <hr style="border: none; border-top: dashed 1px #6D7B8D; color: #ffffff; background-color: #ffffff;">
+                                                            </td>
+                                                        </tr>
+                                                    
+                                                        </table>
+                                                    
+                                            </div>
+                                        </td>
+</tr>
+
+                                    <tr>
+                                        <td align="right">
+                                            <a id="lnk_Extra_All" href="javascript:__doPostBack(&#39;lnk_Extra_All&#39;,&#39;&#39;)" style="color: #169A9B">View All.....</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <br />
+                                <table style="margin: 0 auto; background: #eeeeee; padding: 5px; width: 100%; border-radius: 1.6em 1.6em; -moz-border-radius: 1.6em 1em; -webkit-border-radius: 1.6em 1em; height: 240px;">
+                                    <tr valign="top">
+	<td align="center">
+                                            <div style="height: 18px; background: url(images/h4m.png) #fcfcfc repeat-x 100% 50%; font-weight: bold; color: white; padding-top: 5px; border-radius: 1.6em 1.6em; -moz-border-radius: 1.6em 1em; -webkit-border-radius: 1.6em 1em">
+                                                Recent Weekly Gazettes
+                                            </div>
+                                            <br />
+                                            <div style="width: 100%; border-left-width: 1px; border-top: transparent 1px solid; border-right-width: 1px; border-bottom-width: 1px; border-bottom-color: transparent; border-right-color: transparent; border-left-color: transparent">
+                                                
+                                                        <table class="font2" width="100%">
+                                                    
+                                                        <tr style="height: 20px;">
+                                                            <td align="left" style="width: 26%">
+                                                                <span id="rpt_Week_lbl_MinistryW_0"><font size="2">This Gazette may contains Multiple Ministries</font></span>
+                                                            </td>
+                                                            <td align="left">
+                                                                
+                                                                
+                                                                <span id="rpt_Week_lbl_SubjectW_0" CommandName="Recent"><font size="2">This Gazette may contains Multiple Subjects</font></span>
+                                                            </td>
+	
+                                                            <td style="width: 15%;" align="center">
+                                                                <span id="rpt_Week_lbl_DateW_0"><font color="Black" size="2">18-Apr-2026</font></span>
+                                                            </td>
+	
+                                                            <td style="width: 15%;" align="center">
+                                                                <span id="rpt_Week_lbl_UGIDWeekly_0"><font color="Black" size="2">CG-DL-W-18042026-271907</font></span>
+                                                            </td>
+	
+                                                            <td style="width: 12%;" align="left">
+                                                                <input type="image" name="rpt_Week$ctl01$ImgDownLoadW" id="rpt_Week_ImgDownLoadW_0" src="images/download-pdf.png" />
+                                                                <span id="rpt_Week_lbl_FileSizeW_0"><font face="Calibri" size="3">1.43 MB</font></span>
+                                                            </td>
+	
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width: 100%;" colspan="9">
+                                                                <hr style="border: none; border-top: dashed 1px #6D7B8D; color: #ffffff; background-color: #ffffff;">
+                                                            </td>
+                                                        </tr>
+                                                    
+                                                        <tr style="height: 20px;">
+                                                            <td align="left" style="width: 26%">
+                                                                <span id="rpt_Week_lbl_MinistryW_1"><font size="2">This Gazette may contains Multiple Ministries</font></span>
+                                                            </td>
+                                                            <td align="left">
+                                                                
+                                                                
+                                                                <span id="rpt_Week_lbl_SubjectW_1" CommandName="Recent"><font size="2">This Gazette may contains Multiple Subjects</font></span>
+                                                            </td>
+	
+                                                            <td style="width: 15%;" align="center">
+                                                                <span id="rpt_Week_lbl_DateW_1"><font color="Black" size="2">18-Apr-2026</font></span>
+                                                            </td>
+	
+                                                            <td style="width: 15%;" align="center">
+                                                                <span id="rpt_Week_lbl_UGIDWeekly_1"><font color="Black" size="2">CG-DL-W-18042026-271902</font></span>
+                                                            </td>
+	
+                                                            <td style="width: 12%;" align="left">
+                                                                <input type="image" name="rpt_Week$ctl02$ImgDownLoadW" id="rpt_Week_ImgDownLoadW_1" src="images/download-pdf.png" />
+                                                                <span id="rpt_Week_lbl_FileSizeW_1"><font face="Calibri" size="3">8.46 MB</font></span>
+                                                            </td>
+	
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width: 100%;" colspan="9">
+                                                                <hr style="border: none; border-top: dashed 1px #6D7B8D; color: #ffffff; background-color: #ffffff;">
+                                                            </td>
+                                                        </tr>
+                                                    
+                                                        <tr style="height: 20px;">
+                                                            <td align="left" style="width: 26%">
+                                                                <span id="rpt_Week_lbl_MinistryW_2"><font size="2">This Gazette may contains Multiple Ministries</font></span>
+                                                            </td>
+                                                            <td align="left">
+                                                                
+                                                                
+                                                                <span id="rpt_Week_lbl_SubjectW_2" CommandName="Recent"><font size="2">This Gazette may contains Multiple Subjects</font></span>
+                                                            </td>
+	
+                                                            <td style="width: 15%;" align="center">
+                                                                <span id="rpt_Week_lbl_DateW_2"><font color="Black" size="2">18-Apr-2026</font></span>
+                                                            </td>
+	
+                                                            <td style="width: 15%;" align="center">
+                                                                <span id="rpt_Week_lbl_UGIDWeekly_2"><font color="Black" size="2">CG-DL-W-18042026-271891</font></span>
+                                                            </td>
+	
+                                                            <td style="width: 12%;" align="left">
+                                                                <input type="image" name="rpt_Week$ctl03$ImgDownLoadW" id="rpt_Week_ImgDownLoadW_2" src="images/download-pdf.png" />
+                                                                <span id="rpt_Week_lbl_FileSizeW_2"><font face="Calibri" size="3">1.48 MB</font></span>
+                                                            </td>
+	
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width: 100%;" colspan="9">
+                                                                <hr style="border: none; border-top: dashed 1px #6D7B8D; color: #ffffff; background-color: #ffffff;">
+                                                            </td>
+                                                        </tr>
+                                                    
+                                                        </table>
+                                                    
+                                            </div>
+                                        </td>
+</tr>
+
+                                    <tr>
+                                        <td align="right">
+                                            <a id="lnk_Week_All" href="javascript:__doPostBack(&#39;lnk_Week_All&#39;,&#39;&#39;)" style="color: #169A9B">View All.....</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td align="center" valign="top" width="20%">
+                                <table style="margin: 0 auto; background: #eeeeee; padding: 5px; width: 100%; border-radius: 1.6em 1.6em; -moz-border-radius: 1.6em 1em; -webkit-border-radius: 1.6em 1em; height: 294px;">
+                                    <tr>
+                                        <td align="center" valign="top" width="20%">
+                                            <div style="height: 17px; background: url(images/h4k.png) #fcfcfc repeat-x 100% 50%; font-weight: bold; color: white; padding-top: 5px; border-radius: 1.6em 1.6em; -moz-border-radius: 1.6em 1em; -webkit-border-radius: 1.6em 1em">
+                                                Acknowledgement
+                                            </div>
+                                            <br />
+                                            <img src='img/scrolleng1.png' style="height: 220px; width: 75%" alt="" />
+                                        </td>
+                                    </tr>
+                                </table>
+                                <br />
+                                <table style="margin: 0 auto; background: #eeeeee; padding: 5px; width: 100%; border-radius: 1.6em 1.6em; -moz-border-radius: 1.6em 1em; -webkit-border-radius: 1.6em 1em; height: 240px;">
+                                    <tr>
+                                        <td style="text-align: center;">
+                                            <input type="image" name="Img_DigitalIndia" id="Img_DigitalIndia" src="images/digital_india.png" align="middle" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding-top: 10px; text-align: center;">
+                                            <input type="image" name="Img_PMofIndia" id="Img_PMofIndia" src="images/pm_official_pic.png" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br />
+            
+            <div id="Div_Footer" style="margin: 0 auto; background: #7D7D7D; width: 100%; background-image: url(&#39;css3menu1/mainbk7 (3).jpg&#39;); background-repeat: repeat;">
+                <table align="center" cellpadding="0" style="margin: 0 auto; width: 100%; border-radius: 1.6em 1.6em; -moz-border-radius: 1.6em 1em; -webkit-border-radius: 1.6em 1em">
+                    <tr>
+                        <td width="2%"></td>
+                        <td align="left" width="25%">
+                            <font color="#ffffff" size="2" style="font-family: Calibri">Visitor Count</font>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span id="lblVisitorCount" class="tb6" onkeypress="return false;"><font size="4"></font></span>
+                        </td>
+                        <td align="center" valign="middle">
+                            <font color="#ffffff" size="2" style="font-family: Calibri">This site is Designed, Developed
+                            and Hosted by National Informatics Centre, M/o Electronics and Information Technology,
+                            Govt. of India.<br />
+                                Contents are provided, uploaded and approved by Dept. of Publication, M/o Housing
+                            and Urban Affairs, Government of India</font>
+                            <br />
+                            <a href="Default.aspx"><font color="#ffffff" style="font-weight: bold;">Home</font></a>
+                            | <a href="Aboutus.aspx"><font color="#ffffff" style="font-weight: bold;">About Us</font></a>
+                            | <a href="SearchMenu.aspx"><font color="#ffffff" style="font-weight: bold;">Search
+                            Gazette</font></a> | <a href="GazetteDirectory.aspx"><font color="#ffffff" style="font-weight: bold;">Gazette Directory</font></a> | <a href="Circulars.aspx"><font color="#ffffff" style="font-weight: bold;">Circulars</font></a> | <a href="Disclaimer.aspx"><font color="#ffffff" style="font-weight: bold;">Disclaimer</font></a> | <a href="Contact.aspx"><font color="#ffffff" style="font-weight: bold;">Contact Us</font></a> |
+                        <a id="lnk_Login" href="javascript:__doPostBack(&#39;lnk_Login&#39;,&#39;&#39;)" style="font-weight: bold;"><font color="White">Login</font></a>
+                        </td>
+                        <td align="right" valign="middle" width="25%">
+                            <a href="https://amritmahotsav.nic.in" target="_blank">
+                                <img id="img3" src="Images/AzadiKaAmritMahotsav-E.jpg" style="vertical-align: middle;"
+                                    alt="" /></a> &nbsp;&nbsp;
+                        <input type="image" name="Img_GovIndia" id="Img_GovIndia" src="images/banner.jpg" align="absmiddle" />
+                        </td>
+                        <td width="2%"></td>
+                    </tr>
+                </table>
+            </div>
+            
+            
+        </div>
+        <center>
+            <br />
+            <br />
+            <br />
+            <br />
+            
+        </center>
+    </form>
+    <img src="" referrerpolicy="no-referrer-when-downgrade" alt="" />
+    <script type="text/javascript" language="javascript">
+        function blink_text() {
+            $('.blink').fadeOut(2000);
+            $('.blink').fadeIn(2000);
+        }
+        setInterval(blink_text, 100);
+
+        $(function () {
+            var logoutParam = getParameterByName('loginOp');
+            if (!logoutParam) {
+                $("#Top_ImageScroller").css("display", "block");
+                $("#Div_ImageScroller").css("display", "block");
+            }
+        });
+
+        $(".cancel").click(function () {
+            $("#Top_ImageScroller").fadeOut();
+            $("#Div_ImageScroller").fadeOut();
+        });
+    </script>
+</body>
+</html>

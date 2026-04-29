@@ -1,0 +1,85 @@
+{
+  "donors": [
+    {
+      "donor_id": "summarization",
+      "label": "Law-AI Summarization",
+      "repo_path": "summarization",
+      "capabilities": ["summarization", "chunking", "extractive_fallback", "fine_tuning_recipes"],
+      "integration_mode": "adapter",
+      "usage_modes": ["runtime", "training", "evaluation"],
+      "notes": "Adapts chunk-and-combine and legal summarization recipes into OmniLegal brief generation."
+    },
+    {
+      "donor_id": "clerc",
+      "label": "CLERC",
+      "repo_path": "CLERC",
+      "capabilities": ["retrieval", "qrels_generation", "triples_generation", "rag_experiments"],
+      "integration_mode": "adapter",
+      "usage_modes": ["training", "evaluation", "reference"],
+      "notes": "Provides retrieval pipeline structure, qrels/triples patterns, and RAG experiment framing."
+    },
+    {
+      "donor_id": "lleqa",
+      "label": "LLeQA",
+      "repo_path": "lleqa",
+      "capabilities": ["retrieval", "long_form_qa", "dense_bm25_hybrid", "metrics"],
+      "integration_mode": "adapter",
+      "usage_modes": ["runtime", "evaluation"],
+      "notes": "Contributes long-form QA patterns, retriever/generator separation, and retrieval metrics ideas."
+    },
+    {
+      "donor_id": "bsard",
+      "label": "BSARD",
+      "repo_path": "bsard",
+      "capabilities": ["retrieval", "statutory_article_ir", "metrics"],
+      "integration_mode": "adapter",
+      "usage_modes": ["evaluation", "reference"],
+      "notes": "Used for statutory retrieval patterns and benchmark registry coverage."
+    },
+    {
+      "donor_id": "mining_legal_arguments",
+      "label": "Mining Legal Arguments",
+      "repo_path": "mining-legal-arguments",
+      "capabilities": ["argument_mining", "importance_ranking", "debate_support"],
+      "integration_mode": "adapter",
+      "usage_modes": ["runtime", "evaluation"],
+      "notes": "Inspires argument span extraction and importance scoring for Debate Coach."
+    },
+    {
+      "donor_id": "indian_bail_judgments_1200",
+      "label": "IndianBailJudgments-1200",
+      "repo_path": "IndianBailJudgments-1200",
+      "capabilities": ["stance_prior", "indian_legal_style"],
+      "integration_mode": "dataset",
+      "usage_modes": ["training", "evaluation"],
+      "notes": "Used as the India-specific stance prior dataset source."
+    },
+    {
+      "donor_id": "fairlex",
+      "label": "FairLex",
+      "repo_path": "fairlex",
+      "capabilities": ["benchmarks", "classification_eval", "fairness_eval"],
+      "integration_mode": "reference",
+      "usage_modes": ["evaluation"],
+      "notes": "Benchmark coverage only; not part of the product runtime."
+    },
+    {
+      "donor_id": "casehold",
+      "label": "CaseHOLD",
+      "repo_path": "casehold",
+      "capabilities": ["qa_benchmark", "legal_bert_eval"],
+      "integration_mode": "reference",
+      "usage_modes": ["evaluation"],
+      "notes": "Benchmark coverage only; not part of the product runtime."
+    },
+    {
+      "donor_id": "lex_glue",
+      "label": "LexGLUE",
+      "repo_path": "lex-glue",
+      "capabilities": ["benchmarks", "classification_eval", "qa_eval"],
+      "integration_mode": "reference",
+      "usage_modes": ["evaluation"],
+      "notes": "Benchmark coverage only; not part of the product runtime."
+    }
+  ]
+}

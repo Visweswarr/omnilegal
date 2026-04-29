@@ -1,0 +1,65 @@
+{
+  "jurisdiction": "United Kingdom",
+  "sources": [
+    {
+      "name": "legislation.gov.uk",
+      "url": "https://www.legislation.gov.uk",
+      "type": "official (The National Archives)",
+      "coverage": "UK primary + secondary legislation (UKPGA, UKSI, ASP, WSI, NISI); ~150k items; 'as enacted' + revised/point-in-time versions; comprehensive from 1988+",
+      "access": "RESTful Legislation API with URI-based content negotiation; Atom feeds; bulk via data.gov.uk — exact bulk-dump mechanism uncertain — verify",
+      "format": "CLML XML (native), Akoma Ntoso XML (/data.akn), HTML5, PDF, plaintext",
+      "license": "Open Government Licence v3.0 (Crown copyright) — commercial + derivative reuse allowed with attribution",
+      "recommended_for": ["NATIONAL_UK"]
+    },
+    {
+      "name": "Find Case Law (The National Archives)",
+      "url": "https://caselaw.nationalarchives.gov.uk",
+      "type": "official (TNA + MoJ + HMCTS + Judicial Office)",
+      "coverage": "Judgments from E&W courts + UK-wide UKSC + Privy Council (since 2009 for UKSC); launched April 2022; excludes Scotland, NI, Ireland",
+      "access": "Public REST API + Atom feed; docs at nationalarchives.github.io/ds-find-caselaw-docs/public",
+      "format": "LegalDocML (Akoma Ntoso XML), HTML, PDF",
+      "license": "Open Justice Licence. CRITICAL: computational analysis (i.e., RAG ingestion) requires a separate free licence — apply to caselawlicence@nationalarchives.gov.uk. 'External indexing of documents' not permitted under default licence.",
+      "recommended_for": ["NATIONAL_UK", "CASE_LAW"]
+    },
+    {
+      "name": "BAILII",
+      "url": "https://www.bailii.org",
+      "type": "aggregator (charity)",
+      "coverage": "~411k cases + ~150k legislation items; UK (incl. Scotland, NI), Ireland, EU, Commonwealth; some historical back to 13th c.",
+      "access": "HTML only; robots.txt DISALLOWS crawlers; ToS explicitly prohibit bulk download and external indexing",
+      "format": "HTML",
+      "license": "Mixed — underlying content Crown/Irish/EU copyright; BAILII HTML enrichment is BAILII's copyright. SCRAPING-RISKY — do not bulk-ingest.",
+      "recommended_for": ["NATIONAL_UK", "CASE_LAW (gap-fill for Scotland/NI/Ireland, individually only)"]
+    },
+    {
+      "name": "UK Supreme Court",
+      "url": "https://www.supremecourt.uk",
+      "type": "official",
+      "coverage": "All UKSC judgments since 1 Oct 2009",
+      "access": "Direct PDF downloads; no documented structured API; mirrored on Find Case Law",
+      "format": "PDF (primary), HTML metadata",
+      "license": "Crown copyright; OGL-eligible per judiciary guidance (per-item OGL badge uncertain — verify)",
+      "recommended_for": ["NATIONAL_UK", "CASE_LAW"]
+    },
+    {
+      "name": "Judiciary.uk",
+      "url": "https://www.judiciary.uk",
+      "type": "official",
+      "coverage": "Sentencing remarks, selected judgments, speeches, practice directions (E&W)",
+      "access": "HTML/PDF; no API; judgments increasingly redirect to Find Case Law",
+      "format": "HTML, PDF",
+      "license": "Crown copyright / OGL for most; some speeches may carry author copyright",
+      "recommended_for": ["NATIONAL_UK", "CASE_LAW", "COMMENTARY (speeches, practice directions)"]
+    },
+    {
+      "name": "UK Parliament APIs (Hansard, Bills)",
+      "url": "https://api.parliament.uk",
+      "type": "official",
+      "coverage": "Hansard (both Houses, historic 1803–2005 at /historic-hansard), Bills, Members, Divisions, Committees, Treaties, Statutory Instruments",
+      "access": "Versioned REST; SPARQL endpoint for Treaties + SIs; rate limits uncertain — verify",
+      "format": "JSON, XML, HTML (historic)",
+      "license": "Open Parliament Licence v3.0",
+      "recommended_for": ["NATIONAL_UK", "COMMENTARY (Hansard as travaux préparatoires)"]
+    }
+  ]
+}

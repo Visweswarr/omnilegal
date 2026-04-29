@@ -1,0 +1,227 @@
+landmarks:
+  # ── ICJ / PCIJ cases ────────────────────────────────────────────────────
+  - canonical_name: "Corfu Channel"
+    court: "ICJ"
+    year: 1949
+    tags: ["state_responsibility", "use_of_force_jus_ad_bellum", "evidence"]
+    landmark_boost: 1.0
+
+  - canonical_name: "Nicaragua v. United States"
+    aliases: ["Nicaragua", "Military and Paramilitary Activities"]
+    court: "ICJ"
+    year: 1986
+    tags: ["use_of_force_jus_ad_bellum", "customary_international_law", "state_responsibility"]
+    landmark_boost: 1.0
+
+  - canonical_name: "Oil Platforms"
+    court: "ICJ"
+    year: 2003
+    tags: ["use_of_force_jus_ad_bellum", "self_defense"]
+    landmark_boost: 1.0
+
+  - canonical_name: "Armed Activities on the Territory of the Congo"
+    aliases: ["DRC v. Uganda"]
+    court: "ICJ"
+    year: 2005
+    tags: ["use_of_force_jus_ad_bellum", "occupation", "state_responsibility"]
+    landmark_boost: 1.0
+
+  - canonical_name: "Caroline Case"
+    aliases: ["Caroline Affair"]
+    year: 1837
+    tags: ["self_defense", "necessity", "customary_international_law"]
+    landmark_boost: 1.0
+
+  - canonical_name: "Lotus Case"
+    aliases: ["SS Lotus", "The Lotus"]
+    court: "PCIJ"
+    year: 1927
+    tags: ["jurisdiction_and_immunity"]
+    landmark_boost: 1.0
+
+  - canonical_name: "Barcelona Traction"
+    court: "ICJ"
+    year: 1970
+    tags: ["diplomatic_protection", "erga_omnes"]
+    landmark_boost: 1.0
+
+  - canonical_name: "Nottebohm"
+    court: "ICJ"
+    year: 1955
+    tags: ["nationality", "diplomatic_protection"]
+    landmark_boost: 1.0
+
+  - canonical_name: "Chorzow Factory"
+    aliases: ["Factory at Chorzow"]
+    court: "PCIJ"
+    year: 1927
+    tags: ["state_responsibility", "reparation"]
+    landmark_boost: 1.0
+
+  - canonical_name: "Reparations for Injuries"
+    aliases: ["Reparation for Injuries Advisory Opinion"]
+    court: "ICJ"
+    year: 1949
+    tags: ["international_organizations", "legal_personality"]
+    landmark_boost: 1.0
+
+  - canonical_name: "Nuclear Tests"
+    aliases: ["Nuclear Tests Case"]
+    court: "ICJ"
+    year: 1974
+    tags: ["unilateral_acts", "jurisdiction_and_immunity"]
+    landmark_boost: 1.0
+
+  - canonical_name: "South West Africa"
+    aliases: ["Namibia Advisory Opinion", "Legal Consequences for States"]
+    court: "ICJ"
+    year: 1971
+    tags: ["statehood_and_recognition", "self_determination"]
+    landmark_boost: 1.0
+
+  - canonical_name: "Wall Advisory Opinion"
+    aliases: ["Legal Consequences of the Construction of a Wall", "ICJ Wall Opinion"]
+    court: "ICJ"
+    year: 2004
+    tags: ["ihl_jus_in_bello", "human_rights", "occupation"]
+    landmark_boost: 1.0
+
+  - canonical_name: "Genocide Case"
+    aliases: ["Bosnia and Herzegovina v. Serbia", "Application of the Genocide Convention"]
+    court: "ICJ"
+    year: 2007
+    tags: ["international_criminal_law", "state_responsibility"]
+    landmark_boost: 1.0
+
+  - canonical_name: "Maritime Delimitation in the Black Sea"
+    aliases: ["Romania v. Ukraine"]
+    court: "ICJ"
+    year: 2009
+    tags: ["law_of_the_sea"]
+    landmark_boost: 0.9
+
+  - canonical_name: "LaGrand"
+    court: "ICJ"
+    year: 2001
+    tags: ["diplomatic_relations", "jurisdiction_and_immunity", "consular"]
+    landmark_boost: 0.9
+
+  - canonical_name: "Avena"
+    aliases: ["Avena and Other Mexican Nationals"]
+    court: "ICJ"
+    year: 2004
+    tags: ["diplomatic_relations", "consular"]
+    landmark_boost: 0.9
+
+  # ── Classic arbitrations ─────────────────────────────────────────────────
+  - canonical_name: "Tinoco Arbitration"
+    aliases: ["Tinoco Case", "Great Britain v Costa Rica", "Great Britain v. Costa Rica",
+              "Britain v Costa Rica"]
+    court: "Arbitration (Taft)"
+    year: 1923
+    tags: ["statehood_and_recognition", "government_recognition", "de_facto_government",
+           "state_succession", "general_international_law"]
+    landmark_boost: 1.0
+    summary: >
+      Arbitration between Great Britain and Costa Rica decided by Chief Justice Taft (1923).
+      Costa Rica repudiated contracts made by the Tinoco regime arguing it was a de facto
+      government not recognised by many states. Taft held that non-recognition by other states
+      does not extinguish the legal continuity of the state; a de facto government's acts bind
+      its successor unless the successor expressly repudiates them. Established the doctrine that
+      non-recognition does not retroactively invalidate governmental acts.
+
+  - canonical_name: "Island of Palmas"
+    aliases: ["Island of Palmas Arbitration", "Palmas Arbitration", "Netherlands v. United States"]
+    court: "PCA"
+    year: 1928
+    tags: ["territorial_sovereignty", "statehood_and_recognition"]
+    landmark_boost: 1.0
+
+  - canonical_name: "Trail Smelter"
+    aliases: ["Trail Smelter Arbitration"]
+    court: "Arbitration"
+    year: 1941
+    tags: ["international_environmental_law", "state_responsibility", "transboundary_harm"]
+    landmark_boost: 1.0
+
+  - canonical_name: "Alabama Claims"
+    aliases: ["Alabama Claims Arbitration"]
+    court: "Arbitration"
+    year: 1872
+    tags: ["state_responsibility", "neutrality"]
+    landmark_boost: 0.9
+
+  - canonical_name: "Clipperton Island"
+    aliases: ["Clipperton Island Arbitration"]
+    court: "Arbitration"
+    year: 1931
+    tags: ["territorial_sovereignty"]
+    landmark_boost: 0.8
+
+  - canonical_name: "Neer Claim"
+    aliases: ["LFH Neer and Pauline Neer v. United Mexican States"]
+    court: "USCMCT"
+    year: 1926
+    tags: ["state_responsibility", "minimum_standard_of_treatment"]
+    landmark_boost: 0.8
+
+  - canonical_name: "Rainbow Warrior"
+    aliases: ["Rainbow Warrior Arbitration", "New Zealand v. France"]
+    court: "Arbitration"
+    year: 1990
+    tags: ["state_responsibility", "countermeasures"]
+    landmark_boost: 0.9
+
+  - canonical_name: "Texaco v Libya"
+    aliases: ["Texaco Overseas Petroleum v. Libyan Arab Republic"]
+    court: "Arbitration"
+    year: 1977
+    tags: ["state_responsibility", "nationalisation", "investment"]
+    landmark_boost: 0.8
+
+  # ── Human rights and criminal law ────────────────────────────────────────
+  - canonical_name: "Tadic"
+    aliases: ["Prosecutor v. Tadic", "ICTY Tadic"]
+    court: "ICTY"
+    year: 1995
+    tags: ["international_criminal_law", "ihl_jus_in_bello"]
+    landmark_boost: 1.0
+
+  - canonical_name: "Akayesu"
+    aliases: ["Prosecutor v. Akayesu", "ICTR Akayesu"]
+    court: "ICTR"
+    year: 1998
+    tags: ["international_criminal_law", "genocide"]
+    landmark_boost: 1.0
+
+  - canonical_name: "Pinochet"
+    aliases: ["R v Bow Street Metropolitan Stipendiary Magistrate ex parte Pinochet"]
+    court: "UK House of Lords"
+    year: 1999
+    tags: ["jurisdiction_and_immunity", "international_criminal_law"]
+    landmark_boost: 1.0
+
+  # ── WTO / Trade ──────────────────────────────────────────────────────────
+  - canonical_name: "EC Measures Concerning Meat and Meat Products"
+    aliases: ["Hormones Case", "Beef Hormones"]
+    court: "WTO AB"
+    year: 1998
+    tags: ["trade_and_wto"]
+    landmark_boost: 0.9
+
+  - canonical_name: "Shrimp Turtle"
+    aliases: ["United States — Import Prohibition of Certain Shrimp"]
+    court: "WTO AB"
+    year: 1998
+    tags: ["trade_and_wto", "international_environmental_law"]
+    landmark_boost: 0.9
+
+citation_graph_policy:
+  top_percent_indegree_boost: 1
+  negative_treatment_penalty_threshold: 0.20
+  negative_treatment_labels:
+    - "overruled"
+    - "questioned"
+    - "criticized"
+    - "abrogated"
+    - "distinguished"

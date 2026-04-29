@@ -1,0 +1,48 @@
+{
+  "task": "qa",
+  "benchmark": "local_smoke_queries",
+  "split": "smoke",
+  "generated_at": "2026-03-31T18:43:39.991889+00:00",
+  "metrics": [
+    {
+      "name": "answer_with_citation_rate",
+      "value": 1.0,
+      "display_value": null,
+      "notes": null
+    },
+    {
+      "name": "comparative_query_detection_rate",
+      "value": 0.5,
+      "display_value": null,
+      "notes": null
+    }
+  ],
+  "notes": [
+    "This is a structural smoke benchmark, not a full IndicLegalQA evaluation.",
+    "Full QA benchmark datasets remain registry-backed and offline by default."
+  ],
+  "source_file": null,
+  "provenance": [
+    {
+      "donor_id": "lleqa",
+      "donor_label": "LLeQA",
+      "capability": "long_form_qa",
+      "usage_mode": "runtime",
+      "notes": "Contributes long-form QA patterns, retriever/generator separation, and retrieval metrics ideas."
+    },
+    {
+      "donor_id": "clerc",
+      "donor_label": "CLERC",
+      "capability": "retrieval",
+      "usage_mode": "reference",
+      "notes": "Provides retrieval pipeline structure, qrels/triples patterns, and RAG experiment framing."
+    },
+    {
+      "donor_id": "bsard",
+      "donor_label": "BSARD",
+      "capability": "retrieval",
+      "usage_mode": "reference",
+      "notes": "Used for statutory retrieval patterns and benchmark registry coverage."
+    }
+  ]
+}

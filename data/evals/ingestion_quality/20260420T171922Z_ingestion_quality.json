@@ -1,0 +1,154 @@
+{
+  "created_at": "2026-04-20T17:19:22.181430+00:00",
+  "samples_per_collection": 20,
+  "counts": {
+    "INTL_TREATIES": 274,
+    "NATIONAL_IN": 585,
+    "NATIONAL_US": 864,
+    "NATIONAL_UK": 0,
+    "NATIONAL_EU": 511,
+    "NATIONAL_RU": 0,
+    "NATIONAL_IL": 163,
+    "CASE_LAW": 3914,
+    "SHAW_PRIVATE": 1184,
+    "COMMENTARY": 0,
+    "CASE_LAW_GLOBAL": 26,
+    "CASE_LAW_US": 10,
+    "CASE_LAW_IN": 5,
+    "CASE_LAW_EU": 6,
+    "CASE_LAW_UK": 6,
+    "CASE_LAW_RU": 8,
+    "CASE_LAW_IL": 4,
+    "STATUTES_US": 6,
+    "STATUTES_IN": 5,
+    "STATUTES_EU": 4,
+    "STATUTES_UK": 2,
+    "STATUTES_RU": 2,
+    "STATUTES_IL": 3,
+    "COMMENTARY_GLOBAL": 23
+  },
+  "total_problem_count": 0,
+  "status": "pass",
+  "collections": {
+    "INTL_TREATIES": {
+      "count": 274,
+      "sampled": 20,
+      "findings": []
+    },
+    "NATIONAL_IN": {
+      "count": 585,
+      "sampled": 20,
+      "findings": []
+    },
+    "NATIONAL_US": {
+      "count": 864,
+      "sampled": 20,
+      "findings": []
+    },
+    "NATIONAL_UK": {
+      "count": 0,
+      "sampled": 0,
+      "findings": []
+    },
+    "NATIONAL_EU": {
+      "count": 511,
+      "sampled": 20,
+      "findings": []
+    },
+    "NATIONAL_RU": {
+      "count": 0,
+      "sampled": 0,
+      "findings": []
+    },
+    "NATIONAL_IL": {
+      "count": 163,
+      "sampled": 20,
+      "findings": []
+    },
+    "CASE_LAW": {
+      "count": 3914,
+      "sampled": 20,
+      "findings": []
+    },
+    "SHAW_PRIVATE": {
+      "count": 1184,
+      "sampled": 20,
+      "findings": []
+    },
+    "COMMENTARY": {
+      "count": 0,
+      "sampled": 0,
+      "findings": []
+    },
+    "CASE_LAW_GLOBAL": {
+      "count": 26,
+      "sampled": 20,
+      "findings": []
+    },
+    "CASE_LAW_US": {
+      "count": 10,
+      "sampled": 10,
+      "findings": []
+    },
+    "CASE_LAW_IN": {
+      "count": 5,
+      "sampled": 5,
+      "findings": []
+    },
+    "CASE_LAW_EU": {
+      "count": 6,
+      "sampled": 6,
+      "findings": []
+    },
+    "CASE_LAW_UK": {
+      "count": 6,
+      "sampled": 6,
+      "findings": []
+    },
+    "CASE_LAW_RU": {
+      "count": 8,
+      "sampled": 8,
+      "findings": []
+    },
+    "CASE_LAW_IL": {
+      "count": 4,
+      "sampled": 4,
+      "findings": []
+    },
+    "STATUTES_US": {
+      "count": 6,
+      "sampled": 6,
+      "findings": []
+    },
+    "STATUTES_IN": {
+      "count": 5,
+      "sampled": 5,
+      "findings": []
+    },
+    "STATUTES_EU": {
+      "count": 4,
+      "sampled": 4,
+      "findings": []
+    },
+    "STATUTES_UK": {
+      "count": 2,
+      "sampled": 2,
+      "findings": []
+    },
+    "STATUTES_RU": {
+      "count": 2,
+      "sampled": 2,
+      "findings": []
+    },
+    "STATUTES_IL": {
+      "count": 3,
+      "sampled": 3,
+      "findings": []
+    },
+    "COMMENTARY_GLOBAL": {
+      "count": 23,
+      "sampled": 20,
+      "findings": []
+    }
+  }
+}

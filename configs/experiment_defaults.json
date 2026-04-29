@@ -1,0 +1,22 @@
+{
+  "foundation": {
+    "encoder_backbone": "law-ai/InLegalBERT",
+    "seq2seq_backbone": "google/flan-t5-base",
+    "adaptation_strategy": "lora"
+  },
+  "retrieval": {
+    "comparative_k": 8,
+    "qa_k": 6,
+    "retriever": "hybrid_faiss_bm25"
+  },
+  "evaluation": {
+    "track_metrics": [
+      "rougeL",
+      "bertscore_f1",
+      "citation_precision",
+      "retrieval_recall",
+      "macro_f1",
+      "legal_eval_q"
+    ]
+  }
+}

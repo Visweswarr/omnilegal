@@ -1,0 +1,1485 @@
+{
+  "created_at": "2026-04-18T18:49:48.629431+00:00",
+  "catalog": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\caselaws",
+  "mode": "licensed",
+  "download_requested": true,
+  "ingest_requested": true,
+  "resume": true,
+  "reset_checkpoint": false,
+  "budget_gb": 50.0,
+  "budget_used_bytes": 6722786,
+  "source_count": 110,
+  "catalog_chunks": 110,
+  "remote_chunks": 6448,
+  "checkpoint_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\checkpoints\\ingest_checkpoint.json",
+  "checkpoint_entries_before": 0,
+  "checkpoint_entries_after": 57,
+  "skipped_from_checkpoint": 0,
+  "rehydrated_chunk_count": 0,
+  "upserted_by_collection": {
+    "NATIONAL_US": 209,
+    "NATIONAL_EU": 1242,
+    "CASE_LAW": 3073,
+    "NATIONAL_IN": 360,
+    "NATIONAL_RU": 442,
+    "COMMENTARY": 1065,
+    "NATIONAL_IL": 157,
+    "NATIONAL_UK": 10
+  },
+  "audit_summary": {
+    "total_sources": 110,
+    "fetchable": 56,
+    "metadata_only": 54,
+    "permission_required": 13,
+    "credential_required": 17,
+    "tier3_blocked": 10,
+    "collections": {
+      "NATIONAL_US": 24,
+      "NATIONAL_EU": 12,
+      "CASE_LAW": 15,
+      "NATIONAL_IN": 12,
+      "NATIONAL_RU": 11,
+      "COMMENTARY": 19,
+      "NATIONAL_IL": 9,
+      "NATIONAL_UK": 8
+    },
+    "missing_env": [
+      "CONGRESS_API_KEY",
+      "COURTLISTENER_TOKEN",
+      "GOVINFO_API_KEY",
+      "HUDOC_PERMISSION_CONFIRMED",
+      "ICC_LEGAL_TOOLS_PERMISSION_CONFIRMED",
+      "ICRC_PERMISSION_CONFIRMED",
+      "INDIAN_KANOON_API_TOKEN",
+      "ISRAEL_SUPREME_COURT_BULK_CONFIRMED",
+      "ITLOS_PERMISSION_CONFIRMED",
+      "PCA_PERMISSION_CONFIRMED",
+      "SEC_USER_AGENT",
+      "UK_FIND_CASE_LAW_LICENSE_CONFIRMED"
+    ]
+  },
+  "events": [
+    {
+      "source_id": "hugging-face-0-0-huggingface-training-benchmark-datasets-pile-of-law-pile-of-law",
+      "source_name": "pile-of-law/pile-of-law",
+      "status": "credential_required",
+      "reason": "Credential or required API identity is missing."
+    },
+    {
+      "source_id": "hugging-face-0-1-huggingface-training-benchmark-datasets-joelniklaus-multi-legal-pile-commercial",
+      "source_name": "joelniklaus/Multi_Legal_Pile (+ _Commercial variant)",
+      "adapter": "huggingface_stream",
+      "collection": "NATIONAL_EU",
+      "events": [
+        {
+          "status": "error",
+          "dataset": "joelniklaus/Multi_Legal_Pile",
+          "reason": "RuntimeError: Dataset scripts are no longer supported, but found Multi_Legal_Pile.py"
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "hugging-face-0-2-huggingface-training-benchmark-datasets-nlpaueb-multi-eurlex-coastalcph-multi-e",
+      "source_name": "nlpaueb/multi_eurlex (coastalcph/multi_eurlex)",
+      "adapter": "huggingface_stream",
+      "collection": "NATIONAL_EU",
+      "events": [
+        {
+          "status": "error",
+          "dataset": "nlpaueb/multi_eurlex",
+          "reason": "RuntimeError: Dataset scripts are no longer supported, but found multi_eurlex.py"
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "hugging-face-0-3-huggingface-training-benchmark-datasets-coastalcph-lex-glue-lexglue-benchmark",
+      "source_name": "coastalcph/lex_glue (LexGLUE benchmark)",
+      "status": "permission_required",
+      "reason": "Permission/license confirmation required before bulk ingestion."
+    },
+    {
+      "source_id": "hugging-face-0-4-huggingface-training-benchmark-datasets-dennlinger-eur-lex-sum",
+      "source_name": "dennlinger/eur-lex-sum",
+      "adapter": "huggingface_stream",
+      "collection": "NATIONAL_EU",
+      "events": [
+        {
+          "status": "error",
+          "dataset": "dennlinger/eur-lex-sum",
+          "reason": "RuntimeError: Dataset scripts are no longer supported, but found eur-lex-sum.py"
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "hugging-face-0-5-huggingface-training-benchmark-datasets-aueb-nlp-ecthr-cases-lex-glue-ecthr-a-b",
+      "source_name": "AUEB-NLP/ecthr_cases (+ lex_glue ecthr_a/b)",
+      "status": "permission_required",
+      "reason": "Permission/license confirmation required before bulk ingestion."
+    },
+    {
+      "source_id": "hugging-face-0-6-huggingface-training-benchmark-datasets-casehold-casehold",
+      "source_name": "casehold/casehold",
+      "adapter": "huggingface_stream",
+      "collection": "NATIONAL_US",
+      "events": [
+        {
+          "status": "error",
+          "dataset": "casehold/casehold",
+          "reason": "RuntimeError: Dataset scripts are no longer supported, but found casehold.py"
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "hugging-face-0-7-huggingface-training-benchmark-datasets-fiscalnote-billsum",
+      "source_name": "FiscalNote/billsum",
+      "adapter": "huggingface_stream",
+      "collection": "NATIONAL_US",
+      "events": [
+        {
+          "status": "streamed",
+          "dataset": "FiscalNote/billsum",
+          "download_key": "530128b24840ea1de8050ff066f0eac5a65c4d9dbc929579ab58939e2be1c873",
+          "items": 10,
+          "chunks": 38,
+          "max_items": 10
+        }
+      ],
+      "chunks": 38
+    },
+    {
+      "source_id": "hugging-face-0-8-huggingface-training-benchmark-datasets-free-law-caselaw-access-project-teraflo",
+      "source_name": "free-law/Caselaw_Access_Project (+ TeraflopAI, harvard-lil/cold-cases)",
+      "status": "credential_required",
+      "reason": "Credential or required API identity is missing."
+    },
+    {
+      "source_id": "hugging-face-0-9-huggingface-training-benchmark-datasets-exploration-lab-il-tur-ildc-on-github",
+      "source_name": "Exploration-Lab/IL-TUR (+ ILDC on GitHub)",
+      "adapter": "huggingface_stream",
+      "collection": "NATIONAL_IN",
+      "events": [
+        {
+          "status": "error",
+          "dataset": "Exploration-Lab/IL-TUR",
+          "reason": "DatasetNotFoundError: Dataset 'Exploration-Lab/IL-TUR' is a gated dataset on the Hub. Visit the dataset page at https://huggingface.co/datasets/Exploration-Lab/IL-TUR to ask for access."
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "hugging-face-0-10-huggingface-training-benchmark-datasets-irlspbru-ruslawod",
+      "source_name": "irlspbru/RusLawOD",
+      "adapter": "git_or_hf",
+      "collection": "NATIONAL_RU",
+      "events": [
+        {
+          "url": "https://github.com/irlcode/RusLawOD",
+          "status": "downloaded",
+          "download_key": "8806c0c01e747a7d3a181df613453b013847bd46e3706735462fccbcfc66c94e",
+          "bytes": 322662,
+          "sha256": "814ecb1e8c6974a943b7fc0db31cce419590c88dbf23497268abdc33f31da781",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\hugging-face-0-10-huggingface-training-benchmark-datasets-irlspbru-ruslawod\\814ecb1e8c6974a943b7.html",
+          "chunks": 214
+        }
+      ],
+      "chunks": 214
+    },
+    {
+      "source_id": "hugging-face-0-11-huggingface-training-benchmark-datasets-lexlms-lex-files-lexfiles",
+      "source_name": "lexlms/lex_files (LeXFiles)",
+      "adapter": "huggingface_stream",
+      "collection": "NATIONAL_US",
+      "events": [
+        {
+          "status": "streamed",
+          "dataset": "lexlms/lex_files",
+          "download_key": "e3604fd8e082e79b68cd259fc24b097bd120897ff4f28d9f89e20295bd5222c7",
+          "items": 10,
+          "chunks": 38,
+          "max_items": 10
+        }
+      ],
+      "chunks": 38
+    },
+    {
+      "source_id": "hugging-face-0-12-huggingface-training-benchmark-datasets-alea-institute-kl3m-data",
+      "source_name": "alea-institute/kl3m-data-*",
+      "status": "credential_required",
+      "reason": "Credential or required API identity is missing."
+    },
+    {
+      "source_id": "hugging-face-0-13-huggingface-training-benchmark-datasets-theatticusproject-cuad-qa",
+      "source_name": "theatticusproject/cuad-qa",
+      "adapter": "huggingface_stream",
+      "collection": "COMMENTARY",
+      "events": [
+        {
+          "status": "error",
+          "dataset": "theatticusproject/cuad-qa",
+          "reason": "RuntimeError: Dataset scripts are no longer supported, but found cuad-qa.py"
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "hugging-face-0-14-huggingface-training-benchmark-datasets-helsinki-nlp-un-pc-un-parallel-corpus",
+      "source_name": "Helsinki-NLP/un_pc (UN Parallel Corpus)",
+      "adapter": "huggingface_stream",
+      "collection": "COMMENTARY",
+      "events": [
+        {
+          "status": "error",
+          "dataset": "Helsinki-NLP/un_pc",
+          "reason": "ValueError: Config name is missing.\nPlease pick one among the available configs: ['ar-en', 'ar-es', 'ar-fr', 'ar-ru', 'ar-zh', 'en-es', 'en-fr', 'en-ru', 'en-zh', 'es-fr', 'es-ru', 'es-zh', 'fr-ru', 'fr-zh', 'ru-zh']\nExample of usage:\n\t`load_dataset('Helsinki-NLP/un_pc', 'ar-en')`"
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "hugging-face-0-15-huggingface-training-benchmark-datasets-knesset-corpus-goldin-et-al-2024",
+      "source_name": "Knesset Corpus (Goldin et al., 2024)",
+      "adapter": "http",
+      "collection": "NATIONAL_IL",
+      "events": [
+        {
+          "url": "https://arxiv.org/abs/2405.18115",
+          "status": "downloaded",
+          "download_key": "f0a74f0a8b2d06ecf2c5747e65ed7f1191a2f4ed5e9f8bf40d295ed8835a8f83",
+          "bytes": 47241,
+          "sha256": "ca77249c9abcbfe6af54f6d591339d0987bb5371de7c36198cbb2372c4a00e51",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\hugging-face-0-15-huggingface-training-benchmark-datasets-knesset-corpus-goldin-et-al-2024\\ca77249c9abcbfe6af54.html",
+          "chunks": 3
+        }
+      ],
+      "chunks": 3
+    },
+    {
+      "source_id": "international-0-0-international-bodies-international-court-of-justice-icj",
+      "source_name": "International Court of Justice (ICJ)",
+      "adapter": "http",
+      "collection": "COMMENTARY",
+      "events": [
+        {
+          "url": "https://www.icj-cij.org",
+          "status": "downloaded",
+          "download_key": "337c1a9b4e74316408b5b66dd0a0fa8851bf7ff09eeba2a07684d5a417ac07f6",
+          "bytes": 6042,
+          "sha256": "9c29111af5b70f272b560b7d299a82ff09899dd176d043b77f736f33eebd8c0f",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-0-international-bodies-international-court-of-justice-icj\\9c29111af5b70f272b56.html",
+          "chunks": 6
+        }
+      ],
+      "chunks": 6
+    },
+    {
+      "source_id": "international-0-1-international-bodies-international-criminal-court-icc-case-law-database",
+      "source_name": "International Criminal Court (ICC) + Case Law Database",
+      "status": "permission_required",
+      "reason": "Permission/license confirmation required before bulk ingestion."
+    },
+    {
+      "source_id": "international-0-2-international-bodies-icc-legal-tools-database",
+      "source_name": "ICC Legal Tools Database",
+      "status": "permission_required",
+      "reason": "Permission/license confirmation required before bulk ingestion."
+    },
+    {
+      "source_id": "international-0-3-international-bodies-un-treaty-collection",
+      "source_name": "UN Treaty Collection",
+      "adapter": "http",
+      "collection": "COMMENTARY",
+      "events": [
+        {
+          "url": "https://treaties.un.org",
+          "status": "downloaded",
+          "download_key": "7710f5a2fcfedb1fe0994c7b993954c194ac1e99bbedf3ff71baa6edab1ff300",
+          "bytes": 166721,
+          "sha256": "f408f2bcd0ae2729fb70b8de79da47170fc707549370c2b4379f0cf465ae11f0",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-3-international-bodies-un-treaty-collection\\f408f2bcd0ae2729fb70.html",
+          "chunks": 168
+        }
+      ],
+      "chunks": 168
+    },
+    {
+      "source_id": "international-0-4-international-bodies-un-digital-library",
+      "source_name": "UN Digital Library",
+      "adapter": "oai_pmh",
+      "collection": "COMMENTARY",
+      "events": [
+        {
+          "url": "https://digitallibrary.un.org/oai2d?verb=Identify",
+          "status": "downloaded",
+          "download_key": "2ef0f0da23821d834ffa216f17e578c2e5bf869861e4fba6f657556232abae7b",
+          "bytes": 1991,
+          "sha256": "820a82f54032d5272a3a75f65924888377ca762c8bbcb557db778431f1d7f2ed",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-4-international-bodies-un-digital-library\\820a82f54032d5272a3a.xml",
+          "chunks": 1
+        },
+        {
+          "url": "https://digitallibrary.un.org",
+          "status": "downloaded",
+          "download_key": "47581d1c0d8e6d0ba34450cb82fec7010e22068e8412606c49a8766b1adf1ddd",
+          "bytes": 2003,
+          "sha256": "4eb517da8d6e2865c3598796c65a13bdc9ea66388cc11f4f7362f9c86e9682d2",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-4-international-bodies-un-digital-library\\4eb517da8d6e2865c359.html",
+          "chunks": 0
+        }
+      ],
+      "chunks": 1
+    },
+    {
+      "source_id": "international-0-5-international-bodies-un-official-document-system-ods",
+      "source_name": "UN Official Document System (ODS)",
+      "adapter": "http",
+      "collection": "COMMENTARY",
+      "events": [
+        {
+          "url": "https://documents.un.org",
+          "status": "downloaded",
+          "download_key": "d965ee6b24edda0622cb535b1c475b1a9c631cf499eb759c3ed92b5ff3483726",
+          "bytes": 1731,
+          "sha256": "0694dd4ad2609bada8d3cffbd8df005c8bc39c5de92e90b0f85cca04ce703f4f",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-5-international-bodies-un-official-document-system-ods\\0694dd4ad2609bada8d3.html",
+          "chunks": 1
+        },
+        {
+          "url": "https://docs.un.org",
+          "status": "downloaded",
+          "download_key": "38e13d337c452cf491b3f87bf90c0c6f2fef772759c17e7582a174b81c459404",
+          "bytes": 12457,
+          "sha256": "a0bb89b2f0d0f7844730ac9d2b4abf7a9dda2a30584436c24982ab0df7a1dbbf",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-5-international-bodies-un-official-document-system-ods\\a0bb89b2f0d0f7844730.html",
+          "chunks": 45
+        }
+      ],
+      "chunks": 46
+    },
+    {
+      "source_id": "international-0-6-international-bodies-un-audiovisual-library-of-international-law",
+      "source_name": "UN Audiovisual Library of International Law",
+      "adapter": "http",
+      "collection": "COMMENTARY",
+      "events": [
+        {
+          "url": "https://legal.un.org/avl/",
+          "status": "downloaded",
+          "download_key": "4487a86b91e05a546f26d0d98515cf0fb47d960db337054ce518596e4e6c51a1",
+          "bytes": 1069,
+          "sha256": "e5b9230b9cb7aaba93f967fcd9b1879685e014dbbf9ab25d02eb4a5f9f0279a5",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-6-international-bodies-un-audiovisual-library-of-international-law\\e5b9230b9cb7aaba93f9.html",
+          "chunks": 1
+        }
+      ],
+      "chunks": 1
+    },
+    {
+      "source_id": "international-0-7-international-bodies-international-law-commission",
+      "source_name": "International Law Commission",
+      "adapter": "oai_pmh",
+      "collection": "COMMENTARY",
+      "events": [
+        {
+          "url": "https://digitallibrary.un.org/oai2d?verb=Identify",
+          "status": "downloaded",
+          "download_key": "435d4daa6ec05baa54cb73965d731dcef6a7c174cf266ea1b1864830042f0e96",
+          "bytes": 1991,
+          "sha256": "d6add3a73aa1e008fc0b6c1c6ceb1b4e2493e348c7b94add605db7acc645a9ad",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-7-international-bodies-international-law-commission\\d6add3a73aa1e008fc0b.xml",
+          "chunks": 1
+        },
+        {
+          "url": "https://legal.un.org/ilc/",
+          "status": "downloaded",
+          "download_key": "f988f9e2957cdb912add2c660cc390ced0432f5e0a5c51b9e4cd880085d492cb",
+          "bytes": 110209,
+          "sha256": "352577055ee637f3abcd0c54e398b7dfab75dea18748a094d470c20191de8dc6",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-7-international-bodies-international-law-commission\\352577055ee637f3abcd.html",
+          "chunks": 139
+        }
+      ],
+      "chunks": 140
+    },
+    {
+      "source_id": "international-0-8-international-bodies-nato",
+      "source_name": "NATO",
+      "adapter": "http",
+      "collection": "COMMENTARY",
+      "events": [
+        {
+          "url": "https://www.nato.int",
+          "status": "downloaded",
+          "download_key": "2a6a1f798ea00c18630802a2742d3a28c1d4f184b2ee766621c68308dd7c16cb",
+          "bytes": 302696,
+          "sha256": "0c65557fe9d31a377e103de34ffc938c4c6006bb1c602a6369d1e6dd3616bc70",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-8-international-bodies-nato\\0c65557fe9d31a377e10.html",
+          "chunks": 677
+        },
+        {
+          "url": "https://archives.nato.int",
+          "status": "downloaded",
+          "download_key": "476bea4fe652d1b5818af9f8665ce8345f9f3c2d7792c7d757bc1a9baf007448",
+          "bytes": 5657,
+          "sha256": "28725d5d537b2e7cd17d1c5bfd81d74e4192b225cbc2c00ef544689011065adf",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-8-international-bodies-nato\\28725d5d537b2e7cd17d.html",
+          "chunks": 1
+        }
+      ],
+      "chunks": 678
+    },
+    {
+      "source_id": "international-0-9-international-bodies-nato-stanags-public-subset",
+      "source_name": "NATO STANAGs (public subset)",
+      "adapter": "http",
+      "collection": "COMMENTARY",
+      "events": [
+        {
+          "url": "https://nso.nato.int",
+          "status": "http_error",
+          "code": 403,
+          "reason": "HTTP Error 403: Forbidden"
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "international-0-10-international-bodies-wilson-center-digital-archive-incl-cwihp",
+      "source_name": "Wilson Center Digital Archive (incl. CWIHP)",
+      "adapter": "http",
+      "collection": "COMMENTARY",
+      "events": [
+        {
+          "url": "https://digitalarchive.wilsoncenter.org",
+          "status": "http_error",
+          "code": 403,
+          "reason": "HTTP Error 403: Forbidden"
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "international-0-11-international-bodies-parallel-history-project-php-eth-zurich",
+      "source_name": "Parallel History Project (PHP) — ETH Zurich",
+      "status": "metadata_only",
+      "reason": "Parallel History Project is defunct; keep metadata only."
+    },
+    {
+      "source_id": "international-0-12-international-bodies-icrc-ihl-databases",
+      "source_name": "ICRC IHL Databases",
+      "status": "permission_required",
+      "reason": "Permission/license confirmation required before bulk ingestion."
+    },
+    {
+      "source_id": "international-0-13-international-bodies-wto-dispute-settlement",
+      "source_name": "WTO Dispute Settlement",
+      "adapter": "http",
+      "collection": "CASE_LAW",
+      "events": [
+        {
+          "url": "https://www.wto.org/english/tratop_e/dispu_e/",
+          "status": "http_error",
+          "code": 403,
+          "reason": "HTTP Error 403: Forbidden"
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "international-0-14-international-bodies-itlos",
+      "source_name": "ITLOS",
+      "status": "permission_required",
+      "reason": "Permission/license confirmation required before bulk ingestion."
+    },
+    {
+      "source_id": "international-0-15-international-bodies-permanent-court-of-arbitration-pca",
+      "source_name": "Permanent Court of Arbitration (PCA)",
+      "status": "permission_required",
+      "reason": "Permission/license confirmation required before bulk ingestion."
+    },
+    {
+      "source_id": "international-0-16-international-bodies-wipo-lex",
+      "source_name": "WIPO Lex",
+      "adapter": "http",
+      "collection": "COMMENTARY",
+      "events": [
+        {
+          "url": "https://www.wipo.int/wipolex",
+          "status": "downloaded",
+          "download_key": "542105ed47b96cd6aad9b566e673310d1172b0fe35d9446c90c28f890b774ff3",
+          "bytes": 125649,
+          "sha256": "9e8d6e4d5f844187bb8e9b8b5e74013450e253ff4ef454e4e2ebac53aa86d14d",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-16-international-bodies-wipo-lex\\9e8d6e4d5f844187bb8e.html",
+          "chunks": 6
+        }
+      ],
+      "chunks": 6
+    },
+    {
+      "source_id": "international-0-17-international-bodies-inter-american-court-of-human-rights-iacthr",
+      "source_name": "Inter-American Court of Human Rights (IACtHR)",
+      "adapter": "http",
+      "collection": "CASE_LAW",
+      "events": [
+        {
+          "url": "https://www.corteidh.or.cr",
+          "status": "downloaded",
+          "download_key": "3585c8bffda680f726ddf95397e87696637a5545f63e9fcb6666e442b5c91e7e",
+          "bytes": 55724,
+          "sha256": "054e0cd1d8d3cededa0dd7867d1b533f9564b211fb6edb737f01fa1f5c0aba84",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-17-international-bodies-inter-american-court-of-human-rights-iacthr\\054e0cd1d8d3cededa0d.html",
+          "chunks": 109
+        }
+      ],
+      "chunks": 109
+    },
+    {
+      "source_id": "international-0-18-international-bodies-african-court-on-human-and-peoples-rights",
+      "source_name": "African Court on Human and Peoples' Rights",
+      "adapter": "http",
+      "collection": "CASE_LAW",
+      "events": [
+        {
+          "url": "https://www.african-court.org",
+          "status": "downloaded",
+          "download_key": "6edde70e3b708d0636549bfc9cf5b5422e1972860b03a5a027fda1dd7bb97b9b",
+          "bytes": 351010,
+          "sha256": "bb10d4f2ba70989bd6b3f4eab44e5ea4be289c6a17c24a10e81436dcd8ac97ef",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-18-international-bodies-african-court-on-human-and-peoples-rights\\bb10d4f2ba70989bd6b3.html",
+          "chunks": 284
+        }
+      ],
+      "chunks": 284
+    },
+    {
+      "source_id": "international-0-19-international-bodies-icsid",
+      "source_name": "ICSID",
+      "adapter": "http",
+      "collection": "CASE_LAW",
+      "events": [
+        {
+          "url": "https://icsid.worldbank.org",
+          "status": "downloaded",
+          "download_key": "b05afb0bc6a1d7eca6d0b1aad21246128b9aadb89b9bb39dbb6e107770a97174",
+          "bytes": 95863,
+          "sha256": "f1ac9ad316e73d65bcdbc06a7d67c113d3a5fe33166241e0eec4eb8f6196d60c",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-19-international-bodies-icsid\\f1ac9ad316e73d65bcdb.html",
+          "chunks": 167
+        }
+      ],
+      "chunks": 167
+    },
+    {
+      "source_id": "international-0-20-international-bodies-unctad-isds-navigator",
+      "source_name": "UNCTAD ISDS Navigator",
+      "adapter": "http",
+      "collection": "CASE_LAW",
+      "events": [
+        {
+          "url": "https://investmentpolicy.unctad.org/investment-dispute-settlement",
+          "status": "downloaded",
+          "download_key": "99e6edc3e3f723aed18da2a8199954c6041c6893af3fd16cf083b51ff0a959e8",
+          "bytes": 1584819,
+          "sha256": "77766d90da88afcbf94e4972c28db55074438f2bf74c064cc61888e4965dddfe",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-20-international-bodies-unctad-isds-navigator\\77766d90da88afcbf94e.html",
+          "chunks": 2323
+        }
+      ],
+      "chunks": 2323
+    },
+    {
+      "source_id": "international-0-21-international-bodies-jusmundi",
+      "source_name": "JusMundi",
+      "status": "metadata_only",
+      "reason": "JusMundi is proprietary and not available for open bulk ingestion."
+    },
+    {
+      "source_id": "international-0-22-international-bodies-max-planck-encyclopedias-of-international-law-mpepil-mpe",
+      "source_name": "Max Planck Encyclopedias of International Law (MPEPIL/MPEiPro)",
+      "adapter": "http",
+      "collection": "COMMENTARY",
+      "events": [
+        {
+          "url": "https://opil.ouplaw.com/home/mpil",
+          "status": "downloaded",
+          "download_key": "c4f8b45cb4bd894ff148046cdc4208291efc4c2103557f65c15e247c10b0e7bf",
+          "bytes": 1994,
+          "sha256": "736e8176f4430b2f706f50c27bfd89fdb1207021f557eea32d744969fec2526d",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-22-international-bodies-max-planck-encyclopedias-of-international-law-mpepil-mpe\\736e8176f4430b2f706f.html",
+          "chunks": 0
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "international-0-23-international-bodies-icty-ictr-irmct",
+      "source_name": "ICTY / ICTR / IRMCT",
+      "adapter": "http",
+      "collection": "CASE_LAW",
+      "events": [
+        {
+          "url": "https://www.icty.org",
+          "status": "downloaded",
+          "download_key": "d79f9a821cdb6038c19034cdc6822a6b605a95d91fcbb5f0fcf8e4c1e184c1f0",
+          "bytes": 34697,
+          "sha256": "f3d9e77a370191789935c53829d0c6285f8f5a5dd1389276516051dcb3db1d01",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-23-international-bodies-icty-ictr-irmct\\f3d9e77a370191789935.html",
+          "chunks": 46
+        },
+        {
+          "url": "https://unictr.irmct.org",
+          "status": "downloaded",
+          "download_key": "c2ded9604c0c9b23b4a273f9d69e458374c82b36aff65b092d24515ec17f752b",
+          "bytes": 20462,
+          "sha256": "30734c9af051193aa215fca7e33328d875ef1991674d8df61f96e4b22a0a62ef",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-23-international-bodies-icty-ictr-irmct\\30734c9af051193aa215.html",
+          "chunks": 28
+        },
+        {
+          "url": "https://cld.irmct.org",
+          "status": "downloaded",
+          "download_key": "a94de6841227cc054f0bfdd3a23acf001da26ce4dc86751ec6eb6e2ea045fe1b",
+          "bytes": 8865,
+          "sha256": "ee08456ee675c5fdb9e386834d8193e9ce34e5c83fc58b1414b0570a34013da6",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-23-international-bodies-icty-ictr-irmct\\ee08456ee675c5fdb9e3.html",
+          "chunks": 21
+        },
+        {
+          "url": "https://ucr.irmct.org",
+          "status": "downloaded",
+          "download_key": "2f6f1d4c7392c5de73246475f695f52d19d72a524bc75316ff839ff91c79960f",
+          "bytes": 49257,
+          "sha256": "1e142a5b0f4816de2d7e9a561225fedf07cc95d80288a6746e4b3ad6968bf405",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-23-international-bodies-icty-ictr-irmct\\1e142a5b0f4816de2d7e.html",
+          "chunks": 80
+        }
+      ],
+      "chunks": 175
+    },
+    {
+      "source_id": "mix-0-0-us-courtlistener-free-law-project",
+      "source_name": "CourtListener (Free Law Project)",
+      "status": "credential_required",
+      "reason": "Credential or required API identity is missing."
+    },
+    {
+      "source_id": "mix-0-1-us-govinfo-gpo",
+      "source_name": "GovInfo (GPO)",
+      "status": "credential_required",
+      "reason": "Credential or required API identity is missing."
+    },
+    {
+      "source_id": "mix-0-2-us-office-of-law-revision-counsel-u-s-code",
+      "source_name": "Office of Law Revision Counsel (U.S. Code)",
+      "status": "metadata_only",
+      "reason": "No usable URL was present in the catalog record."
+    },
+    {
+      "source_id": "mix-0-3-us-gpo-bulk-data-ecfr-cfr",
+      "source_name": "GPO Bulk Data (eCFR/CFR)",
+      "status": "credential_required",
+      "reason": "Credential or required API identity is missing."
+    },
+    {
+      "source_id": "mix-1-0-uk-national-archives-find-case-law-api",
+      "source_name": "National Archives Find Case Law API",
+      "status": "permission_required",
+      "reason": "Permission/license confirmation required before bulk ingestion."
+    },
+    {
+      "source_id": "mix-1-1-uk-legislation-gov-uk-api",
+      "source_name": "Legislation.gov.uk API",
+      "adapter": "uk_legislation_api",
+      "collection": "NATIONAL_UK",
+      "events": [
+        {
+          "url": "https://www.legislation.gov.uk/ukpga/data.feed",
+          "status": "downloaded",
+          "download_key": "925027512c01417ae3924f736ebad59326728073d31d1de783e114c47128a3d7",
+          "bytes": 2020,
+          "sha256": "8f2241492f33ecf4d921d2a6b24b89b9fe861e650616333cc1a0606c60f9c182",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\mix-1-1-uk-legislation-gov-uk-api\\8f2241492f33ecf4d921.html",
+          "chunks": 0
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "mix-1-2-uk-bailii-british-irish-legal-information-institute",
+      "source_name": "BAILII (British & Irish Legal Information Institute)",
+      "status": "metadata_only",
+      "reason": "BAILII prohibits bulk download/external indexing."
+    },
+    {
+      "source_id": "mix-2-0-eu-eur-lex-eu-cellar-api",
+      "source_name": "EUR-Lex / EU Cellar API",
+      "adapter": "eurlex_cellar",
+      "collection": "NATIONAL_EU",
+      "events": [
+        {
+          "url": "https://op.europa.eu/en/web/cellar/cellar-data",
+          "status": "downloaded",
+          "download_key": "7e966402e06a7ca4239e01b2debad2c07903c881a6d0279ef6b192cb0968460b",
+          "bytes": 328158,
+          "sha256": "b3c6dc48bfb461386838b68dec135019dfd48536e7556ff9abb415a69aad476a",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\mix-2-0-eu-eur-lex-eu-cellar-api\\b3c6dc48bfb461386838.html",
+          "chunks": 153
+        }
+      ],
+      "chunks": 153
+    },
+    {
+      "source_id": "mix-2-1-eu-curia-cjeu-case-law-database",
+      "source_name": "Curia (CJEU case-law database)",
+      "status": "metadata_only",
+      "reason": "No usable URL was present in the catalog record."
+    },
+    {
+      "source_id": "mix-2-2-eu-eu-open-data-portal-data-europa-eu",
+      "source_name": "EU Open Data Portal (data.europa.eu)",
+      "status": "metadata_only",
+      "reason": "No usable URL was present in the catalog record."
+    },
+    {
+      "source_id": "mix-3-0-in-aws-open-data-indian-supreme-court-judgments",
+      "source_name": "AWS Open Data – Indian Supreme Court Judgments",
+      "adapter": "open_data_http",
+      "collection": "NATIONAL_IN",
+      "events": [],
+      "chunks": 0
+    },
+    {
+      "source_id": "mix-3-1-in-india-code-legislative-repository",
+      "source_name": "India Code (legislative repository)",
+      "status": "metadata_only",
+      "reason": "No usable URL was present in the catalog record."
+    },
+    {
+      "source_id": "mix-3-2-in-e-gazette-of-india",
+      "source_name": "E-Gazette of India",
+      "status": "metadata_only",
+      "reason": "No usable URL was present in the catalog record."
+    },
+    {
+      "source_id": "mix-4-0-russia-official-legal-information-portal-pravo-gov-ru",
+      "source_name": "Official Legal Information Portal (pravo.gov.ru)",
+      "status": "metadata_only",
+      "reason": "No usable URL was present in the catalog record."
+    },
+    {
+      "source_id": "mix-4-1-russia-supreme-court-of-the-russian-federation",
+      "source_name": "Supreme Court of the Russian Federation",
+      "status": "metadata_only",
+      "reason": "No usable URL was present in the catalog record."
+    },
+    {
+      "source_id": "mix-4-2-russia-constitutional-court-of-the-russian-federation",
+      "source_name": "Constitutional Court of the Russian Federation",
+      "status": "metadata_only",
+      "reason": "No usable URL was present in the catalog record."
+    },
+    {
+      "source_id": "mix-5-0-israel-supreme-court-of-israel-court-gov-il",
+      "source_name": "Supreme Court of Israel (court.gov.il)",
+      "status": "metadata_only",
+      "reason": "No usable URL was present in the catalog record."
+    },
+    {
+      "source_id": "mix-5-1-israel-israeli-supreme-court-database-iscd",
+      "source_name": "Israeli Supreme Court Database (ISCD)",
+      "status": "metadata_only",
+      "reason": "No usable URL was present in the catalog record."
+    },
+    {
+      "source_id": "mix-6-0-international-international-court-of-justice-icj",
+      "source_name": "International Court of Justice (ICJ)",
+      "status": "metadata_only",
+      "reason": "No usable URL was present in the catalog record."
+    },
+    {
+      "source_id": "mix-6-1-international-cd-icj-corpus-of-decisions-icj",
+      "source_name": "CD-ICJ (Corpus of Decisions: ICJ)",
+      "status": "metadata_only",
+      "reason": "No usable URL was present in the catalog record."
+    },
+    {
+      "source_id": "mix-6-2-international-un-treaty-collection",
+      "source_name": "UN Treaty Collection",
+      "status": "metadata_only",
+      "reason": "No usable URL was present in the catalog record."
+    },
+    {
+      "source_id": "mix-6-3-international-avalon-project-yale-law-school",
+      "source_name": "Avalon Project (Yale Law School)",
+      "status": "metadata_only",
+      "reason": "No usable URL was present in the catalog record."
+    },
+    {
+      "source_id": "national-eu-0-0-european-union-eur-lex-cellar",
+      "source_name": "EUR-Lex + CELLAR",
+      "adapter": "eurlex_cellar",
+      "collection": "NATIONAL_EU",
+      "events": [
+        {
+          "url": "https://op.europa.eu/en/web/cellar/cellar-data",
+          "status": "downloaded",
+          "download_key": "bc78b2399834109f273dc713010fdd889a1024405d8c1c185c3acb9710837581",
+          "bytes": 328158,
+          "sha256": "ed12cf08659b43d9904a8e4f0e43a72e6a8b4bb1d39e5f120261fb80e8be8b39",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-eu-0-0-european-union-eur-lex-cellar\\ed12cf08659b43d9904a.html",
+          "chunks": 153
+        },
+        {
+          "url": "https://eur-lex.europa.eu",
+          "status": "downloaded",
+          "download_key": "6aca0dae0f7df9310d6d534e588741cc1d6153bd7347e95169c002a3abe6a464",
+          "bytes": 12430,
+          "sha256": "81356f6070131b6070f0ec2a3d9cf523375909b4f7e388c2d46a83db1ea7c2a2",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-eu-0-0-european-union-eur-lex-cellar\\81356f6070131b6070f0.html",
+          "chunks": 10
+        }
+      ],
+      "chunks": 163
+    },
+    {
+      "source_id": "national-eu-0-1-european-union-curia-court-of-justice-of-the-eu",
+      "source_name": "CURIA (Court of Justice of the EU)",
+      "adapter": "eurlex_cellar",
+      "collection": "NATIONAL_EU",
+      "events": [
+        {
+          "url": "https://op.europa.eu/en/web/cellar/cellar-data",
+          "status": "downloaded",
+          "download_key": "e0da1f3415ee2886952f52697d5fd1b3c5bfa49d956e3b2da2e37061dd4dba92",
+          "bytes": 328158,
+          "sha256": "6aceef6faa9d01ae62ff78e3032859203aedcea4190c55bf4aa037699dfa3feb",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-eu-0-1-european-union-curia-court-of-justice-of-the-eu\\6aceef6faa9d01ae62ff.html",
+          "chunks": 153
+        },
+        {
+          "url": "https://curia.europa.eu",
+          "status": "downloaded",
+          "download_key": "27179c9104de86fb02a11987672764b0b1496367489fda9d7f5d54fbd682ad30",
+          "bytes": 171767,
+          "sha256": "c067a1beca7e7f254973867651ccb7fb3857ececcc79ebd5ac0251ac257df4da",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-eu-0-1-european-union-curia-court-of-justice-of-the-eu\\c067a1beca7e7f254973.html",
+          "chunks": 229
+        }
+      ],
+      "chunks": 382
+    },
+    {
+      "source_id": "national-eu-0-2-european-union-hudoc-european-court-of-human-rights",
+      "source_name": "HUDOC (European Court of Human Rights)",
+      "status": "permission_required",
+      "reason": "Permission/license confirmation required before bulk ingestion."
+    },
+    {
+      "source_id": "national-eu-0-3-european-union-official-journal-of-the-eu",
+      "source_name": "Official Journal of the EU",
+      "adapter": "eurlex_cellar",
+      "collection": "NATIONAL_EU",
+      "events": [
+        {
+          "url": "https://op.europa.eu/en/web/cellar/cellar-data",
+          "status": "downloaded",
+          "download_key": "bf1b3fc3d616b43f2e0377aa98544b92bca1697f664e40668c3fcbb3240ff7b4",
+          "bytes": 326673,
+          "sha256": "f701753861c56ce53cb10bda2d82ab6ee2fd83d96b9c47b169e2f6b5a9f0dc09",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-eu-0-3-european-union-official-journal-of-the-eu\\f701753861c56ce53cb1.html",
+          "chunks": 153
+        },
+        {
+          "url": "https://eur-lex.europa.eu/oj/direct-access.html",
+          "status": "downloaded",
+          "download_key": "2e7076ac7a288436cc29321036e8efd4286e60b32e57390a70172359704851de",
+          "bytes": 99565,
+          "sha256": "e5464ddad5e15fbc0185137552d70159bfbbd42a7490f9878e265417f6681923",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-eu-0-3-european-union-official-journal-of-the-eu\\e5464ddad5e15fbc0185.html",
+          "chunks": 3
+        }
+      ],
+      "chunks": 156
+    },
+    {
+      "source_id": "national-eu-0-4-european-union-edpb-european-data-protection-board",
+      "source_name": "EDPB (European Data Protection Board)",
+      "adapter": "http",
+      "collection": "NATIONAL_EU",
+      "events": [
+        {
+          "url": "https://www.edpb.europa.eu",
+          "status": "downloaded",
+          "download_key": "4c7bba0777d6b6de6a51cb5a3eb304f1fe841ad6f309b2d715e781353e422681",
+          "bytes": 61857,
+          "sha256": "cf4c18ded6fbeb3ba87315d8325e79633601f584b508295658aa485019b823dc",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-eu-0-4-european-union-edpb-european-data-protection-board\\cf4c18ded6fbeb3ba873.html",
+          "chunks": 2
+        }
+      ],
+      "chunks": 2
+    },
+    {
+      "source_id": "national-eu-0-5-european-union-european-parliament-open-data-portal",
+      "source_name": "European Parliament Open Data Portal",
+      "adapter": "http",
+      "collection": "NATIONAL_EU",
+      "events": [
+        {
+          "url": "https://data.europarl.europa.eu",
+          "status": "downloaded",
+          "download_key": "78d09c7a0844ed445fe9158c4734f8d09c0f8915a7f01ffbbb4e489d03ff23f5",
+          "bytes": 2417,
+          "sha256": "56a96f1119be8867a22586272a84addacd83d63b92d742f824980e973f56e2c6",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-eu-0-5-european-union-european-parliament-open-data-portal\\56a96f1119be8867a225.html",
+          "chunks": 0
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "national-eu-0-6-european-union-n-lex",
+      "source_name": "N-Lex",
+      "status": "metadata_only",
+      "reason": "N-Lex is a gateway and does not host ingestible content."
+    },
+    {
+      "source_id": "national-eu-0-7-european-union-eli-european-legislation-identifier-framework",
+      "source_name": "ELI (European Legislation Identifier) framework",
+      "adapter": "eurlex_cellar",
+      "collection": "NATIONAL_EU",
+      "events": [
+        {
+          "url": "https://op.europa.eu/en/web/cellar/cellar-data",
+          "status": "downloaded",
+          "download_key": "f41ea6a86c7eb86d16146e3a809f12c77b5de4ca3004e6f8cc0b9f23412d9777",
+          "bytes": 328158,
+          "sha256": "10412f096adf04ca68c6779690cb70180c4aa7a921a6766bf48809cb1b9a4ca6",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-eu-0-7-european-union-eli-european-legislation-identifier-framework\\10412f096adf04ca68c6.html",
+          "chunks": 153
+        },
+        {
+          "url": "https://eur-lex.europa.eu/eli-register/about.html",
+          "status": "downloaded",
+          "download_key": "d6d1c8501bb6ea96de28511c3cad917a2cbea46fce655ac9a601e11cda0fae86",
+          "bytes": 100901,
+          "sha256": "cdd303dfa79a65da6eafc20f5c2235f37c07db31f7d27ef6e94fe2ba8bda77d8",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-eu-0-7-european-union-eli-european-legislation-identifier-framework\\cdd303dfa79a65da6eaf.html",
+          "chunks": 221
+        }
+      ],
+      "chunks": 374
+    },
+    {
+      "source_id": "national-in-0-0-india-indian-kanoon",
+      "source_name": "Indian Kanoon",
+      "status": "credential_required",
+      "reason": "Credential or required API identity is missing."
+    },
+    {
+      "source_id": "national-in-0-1-india-supreme-court-of-india-e-scr",
+      "source_name": "Supreme Court of India + e-SCR",
+      "adapter": "http",
+      "collection": "NATIONAL_IN",
+      "events": [
+        {
+          "url": "https://main.sci.gov.in",
+          "status": "error",
+          "reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1010)>"
+        },
+        {
+          "url": "https://judgments.ecourts.gov.in",
+          "status": "downloaded",
+          "download_key": "6da3e32ad57223e60f0d24f3f1fe269dba31722e6d036dc0f5dd0507512d7316",
+          "bytes": 19560,
+          "sha256": "5388688bc0cf6ed5f2e0f14670e72f0dc5bf6cf79526550e1d0fa57444541cdb",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-in-0-1-india-supreme-court-of-india-e-scr\\5388688bc0cf6ed5f2e0.html",
+          "chunks": 22
+        }
+      ],
+      "chunks": 22
+    },
+    {
+      "source_id": "national-in-0-2-india-india-code",
+      "source_name": "India Code",
+      "adapter": "oai_pmh",
+      "collection": "NATIONAL_IN",
+      "events": [
+        {
+          "url": "https://digitallibrary.un.org/oai2d?verb=Identify",
+          "status": "downloaded",
+          "download_key": "cc2eb106110a9fea2396ff8fd4f7f63bfff90886b2f21e829b32292974120e08",
+          "bytes": 1991,
+          "sha256": "2638b3e4adcabccc3ce355d1bc9d3c2bab5499bbdf119140319c26ccccc65d2a",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-in-0-2-india-india-code\\2638b3e4adcabccc3ce3.xml",
+          "chunks": 1
+        },
+        {
+          "url": "https://www.indiacode.nic.in",
+          "status": "downloaded",
+          "download_key": "1f0bc01bc14fb0bab997877947c55b2b2c40a5fbcda0f5ca87d771f189f02c43",
+          "bytes": 36471,
+          "sha256": "18f66850e2a42567985e104bc10763028b3f1b57e987774fb916b3c7fd7b3b44",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-in-0-2-india-india-code\\18f66850e2a42567985e.html",
+          "chunks": 82
+        }
+      ],
+      "chunks": 83
+    },
+    {
+      "source_id": "national-in-0-3-india-ecourts-district-hc-aggregation",
+      "source_name": "eCourts (district + HC aggregation)",
+      "status": "metadata_only",
+      "reason": "CAPTCHA-only sources are not ingested automatically."
+    },
+    {
+      "source_id": "national-in-0-4-india-prs-india",
+      "source_name": "PRS India",
+      "adapter": "http",
+      "collection": "NATIONAL_IN",
+      "events": [
+        {
+          "url": "https://prsindia.org",
+          "status": "downloaded",
+          "download_key": "4218ba84a4bdeaddf05cc2d5a55268f596ead88e4bacece379b44be7a4605923",
+          "bytes": 48288,
+          "sha256": "d5c37e13cb7833e4a3d6dcfd4b158e929f97f6b46c895ff286f4715d8d341fca",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-in-0-4-india-prs-india\\d5c37e13cb7833e4a3d6.html",
+          "chunks": 161
+        }
+      ],
+      "chunks": 161
+    },
+    {
+      "source_id": "national-in-0-5-india-high-court-websites-delhi-bombay-kerala-etc",
+      "source_name": "High Court websites (Delhi, Bombay, Kerala, etc.)",
+      "status": "metadata_only",
+      "reason": "CAPTCHA-only sources are not ingested automatically."
+    },
+    {
+      "source_id": "national-in-0-6-india-legislative-department-ministry-of-law-justice",
+      "source_name": "Legislative Department (Ministry of Law & Justice)",
+      "adapter": "http",
+      "collection": "NATIONAL_IN",
+      "events": [
+        {
+          "url": "https://legislative.gov.in",
+          "status": "downloaded",
+          "download_key": "4bdd1dd1f4d5b5201909bd4af506d075fa4638d43b00088552c42ce5572c5198",
+          "bytes": 6626,
+          "sha256": "17d624a2da6e55f5514db577892e2da0fc44213a66e50fadaf1066ed868195f4",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-in-0-6-india-legislative-department-ministry-of-law-justice\\17d624a2da6e55f5514d.html",
+          "chunks": 0
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "national-in-0-7-india-gazette-of-india",
+      "source_name": "Gazette of India",
+      "adapter": "http",
+      "collection": "NATIONAL_IN",
+      "events": [
+        {
+          "url": "https://egazette.gov.in",
+          "status": "downloaded",
+          "download_key": "e35a927031049b888bd2c7a8814e603cec3d3a6a4af0a6ff5b992e4e1a7a1dab",
+          "bytes": 65443,
+          "sha256": "b227f75b13ec7c86b0258c5ec3b36df24100541b00b394f9447f0961948d4ecd",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-in-0-7-india-gazette-of-india\\b227f75b13ec7c86b025.html",
+          "chunks": 82
+        }
+      ],
+      "chunks": 82
+    },
+    {
+      "source_id": "national-israel-0-0-israel-israel-supreme-court",
+      "source_name": "Israel Supreme Court",
+      "status": "permission_required",
+      "reason": "Permission/license confirmation required before bulk ingestion."
+    },
+    {
+      "source_id": "national-israel-0-1-israel-knesset-open-knesset",
+      "source_name": "Knesset + Open Knesset",
+      "adapter": "http",
+      "collection": "NATIONAL_IL",
+      "events": [
+        {
+          "url": "https://main.knesset.gov.il",
+          "status": "downloaded",
+          "download_key": "3ae5c0bb94cf3aed717e47ff83d9c5807902a247d3f834a41d149d514647ab54",
+          "bytes": 131618,
+          "sha256": "67e46665bf51696b35e499315c3f15c54efbc972b0e6a0a4ce9b8dba7758be77",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-israel-0-1-israel-knesset-open-knesset\\67e46665bf51696b35e4.html",
+          "chunks": 2
+        },
+        {
+          "url": "https://knesset.gov.il/openknessetdata",
+          "status": "downloaded",
+          "download_key": "1a20558f59457d3acb371a473806dd31057edac7252daa08529d7ff7457b7e15",
+          "bytes": 131618,
+          "sha256": "67e46665bf51696b35e499315c3f15c54efbc972b0e6a0a4ce9b8dba7758be77",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-israel-0-1-israel-knesset-open-knesset\\67e46665bf51696b35e4.html",
+          "chunks": 2
+        },
+        {
+          "url": "https://oknesset.org",
+          "status": "downloaded",
+          "download_key": "6d5ea8f942622e1e183c6db72db4c4ecc31340c2b3fae6f5c570c0e08e168df1",
+          "bytes": 18678,
+          "sha256": "0488dded1b8faefb80f10ed8409622b7a947f16f5b6dcfa5848e3ba0457f4d96",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-israel-0-1-israel-knesset-open-knesset\\0488dded1b8faefb80f1.html",
+          "chunks": 2
+        }
+      ],
+      "chunks": 6
+    },
+    {
+      "source_id": "national-israel-0-2-israel-reshumot-official-gazette",
+      "source_name": "Reshumot (Official Gazette)",
+      "adapter": "http",
+      "collection": "NATIONAL_IL",
+      "events": [
+        {
+          "url": "https://www.gov.il/he/departments/publications",
+          "status": "http_error",
+          "code": 403,
+          "reason": "HTTP Error 403: Forbidden"
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "national-israel-0-3-israel-ministry-of-justice",
+      "source_name": "Ministry of Justice",
+      "adapter": "http",
+      "collection": "NATIONAL_IL",
+      "events": [
+        {
+          "url": "https://www.justice.gov.il",
+          "status": "error",
+          "reason": "URLError: <urlopen error [SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1010)>"
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "national-israel-0-4-israel-versa-cardozo-israeli-supreme-court-project",
+      "source_name": "Versa (Cardozo Israeli Supreme Court Project)",
+      "adapter": "http",
+      "collection": "NATIONAL_IL",
+      "events": [
+        {
+          "url": "https://versa.cardozo.yu.edu",
+          "status": "downloaded",
+          "download_key": "31f83f1cf616f89dcc1688f3dd78c997666f52e073e587743a35bb1e65e1f2b2",
+          "bytes": 73967,
+          "sha256": "299a5eb9c5137b6b5522b012a0d841c5e7f5ca764167667dec3b2ff3c14969f8",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-israel-0-4-israel-versa-cardozo-israeli-supreme-court-project\\299a5eb9c5137b6b5522.html",
+          "chunks": 135
+        }
+      ],
+      "chunks": 135
+    },
+    {
+      "source_id": "national-israel-0-5-israel-data-gov-il",
+      "source_name": "data.gov.il",
+      "adapter": "ckan_api",
+      "collection": "NATIONAL_IL",
+      "events": [
+        {
+          "url": "https://data.gov.il/api/3/action/package_search?rows=5&q=law",
+          "status": "downloaded",
+          "download_key": "6ae8d53fe593e7382d12b912c9e9af0aa135b037fde0d4c56f1fd867b6c365c3",
+          "bytes": 42866,
+          "sha256": "12270cd20ef27bc0d0dd4f0df6142ba3df8f1150ce72072b1abb6012115e0e3a",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-israel-0-5-israel-data-gov-il\\12270cd20ef27bc0d0dd.json",
+          "chunks": 4
+        },
+        {
+          "url": "https://data.gov.il",
+          "status": "downloaded",
+          "download_key": "cd2c96c59b3dfdfe14a0cce58121f8a439694eb71898ed1634630a5b979c75ad",
+          "bytes": 42722,
+          "sha256": "e0fd8a425dded19657c4192d0281c8553cbfcb86009e27730d0a30197c3a00ac",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-israel-0-5-israel-data-gov-il\\e0fd8a425dded19657c4.html",
+          "chunks": 0
+        }
+      ],
+      "chunks": 4
+    },
+    {
+      "source_id": "national-russia-0-0-russia-ruslawod-academic-corpus",
+      "source_name": "RusLawOD (academic corpus)",
+      "adapter": "git_or_hf",
+      "collection": "NATIONAL_RU",
+      "events": [
+        {
+          "url": "https://github.com/irlcode/RusLawOD",
+          "status": "downloaded",
+          "download_key": "4d9205cdc1625958615b45636abf984edc00c100e0140b4a534e917341f3d735",
+          "bytes": 322667,
+          "sha256": "a6f9b602258941ef48752cfc555378c8574e9a018d81299af5fba27b2f940f2b",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-russia-0-0-russia-ruslawod-academic-corpus\\a6f9b602258941ef4875.html",
+          "chunks": 214
+        }
+      ],
+      "chunks": 214
+    },
+    {
+      "source_id": "national-russia-0-1-russia-pravo-gov-ru-publication-pravo-gov-ru",
+      "source_name": "pravo.gov.ru / publication.pravo.gov.ru",
+      "adapter": "http",
+      "collection": "NATIONAL_RU",
+      "events": [
+        {
+          "url": "http://publication.pravo.gov.ru",
+          "status": "downloaded",
+          "download_key": "9e0b20c5ee5e1eea8419b24e613bebaf08bd30bad8bc8e984ed48e3a0b550a14",
+          "bytes": 27911,
+          "sha256": "dea8341f9800ab5b534cdecbb2e309c4762333bb11fa1262c0b233bf94b996ab",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-russia-0-1-russia-pravo-gov-ru-publication-pravo-gov-ru\\dea8341f9800ab5b534c.html",
+          "chunks": 1
+        }
+      ],
+      "chunks": 1
+    },
+    {
+      "source_id": "national-russia-0-2-russia-supreme-court-of-russia",
+      "source_name": "Supreme Court of Russia",
+      "adapter": "http",
+      "collection": "NATIONAL_RU",
+      "events": [
+        {
+          "url": "https://vsrf.ru",
+          "status": "error",
+          "reason": "URLError: <urlopen error [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond>"
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "national-russia-0-3-russia-constitutional-court-of-russia",
+      "source_name": "Constitutional Court of Russia",
+      "adapter": "http",
+      "collection": "NATIONAL_RU",
+      "events": [
+        {
+          "url": "https://www.ksrf.ru",
+          "status": "error",
+          "reason": "URLError: <urlopen error [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond>"
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "national-russia-0-4-russia-sudact-ru",
+      "source_name": "sudact.ru",
+      "adapter": "http",
+      "collection": "NATIONAL_RU",
+      "events": [
+        {
+          "url": "https://sudact.ru",
+          "status": "downloaded",
+          "download_key": "8932870ab8b23e15c76c33959c8317c25c01628567c504ec2d47393198ada376",
+          "bytes": 23384,
+          "sha256": "55173690c1b5b32c8c228593999322d5e4d9139a6e3e729d1ae9cbf77fa152d3",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-russia-0-4-russia-sudact-ru\\55173690c1b5b32c8c22.html",
+          "chunks": 1
+        }
+      ],
+      "chunks": 1
+    },
+    {
+      "source_id": "national-russia-0-5-russia-kad-arbitr-ru-ras-arbitr-ru",
+      "source_name": "kad.arbitr.ru / ras.arbitr.ru",
+      "status": "metadata_only",
+      "reason": "CAPTCHA-only sources are not ingested automatically."
+    },
+    {
+      "source_id": "national-russia-0-6-russia-sudrf-ru-gas-pravosudie",
+      "source_name": "sudrf.ru / GAS Pravosudie",
+      "adapter": "http",
+      "collection": "NATIONAL_RU",
+      "events": [
+        {
+          "url": "https://sudrf.ru",
+          "status": "downloaded",
+          "download_key": "d1cf25b78763edb20b909f034e15f762cafe1d3805ae9c67e26a96f233c18f39",
+          "bytes": 4748,
+          "sha256": "a1828b388e1c424b4b1a483ce96015ee515af56ee74ed76366738d31b3399ddf",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-russia-0-6-russia-sudrf-ru-gas-pravosudie\\a1828b388e1c424b4b1a.html",
+          "chunks": 1
+        },
+        {
+          "url": "https://bsr.sudrf.ru",
+          "status": "error",
+          "reason": "URLError: <urlopen error [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond>"
+        }
+      ],
+      "chunks": 1
+    },
+    {
+      "source_id": "national-uk-0-0-united-kingdom-legislation-gov-uk",
+      "source_name": "legislation.gov.uk",
+      "adapter": "uk_legislation_api",
+      "collection": "NATIONAL_UK",
+      "events": [
+        {
+          "url": "https://www.legislation.gov.uk/ukpga/data.feed",
+          "status": "downloaded",
+          "download_key": "19ea73f323d1320eb114f798e985619be3e21823b0c978d03095ab5469eed47f",
+          "bytes": 2020,
+          "sha256": "05379ab6db42797f79a763f2b6cae4b58ed6a5c23776945d3779bbcc86021b5c",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-uk-0-0-united-kingdom-legislation-gov-uk\\05379ab6db42797f79a7.html",
+          "chunks": 0
+        },
+        {
+          "url": "https://www.legislation.gov.uk",
+          "status": "downloaded",
+          "download_key": "dd1f6beb8c977ffc80c51e9573e8acf050ec345d1bf188477c097efe6c208154",
+          "bytes": 2020,
+          "sha256": "20c10c9ce4d088ef5b1020599758e04773470c52f3a19fd4dfa52d74922ca82c",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-uk-0-0-united-kingdom-legislation-gov-uk\\20c10c9ce4d088ef5b10.html",
+          "chunks": 0
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "national-uk-0-1-united-kingdom-find-case-law-the-national-archives",
+      "source_name": "Find Case Law (The National Archives)",
+      "status": "permission_required",
+      "reason": "Permission/license confirmation required before bulk ingestion."
+    },
+    {
+      "source_id": "national-uk-0-2-united-kingdom-bailii",
+      "source_name": "BAILII",
+      "status": "metadata_only",
+      "reason": "BAILII prohibits bulk download/external indexing."
+    },
+    {
+      "source_id": "national-uk-0-3-united-kingdom-uk-supreme-court",
+      "source_name": "UK Supreme Court",
+      "status": "permission_required",
+      "reason": "Permission/license confirmation required before bulk ingestion."
+    },
+    {
+      "source_id": "national-uk-0-4-united-kingdom-judiciary-uk",
+      "source_name": "Judiciary.uk",
+      "status": "permission_required",
+      "reason": "Permission/license confirmation required before bulk ingestion."
+    },
+    {
+      "source_id": "national-uk-0-5-united-kingdom-uk-parliament-apis-hansard-bills",
+      "source_name": "UK Parliament APIs (Hansard, Bills)",
+      "adapter": "http",
+      "collection": "NATIONAL_UK",
+      "events": [
+        {
+          "url": "https://api.parliament.uk",
+          "status": "downloaded",
+          "download_key": "aafe5d08802bf542394510e62afc71ec6aa935dd2885590435c919586180fd85",
+          "bytes": 886,
+          "sha256": "01dc5b166b9b09a8f9922ce76280da451b74bc5c0a7c09acf88081a3ac8e5a01",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-uk-0-5-united-kingdom-uk-parliament-apis-hansard-bills\\01dc5b166b9b09a8f992.html",
+          "chunks": 2
+        }
+      ],
+      "chunks": 2
+    },
+    {
+      "source_id": "national-us-0-0-united-states-courtlistener-free-law-project",
+      "source_name": "CourtListener (Free Law Project)",
+      "status": "credential_required",
+      "reason": "Credential or required API identity is missing."
+    },
+    {
+      "source_id": "national-us-0-1-united-states-recap-archive",
+      "source_name": "RECAP Archive",
+      "status": "credential_required",
+      "reason": "Credential or required API identity is missing."
+    },
+    {
+      "source_id": "national-us-0-2-united-states-pacer",
+      "source_name": "PACER",
+      "status": "metadata_only",
+      "reason": "Direct PACER bulk harvesting is excluded; prefer RECAP/CourtListener."
+    },
+    {
+      "source_id": "national-us-0-3-united-states-supreme-court-of-the-united-states",
+      "source_name": "Supreme Court of the United States",
+      "status": "credential_required",
+      "reason": "Credential or required API identity is missing."
+    },
+    {
+      "source_id": "national-us-0-4-united-states-caselaw-access-project-harvard-lil",
+      "source_name": "Caselaw Access Project (Harvard LIL)",
+      "status": "credential_required",
+      "reason": "Credential or required API identity is missing."
+    },
+    {
+      "source_id": "national-us-0-5-united-states-cornell-legal-information-institute-lii",
+      "source_name": "Cornell Legal Information Institute (LII)",
+      "adapter": "http",
+      "collection": "NATIONAL_US",
+      "events": [
+        {
+          "url": "https://www.law.cornell.edu",
+          "status": "downloaded",
+          "download_key": "047a9a072b14aabc5ba15f1c711a09a9bceda9e4f8ce80a97f9c666c960e98b8",
+          "bytes": 25114,
+          "sha256": "ce5ba226bb2c409341587e28d81f5a8274d55d3cf4e55749daa5b1925d9b1177",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-us-0-5-united-states-cornell-legal-information-institute-lii\\ce5ba226bb2c40934158.html",
+          "chunks": 109
+        }
+      ],
+      "chunks": 109
+    },
+    {
+      "source_id": "national-us-0-6-united-states-govinfo-gpo",
+      "source_name": "GovInfo (GPO)",
+      "status": "credential_required",
+      "reason": "Credential or required API identity is missing."
+    },
+    {
+      "source_id": "national-us-0-7-united-states-ecfr",
+      "source_name": "eCFR",
+      "status": "credential_required",
+      "reason": "Credential or required API identity is missing."
+    },
+    {
+      "source_id": "national-us-0-8-united-states-federal-register-2-0",
+      "source_name": "Federal Register 2.0",
+      "status": "credential_required",
+      "reason": "Credential or required API identity is missing."
+    },
+    {
+      "source_id": "national-us-0-9-united-states-congress-gov-api",
+      "source_name": "Congress.gov API",
+      "status": "credential_required",
+      "reason": "Credential or required API identity is missing."
+    },
+    {
+      "source_id": "national-us-0-10-united-states-sec-edgar",
+      "source_name": "SEC EDGAR",
+      "status": "credential_required",
+      "reason": "Credential or required API identity is missing."
+    },
+    {
+      "source_id": "national-us-0-11-united-states-justia",
+      "source_name": "Justia",
+      "status": "metadata_only",
+      "reason": "Justia large-scale scraping is risky under site terms."
+    },
+    {
+      "source_id": "national-us-0-12-united-states-law-library-of-congress-congress-gov-treaty-documents",
+      "source_name": "Law Library of Congress / Congress.gov Treaty Documents",
+      "status": "credential_required",
+      "reason": "Credential or required API identity is missing."
+    }
+  ]
+}

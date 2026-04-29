@@ -1,0 +1,85 @@
+{
+  "jurisdiction": "European Union",
+  "sources": [
+    {
+      "name": "EUR-Lex + CELLAR",
+      "url": "https://eur-lex.europa.eu",
+      "type": "official (Publications Office of the EU)",
+      "coverage": "All EU law — treaties, regulations, directives, decisions, international agreements, consolidated acts, CJEU case law, Official Journal (L + C), COM/JOIN preparatory acts; back to 1951 (ECSC); 24 languages",
+      "access": "SPARQL at publications.europa.eu/webapi/rdf/sparql; Cellar REST at publications.europa.eu/resource/cellar/{uuid}; legacy SOAP webservice; bulk 'Data Dump' on op.europa.eu; ELI/CELEX/ECLI URIs; `eurlex` R package and `eu_corpus_compiler` Python wrappers",
+      "format": "Formex XML (native OJ), Akoma Ntoso XML, XHTML, PDF/A, RDF/XML metadata",
+      "license": "Commission Decision 2011/833/EU on reuse. Default (2019 decision): CC BY 4.0 for editorial/summaries, CC0 1.0 for raw data/metadata. OJ texts themselves effectively public domain (Berne art. 2(4)).",
+      "recommended_for": ["NATIONAL_EU", "CASE_LAW", "COMMENTARY (summaries)"]
+    },
+    {
+      "name": "CURIA (Court of Justice of the EU)",
+      "url": "https://curia.europa.eu",
+      "type": "official",
+      "coverage": "CJEU (Court of Justice, General Court, former Civil Service Tribunal 2005–2016), cases 1953–present; judgments, orders, AG opinions",
+      "access": "Web search only — no public REST/SPARQL directly. CJEU jurisprudence mirrored in CELLAR (resource_type='caselaw' + ECLI). CURIA→EUR-Lex hyperlinks reportedly broken for recent cases — uncertain — verify.",
+      "format": "HTML + PDF on CURIA; Formex/Akoma Ntoso XML + RDF metadata via CELLAR",
+      "license": "Public-domain judgments + CC-BY-style editorial metadata under 2011/833",
+      "recommended_for": ["NATIONAL_EU", "CASE_LAW"]
+    },
+    {
+      "name": "HUDOC (European Court of Human Rights)",
+      "url": "https://hudoc.echr.coe.int/eng",
+      "type": "official (Council of Europe — NOT an EU body)",
+      "coverage": "ECtHR judgments, decisions, communicated cases, advisory opinions; former European Commission of Human Rights; Committee of Ministers resolutions",
+      "access": "Undocumented JSON endpoint used by the frontend; no official public API. Third-party: echr-extractor (PyPI), echr-opendata.eu, HF AUEB-NLP/ecthr_cases.",
+      "format": "HTML, DOCX, PDF; JSON metadata",
+      "license": "RESTRICTIVE — Council of Europe asserts DB/editorial copyright; reproduction requires permission; excerpts <500 words with credit. Official conventions and CM resolutions are PD. Not openly licensed.",
+      "recommended_for": ["CASE_LAW"]
+    },
+    {
+      "name": "Official Journal of the EU",
+      "url": "https://eur-lex.europa.eu/oj/direct-access.html",
+      "type": "official",
+      "coverage": "OJ L + OJ C, 1952–present; e-OJ authentic since 1 July 2013",
+      "access": "Via EUR-Lex/CELLAR",
+      "format": "Formex XML, signed PDF, HTML",
+      "license": "EUR-Lex 2011/833 framework",
+      "recommended_for": ["NATIONAL_EU"]
+    },
+    {
+      "name": "EDPB (European Data Protection Board)",
+      "url": "https://www.edpb.europa.eu",
+      "type": "official (EU body)",
+      "coverage": "Guidelines, opinions (Art. 64), binding decisions (Art. 65, 66), Art. 60 one-stop-shop register — since 25 May 2018",
+      "access": "HTML + PDF; no documented API/RSS/sitemap — uncertain — verify",
+      "format": "HTML, PDF",
+      "license": "CC BY 4.0 (per 2011/833) unless otherwise noted",
+      "recommended_for": ["NATIONAL_EU", "COMMENTARY", "CASE_LAW (binding decisions)"]
+    },
+    {
+      "name": "European Parliament Open Data Portal",
+      "url": "https://data.europarl.europa.eu",
+      "type": "official",
+      "coverage": "Meetings, MEPs, events, declarations, plenary + committee documents, voting records, organisation (launched Q4 2022)",
+      "access": "REST, DCAT-AP, data dumps; profiles epvoc, eli-ep, org-ep, dcat-ep",
+      "format": "RDF, JSON, XML, PDF",
+      "license": "CC BY 4.0 (EU default)",
+      "recommended_for": ["NATIONAL_EU", "COMMENTARY"]
+    },
+    {
+      "name": "N-Lex",
+      "url": "https://n-lex.europa.eu",
+      "type": "official (gateway only)",
+      "coverage": "Redirect gateway to all 27 national gazettes/databases",
+      "access": "HTML gateway — does NOT host content",
+      "format": "N/A",
+      "license": "N/A (delegates to national sources)",
+      "recommended_for": ["NATIONAL_EU (reference)"]
+    },
+    {
+      "name": "ELI (European Legislation Identifier) framework",
+      "url": "https://eur-lex.europa.eu/eli-register/about.html",
+      "type": "official standard",
+      "coverage": "URI + metadata + sync standard (Council conclusions 2012/C 325/02, updated 2017/2019); applied by EUR-Lex and many national gazettes",
+      "access": "URI resolution + Atom/sitemap sync (Pillar 4)",
+      "format": "RDF/XML, RDFa, ELI/XML (XSD)",
+      "license": "Standard itself freely usable",
+      "recommended_for": ["NATIONAL_EU", "NATIONAL_UK (identifier infrastructure)"]
+    }
+  ]
+}

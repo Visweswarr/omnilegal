@@ -1,0 +1,59 @@
+{
+  "created_at": "2026-04-18T19:48:16.040341+00:00",
+  "catalog": "C:\\Users\\reddy\\AppData\\Local\\Temp\\tmp0or_umyd\\catalog",
+  "mode": "licensed",
+  "download_requested": true,
+  "ingest_requested": false,
+  "resume": true,
+  "reset_checkpoint": false,
+  "adapter_filter": [
+    "un_digital_library"
+  ],
+  "budget_gb": 0.001,
+  "budget_used_bytes": 0,
+  "source_count": 2,
+  "catalog_chunks": 1,
+  "remote_chunks": 0,
+  "checkpoint_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\checkpoints\\ingest_checkpoint.json",
+  "checkpoint_entries_before": 65,
+  "checkpoint_entries_after": 65,
+  "skipped_from_checkpoint": 0,
+  "rehydrated_chunk_count": 0,
+  "upserted_by_collection": {},
+  "audit_summary": {
+    "total_sources": 2,
+    "fetchable": 2,
+    "metadata_only": 0,
+    "permission_required": 0,
+    "credential_required": 0,
+    "tier3_blocked": 0,
+    "collections": {
+      "COMMENTARY": 1,
+      "CASE_LAW": 1
+    },
+    "missing_env": []
+  },
+  "events": [
+    {
+      "source_id": "sources-0-0-international-bodies-un-digital-library",
+      "source_name": "UN Digital Library",
+      "adapter": "un_digital_library",
+      "collection": "COMMENTARY",
+      "events": [
+        {
+          "status": "mocked_adapter",
+          "chunks": 0
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "sources-0-1-international-bodies-courtlistener",
+      "source_name": "CourtListener",
+      "adapter": "courtlistener_api",
+      "collection": "CASE_LAW",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    }
+  ]
+}

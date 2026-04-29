@@ -1,0 +1,130 @@
+# OmniLegal Source Registry
+# Defines required and optional source roles per recognised topic.
+# The source_gate pipeline node reads this to enforce availability
+# before any retrieval or generation begins.
+#
+# role values: treaty, case_law, local_statute, local_case,
+#              commentary, official_guidance
+# source_pattern: substring matched against source_name or citation
+#                 in the Qdrant collection metadata
+# collection: the Qdrant collection where the source lives
+
+topics:
+  diplomatic_immunity:
+    required:
+      - role: treaty
+        source_pattern: "Vienna Convention on Diplomatic Relations"
+        collection: INTL_TREATIES
+        description: "VCDR 1961 — diplomatic agent inviolability and immunity"
+      - role: case_law
+        source_pattern: "Arrest Warrant"
+        collection: CASE_LAW_GLOBAL
+        description: "Arrest Warrant of 11 April 2000 (DRC v Belgium)"
+    optional:
+      - role: commentary
+        source_pattern: "Shaw"
+        collection: COMMENTARY_GLOBAL
+        description: "Malcolm Shaw, International Law"
+
+  driving_india_russia:
+    required:
+      - role: treaty
+        source_pattern: "Convention on Road Traffic"
+        collection: INTL_TREATIES
+        description: "Vienna Convention on Road Traffic 1968 Art 41"
+      - role: local_statute
+        source_pattern: "Motor Vehicles Act"
+        collection: STATUTES_IN
+        description: "Motor Vehicles Act 1988 India"
+      - role: local_statute
+        source_pattern: "196-FZ"
+        collection: STATUTES_RU
+        description: "Federal Law No. 196-FZ on Road Safety Russia"
+    optional:
+      - role: local_statute
+        source_pattern: "KoAP"
+        collection: STATUTES_RU
+        description: "Code of Administrative Offences of Russia Art 12.7"
+
+  bns_69:
+    required:
+      - role: local_statute
+        source_pattern: "Bharatiya Nyaya Sanhita"
+        collection: STATUTES_IN
+        description: "BNS Section 69 — sexual intercourse by deceitful means"
+    optional:
+      - role: local_case
+        source_pattern: ""
+        collection: CASE_LAW_IN
+        description: "Indian case law on BNS 69 or predecessor IPC 376"
+
+  murder_sentencing:
+    required:
+      - role: local_statute
+        source_pattern: "Bharatiya Nyaya Sanhita"
+        collection: STATUTES_IN
+        description: "BNS Section 103 — punishment for murder (India)"
+      - role: local_statute
+        source_pattern: "Sentencing Act 2020"
+        collection: STATUTES_UK
+        description: "Sentencing Act 2020 Schedule 21 — murder (England & Wales)"
+      - role: local_statute
+        source_pattern: "18 U.S.C"
+        collection: STATUTES_US
+        description: "18 USC 1111 — murder (US federal)"
+    optional: []
+
+  tinoco:
+    required:
+      - role: case_law
+        source_pattern: "Tinoco"
+        collection: CASE_LAW_GLOBAL
+        description: "Tinoco Arbitration (Great Britain v Costa Rica, 1923)"
+    optional:
+      - role: commentary
+        source_pattern: "Shaw"
+        collection: COMMENTARY_GLOBAL
+        description: "Malcolm Shaw, International Law"
+
+  wall:
+    required:
+      - role: case_law
+        source_pattern: "Wall"
+        collection: CASE_LAW_GLOBAL
+        description: "Wall Advisory Opinion (ICJ 2004)"
+    optional:
+      - role: treaty
+        source_pattern: "Geneva"
+        collection: INTL_TREATIES
+        description: "Fourth Geneva Convention — IHL"
+      - role: commentary
+        source_pattern: "Shaw"
+        collection: COMMENTARY_GLOBAL
+        description: "Malcolm Shaw, International Law"
+
+  travel_india_russia:
+    required:
+      - role: official_guidance
+        source_pattern: "India"
+        collection: NATIONAL_IN
+        description: "India e-Visa portal or MEA travel advisory"
+      - role: official_guidance
+        source_pattern: "Russia"
+        collection: NATIONAL_RU
+        description: "Russia unified e-Visa portal"
+    optional:
+      - role: treaty
+        source_pattern: "Consular Relations"
+        collection: INTL_TREATIES
+        description: "VCCR Art 36 — consular access if detention arises"
+
+# Fallback for unrecognised topics: international sources only
+default:
+  required: []
+  optional:
+    - role: treaty
+      source_pattern: ""
+      collection: INTL_TREATIES
+    - role: commentary
+      source_pattern: ""
+      collection: COMMENTARY_GLOBAL

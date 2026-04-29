@@ -1,0 +1,126 @@
+{
+  "created_at": "2026-04-20T17:13:51.290616+00:00",
+  "dry_run": false,
+  "collections": [
+    {
+      "collection": "INTL_TREATIES",
+      "scanned": 274,
+      "updated": 274
+    },
+    {
+      "collection": "NATIONAL_IN",
+      "scanned": 589,
+      "updated": 589
+    },
+    {
+      "collection": "NATIONAL_US",
+      "scanned": 864,
+      "updated": 864
+    },
+    {
+      "collection": "NATIONAL_UK",
+      "scanned": 0,
+      "updated": 0
+    },
+    {
+      "collection": "NATIONAL_EU",
+      "scanned": 511,
+      "updated": 511
+    },
+    {
+      "collection": "NATIONAL_RU",
+      "scanned": 0,
+      "updated": 0
+    },
+    {
+      "collection": "NATIONAL_IL",
+      "scanned": 166,
+      "updated": 166
+    },
+    {
+      "collection": "CASE_LAW",
+      "scanned": 3930,
+      "updated": 3930
+    },
+    {
+      "collection": "SHAW_PRIVATE",
+      "scanned": 1184,
+      "updated": 1184
+    },
+    {
+      "collection": "COMMENTARY",
+      "scanned": 0,
+      "updated": 0
+    },
+    {
+      "collection": "CASE_LAW_GLOBAL",
+      "scanned": 26,
+      "updated": 0
+    },
+    {
+      "collection": "CASE_LAW_US",
+      "scanned": 10,
+      "updated": 0
+    },
+    {
+      "collection": "CASE_LAW_IN",
+      "scanned": 5,
+      "updated": 0
+    },
+    {
+      "collection": "CASE_LAW_EU",
+      "scanned": 6,
+      "updated": 0
+    },
+    {
+      "collection": "CASE_LAW_UK",
+      "scanned": 6,
+      "updated": 0
+    },
+    {
+      "collection": "CASE_LAW_RU",
+      "scanned": 8,
+      "updated": 0
+    },
+    {
+      "collection": "CASE_LAW_IL",
+      "scanned": 4,
+      "updated": 0
+    },
+    {
+      "collection": "STATUTES_US",
+      "scanned": 6,
+      "updated": 0
+    },
+    {
+      "collection": "STATUTES_IN",
+      "scanned": 5,
+      "updated": 0
+    },
+    {
+      "collection": "STATUTES_EU",
+      "scanned": 4,
+      "updated": 0
+    },
+    {
+      "collection": "STATUTES_UK",
+      "scanned": 2,
+      "updated": 0
+    },
+    {
+      "collection": "STATUTES_RU",
+      "scanned": 2,
+      "updated": 0
+    },
+    {
+      "collection": "STATUTES_IL",
+      "scanned": 3,
+      "updated": 0
+    },
+    {
+      "collection": "COMMENTARY_GLOBAL",
+      "scanned": 23,
+      "updated": 0
+    }
+  ]
+}

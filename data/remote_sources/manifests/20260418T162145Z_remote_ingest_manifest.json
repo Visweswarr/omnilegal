@@ -1,0 +1,62 @@
+{
+  "created_at": "2026-04-18T16:21:45.233339+00:00",
+  "catalog": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\caselaws",
+  "mode": "licensed",
+  "download_requested": false,
+  "ingest_requested": true,
+  "resume": true,
+  "reset_checkpoint": false,
+  "budget_gb": 50.0,
+  "budget_used_bytes": 0,
+  "source_count": 110,
+  "catalog_chunks": 110,
+  "remote_chunks": 0,
+  "checkpoint_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\checkpoints\\ingest_checkpoint.json",
+  "checkpoint_entries_before": 0,
+  "checkpoint_entries_after": 0,
+  "skipped_from_checkpoint": 0,
+  "rehydrated_chunk_count": 0,
+  "upserted_by_collection": {
+    "NATIONAL_US": 24,
+    "NATIONAL_EU": 12,
+    "CASE_LAW": 15,
+    "NATIONAL_IN": 12,
+    "NATIONAL_RU": 11,
+    "COMMENTARY": 19,
+    "NATIONAL_IL": 9,
+    "NATIONAL_UK": 8
+  },
+  "audit_summary": {
+    "total_sources": 110,
+    "fetchable": 56,
+    "metadata_only": 54,
+    "permission_required": 13,
+    "credential_required": 17,
+    "tier3_blocked": 10,
+    "collections": {
+      "NATIONAL_US": 24,
+      "NATIONAL_EU": 12,
+      "CASE_LAW": 15,
+      "NATIONAL_IN": 12,
+      "NATIONAL_RU": 11,
+      "COMMENTARY": 19,
+      "NATIONAL_IL": 9,
+      "NATIONAL_UK": 8
+    },
+    "missing_env": [
+      "CONGRESS_API_KEY",
+      "COURTLISTENER_TOKEN",
+      "GOVINFO_API_KEY",
+      "HUDOC_PERMISSION_CONFIRMED",
+      "ICC_LEGAL_TOOLS_PERMISSION_CONFIRMED",
+      "ICRC_PERMISSION_CONFIRMED",
+      "INDIAN_KANOON_API_TOKEN",
+      "ISRAEL_SUPREME_COURT_BULK_CONFIRMED",
+      "ITLOS_PERMISSION_CONFIRMED",
+      "PCA_PERMISSION_CONFIRMED",
+      "SEC_USER_AGENT",
+      "UK_FIND_CASE_LAW_LICENSE_CONFIRMED"
+    ]
+  },
+  "events": []
+}

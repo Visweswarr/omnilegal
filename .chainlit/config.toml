@@ -1,0 +1,17 @@
+[project]
+name = "OmniLegal AI — International Law Analyzer"
+enable_telemetry = false
+transports = ["websocket", "polling"]
+
+[features]
+multi_modal = true
+unsafe_allow_html = false
+
+[UI]
+name = "OmniLegal AI"
+description = "Multi-jurisdictional international law research assistant"
+default_collapse_content = false
+hide_cot = false
+
+[meta]
+generated_by = "1.1.0"

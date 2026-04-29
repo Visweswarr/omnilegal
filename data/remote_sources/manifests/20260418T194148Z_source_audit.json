@@ -1,0 +1,109 @@
+{
+  "summary": {
+    "total_sources": 2,
+    "fetchable": 2,
+    "metadata_only": 0,
+    "permission_required": 0,
+    "credential_required": 0,
+    "tier3_blocked": 0,
+    "collections": {
+      "COMMENTARY": 1,
+      "CASE_LAW": 1
+    },
+    "missing_env": []
+  },
+  "sources": [
+    {
+      "record": {
+        "source_id": "sources-0-0-international-bodies-un-digital-library",
+        "catalog_file": "sources.json",
+        "group_index": 0,
+        "source_index": 0,
+        "jurisdiction": "International bodies",
+        "name": "UN Digital Library",
+        "url": "https://digitallibrary.un.org",
+        "source_type": "official",
+        "coverage": "UN records",
+        "access": "OAI-PMH at /oai2d",
+        "source_format": "XML",
+        "license_note": "UN public docs",
+        "recommended_for": [
+          "COMMENTARY"
+        ],
+        "raw": {
+          "name": "UN Digital Library",
+          "url": "https://digitallibrary.un.org",
+          "type": "official",
+          "coverage": "UN records",
+          "access": "OAI-PMH at /oai2d",
+          "format": "XML",
+          "license": "UN public docs",
+          "recommended_for": [
+            "COMMENTARY"
+          ]
+        }
+      },
+      "plan": {
+        "source_id": "sources-0-0-international-bodies-un-digital-library",
+        "collection": "COMMENTARY",
+        "tier": 1,
+        "adapter": "un_digital_library",
+        "action": "fetch",
+        "metadata_only": false,
+        "allowed_to_fetch": true,
+        "blocked_reason": "",
+        "required_env": [],
+        "urls": [
+          "https://digitallibrary.un.org"
+        ]
+      }
+    },
+    {
+      "record": {
+        "source_id": "sources-0-1-international-bodies-courtlistener",
+        "catalog_file": "sources.json",
+        "group_index": 0,
+        "source_index": 1,
+        "jurisdiction": "International bodies",
+        "name": "CourtListener",
+        "url": "https://www.courtlistener.com",
+        "source_type": "official mirror",
+        "coverage": "US case law",
+        "access": "Requires COURTLISTENER_TOKEN",
+        "source_format": "JSON",
+        "license_note": "public",
+        "recommended_for": [
+          "CASE_LAW"
+        ],
+        "raw": {
+          "name": "CourtListener",
+          "url": "https://www.courtlistener.com",
+          "type": "official mirror",
+          "coverage": "US case law",
+          "access": "Requires COURTLISTENER_TOKEN",
+          "format": "JSON",
+          "license": "public",
+          "recommended_for": [
+            "CASE_LAW"
+          ]
+        }
+      },
+      "plan": {
+        "source_id": "sources-0-1-international-bodies-courtlistener",
+        "collection": "CASE_LAW",
+        "tier": 1,
+        "adapter": "courtlistener_api",
+        "action": "fetch",
+        "metadata_only": false,
+        "allowed_to_fetch": true,
+        "blocked_reason": "",
+        "required_env": [
+          "COURTLISTENER_TOKEN"
+        ],
+        "urls": [
+          "https://www.courtlistener.com"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,748 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title lang="eng">Unified Court Records Database</title>
+	<meta name="Description" CONTENT="The Unified Court Records (UCR) database provides access to the public court records of the ICTR, the ICTY and the IRMCT.">
+    <link rel='icon' type='image/x-icon' href='/favicon.ico' />
+    <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-8225882-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-8225882-2');
+</script>
+
+    <link href="/bundles/ie?v=tGF3fP_sd-W0cNlbjUKQTUgmtJe9GikL4HSC_wGwp8o1" rel="stylesheet"/>
+ 
+    <link href="/bundles/css?v=-VPr3oLFNfkSb0y0E21rDT18l6LkdjcF1JSrI1ZzpHA1" rel="stylesheet"/>
+
+    <!---
+    <link href= "/Assets/lib/datatables/css/dataTables.foundation.min.css" rel="stylesheet" type="text/css">
+    <link href= "/Assets/css/fontawesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/Assets/lib/toastr/toastr.min.css" type = "text/css">
+    <link rel="stylesheet" href="/Assets/lib/select2/css/select2.css">
+     <link rel="stylesheet" href="/Assets/lib/foundation-datepicker.min.css">
+    --->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>    
+    <link href= "/assets/css/app.css" rel="stylesheet" type="text/css">
+    <link href= "/assets/css/select2.css" rel="stylesheet" type="text/css">
+    <link href= "/assets/css/app_xtra.css" rel="stylesheet" type="text/css">
+</head>
+<body class="homebody">
+    <div class="page_overlay">
+        <img class="rotate" style='width:50px; height:50px;' src='Assets/img/logo2.png' />
+    </div>
+    <div class="grid-container mainbanner">
+        <div class="grid-x">            
+            <div class="auto cell">
+                <img lang="eng" data-lang-token="FLAG" src="/assets/img/UCR_line_blue_EN.svg" class="mainbanner-svg">
+            </div>
+
+            <div class="shrink cell hide-for-small-only" id="languagedivhome">
+                <button class="btnCurLang dropdown button" type="button" data-toggle="langSel-banner"><span lang = "eng">English</span></button>
+                <div class="dropdown-pane languagesel" id="langSel-banner" data-dropdown data-auto-focus="true" style="z-index:200;">
+                    <ul>
+                        <li class = "hbs"><a onclick='myLangSelection("hbs")'>bosanski, hrvatski ili srpski</a></li>
+                        <li class = "eng"><a onclick='myLangSelection("eng")'>English</a></li>
+                        <li class = "fra"><a onclick='myLangSelection("fra")'>Français</a></li>
+                        <li class = "kin"><a onclick='myLangSelection("kin")'>Kinyarwanda</a></li>
+                        <li class = "sqi"><a onclick='myLangSelection("sqi")'>Shqip</span></a></li>
+                        <li class = "mdk"><a onclick='myLangSelection("mdk")'>македонски</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="shrink cell show-for-small-only" id="languagedivhome">
+                <button class="btnCurLangS dropdown button" type="button" data-toggle="langSel-banner-S">EN</button>
+                <div class="dropdown-pane languageselS" id="langSel-banner-S" data-dropdown data-auto-focus="true" style="z-index:200;">
+                    <ul>
+                        <li class = "hbs"><a onclick='myLangSelection("hbs")'>SH</a></li>
+                        <li class = "eng"><a onclick='myLangSelection("eng")'>EN</a></li>
+                        <li class = "fra"><a onclick='myLangSelection("fra")'>FR</a></li>
+                        <li class = "kin"><a onclick='myLangSelection("kin")'>RW</a></li>
+                        <li class = "sqi"><a onclick='myLangSelection("sqi")'>SQ</a></li>
+                        <li class = "mdk"><a onclick='myLangSelection("mdk")'>MK</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+            
+            
+    <div class="borderblue"></div>
+    <div class="loginback">
+        <div class="grid-container" id="logindiv">
+              <div class="grid-x">
+    <div class="cell small-12 medium-7 libadge">                
+    <div class="grid-y">
+        <div lang="eng" class="eng-logo cell auto" id="mcrlogo_home_EN"></div>
+        <div lang="eng" class="fra-logo cell auto" id="mcrlogo_home_FR"></div>
+        <div lang="eng" class="kin-logo cell auto" id="mcrlogo_home_KIN"></div>
+        <div lang="eng" class="sqi-logo cell auto" id="mcrlogo_home_ALB"></div>
+        <div lang="eng" class="mdk-logo cell auto" id="mcrlogo_home_MAC"></div>
+         <div lang="eng" class="hbs-logo cell auto" id="mcrlogo_home_BCS"></div>
+        <div class="cell shrink" id="mcrintro_home">
+            <p lang = "eng">The Unified Court Records (UCR) database provides access to the public court records of the ICTR, the ICTY and the IRMCT.</p>
+        </div>
+    </div>
+    </div>           
+    <div class="cell small-12 medium-5 lifields">
+    
+    <div class="grid-x tabs" data-deep-link="true  data-auto-focus="false" data-update-history="true" data-tabs id="logintabs" data-tabs="">
+        <div class="cell small-6 tabs-title is-active"><a data-tabs-target="signin" href="#signin" aria-selected="true" lang = "eng">Sign In</a></div>
+        <div class="cell small-6 tabs-title" ><a data-tabs-target="register" href="#register" lang = "eng" id = "registerTabBlock">Register</a></div>
+        <div class="tabs-title invis"><a data-tabs-target="confirmed" href="#confirmed"></a></div>
+        <div class="tabs-title invis"><a data-tabs-target="reset" href="#reset"></a></div>
+        <div class="tabs-title invis"><a data-tabs-target="resetconf" href="#resetconf"></a></div>
+        <div class="tabs-title invis"><a data-tabs-target="passwordchange" href="#passwordchange"></a></div>
+    </div>
+    <div class="tabs-content" data-tabs-content="logintabs">
+        <div class="tabs-panel is-active" id="signin">
+            <div class="grid-y intab">
+                <div class="cell auto">
+                    <!--===============================================================================================================================================-->
+<form action="/Account/JsonLogin" class="formlogin" id="frmLogin" method="post" name="frmLogin">            <label for="email" lang="eng">Email Address
+                <div class="fl-email form-group" id="email-group">
+                    <div class="fl-email-ico"></div>
+                <input autocomplete="email" autofocus="autofocus" data-val="true" data-val-required="The Email Address field is required." id="LEmailAddress" lang="eng" name="EmailAddress" placeholder="Email Address" type="email" value="" />
+        <span class="field-validation-valid" data-valmsg-for="EmailAddress" data-valmsg-replace="true"></span>
+    
+                </div> <span data-tooltip class="top" tabindex="2" title="Invalid Email Address" data-position="bottom" data-alignment="left"  data-v-offset="-10" data-click-open="true" id = "loginEmailTip"  class="registerTip"></span>
+
+            </label>
+            <label for="password" lang="eng">Password
+                <div class="fl-password form-group" id="password-group">
+                    <div class="fl-password-ico"></div>
+                    <input autofocus="autofocus" data-val="true" data-val-required="The Password field is required." id="LPassword" lang="eng" name="Password" placeholder="Password" type="password" />
+                    <span class="field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+                </div>   <span data-tooltip class="top" tabindex="2" title="Please provide Password" data-position="bottom" data-alignment="left"  data-v-offset="-10" data-click-open="true" id = "loginPasswordTip"  class="registerTip"></span>
+            </label>
+            <!--
+          <div class="justcenter"><div class="g-recaptcha" data-sitekey="6Lc6yOsUAAAAALiOBzMLEHFt9LNqj8HDv_8XUnNg" data-callback="correctCaptcha"></div></div>
+           
+            <div class="remem">
+                <input class="checkbox" data-val="true" data-val-required="The Remember me? field is required." id="rememberme" name="RememberMe" type="checkbox" value="true" /><input name="RememberMe" type="hidden" value="false" />
+                <span class="field-validation-valid" data-valmsg-for="RememberMe" data-valmsg-replace="true"></span>
+                <label lang="eng">Remember Me</label>
+            </div>
+			 -->
+             <div class="forgotp"><a href="#reset" id = "forgotp-link" lang="eng">Forgot Password</a></div>
+            <button type="submit" class="button expanded" lang="eng">Sign In</button>
+</form>   
+
+
+
+
+                </div>
+                <div class="cell shrink" id="loginlinks"><a data-open="legalModal" lang = "eng">Terms and Conditions of Use</a> | <a data-open="privacyModal" lang = "eng">Privacy Notice</a>
+                <br>
+                <a href="/manuals/UCR_User_Guide.pdf" target="_blank" lang = "eng">PDF User Guide</a> | <a href="https://youtu.be/92r6ZPSsY0g?si=tD_oObqocARR0KS7" target="_blank" lang = "eng">Video User Guide</a>
+				<br>
+                <a href="mailto:UCRSupport@irmct.org" lang = "eng">Contact Us</a>
+            </div>
+        </div>
+        </div>
+        <div class="tabs-panel" id="register">
+            <div class="grid-y intab">
+<div class="cell auto">
+<form action="/Account/JsonRegister" class="formsignup" id="frmRegister" method="post">    <div class="grid-x">
+        <div class="cell medium-6">                                    
+            <label lang= "eng">First Name
+                <input autofocus="autofocus" data-val="true" data-val-required="The First Name field is required." id="FirstName" lang="eng" name="FirstName" placeholder="First Name" type="text" value="" />
+                </label>
+                <span data-tooltip class="top" tabindex="2" title="First Name is Required" data-position="bottom" data-alignment="left"  data-v-offset="-10" data-click-open="true" id = "fNameTip" class="registerTip"></span>
+           
+        </div>
+        <div class="cell medium-6">
+                <label lang="eng">Last Name
+                <input autofocus="autofocus" data-val="true" data-val-required="The Last Name field is required." id="LastName" lang="eng" name="LastName" placeholder="Last Name" type="text" value="" />
+                </label>   <span data-tooltip class="top" tabindex="2" title="Last Name is Required" data-position="bottom" data-alignment="left"  data-v-offset="-10" data-click-open="true" id = "lNameTip"  class="registerTip"  ></span>
+        </div>
+       
+
+    </div>
+    <label lang="eng">
+        Email Address
+        <input autofocus="autofocus" data-val="true" data-val-required="The Email Address field is required." id="EmailAddress" lang="eng" name="EmailAddress" placeholder="Email Address" type="text" value="" />
+       
+    </label>
+    <span data-tooltip class="top" tabindex="2" title="Invalid Email Address" data-position="bottom" data-alignment="left"  data-v-offset="-10" data-click-open="true" id = "emailTip"  class="registerTip"></span>
+    <label lang="eng">Password
+    <input autofocus="autofocus" data-val="true" data-val-length="The Password must be at least 6 characters long." data-val-length-max="100" data-val-length-min="6" data-val-required="The Password field is required." id="Password" lang="eng" name="Password" placeholder="Password" type="password" />
+    <span class="field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"></span></label>
+     <span data-tooltip class="top" tabindex="2" title="Password must be atleast 6 characters" data-position="bottom" data-alignment="left"  data-v-offset="-10" data-click-open="true" id = "passwordTip"  class="registerTip"></span>
+        <label lang="eng">Repeat Password
+        <input autofocus="autofocus" data-val="true" data-val-equalto="The password and confirmation password do not match." data-val-equalto-other="*.Password" id="ConfirmPassword" lang="eng" name="ConfirmPassword" placeholder="Repeat Password" type="password" />
+        <span class="field-validation-valid" data-valmsg-for="ConfirmPassword" data-valmsg-replace="true"></span></label>
+         <span data-tooltip class="top" tabindex="2" title="Passwords do not match" data-position="bottom" data-alignment="left"  data-v-offset="-10" data-click-open="true" id = "verifyPasswordTip"  class="registerTip"></span>
+        <div class="justcenter"><div class="g-recaptcha" data-sitekey="6Lc6yOsUAAAAALiOBzMLEHFt9LNqj8HDv_8XUnNg" data-callback="correctCaptcha"></div></div>
+        <div class="justcenter"><div class="agree"><input class="checkbox" data-val="true" data-val-required="The Agreecheck field is required." id="agreecheck" name="Agreecheck" required="required" type="checkbox" validate="validate" value="true" /><input name="Agreecheck" type="hidden" value="false" /><label lang="eng">I accept the <a data-open="legalModal" lang="eng">Terms &amp; Conditions</a>
+        <span data-tooltip class="top" tabindex="2" title="Please check to agree to the Terms & Conditions" data-position="bottom" data-alignment="left"  data-v-offset="-10" data-click-open="true" id = "agreeCheckTip"  class="registerTip" style="margin-left:-40px;"></span>
+        </label>
+         </div>
+        
+        </div>
+        <label>
+            <button type="button" id="signin" class="button expanded" lang = "eng">Sign Up</button>
+        </label>
+<input name="__RequestVerificationToken" type="hidden" value="3172vyD2yX_zoTIyYvPct6wspxQJABVYZti5k8Soqbv8rFlfoS_F58WFa5MXYfqseRdGobnm0afEJGhKlsl2M47rsAA87dw4vZr_YRWxsNLI8QLDVDzpXisCtlJorxu97H4MAZG0EisDYoL_CCgw7sRqzHfkZ-1DPKWiyV9GcIk1" /></form></div>
+
+</div>
+        </div>
+
+        <div class="tabs-panel" id="confirmed">
+        <div class="grid-x intab align-middle">
+            <div class="cell auto tabpages">
+                <h2 lang = "eng">Thank you for registering.</h2>
+                <h3 lang = "eng">A message was sent to <span>email@address.com</span>.</h3>
+                <p lang = "eng">Please check your inbox for a message from <span>UCRSupport@irmct.org</span> and follow the instructions to confirm your email address.</p>
+                <p>If you want us to resend the email, please <a href="">click here</a>.</p>
+            </div>
+        </div>
+        </div>
+
+        <div class="tabs-panel" id="reset">
+        <div class="grid-x intab align-middle">
+            <div class="cell auto tabpages">
+                <h2 lang="eng">Request a Password Reset</h2>
+<form action="/" class="formlogin" id="frmForgotPassword" method="post" onsubmit="event.preventDefault(); submitForgotPassword();">                <label for="email" lang="eng">Email Address
+                    <div class="fl-email form-group" id="email-group">
+                        <div class="fl-email-ico"></div>
+                        <input type="email" lang="eng" placeholder="Email Address" id="email" name="email" autocomplete="email">
+
+                    </div> <span data-tooltip class="top" tabindex="2" title="Invalid Email Address" data-position="bottom" data-alignment="left"  data-v-offset="-10" data-click-open="true" id = "PFemailTip"  class="registerTip"></span>
+                </label>
+                <label>
+                    <button type="submit" class="button expanded" lang="eng">Reset Password</button>
+                    
+                    <a href="#signin"><button type="button" class="button expanded" lang = "eng">Cancel</button></a>
+                </label>
+</form>            </div>
+        </div>
+        </div>
+
+        <div class="tabs-panel" id="resetconf">
+        <div class="grid-x intab align-middle">
+            <div class="cell auto tabpages">
+            <!--
+                <h2>Password Reset Request Submitted</h2>
+                <h3>A message was sent to <span id = "userEmail"></span>.</h3>
+                <p>Please check your inbox for a message from <span>UCRSupport@irmct.org</span> and follow the instructions to set a new password.</p>
+                <p>If you want us to resend the email, please <a onclick="submitForgotPassword()">click here</a>.</p>
+                <p>For further assistance, please send us email at <a href="mailto:UCRSupport@irmct.org">UCRSupport@irmct.org</a>.</p>
+                --> 
+                <h2 lang = "eng">Thank you for registering.</h2>
+                <h3 lang = "eng">A message was sent to <span id = "userEmail"></span>.</h3>
+                <p lang = "eng">Please check your inbox for a message from <span>UCRSupport@irmct.org</span> and follow the instructions to confirm your email address.</p>
+                <p>If you want us to resend the email, please <a onclick="submitForgotPassword()">click here</a>.</p>
+
+            </div>
+        </div>
+        </div>
+
+        <div class="tabs-panel" id="registerconf">
+        <div class="grid-x intab align-middle">
+            <div class="cell auto tabpages">
+                <h2 lang = "eng">Thank you for registering.</h2>
+                <h3>A message was sent to <span id = "registerUserEmail"></span>.</h3>
+                <p>Please check your inbox for a message from <span>UCRSupport@irmct.org</span> and follow the instructions to activate your account.</p>
+                <!--
+                    <p>If you want us to resend the email, please <a onclick="submitForgotPassword()">click here</a>.</p>
+                -->
+                <p>For further assistance, please send us email at <a href="mailto:UCRSupport@irmct.org">UCRSupport@irmct.org</a>.</p>
+            </div>
+        </div>
+        </div>
+
+        <div class="tabs-panel" id="passwordchange">
+        <div class="grid-x intab align-middle">
+            <div class="cell auto tabpages">
+                <h2>Change Your Password</h2>
+                <form class="formlogin">
+                    <label>New Password
+                        <div class="fl-password">
+                        <div class="fl-password-ico"></div>
+                        <input type="text" placeholder="New Password">
+                        </div>
+                    </label>
+                    <label>Repeat New Password
+                        <div class="fl-password">
+                        <div class="fl-password-ico"></div>
+                        <input type="text" placeholder="Repeat New Password">
+                        </div>
+                    </label>
+                    <a href="#resetconf"><button type="button" class="button expanded">Change Password</button></a>
+                    <a href="#signin"><button type="button" class="button expanded">Cancel</button></a>
+                </form>                        </div>
+            </div>
+        </div>
+    </div>
+    </div>
+ </div>
+        </div>
+    </div>
+    <div class="borderblue"></div>
+    <!--
+    <div>
+        <div class="callout small primary text-center">
+            <p lang="eng">This database provides access to ICTY , ICTR and the Mechanism public court records from 1994 to the present.</p>
+            <a data-toggle="modelLegalNot"><small lang="eng">Legal Notice</small></a>
+            &nbsp;&bull;&nbsp;
+            <a data-toggle="modelRecMechDoc"><small lang="eng">Recent Mechanism Documents</small></a>
+        </div>
+    </div>
+    -->
+    <div class="full-width homeback">
+        <div class="grid-container homecontent">
+
+            <ul class="tabs" data-tabs id="hometabs">
+                <li class="tabs-title is-active"><a href="#panelRec" aria-selected="true" lang="eng">Recent Court Records</a></li>
+                
+            </ul>
+
+            <div class="tabs-content" data-tabs-content="hometabs">
+                <div class="tabs-panel is-active" id="panelRec">
+                    <div class="grid-container searchreshome">
+                        
+<p lang = "eng">
+ This list shows the last 50 court records added to the database. Records are added within 24 hours of being filed with the Mechanism's Registry.
+ <span id = "showloginlinkRecent" style = "color:#000">
+ 
+     <strong lang="eng">You will need to <a href="#signin" lang="eng">SIGN IN</a> or <a href="#register" lang="eng">REGISTER</a> to view these records</strong>
+</span>
+ </p>
+
+
+ 
+
+<table id="dtRecentRecords" class="row-border" style="width:100%"></table>
+
+                    </div>
+                </div>
+                <div class="tabs-panel" id="panelNews" style="padding:0;">
+
+                    <div class="grid-container searchreshome">
+
+                        
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="reveal" id="legalModal" data-reveal>
+       <div class="revtop">
+            <div class="closelink" data-close><a href= "#signin" style="color:#fff"><span lang = "eng" >Close</span>&nbsp;&nbsp;X</a></div>
+        </div>
+        <div class="scrollarea">
+        <div class="grid-container mainbanner modalmain">
+            <div class="grid-x">
+              <div class="auto cell">
+                <img lang="eng" data-lang-token="FLAG" src="/assets/img/irmct_en.svg" class="mainbanner-svg">
+            </div>
+        
+            <div class="shrink cell hide-for-small-only" id="languagedivhome">
+                <button class="btnCurLang dropdown button" type="button" data-toggle="langSel-legal"><span lang = "eng">English</span></button>
+                <div class="dropdown-pane languagesel" id="langSel-legal" data-dropdown data-auto-focus="true" style="z-index:200;">
+                    <ul>
+                         <li class = "hbs"><a onclick='myLangSelection("hbs")'>bosanski, hrvatski ili srpski</a></li>
+                        <li class = "eng"><a onclick='myLangSelection("eng")'>English</a></li>
+                        <li class = "fra"><a onclick='myLangSelection("fra")'>Français</a></li>
+                        <li class = "kin"><a onclick='myLangSelection("kin")'>Kinyarwanda</a></li>
+                        <li class = "sqi"><a onclick='myLangSelection("sqi")'>Shqip</a></li>
+                        <li class = "mdk"><a onclick='myLangSelection("mdk")'>македонски</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="shrink cell show-for-small-only" id="languagedivhome">
+                <button class="btnCurLangS dropdown button" type="button" data-toggle="langSel-legal-S">EN</button>
+                <div class="dropdown-pane languageselS" id="langSel-legal-S" data-dropdown data-auto-focus="true" style="z-index:200;">
+                    <ul>
+                        <li class = "hbs"><a onclick='myLangSelection("hbs")'>SH</a></li>
+                        <li class = "eng"><a onclick='myLangSelection("eng")'>EN</a></li>
+                        <li class = "fra"><a onclick='myLangSelection("fra")'>FR</a></li>
+                        <li class = "kin"><a onclick='myLangSelection("kin")'>RW</a></li>
+                        <li class = "sqi"><a onclick='myLangSelection("sqi")'>SQ</a></li>
+                        <li class = "mdk"><a onclick='myLangSelection("mdk")'>MK</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="borderblue1px"></div>
+        <div class="ucrlineblue"><img src="/assets/img/UCR_line_blue_EN.svg" lang = "eng" data-lang-token="FLAG"></div>
+        <div class="borderblue1px"></div>
+        <div class="modalcontent">
+
+       
+        <h1 lang = "eng" style = " text-transform: uppercase;">Terms and Conditions of Use</h1>
+        <div class="inlinks">
+            <a href="#disclaimers" lang="eng">Disclaimers</a>
+            |
+            <a href="#preservation" lang = "eng">Preservation of immunities</a>
+            |
+            <a href="#countrynom" lang = "eng">Country and area nomenclature</a>
+            |
+            <a href="#general" lang = "eng">General</a>
+        </div>
+
+        <p lang="eng">The Unified Court Records (UCR) database provides access to the public court records of the ICTR, the ICTY and the IRMCT. The UCR database is a part of the IRMCT website. The use of the UCR database constitutes agreement with the terms and conditions of use specified on the IRMCT website, as applicable.</p>           
+        <h2 id="disclaimers" lang="eng">Disclaimers</h2>
+            <p lang="eng">Materials provided on this Site are provided “as is”, without warranty of any kind, either express or implied, including, without limitation, warranties of fitness for a particular purpose and non-infringement. The Mechanism specifically does not make any warranties or representations as to the accuracy or completeness of any such Materials. The Mechanism periodically adds, changes, improves or updates the Materials on this Site without notice. Under no circumstances shall the Mechanism be liable for any loss, damage, liability or expense incurred or suffered that is claimed to have resulted from the use of this Site, including, without limitation, any fault, error, omission, interruption or delay with respect thereto. The use of this Site is at the User’s sole risk. Under no circumstances, including but not limited to negligence, shall the United Nations, the Mechanism or any of its staff and affiliates be liable for any direct, indirect, incidental, special or consequential damages, even if advised of the possibility of such damage.</p>
+            <p lang="eng">The User specifically acknowledges and agrees that the Mechanism is not liable for any conduct of any User.</p>
+            <p lang="eng">This site may contain advice, opinions and statements of various information providers. The Mechanism does not represent or endorse the accuracy or reliability of any advice, opinion, statement or other information provided by any information provider, any User of this Site or any other person or entity. Reliance upon any such advice, opinion, statement, or other information shall also be at the User’s own risk. Neither the United Nations nor the Mechanism, and its affiliates, nor any of their respective agents, employees, information providers or content providers, shall be liable to any User or anyone else for any inaccuracy, error, omission, interruption, deletion, defect, alteration of or use of any content herein, or for its timeliness or completeness, nor shall they be liable for any failure of performance, computer virus or communication line failure, regardless of cause, or for any damages resulting therefrom.</p>
+            <p lang="eng">As a condition of use of this Site, the User agrees to indemnify the United Nations, the Mechanism and its affiliates from and against any and all actions, claims, losses, damages, liabilities and expenses (including reasonable attorneys’ fees) arising out of the User’s use of this Site, including, without limitation, any claims alleging facts that if true would constitute a breach by the User of these Terms and Conditions of Use. If the User is dissatisfied with any Material on this Site or with any of its Terms and Conditions of Use, the User’s sole and exclusive remedy is to discontinue using the Site.</p>
+ 
+        <h2 id="preservation" lang="eng">Preservation of immunities</h2>
+        <p lang="eng">Nothing herein shall constitute or be considered to be a limitation upon or a waiver of the privileges and immunities of the United Nations and the Mechanism, which are specifically reserved.</p>
+        
+        <h2 id="countrynom" lang="eng">Country and area nomenclature</h2>
+        <p lang="eng">The designations employed and the presentation of material on this Site do not imply the expression of any opinion whatsoever on the part of the Mechanism or the United Nations concerning the legal status of any country, territory, city or area or of its authorities, or concerning the delimitation of its frontiers or boundaries.</p>
+
+        <h2 id="general" lang="eng">General</h2>
+            <p lang="eng">The Mechanism reserves the exclusive right in its sole discretion to alter, limit or discontinue the Site or any Materials in any respect. The Mechanism shall have no obligation to take the needs of any User into consideration in connection therewith.</p>
+            <p lang="eng">The Mechanism reserves the right to deny in its sole discretion any user access to this Site or any portion thereof without notice.</p>
+            <p lang="eng">No waiver by the Mechanism of any provision of these Terms and Conditions of Use shall be binding except as set forth in writing and signed by its duly authorized representative.</p>
+        </div>
+    </div>
+    </div>
+    <input type = "hidden" name = "setPrivacyOption" id = "setPrivacyOption" value ="">
+    <div class="reveal" id="privacyModal" data-reveal>
+        <div class="revtop">
+                <div class="closelink" data-close><span lang = "eng">Close</span>&nbsp;&nbsp;X</div>
+                <div class="futurebox" lang="eng"><input id="futureoff" name = "futureoff" type="checkbox" />Do not display this on future visits</div>
+        </div>
+
+        <div class="scrollarea">
+            <!--
+            <div>
+                <div class="modalcloseline">
+                    <div class="closelink" data-close><span lang = "eng">Close</span>&nbsp;&nbsp;X</div>
+                    <div class="futurebox">
+                    <input id="futureoff" type="checkbox" /><span lang = "eng">Hide this on future visits</span></div>
+                </div>
+            </div>
+            -->
+
+            <div class="grid-container mainbanner modalmain">
+                <div class="grid-x">
+                <div class="auto cell">
+                    <img lang="eng" data-lang-token="FLAG" src="/assets/img/irmct_en.svg" class="mainbanner-svg">
+                </div>
+
+                <div class="shrink cell hide-for-small-only" id="languagedivhome">
+                            <button class="btnCurLang dropdown button" type="button" data-toggle="langSel-privacyModal"><span lang = "eng">English</span></button>
+                            <div class="dropdown-pane languagesel" id="langSel-privacyModal" data-dropdown data-auto-focus="true" style="z-index:200;">
+                                <ul>
+                                    <li class = "hbs"><a onclick='myLangSelection("hbs")'>bosanski, hrvatski ili srpski</a></li>
+                        <li class = "eng"><a onclick='myLangSelection("eng")'>English</a></li>
+                        <li class = "fra"><a onclick='myLangSelection("fra")'>Français</a></li>
+                        <li class = "kin"><a onclick='myLangSelection("kin")'>Kinyarwanda</a></li>
+                        <li class = "sqi"><a onclick='myLangSelection("sqi")'>Shqip</a></li>
+                        <li class = "mdk"><a onclick='myLangSelection("mdk")'>македонски</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="shrink cell show-for-small-only" id="languagedivhome">
+                            <button class="btnCurLangS dropdown button" type="button" data-toggle="langSel-privacyModal-S">EN</button>
+                            <div class="dropdown-pane languageselS" id="langSel-privacyModal-S" data-dropdown data-auto-focus="true" style="z-index:200;">
+                                <ul>
+                                    <li class = "hbs"><a onclick='myLangSelection("hbs")'>SH</a></li>
+                                    <li class = "eng"><a onclick='myLangSelection("eng")'>EN</a></li>
+                                    <li class = "fra"><a onclick='myLangSelection("fra")'>FR</a></li>
+                                    <li class = "kin"><a onclick='myLangSelection("kin")'>RW</a></li>
+                                    <li class = "sqi"><a onclick='myLangSelection("sqi")'>SQ</a></li>
+                                    <li class = "mdk"><a onclick='myLangSelection("mdk")'>MK</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                </div>
+            </div>
+            <div class="borderblue1px"></div>
+            <div class="ucrlineblue"><img src="/assets/img/UCR_line_blue_EN.svg" lang = "eng" data-lang-token="FLAG"></div>
+            <div class="borderblue1px"></div>
+            <div class="modalcontent">
+
+            <h1 lang="eng">Privacy Notice</h1>
+
+            <p lang="eng">The Unified Court Records Database (UCR) collects certain information about users as they access the database.</p>
+            <ul>
+                <li lang="eng">E-mail addresses will be collected as part of the registration process. This information will be stored on United Nations servers. E-mail addresses are collected and used for the limited and specific purpose of contacting registered users in case the material they have previously accessed has subsequently been removed from the UCR database by the Mechanism for security reasons.</li>
+                <li lang="eng">Access history is logged by file only, meaning that the UCR only logs the e-mails of anyone that has accessed an individual file. The UCR does not retain a record of any registered user’s download or search history.</li>
+                <li lang="eng">Third-party tools, e.g. Google Analytics, collect information such as navigation patterns, number of visitors, visitor location etc. This information will be collected for internal use only for web site traffic analysis which does not specifically identify any individual user; rather, information will be analysed in the aggregate.</li>
+            </ul>
+            
+            <p lang ="eng">The use of the UCR database constitutes agreement with the Privacy Notice.</p>
+            <p lang="eng">The United Nations and the Mechanism assume no responsibility for the security of the collected information.</p>
+
+            </div>
+        </div>
+    </div>
+    <div class="reveal" id="termsModal" data-reveal>
+        <div class="revtop">
+            <div class="closelink" data-close><span lang = "eng">Close</span>&nbsp;&nbsp;X</div>
+        </div>
+
+        <div class="scrollarea">
+            <div class="grid-container mainbanner modalmain">
+                <div class="grid-x">
+                    <div class="auto cell">
+                        <img lang="eng" data-lang-token="FLAG" src="/assets/img/irmct_en.svg" class="mainbanner-svg">
+                    </div>
+                    <div class="shrink cell hide-for-small-only" id="languagedivhome">
+                        <button class="btnCurLang dropdown button" type="button" data-toggle="langSel-termsModal"><span lang = "eng">English</span></button>
+                        <div class="dropdown-pane languagesel" id="langSel-termsModal" data-dropdown data-auto-focus="true" style="z-index:200;">
+                            <ul>
+                                 <li class = "hbs"><a onclick='myLangSelection("hbs")'>bosanski, hrvatski ili srpski</a></li>
+                                <li class = "eng"><a onclick='myLangSelection("eng")'>English</a></li>
+                                <li class = "fra"><a onclick='myLangSelection("fra")'>Français</a></li>
+                                <li class = "kin"><a onclick='myLangSelection("kin")'>Kinyarwanda</a></li>
+                                <li class = "sqi"><a onclick='myLangSelection("sqi")'>Shqip</a></li>
+                                <li class = "mdk"><a onclick='myLangSelection("mdk")'>македонски</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="shrink cell show-for-small-only" id="languagedivhome">
+                        <button class="btnCurLangS dropdown button" type="button" data-toggle="langSel-termsModal-S">EN</button>
+                        <div class="dropdown-pane languageselS" id="langSel-termsModal-S" data-dropdown data-auto-focus="true" style="z-index:200;">
+                            <ul>
+                                <li class = "hbs"><a onclick='myLangSelection("hbs")'>SH</a></li>
+                                <li class = "eng"><a onclick='myLangSelection("eng")'>EN</a></li>
+                                <li class = "fra"><a onclick='myLangSelection("fra")'>FR</a></li>
+                                <li class = "kin"><a onclick='myLangSelection("kin")'>RW</a></li>
+                                <li class = "sqi"><a onclick='myLangSelection("sqi")'>SQ</a></li>
+                                <li class = "mdk"><a onclick='myLangSelection("mdk")'>MK</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="borderblue1px"></div>
+            <div class="ucrlineblue"><img src="/assets/img/UCR_line_blue_EN.svg" lang = "eng" data-lang-token="FLAG"></div>
+            <div class="borderblue1px"></div>
+            <div class="modalcontent">
+                <h1 lang="eng" style=" text-transform uppercase;">Terms and Conditions of Use</h1>
+                <div class="inlinks">
+                    <a href="#disclaimers" lang="eng">Disclaimers</a>
+                    |
+                    <a href="#preservation" lang="eng">Preservation of immunities</a>
+                    |
+                    <a href="#countrynom" lang="eng">Country and area nomenclature</a>
+                    |
+                    <a href="#general" lang="eng">General</a>
+                </div>
+
+                <p lang="eng">The Unified Court Records (UCR) database provides access to the public court records of the ICTR, the ICTY and the IRMCT. The UCR database is a part of the IRMCT website. The use of the UCR database constitutes agreement with the terms and conditions of use specified on the IRMCT website, as applicable.</p>
+                <h2 id="disclaimers" lang="eng">Disclaimers</h2>
+                <p lang="eng">Materials provided on this Site are provided “as is”, without warranty of any kind, either express or implied, including, without limitation, warranties of fitness for a particular purpose and non-infringement. The Mechanism specifically does not make any warranties or representations as to the accuracy or completeness of any such Materials. The Mechanism periodically adds, changes, improves or updates the Materials on this Site without notice. Under no circumstances shall the Mechanism be liable for any loss, damage, liability or expense incurred or suffered that is claimed to have resulted from the use of this Site, including, without limitation, any fault, error, omission, interruption or delay with respect thereto. The use of this Site is at the User’s sole risk. Under no circumstances, including but not limited to negligence, shall the United Nations, the Mechanism or any of its staff and affiliates be liable for any direct, indirect, incidental, special or consequential damages, even if advised of the possibility of such damage.</p>
+                <p lang="eng">The User specifically acknowledges and agrees that the Mechanism is not liable for any conduct of any User.</p>
+                <p lang="eng">This site may contain advice, opinions and statements of various information providers. The Mechanism does not represent or endorse the accuracy or reliability of any advice, opinion, statement or other information provided by any information provider, any User of this Site or any other person or entity. Reliance upon any such advice, opinion, statement, or other information shall also be at the User’s own risk. Neither the United Nations nor the Mechanism, and its affiliates, nor any of their respective agents, employees, information providers or content providers, shall be liable to any User or anyone else for any inaccuracy, error, omission, interruption, deletion, defect, alteration of or use of any content herein, or for its timeliness or completeness, nor shall they be liable for any failure of performance, computer virus or communication line failure, regardless of cause, or for any damages resulting therefrom.</p>
+                <p lang="eng">As a condition of use of this Site, the User agrees to indemnify the United Nations, the Mechanism and its affiliates from and against any and all actions, claims, losses, damages, liabilities and expenses (including reasonable attorneys’ fees) arising out of the User’s use of this Site, including, without limitation, any claims alleging facts that if true would constitute a breach by the User of these Terms and Conditions of Use. If the User is dissatisfied with any Material on this Site or with any of its Terms and Conditions of Use, the User’s sole and exclusive remedy is to discontinue using the Site.</p>
+
+                <h2 id="preservation" lang="eng">Preservation of immunities</h2>
+                <p lang="eng">Nothing herein shall constitute or be considered to be a limitation upon or a waiver of the privileges and immunities of the United Nations and the Mechanism, which are specifically reserved.</p>
+
+                <h2 id="countrynom" lang="eng">Country and area nomenclature</h2>
+                <p lang="eng">The designations employed and the presentation of material on this Site do not imply the expression of any opinion whatsoever on the part of the Mechanism or the United Nations concerning the legal status of any country, territory, city or area or of its authorities, or concerning the delimitation of its frontiers or boundaries.</p>
+
+                <h2 id="general" lang="eng">General</h2>
+                <p lang="eng">The Mechanism reserves the exclusive right in its sole discretion to alter, limit or discontinue the Site or any Materials in any respect. The Mechanism shall have no obligation to take the needs of any User into consideration in connection therewith.</p>
+                <p lang="eng">The Mechanism reserves the right to deny in its sole discretion any user access to this Site or any portion thereof without notice.</p>
+                <p lang="eng">No waiver by the Mechanism of any provision of these Terms and Conditions of Use shall be binding except as set forth in writing and signed by its duly authorized representative.</p>
+            
+            </div>
+        </div>
+    </div>
+
+
+
+    </div>
+    <div class="modal"></div>
+    
+    <script src="/bundles/js?v=l_8KrLFrhJYsSrdqSqYwUkSr6uv_oh_0LaOPN9zgnt41"></script>
+
+    <script src="/bundles/modernizr?v=OoGgFHzAxKTawEufWfct3JaS3gGGuVx4BBltdeRBESo1"></script>
+
+    <script src="/bundles/ucr?v=9ib6HfTl6zLOIh7fvUPAQX8vvTszyM0C-vxludQlFRs1"></script>
+
+<script src="/bundles/ajaxhome?v=UObHu0yuczf1P64Z6GI5KS-DW73Axs0T5tuQHU9c-po1"></script>
+
+
+    <script>
+    //::ADD START
+	function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
+    function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires="+d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
+    function checkPrivacyCookie() {
+        var privacyOption = getCookie("privacyOption");
+        if (privacyOption == "hide") {
+            return true;
+        }
+        return false;
+    }
+
+    var currLang = getCookie('langCookie');
+    if(currLang == "")
+    {
+        currLang = 'eng';
+    }
+	//::ADD END
+        $(document).foundation();
+        $.fn.dataTable.ext.errMode = 'throw';
+
+        var lang = new Lang();
+        lang.dynamic('kin', '/assets/langpack/kin.json');
+        lang.dynamic('hbs', '/assets/langpack/hbs.json');
+        lang.dynamic('fra', '/assets/langpack/fra.json');
+        lang.dynamic('sqi', '/assets/langpack/sqi.json');
+        lang.dynamic('mdk', '/assets/langpack/mdk.json');
+
+        lang.init({
+            defaultLang: 'eng'
+        });
+
+        function myLangSelection(lng) {
+            
+          
+            if(typeof window.lang !== "undefined")
+            {    
+                window.lang.change(lng);
+            }
+            currLang = lng;  //::ADD
+            $('.hbs').show();
+            $('.fra').show();
+            $('.kin').show();
+            $('.sqi').show();
+            $('.mdk').show();
+            $('.eng').show();
+
+            $('.eng-only').hide();
+            $('.other-lang-only').hide();
+
+
+            $('.eng-logo').hide();
+            $('.fra-logo').hide();
+            $('.kin-logo').hide();
+            $('.sqi-logo').hide();            
+            $('.mdk-logo').hide();
+            $('.hbs-logo').hide();
+
+
+            if($('#termsol').hasClass('lower-macedonian')){
+                $('#termsol').removeClass('lower-macedonian');
+                $('#termsol').addClass('alpha');
+            }
+            switch (lng) {
+                    case "hbs":
+                    $('.btnCurLang').html('bosanski, hrvatski ili srpski');
+                    //$('.btnCurLang').html('Prijevod');
+                    $('.btnCurLangS').html('SH');
+                    $('.hbs').hide();
+                    $('.hbs-logo').show();
+                     $('.eng-only').hide();
+                     $('.other-lang-only').show();
+                break;
+                case "fra":
+                    $('.btnCurLang').html('Français');
+                    $('.btnCurLangS').html('FR');
+                    $('.fra').hide();
+                    $('.fra-logo').show();
+                    $('.eng-only').hide();
+                     $('.other-lang-only').show();
+                    break;
+                case "kin":
+                    $('.btnCurLang').html('IKinyarwanda');
+                    $('.btnCurLangS').html('RW');
+                    $('.kin-logo').show();
+                    $('.eng-only').hide();
+                     $('.other-lang-only').show();
+                    break;
+                case "sqi":
+                    $('.btnCurLang').html('Shqip');
+                    $('.btnCurLangS').html('SQ');
+                    $('.sqi-logo').show();
+                    $('.eng-only').hide();
+                     $('.other-lang-only').show();
+                    break;
+                case "mdk":
+                     $('.btnCurLang').html('македонски');
+                     $('.btnCurLangS').html('MK');
+                     $('.mdk').hide();
+                     $('#termsol').removeClass('alpha');
+                     $('#termsol').addClass('lower-macedonian');
+                     $('.mdk-logo').show();
+                     $('.eng-only').hide();
+                     $('.other-lang-only').show();
+                    break;
+                default:
+                     $('.btnCurLang').html('English');
+                     $('.btnCurLangS').html('EN');
+                     $('.languagesel').foundation('close');
+                     $('.eng').hide();
+                     $('.eng-logo').show();
+                     $('.eng-only').show();
+                     $('.other-lang-only').hide();
+            }
+            
+            $('.languagesel').each(function(index,value)
+            {
+                $(this).foundation('close');
+            });
+
+            $('.languageselS').each(function(index,value)
+            {
+                $(this).foundation('close');
+            });
+            //$('#schLang').trigger('change');
+
+           
+            /*
+            if($('#schLang').val() == "")
+            {
+                changeSearchLangColl();
+            }
+            */
+        }
+    $(function () {
+        loggedIn = false;    
+        myLangSelection(currLang);    
+    });
+    </script>  
+    
+    
+</body>
+</html>

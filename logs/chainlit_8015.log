@@ -1,0 +1,67 @@
+2026-04-29 11:58:13 - INFO - chainlit - Your app is available at http://localhost:8015
+2026-04-29 11:58:26 - WARNING - chainlit - Translated markdown file for en-US not found. Defaulting to chainlit.md.
+2026-04-29 11:58:26 - INFO - chainlit - Missing custom logo. Falling back to default logo.
+2026-04-29 11:58:27 - INFO - src.rag.vector_store - Vector backend resolved to: embedded_qdrant (QDRANT_URL=http://localhost:6333)
+[OmniLegal] Vector backend = 'embedded_qdrant', QDRANT_URL = 'http://localhost:6333'
+2026-04-29 11:58:28 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections "HTTP/1.1 200 OK"
+2026-04-29 11:58:28 - INFO - src.rag.vector_store - Qdrant server detected at http://localhost:6333 — auto-switching from embedded to server_qdrant
+[OmniLegal] Auto-switching from embedded to server_qdrant (server at http://localhost:6333 is alive)
+2026-04-29 11:58:28 - INFO - src.rag.vector_store - Connecting to Qdrant server at http://localhost:6333
+2026-04-29 11:58:28 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections "HTTP/1.1 200 OK"
+2026-04-29 11:58:28 - INFO - src.rag.vector_store - Successfully connected to Qdrant server
+2026-04-29 11:58:28 - INFO - httpx - HTTP Request: GET http://localhost:6333 "HTTP/1.1 200 OK"
+2026-04-29 11:58:29 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections "HTTP/1.1 200 OK"
+2026-04-29 11:58:29 - INFO - httpx - HTTP Request: GET http://localhost:6333 "HTTP/1.1 200 OK"
+2026-04-29 11:58:29 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/INTL_TREATIES "HTTP/1.1 200 OK"
+2026-04-29 11:58:29 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_IN "HTTP/1.1 200 OK"
+2026-04-29 11:58:29 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_US "HTTP/1.1 200 OK"
+2026-04-29 11:58:30 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_UK "HTTP/1.1 200 OK"
+2026-04-29 11:58:31 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_EU "HTTP/1.1 200 OK"
+2026-04-29 11:58:31 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_RU "HTTP/1.1 200 OK"
+2026-04-29 11:58:32 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_IL "HTTP/1.1 200 OK"
+2026-04-29 11:58:32 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW "HTTP/1.1 200 OK"
+2026-04-29 11:58:32 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/SHAW_PRIVATE "HTTP/1.1 200 OK"
+2026-04-29 11:58:32 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/COMMENTARY "HTTP/1.1 200 OK"
+2026-04-29 11:58:32 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/REFERENCE_DATASET "HTTP/1.1 200 OK"
+2026-04-29 11:58:32 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/REFERENCE_DATASET_GLOBAL "HTTP/1.1 200 OK"
+2026-04-29 11:58:32 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/REFERENCE_DATASET_EU "HTTP/1.1 200 OK"
+2026-04-29 11:58:32 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_GLOBAL "HTTP/1.1 200 OK"
+2026-04-29 11:58:32 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_US "HTTP/1.1 200 OK"
+2026-04-29 11:58:33 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_IN "HTTP/1.1 200 OK"
+2026-04-29 11:58:33 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_EU "HTTP/1.1 200 OK"
+2026-04-29 11:58:33 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_UK "HTTP/1.1 200 OK"
+2026-04-29 11:58:33 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_RU "HTTP/1.1 200 OK"
+2026-04-29 11:58:33 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_IL "HTTP/1.1 200 OK"
+2026-04-29 11:58:33 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_US "HTTP/1.1 200 OK"
+2026-04-29 11:58:33 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_IN "HTTP/1.1 200 OK"
+2026-04-29 11:58:33 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_EU "HTTP/1.1 200 OK"
+2026-04-29 11:58:33 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_UK "HTTP/1.1 200 OK"
+2026-04-29 11:58:34 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_RU "HTTP/1.1 200 OK"
+2026-04-29 11:58:34 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_IL "HTTP/1.1 200 OK"
+2026-04-29 11:58:34 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/COMMENTARY_GLOBAL "HTTP/1.1 200 OK"
+2026-04-29 11:58:34 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:58:35 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:58:35 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:58:37 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:58:37 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:58:38 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:58:38 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:58:38 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:59:37 - INFO - chainlit_app.py - Source-first fast path answered query with 8 verified sources
+2026-04-29 12:00:48 - INFO - src.rag.vector_store - Loading BAAI/bge-m3 for embeddings on ['cuda:0'] with batch_size=8
+2026-04-29 12:00:49 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/BAAI/bge-m3/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-29 12:00:49 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/BAAI/bge-m3/5617a9f61b028005a4858fdac845db406aefb181/config.json "HTTP/1.1 200 OK"
+2026-04-29 12:00:50 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/BAAI/bge-m3/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-29 12:00:50 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/BAAI/bge-m3/5617a9f61b028005a4858fdac845db406aefb181/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-29 12:00:50 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/BAAI/bge-m3/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-29 12:00:50 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/BAAI/bge-m3/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-29 12:00:55 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/BAAI/bge-m3 "HTTP/1.1 200 OK"
+2026-04-29 12:00:55 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/BAAI/bge-m3/revision/main "HTTP/1.1 200 OK"
+2026-04-29 12:00:56 - INFO - FlagEmbedding.finetune.embedder.encoder_only.m3.runner - loading existing colbert_linear and sparse_linear---------
+2026-04-29 12:00:57 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/MoritzLaurer/deberta-v3-large-zeroshot-v2.0-c/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-29 12:00:57 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/MoritzLaurer/deberta-v3-large-zeroshot-v2.0-c/b2730f16019076bb0009481121efbe4705e0e378/config.json "HTTP/1.1 200 OK"
+2026-04-29 12:00:57 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/MoritzLaurer/deberta-v3-large-zeroshot-v2.0-c/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-29 12:00:58 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/MoritzLaurer/deberta-v3-large-zeroshot-v2.0-c/b2730f16019076bb0009481121efbe4705e0e378/config.json "HTTP/1.1 200 OK"
+2026-04-29 12:00:58 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/MoritzLaurer/deberta-v3-large-zeroshot-v2.0-c/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-29 12:00:59 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/MoritzLaurer/deberta-v3-large-zeroshot-v2.0-c/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-29 12:01:01 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/MoritzLaurer/deberta-v3-large-zeroshot-v2.0-c "HTTP/1.1 200 OK"

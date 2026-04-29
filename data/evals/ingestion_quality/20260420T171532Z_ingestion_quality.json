@@ -1,0 +1,164 @@
+{
+  "created_at": "2026-04-20T17:15:32.980547+00:00",
+  "samples_per_collection": 2,
+  "counts": {
+    "INTL_TREATIES": 274,
+    "NATIONAL_IN": 589,
+    "NATIONAL_US": 864,
+    "NATIONAL_UK": 0,
+    "NATIONAL_EU": 511,
+    "NATIONAL_RU": 0,
+    "NATIONAL_IL": 166,
+    "CASE_LAW": 3930,
+    "SHAW_PRIVATE": 1184,
+    "COMMENTARY": 0,
+    "CASE_LAW_GLOBAL": 26,
+    "CASE_LAW_US": 10,
+    "CASE_LAW_IN": 5,
+    "CASE_LAW_EU": 6,
+    "CASE_LAW_UK": 6,
+    "CASE_LAW_RU": 8,
+    "CASE_LAW_IL": 4,
+    "STATUTES_US": 6,
+    "STATUTES_IN": 5,
+    "STATUTES_EU": 4,
+    "STATUTES_UK": 2,
+    "STATUTES_RU": 2,
+    "STATUTES_IL": 3,
+    "COMMENTARY_GLOBAL": 23
+  },
+  "total_problem_count": 1,
+  "status": "fail",
+  "collections": {
+    "INTL_TREATIES": {
+      "count": 274,
+      "sampled": 2,
+      "findings": []
+    },
+    "NATIONAL_IN": {
+      "count": 589,
+      "sampled": 2,
+      "findings": []
+    },
+    "NATIONAL_US": {
+      "count": 864,
+      "sampled": 2,
+      "findings": []
+    },
+    "NATIONAL_UK": {
+      "count": 0,
+      "sampled": 0,
+      "findings": []
+    },
+    "NATIONAL_EU": {
+      "count": 511,
+      "sampled": 2,
+      "findings": []
+    },
+    "NATIONAL_RU": {
+      "count": 0,
+      "sampled": 0,
+      "findings": []
+    },
+    "NATIONAL_IL": {
+      "count": 166,
+      "sampled": 2,
+      "findings": [
+        {
+          "source_name": "Knesset Corpus (Goldin et al., 2024)",
+          "doc_type": "remote_source_content",
+          "jurisdiction": "huggingface training/benchmark datasets",
+          "problems": [
+            "bad_content:login"
+          ],
+          "preview": "Title Author Abstract Comments Journal reference ACM classification MSC classification Report number arXiv identifier DOI ORCID arXiv author ID Help pages Full text Search GO quick links Login Help Pages About Computer Science > Computation"
+        }
+      ]
+    },
+    "CASE_LAW": {
+      "count": 3930,
+      "sampled": 2,
+      "findings": []
+    },
+    "SHAW_PRIVATE": {
+      "count": 1184,
+      "sampled": 2,
+      "findings": []
+    },
+    "COMMENTARY": {
+      "count": 0,
+      "sampled": 0,
+      "findings": []
+    },
+    "CASE_LAW_GLOBAL": {
+      "count": 26,
+      "sampled": 2,
+      "findings": []
+    },
+    "CASE_LAW_US": {
+      "count": 10,
+      "sampled": 2,
+      "findings": []
+    },
+    "CASE_LAW_IN": {
+      "count": 5,
+      "sampled": 2,
+      "findings": []
+    },
+    "CASE_LAW_EU": {
+      "count": 6,
+      "sampled": 2,
+      "findings": []
+    },
+    "CASE_LAW_UK": {
+      "count": 6,
+      "sampled": 2,
+      "findings": []
+    },
+    "CASE_LAW_RU": {
+      "count": 8,
+      "sampled": 2,
+      "findings": []
+    },
+    "CASE_LAW_IL": {
+      "count": 4,
+      "sampled": 2,
+      "findings": []
+    },
+    "STATUTES_US": {
+      "count": 6,
+      "sampled": 2,
+      "findings": []
+    },
+    "STATUTES_IN": {
+      "count": 5,
+      "sampled": 2,
+      "findings": []
+    },
+    "STATUTES_EU": {
+      "count": 4,
+      "sampled": 2,
+      "findings": []
+    },
+    "STATUTES_UK": {
+      "count": 2,
+      "sampled": 2,
+      "findings": []
+    },
+    "STATUTES_RU": {
+      "count": 2,
+      "sampled": 2,
+      "findings": []
+    },
+    "STATUTES_IL": {
+      "count": 3,
+      "sampled": 2,
+      "findings": []
+    },
+    "COMMENTARY_GLOBAL": {
+      "count": 23,
+      "sampled": 2,
+      "findings": []
+    }
+  }
+}

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verifying your browser...</title>
+
+<style nonce="{{ csp_nonce }}">
+  body {
+    font-family: system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    margin:0;
+    background:#0b1220;
+    color:#e6e6e6;
+  }
+  .box {
+    max-width:680px;
+    margin:12vh auto;
+    background:#121a2b;
+    border-radius:16px;
+    padding:2rem;
+    box-shadow:0 8px 32px rgba(0,0,0,.35);
+    text-align:center;
+  }
+  h1 { margin:0 0 .5rem 0; font-size:1.25rem; }
+  p  { color:#b6c2d9; line-height:1.6; margin:.5rem 0 0 0; }
+  .spinner {
+    width:36px; height:36px;
+    border:3px solid #3a4a6a;
+    border-top-color:#c7d2fe;
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+    margin:1rem auto;
+  }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  button.challenge-btn {
+    display:none;
+    margin-top:1rem;
+    padding:0.8rem 1.5rem;
+    font-size:1rem;
+    border:none;
+    border-radius:6px;
+    background-color:#3b82f6;
+    color:#fff;
+    cursor:pointer;
+    opacity:0.6;
+    transition:opacity 0.3s ease;
+  }
+  button.challenge-btn.active {
+    opacity:1;
+    pointer-events:auto;
+  }
+  button.challenge-btn:hover { background-color:#2563eb; }
+</style>
+</head>
+
+<body>
+  <div class="box">
+    <div class="spinner"></div>
+    <h1>Just a moment... <span id="countdown"></span></h1>
+    <p id="message">
+      We're checking your browser and enabling access.<br>
+      If JavaScript or cookies are disabled, please enable them and reload.
+    </p>
+    <button class="challenge-btn" id="placeholder-btn"></button>
+    <noscript><p><strong>JavaScript is required.</strong></p></noscript>
+  </div>
+
+  <script nonce="{{ csp_nonce }}">
+  // --- Safe headless browser detection ---
+  function isHeadlessSafe() {
+      try {
+          if (navigator.webdriver) return true;
+          if (/Headless/i.test(navigator.userAgent)) return true;
+          if (!navigator.plugins.length && !navigator.mimeTypes.length) return true;
+          if (!navigator.languages?.length) return true;
+      } catch {
+          return true;
+      }
+      return false;
+  }
+
+  if (isHeadlessSafe()) {
+      document.body.innerHTML = `
+        <div style="text-align:center;margin-top:20vh;">
+          <h1>Access Denied</h1>
+          <p>Automated or headless browser detected.</p>
+        </div>`;
+      throw new Error("Headless browser detected");
+  }
+
+  // --- Challenge with button click ---
+  (() => {
+      const countdownEl = document.getElementById("countdown");
+      const messageEl   = document.getElementById("message");
+      const btnEl       = document.getElementById("placeholder-btn");
+      if (!countdownEl || !messageEl || !btnEl) return;
+
+      // Delay 4–7 seconds before showing button
+      const delaySeconds = 4 + Math.floor(Math.random() * 4);
+
+      // Randomize button ID + label
+      const randomID = "btn_" + Math.random().toString(36).substring(2, 10);
+      const labels = [
+        "Click to continue",
+        "Continue browsing",
+        "I’m not a bot",
+        "Verify and proceed",
+        "Access the site"
+      ];
+      const randomLabel = labels[Math.floor(Math.random() * labels.length)];
+      btnEl.id = randomID;
+      btnEl.textContent = randomLabel;
+
+      // Extract redirect target
+      const params = new URLSearchParams(window.location.search);
+      const redir = params.get("url");
+      if (!redir) {
+          messageEl.textContent = "No redirect target found.";
+          return;
+      }
+
+      let target;
+      try {
+          target = new URL(redir, location.origin);
+      } catch {
+          messageEl.textContent = "Invalid redirect URL.";
+          return;
+      }
+
+      const allowedProtocols = new Set(["http:", "https:"]);
+      if (!allowedProtocols.has(target.protocol) || target.origin !== location.origin) {
+          messageEl.textContent = "Blocked invalid or cross-origin redirect.";
+          return;
+      }
+
+      // Countdown before enabling button
+      let remaining = delaySeconds;
+      countdownEl.textContent = `(${remaining})`;
+
+      const timer = setInterval(() => {
+          remaining--;
+          if (remaining > 0) {
+              countdownEl.textContent = `(${remaining})`;
+          } else {
+              clearInterval(timer);
+              messageEl.textContent = "Please confirm you are human by clicking the button below.";
+              btnEl.style.display = "inline-block";
+
+              // Delay before enabling click (1–2.5s)
+              const enableDelay = 1000 + Math.random() * 1500;
+              setTimeout(() => {
+                  btnEl.classList.add("active");
+                  btnEl.disabled = false;
+              }, enableDelay);
+          }
+      }, 1000);
+
+      // Handle button click (only once active)
+      document.addEventListener("click", (e) => {
+          if (e.target && e.target.id === randomID && e.target.classList.contains("active")) {
+              e.preventDefault();
+
+              const token = Math.random().toString(36).substring(2, 10) +
+                            Date.now().toString(36).slice(-4);
+              document.cookie = "visited=" + token +
+                                "; path=/; max-age=3600; SameSite=Lax; Secure";
+
+              messageEl.textContent = "Verification complete. Redirecting...";
+              e.target.disabled = true;
+
+              // Small human-like delay
+              setTimeout(() => {
+                  window.location.replace(target.href);
+              }, 600 + Math.random() * 1200);
+          }
+      });
+  })();
+  </script>
+</body>
+</html>
+

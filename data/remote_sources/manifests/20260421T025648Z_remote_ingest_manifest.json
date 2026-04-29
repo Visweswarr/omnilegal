@@ -1,0 +1,3133 @@
+{
+  "created_at": "2026-04-21T02:56:48.627470+00:00",
+  "catalog": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\caselaws",
+  "mode": "licensed",
+  "download_requested": true,
+  "ingest_requested": true,
+  "resume": true,
+  "reset_checkpoint": false,
+  "adapter_filter": [],
+  "full_source": false,
+  "target_collection_group": "all",
+  "quality_gate": "strict",
+  "quality_rejected_count": 0,
+  "update_mode": "overwrite_same_source_version",
+  "dedupe": "strict",
+  "dedupe_skipped_count": 1338,
+  "duplicate_sources": {
+    "07a17f5e41f1da5cf953c60f0f6ebedd061a259dfa3a7fc0aef69de75d34a318": [
+      "RusLawOD: Russian Law #0",
+      "RusLawOD: Russian Law #0",
+      "RusLawOD: Russian Law #0"
+    ],
+    "412e68233db59802b2939d88db3074351392e17f57a44847e92c861f9d335756": [
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1",
+      "RusLawOD: Russian Law #1"
+    ],
+    "feb573bac022c630ccb59f6bc02dcbb497e59a7c3b839f3d60610b69485838ca": [
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2",
+      "RusLawOD: Russian Law #2"
+    ],
+    "6860aabffba58523608d019e2d6dc6d291c1e078a6539bf14803db00762c45aa": [
+      "RusLawOD: Russian Law #3",
+      "RusLawOD: Russian Law #3",
+      "RusLawOD: Russian Law #3",
+      "RusLawOD: Russian Law #3",
+      "RusLawOD: Russian Law #3",
+      "RusLawOD: Russian Law #3",
+      "RusLawOD: Russian Law #3",
+      "RusLawOD: Russian Law #3",
+      "RusLawOD: Russian Law #3",
+      "RusLawOD: Russian Law #3",
+      "RusLawOD: Russian Law #3"
+    ],
+    "279b02e4a3f253b70e98b73b263c8a4b9a0074d02d105dac5b01d3e917571919": [
+      "RusLawOD: Russian Law #5",
+      "RusLawOD: Russian Law #5",
+      "RusLawOD: Russian Law #5",
+      "RusLawOD: Russian Law #5",
+      "RusLawOD: Russian Law #5",
+      "RusLawOD: Russian Law #5",
+      "RusLawOD: Russian Law #5"
+    ],
+    "0d169c4e8e0b6827792dfc9b217cbaafb070465d54d3be4f6ea7c29441198fa3": [
+      "RusLawOD: Russian Law #6",
+      "RusLawOD: Russian Law #6",
+      "RusLawOD: Russian Law #6"
+    ],
+    "6f80d30209a109363fc92214ba31d88b944cca97079f98900ad3daf0dd9f29c4": [
+      "RusLawOD: Russian Law #9",
+      "RusLawOD: Russian Law #9",
+      "RusLawOD: Russian Law #9"
+    ],
+    "96412941fd93e38f113697f2071bceca1c7822b3fef76ab5d778c9eeef237bef": [
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection",
+      "UN Treaty Collection"
+    ],
+    "e394257e57e28dc1c8ad43c1bb419fe41532d34a588c1ada568dbddd6532606c": [
+      "UN Digital Library: Economic collaboration with South Africa : draft resolution : addendum / Algeria, Bangladesh, Benin, Congo, Cuba, Egypt, Ethiopia, India, Jamaica, Jordan, Lao People's Democratic Republic, Libyan Arab Jamahiriya, Sierra Leone, Syrian Arab Republic, United Republic of Tanzania ,Viet Nam, Yugoslavia and Zambia.",
+      "UN Digital Library: Economic collaboration with South Africa : draft resolution : addendum / Algeria, Bangladesh, Benin, Congo, Cuba, Egypt, Ethiopia, India, Jamaica, Jordan, Lao People's Democratic Republic, Libyan Arab Jamahiriya, Sierra Leone, Syrian Arab Republic, United Republic of Tanzania ,Viet Nam, Yugoslavia and Zambia.",
+      "UN Digital Library: Economic collaboration with South Africa : draft resolution : addendum / Algeria, Bangladesh, Benin, Congo, Cuba, Egypt, Ethiopia, India, Jamaica, Jordan, Lao People's Democratic Republic, Libyan Arab Jamahiriya, Sierra Leone, Syrian Arab Republic, United Republic of Tanzania ,Viet Nam, Yugoslavia and Zambia.",
+      "UN Digital Library: Economic collaboration with South Africa : draft resolution : addendum / Algeria, Bangladesh, Benin, Congo, Cuba, Egypt, Ethiopia, India, Jamaica, Jordan, Lao People's Democratic Republic, Libyan Arab Jamahiriya, Sierra Leone, Syrian Arab Republic, United Republic of Tanzania ,Viet Nam, Yugoslavia and Zambia.",
+      "UN Digital Library: Economic collaboration with South Africa : draft resolution : addendum / Algeria, Bangladesh, Benin, Congo, Cuba, Egypt, Ethiopia, India, Jamaica, Jordan, Lao People's Democratic Republic, Libyan Arab Jamahiriya, Sierra Leone, Syrian Arab Republic, United Republic of Tanzania ,Viet Nam, Yugoslavia and Zambia.",
+      "UN Digital Library: Economic collaboration with South Africa : draft resolution : addendum / Algeria, Bangladesh, Benin, Congo, Cuba, Egypt, Ethiopia, India, Jamaica, Jordan, Lao People's Democratic Republic, Libyan Arab Jamahiriya, Sierra Leone, Syrian Arab Republic, United Republic of Tanzania ,Viet Nam, Yugoslavia and Zambia.",
+      "UN Digital Library: Economic collaboration with South Africa : draft resolution : addendum / Algeria, Bangladesh, Benin, Congo, Cuba, Egypt, Ethiopia, India, Jamaica, Jordan, Lao People's Democratic Republic, Libyan Arab Jamahiriya, Sierra Leone, Syrian Arab Republic, United Republic of Tanzania ,Viet Nam, Yugoslavia and Zambia.",
+      "UN Digital Library: Economic collaboration with South Africa : draft resolution : addendum / Algeria, Bangladesh, Benin, Congo, Cuba, Egypt, Ethiopia, India, Jamaica, Jordan, Lao People's Democratic Republic, Libyan Arab Jamahiriya, Sierra Leone, Syrian Arab Republic, United Republic of Tanzania ,Viet Nam, Yugoslavia and Zambia."
+    ],
+    "8a856d7a9357ea5b78cdae09f4c6d10b2a3b60178019e9196ac65cfb7067754d": [
+      "UN Digital Library: General Assembly official records, 33rd session : 93rd plenary meeting, Wednesday, 24 January 1979, New York",
+      "UN Digital Library: General Assembly official records, 33rd session : 93rd plenary meeting, Wednesday, 24 January 1979, New York",
+      "UN Digital Library: General Assembly official records, 33rd session : 93rd plenary meeting, Wednesday, 24 January 1979, New York",
+      "UN Digital Library: General Assembly official records, 33rd session : 93rd plenary meeting, Wednesday, 24 January 1979, New York",
+      "UN Digital Library: General Assembly official records, 33rd session : 93rd plenary meeting, Wednesday, 24 January 1979, New York"
+    ],
+    "579493af26a21ae34ccab6e009d95718037c5cf7c07ac7c66fcba9de21f04335": [
+      "UN Digital Library: Note / by the Secretary-General.",
+      "UN Digital Library: Note / by the Secretary-General.",
+      "UN Digital Library: Note / by the Secretary-General.",
+      "UN Digital Library: Note / by the Secretary-General.",
+      "UN Digital Library: Note / by the Secretary-General.",
+      "UN Digital Library: Note / by the Secretary-General.",
+      "UN Digital Library: Note / by the Secretary-General.",
+      "UN Digital Library: Note / by the Secretary-General."
+    ],
+    "65721a1848ea5e31859339fd14767a742381bdd38028503067b5d26c93712a0b": [
+      "UN Digital Library: Note / by the Secretary-General.",
+      "UN Digital Library: Note / by the Secretary-General.",
+      "UN Digital Library: Note / by the Secretary-General.",
+      "UN Digital Library: Note / by the Secretary-General.",
+      "UN Digital Library: Note / by the Secretary-General."
+    ],
+    "a6e9972c41609f012eac7474f106d73452b850726311f04ab48d7f196162cf36": [
+      "UN Digital Library: 11th report of the Security Council Committee Established in Pursuance of Resolution 253 (1968) concerning the Question of Southern Rhodesia.",
+      "UN Digital Library: 11th report of the Security Council Committee Established in Pursuance of Resolution 253 (1968) concerning the Question of Southern Rhodesia.",
+      "UN Digital Library: 11th report of the Security Council Committee Established in Pursuance of Resolution 253 (1968) concerning the Question of Southern Rhodesia.",
+      "UN Digital Library: 11th report of the Security Council Committee Established in Pursuance of Resolution 253 (1968) concerning the Question of Southern Rhodesia.",
+      "UN Digital Library: 11th report of the Security Council Committee Established in Pursuance of Resolution 253 (1968) concerning the Question of Southern Rhodesia."
+    ],
+    "0085b369c9c26fefc74885182c613e771a644cdc3a13f5441d104bfbf3252f28": [
+      "UN Digital Library: Note / by the Secretary-General.",
+      "UN Digital Library: Note / by the Secretary-General.",
+      "UN Digital Library: Note / by the Secretary-General.",
+      "UN Digital Library: Note / by the Secretary-General.",
+      "UN Digital Library: Note / by the Secretary-General.",
+      "UN Digital Library: Note / by the Secretary-General.",
+      "UN Digital Library: Note / by the Secretary-General.",
+      "UN Digital Library: Note / by the Secretary-General."
+    ],
+    "57db3cc2b56139c201b718303d8df1a36b889c8013620680ea06bf4d24db5fca": [
+      "UN Digital Library: Security Council, 34th year : 2119th meeting, Friday, 2 March 1979, New York",
+      "UN Digital Library: Security Council, 34th year : 2119th meeting, Friday, 2 March 1979, New York",
+      "UN Digital Library: Security Council, 34th year : 2119th meeting, Friday, 2 March 1979, New York",
+      "UN Digital Library: Security Council, 34th year : 2119th meeting, Friday, 2 March 1979, New York",
+      "UN Digital Library: Security Council, 34th year : 2119th meeting, Friday, 2 March 1979, New York",
+      "UN Digital Library: Security Council, 34th year : 2119th meeting, Friday, 2 March 1979, New York",
+      "UN Digital Library: Security Council, 34th year : 2119th meeting, Friday, 2 March 1979, New York",
+      "UN Digital Library: Security Council, 34th year : 2119th meeting, Friday, 2 March 1979, New York"
+    ],
+    "6b5a44d72a1942d2fc0df1d68a0b40516b5df1a67b734a6616711435987def34": [
+      "UN Digital Library: Security Council, 34th year : 2120th meeting, Monday, 5 March 1979, New York",
+      "UN Digital Library: Security Council, 34th year : 2120th meeting, Monday, 5 March 1979, New York",
+      "UN Digital Library: Security Council, 34th year : 2120th meeting, Monday, 5 March 1979, New York",
+      "UN Digital Library: Security Council, 34th year : 2120th meeting, Monday, 5 March 1979, New York",
+      "UN Digital Library: Security Council, 34th year : 2120th meeting, Monday, 5 March 1979, New York"
+    ],
+    "e7dffc59911f3f8cfcfdc1a55e36948026f312cb14a01f8735cea0d898c9a225": [
+      "UN Digital Library: Security Council, 34th year : 2121st meeting, Tuesday, 6 March 1979, New York",
+      "UN Digital Library: Security Council, 34th year : 2121st meeting, Tuesday, 6 March 1979, New York",
+      "UN Digital Library: Security Council, 34th year : 2121st meeting, Tuesday, 6 March 1979, New York",
+      "UN Digital Library: Security Council, 34th year : 2121st meeting, Tuesday, 6 March 1979, New York",
+      "UN Digital Library: Security Council, 34th year : 2121st meeting, Tuesday, 6 March 1979, New York",
+      "UN Digital Library: Security Council, 34th year : 2121st meeting, Tuesday, 6 March 1979, New York",
+      "UN Digital Library: Security Council, 34th year : 2121st meeting, Tuesday, 6 March 1979, New York",
+      "UN Digital Library: Security Council, 34th year : 2121st meeting, Tuesday, 6 March 1979, New York"
+    ],
+    "f8b2c5f8c234ba1c6ff5236cad47860dc2558fa04e7e5f101fcf94d66a061f9a": [
+      "UN Digital Library: Security Council, 34th year : 2130th meeting, Monday, 19 March 1979, New York",
+      "UN Digital Library: Security Council, 34th year : 2130th meeting, Monday, 19 March 1979, New York",
+      "UN Digital Library: Security Council, 34th year : 2130th meeting, Monday, 19 March 1979, New York",
+      "UN Digital Library: Security Council, 34th year : 2130th meeting, Monday, 19 March 1979, New York",
+      "UN Digital Library: Security Council, 34th year : 2130th meeting, Monday, 19 March 1979, New York",
+      "UN Digital Library: Security Council, 34th year : 2130th meeting, Monday, 19 March 1979, New York",
+      "UN Digital Library: Security Council, 34th year : 2130th meeting, Monday, 19 March 1979, New York",
+      "UN Digital Library: Security Council, 34th year : 2130th meeting, Monday, 19 March 1979, New York"
+    ],
+    "a704a08264c0285a6202e50d9d82d0170d9b98de38b414c0627bbba946ffe940": [
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT"
+    ],
+    "730d8020f907cabaeaedf1594f6f7fe103a6e34cac08d1e527102dc0d179b15e": [
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT",
+      "ICTY / ICTR / IRMCT"
+    ],
+    "4d6cef7f14f88adb4251045437a1187ac374af5134495345d0e9ec5e81fe5761": [
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "RECAP Archive",
+      "RECAP Archive",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)"
+    ],
+    "1d9dffc0230fce8596ee567e74b15700f20917cc40a4037526cf2336230cc6d0": [
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)"
+    ],
+    "07ed62f5a7a90b10207f3e6b4a24b81bf3a78b9a0c08e7165b030521f3f2f0bd": [
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)"
+    ],
+    "09812039ab6723698a423dab323334895702ea1bd10e0879eaa94774a99c1574": [
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)"
+    ],
+    "b4a4b42742dec117aaee80e241f12ae5d72d0e269db67886a7cbd999ccc1cbf0": [
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "RECAP Archive",
+      "RECAP Archive",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)"
+    ],
+    "2b1d1f0316cfe4c2d284b9c072de6768771904d33e9081f9a6f15d64c132d43c": [
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "RECAP Archive",
+      "RECAP Archive",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)"
+    ],
+    "028e45d487f7f2be59ccc3c872f7f8ab2058758803a3ec824a497a7614d77027": [
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)"
+    ],
+    "51cbcb6fd1c9f867c8daa828d5b7afb1392fbee0985c0a44114f112185ff8fe8": [
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)"
+    ],
+    "663878dfaa0df0695da5812a7aa481482a44ddda5a418fe30988deda2e41c220": [
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "CourtListener (Free Law Project)",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "RECAP Archive",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)",
+      "Caselaw Access Project (Harvard LIL)"
+    ],
+    "a1447921c27d56a1f711650dd02313f55ef94f840527b8164aaf5d2492fda1ef": [
+      "GovInfo: Small Business Innovation and Economic Security Act",
+      "GovInfo: Small Business Innovation and Economic Security Act",
+      "GovInfo: Small Business Innovation and Economic Security Act",
+      "GovInfo: Small Business Innovation and Economic Security Act",
+      "GovInfo: Small Business Innovation and Economic Security Act",
+      "GovInfo: Small Business Innovation and Economic Security Act",
+      "GovInfo: Small Business Innovation and Economic Security Act",
+      "GovInfo: Small Business Innovation and Economic Security Act",
+      "GovInfo: Small Business Innovation and Economic Security Act",
+      "GovInfo: Small Business Innovation and Economic Security Act",
+      "GovInfo: Small Business Innovation and Economic Security Act",
+      "GovInfo: Small Business Innovation and Economic Security Act",
+      "GovInfo: Small Business Innovation and Economic Security Act",
+      "GovInfo: Small Business Innovation and Economic Security Act",
+      "GovInfo: Small Business Innovation and Economic Security Act",
+      "GovInfo: Small Business Innovation and Economic Security Act",
+      "GovInfo: Small Business Innovation and Economic Security Act",
+      "GovInfo: Small Business Innovation and Economic Security Act",
+      "GovInfo: Small Business Innovation and Economic Security Act"
+    ],
+    "7b850f06b9bfc2e403705da721874e8ec3ff94dc1b582662d9cf78a19f40c9ca": [
+      "GovInfo: Holocaust Expropriated Art Recovery Act of 2025",
+      "GovInfo: Holocaust Expropriated Art Recovery Act of 2025",
+      "GovInfo: Holocaust Expropriated Art Recovery Act of 2025"
+    ],
+    "2f2c497e6f51bf720f20434ff82d6172370d63f1fab9adc8ffcb57305e53dcfe": [
+      "GovInfo: Laken Riley Act",
+      "GovInfo: Laken Riley Act",
+      "GovInfo: Laken Riley Act",
+      "GovInfo: Laken Riley Act",
+      "GovInfo: Laken Riley Act"
+    ],
+    "e56303f9e2c3e35196c4c973e8db194888a9633979250cf20362cee1bc27f814": [
+      "GovInfo: Securing American Freight, Enforcement, and Reliability in Transport Act; SAFER Transport Act",
+      "GovInfo: Securing American Freight, Enforcement, and Reliability in Transport Act; SAFER Transport Act",
+      "GovInfo: Securing American Freight, Enforcement, and Reliability in Transport Act; SAFER Transport Act",
+      "GovInfo: Securing American Freight, Enforcement, and Reliability in Transport Act; SAFER Transport Act",
+      "GovInfo: Securing American Freight, Enforcement, and Reliability in Transport Act; SAFER Transport Act",
+      "GovInfo: Securing American Freight, Enforcement, and Reliability in Transport Act; SAFER Transport Act",
+      "GovInfo: Securing American Freight, Enforcement, and Reliability in Transport Act; SAFER Transport Act",
+      "GovInfo: Securing American Freight, Enforcement, and Reliability in Transport Act; SAFER Transport Act",
+      "GovInfo: Securing American Freight, Enforcement, and Reliability in Transport Act; SAFER Transport Act",
+      "GovInfo: Securing American Freight, Enforcement, and Reliability in Transport Act; SAFER Transport Act",
+      "GovInfo: Securing American Freight, Enforcement, and Reliability in Transport Act; SAFER Transport Act",
+      "GovInfo: Securing American Freight, Enforcement, and Reliability in Transport Act; SAFER Transport Act",
+      "GovInfo: Securing American Freight, Enforcement, and Reliability in Transport Act; SAFER Transport Act",
+      "GovInfo: Securing American Freight, Enforcement, and Reliability in Transport Act; SAFER Transport Act",
+      "GovInfo: Securing American Freight, Enforcement, and Reliability in Transport Act; SAFER Transport Act",
+      "GovInfo: Securing American Freight, Enforcement, and Reliability in Transport Act; SAFER Transport Act",
+      "GovInfo: Securing American Freight, Enforcement, and Reliability in Transport Act; SAFER Transport Act"
+    ],
+    "954991aa4ca9859dbf22ba577845c7116738d85cf3806a4b70573fcd98e63e24": [
+      "GovInfo: Senior Hunger Prevention Act of 2026",
+      "GovInfo: Senior Hunger Prevention Act of 2026",
+      "GovInfo: Senior Hunger Prevention Act of 2026",
+      "GovInfo: Senior Hunger Prevention Act of 2026",
+      "GovInfo: Senior Hunger Prevention Act of 2026",
+      "GovInfo: Senior Hunger Prevention Act of 2026",
+      "GovInfo: Senior Hunger Prevention Act of 2026",
+      "GovInfo: Senior Hunger Prevention Act of 2026",
+      "GovInfo: Senior Hunger Prevention Act of 2026",
+      "GovInfo: Senior Hunger Prevention Act of 2026",
+      "GovInfo: Senior Hunger Prevention Act of 2026",
+      "GovInfo: Senior Hunger Prevention Act of 2026",
+      "GovInfo: Senior Hunger Prevention Act of 2026",
+      "GovInfo: Senior Hunger Prevention Act of 2026",
+      "GovInfo: Senior Hunger Prevention Act of 2026",
+      "GovInfo: Senior Hunger Prevention Act of 2026",
+      "GovInfo: Senior Hunger Prevention Act of 2026"
+    ],
+    "9cb3a18231188946581d61ea135f96308574f01de15250de99251cbc30c61786": [
+      "GPO Bulk Data (eCFR/CFR)"
+    ],
+    "361c5cc6f6a3d8ed340a145b90bea1f2c61b751aacf25c246722cfc37f90d263": [
+      "EUR-Lex: Regulation (EU) 2025/327 of the European Parliament and of the Council of 11 February 2025 on the European Health Data Space and amending Directive 2011/24/EU and Regulation (EU) 2024/2847 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/327 of the European Parliament and of the Council of 11 February 2025 on the European Health Data Space and amending Directive 2011/24/EU and Regulation (EU) 2024/2847 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/327 of the European Parliament and of the Council of 11 February 2025 on the European Health Data Space and amending Directive 2011/24/EU and Regulation (EU) 2024/2847 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/327 of the European Parliament and of the Council of 11 February 2025 on the European Health Data Space and amending Directive 2011/24/EU and Regulation (EU) 2024/2847 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/327 of the European Parliament and of the Council of 11 February 2025 on the European Health Data Space and amending Directive 2011/24/EU and Regulation (EU) 2024/2847 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/327 of the European Parliament and of the Council of 11 February 2025 on the European Health Data Space and amending Directive 2011/24/EU and Regulation (EU) 2024/2847 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/327 of the European Parliament and of the Council of 11 February 2025 on the European Health Data Space and amending Directive 2011/24/EU and Regulation (EU) 2024/2847 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/327 of the European Parliament and of the Council of 11 February 2025 on the European Health Data Space and amending Directive 2011/24/EU and Regulation (EU) 2024/2847 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/327 of the European Parliament and of the Council of 11 February 2025 on the European Health Data Space and amending Directive 2011/24/EU and Regulation (EU) 2024/2847 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/327 of the European Parliament and of the Council of 11 February 2025 on the European Health Data Space and amending Directive 2011/24/EU and Regulation (EU) 2024/2847 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/327 of the European Parliament and of the Council of 11 February 2025 on the European Health Data Space and amending Directive 2011/24/EU and Regulation (EU) 2024/2847 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/327 of the European Parliament and of the Council of 11 February 2025 on the European Health Data Space and amending Directive 2011/24/EU and Regulation (EU) 2024/2847 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/327 of the European Parliament and of the Council of 11 February 2025 on the European Health Data Space and amending Directive 2011/24/EU and Regulation (EU) 2024/2847 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/327 of the European Parliament and of the Council of 11 February 2025 on the European Health Data Space and amending Directive 2011/24/EU and Regulation (EU) 2024/2847 (Text with EEA relevance)"
+    ],
+    "5965277d20dee622a92e26fd85c26105a75a80aa254885f93b987b2ce848d849": [
+      "EUR-Lex: Council Regulation (EU) 2025/517 of 11 March 2025 amending Regulation (EU) No 904/2010 as regards the VAT administrative cooperation arrangements needed for the digital age",
+      "EUR-Lex: Council Regulation (EU) 2025/517 of 11 March 2025 amending Regulation (EU) No 904/2010 as regards the VAT administrative cooperation arrangements needed for the digital age",
+      "EUR-Lex: Council Regulation (EU) 2025/517 of 11 March 2025 amending Regulation (EU) No 904/2010 as regards the VAT administrative cooperation arrangements needed for the digital age",
+      "EUR-Lex: Council Regulation (EU) 2025/517 of 11 March 2025 amending Regulation (EU) No 904/2010 as regards the VAT administrative cooperation arrangements needed for the digital age",
+      "EUR-Lex: Council Regulation (EU) 2025/517 of 11 March 2025 amending Regulation (EU) No 904/2010 as regards the VAT administrative cooperation arrangements needed for the digital age",
+      "EUR-Lex: Council Regulation (EU) 2025/517 of 11 March 2025 amending Regulation (EU) No 904/2010 as regards the VAT administrative cooperation arrangements needed for the digital age",
+      "EUR-Lex: Council Regulation (EU) 2025/517 of 11 March 2025 amending Regulation (EU) No 904/2010 as regards the VAT administrative cooperation arrangements needed for the digital age",
+      "EUR-Lex: Council Regulation (EU) 2025/517 of 11 March 2025 amending Regulation (EU) No 904/2010 as regards the VAT administrative cooperation arrangements needed for the digital age",
+      "EUR-Lex: Council Regulation (EU) 2025/517 of 11 March 2025 amending Regulation (EU) No 904/2010 as regards the VAT administrative cooperation arrangements needed for the digital age",
+      "EUR-Lex: Council Regulation (EU) 2025/517 of 11 March 2025 amending Regulation (EU) No 904/2010 as regards the VAT administrative cooperation arrangements needed for the digital age",
+      "EUR-Lex: Council Regulation (EU) 2025/517 of 11 March 2025 amending Regulation (EU) No 904/2010 as regards the VAT administrative cooperation arrangements needed for the digital age",
+      "EUR-Lex: Council Regulation (EU) 2025/517 of 11 March 2025 amending Regulation (EU) No 904/2010 as regards the VAT administrative cooperation arrangements needed for the digital age",
+      "EUR-Lex: Council Regulation (EU) 2025/517 of 11 March 2025 amending Regulation (EU) No 904/2010 as regards the VAT administrative cooperation arrangements needed for the digital age",
+      "EUR-Lex: Council Regulation (EU) 2025/517 of 11 March 2025 amending Regulation (EU) No 904/2010 as regards the VAT administrative cooperation arrangements needed for the digital age"
+    ],
+    "04d3d97add7665dc532794b044b53e4d46fc46ecce7f378c7609df1055c0d270": [
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)"
+    ],
+    "69807f0838c72e5047071a8515bb19e79b8e6cbdc13084038b7ac080e020916c": [
+      "EUR-Lex: Regulation (EU) 2022/2399 of the European Parliament and of the Council of 23 November 2022 establishing the European Union Single Window Environment for Customs and amending Regulation (EU) No 952/2013",
+      "EUR-Lex: Regulation (EU) 2022/2399 of the European Parliament and of the Council of 23 November 2022 establishing the European Union Single Window Environment for Customs and amending Regulation (EU) No 952/2013",
+      "EUR-Lex: Regulation (EU) 2022/2399 of the European Parliament and of the Council of 23 November 2022 establishing the European Union Single Window Environment for Customs and amending Regulation (EU) No 952/2013",
+      "EUR-Lex: Regulation (EU) 2022/2399 of the European Parliament and of the Council of 23 November 2022 establishing the European Union Single Window Environment for Customs and amending Regulation (EU) No 952/2013",
+      "EUR-Lex: Regulation (EU) 2022/2399 of the European Parliament and of the Council of 23 November 2022 establishing the European Union Single Window Environment for Customs and amending Regulation (EU) No 952/2013",
+      "EUR-Lex: Regulation (EU) 2022/2399 of the European Parliament and of the Council of 23 November 2022 establishing the European Union Single Window Environment for Customs and amending Regulation (EU) No 952/2013",
+      "EUR-Lex: Regulation (EU) 2022/2399 of the European Parliament and of the Council of 23 November 2022 establishing the European Union Single Window Environment for Customs and amending Regulation (EU) No 952/2013",
+      "EUR-Lex: Regulation (EU) 2022/2399 of the European Parliament and of the Council of 23 November 2022 establishing the European Union Single Window Environment for Customs and amending Regulation (EU) No 952/2013",
+      "EUR-Lex: Regulation (EU) 2022/2399 of the European Parliament and of the Council of 23 November 2022 establishing the European Union Single Window Environment for Customs and amending Regulation (EU) No 952/2013",
+      "EUR-Lex: Regulation (EU) 2022/2399 of the European Parliament and of the Council of 23 November 2022 establishing the European Union Single Window Environment for Customs and amending Regulation (EU) No 952/2013",
+      "EUR-Lex: Regulation (EU) 2022/2399 of the European Parliament and of the Council of 23 November 2022 establishing the European Union Single Window Environment for Customs and amending Regulation (EU) No 952/2013",
+      "EUR-Lex: Regulation (EU) 2022/2399 of the European Parliament and of the Council of 23 November 2022 establishing the European Union Single Window Environment for Customs and amending Regulation (EU) No 952/2013",
+      "EUR-Lex: Regulation (EU) 2022/2399 of the European Parliament and of the Council of 23 November 2022 establishing the European Union Single Window Environment for Customs and amending Regulation (EU) No 952/2013",
+      "EUR-Lex: Regulation (EU) 2022/2399 of the European Parliament and of the Council of 23 November 2022 establishing the European Union Single Window Environment for Customs and amending Regulation (EU) No 952/2013"
+    ],
+    "0afbc12e7c8c8be0f1d2c12f2983fb237bbfca0660e3be6de3305967bae7cc39": [
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)"
+    ],
+    "da7aea48350b80c570d54c1c4566291c60d974ecff3224b7d730ef91df1ce8dc": [
+      "EUR-Lex: Regulation (EU) 2025/327 of the European Parliament and of the Council of 11 February 2025 on the European Health Data Space and amending Directive 2011/24/EU and Regulation (EU) 2024/2847 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/327 of the European Parliament and of the Council of 11 February 2025 on the European Health Data Space and amending Directive 2011/24/EU and Regulation (EU) 2024/2847 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/327 of the European Parliament and of the Council of 11 February 2025 on the European Health Data Space and amending Directive 2011/24/EU and Regulation (EU) 2024/2847 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/327 of the European Parliament and of the Council of 11 February 2025 on the European Health Data Space and amending Directive 2011/24/EU and Regulation (EU) 2024/2847 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/327 of the European Parliament and of the Council of 11 February 2025 on the European Health Data Space and amending Directive 2011/24/EU and Regulation (EU) 2024/2847 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/327 of the European Parliament and of the Council of 11 February 2025 on the European Health Data Space and amending Directive 2011/24/EU and Regulation (EU) 2024/2847 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/327 of the European Parliament and of the Council of 11 February 2025 on the European Health Data Space and amending Directive 2011/24/EU and Regulation (EU) 2024/2847 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/327 of the European Parliament and of the Council of 11 February 2025 on the European Health Data Space and amending Directive 2011/24/EU and Regulation (EU) 2024/2847 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/327 of the European Parliament and of the Council of 11 February 2025 on the European Health Data Space and amending Directive 2011/24/EU and Regulation (EU) 2024/2847 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/327 of the European Parliament and of the Council of 11 February 2025 on the European Health Data Space and amending Directive 2011/24/EU and Regulation (EU) 2024/2847 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/327 of the European Parliament and of the Council of 11 February 2025 on the European Health Data Space and amending Directive 2011/24/EU and Regulation (EU) 2024/2847 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/327 of the European Parliament and of the Council of 11 February 2025 on the European Health Data Space and amending Directive 2011/24/EU and Regulation (EU) 2024/2847 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/327 of the European Parliament and of the Council of 11 February 2025 on the European Health Data Space and amending Directive 2011/24/EU and Regulation (EU) 2024/2847 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/327 of the European Parliament and of the Council of 11 February 2025 on the European Health Data Space and amending Directive 2011/24/EU and Regulation (EU) 2024/2847 (Text with EEA relevance)"
+    ],
+    "2c3b10dd5265ba05e93897ffca362b72291b3c912bbbee151b7495c1a5f6e704": [
+      "EUR-Lex: Regulation (EU) 2017/746 of the European Parliament and of the Council of 5 April 2017 on in vitro diagnostic medical devices and repealing Directive 98/79/EC and Commission Decision 2010/227/EU (Text with EEA relevance. )",
+      "EUR-Lex: Regulation (EU) 2017/746 of the European Parliament and of the Council of 5 April 2017 on in vitro diagnostic medical devices and repealing Directive 98/79/EC and Commission Decision 2010/227/EU (Text with EEA relevance. )",
+      "EUR-Lex: Regulation (EU) 2017/746 of the European Parliament and of the Council of 5 April 2017 on in vitro diagnostic medical devices and repealing Directive 98/79/EC and Commission Decision 2010/227/EU (Text with EEA relevance. )",
+      "EUR-Lex: Regulation (EU) 2017/746 of the European Parliament and of the Council of 5 April 2017 on in vitro diagnostic medical devices and repealing Directive 98/79/EC and Commission Decision 2010/227/EU (Text with EEA relevance. )",
+      "EUR-Lex: Regulation (EU) 2017/746 of the European Parliament and of the Council of 5 April 2017 on in vitro diagnostic medical devices and repealing Directive 98/79/EC and Commission Decision 2010/227/EU (Text with EEA relevance. )",
+      "EUR-Lex: Regulation (EU) 2017/746 of the European Parliament and of the Council of 5 April 2017 on in vitro diagnostic medical devices and repealing Directive 98/79/EC and Commission Decision 2010/227/EU (Text with EEA relevance. )",
+      "EUR-Lex: Regulation (EU) 2017/746 of the European Parliament and of the Council of 5 April 2017 on in vitro diagnostic medical devices and repealing Directive 98/79/EC and Commission Decision 2010/227/EU (Text with EEA relevance. )",
+      "EUR-Lex: Regulation (EU) 2017/746 of the European Parliament and of the Council of 5 April 2017 on in vitro diagnostic medical devices and repealing Directive 98/79/EC and Commission Decision 2010/227/EU (Text with EEA relevance. )",
+      "EUR-Lex: Regulation (EU) 2017/746 of the European Parliament and of the Council of 5 April 2017 on in vitro diagnostic medical devices and repealing Directive 98/79/EC and Commission Decision 2010/227/EU (Text with EEA relevance. )",
+      "EUR-Lex: Regulation (EU) 2017/746 of the European Parliament and of the Council of 5 April 2017 on in vitro diagnostic medical devices and repealing Directive 98/79/EC and Commission Decision 2010/227/EU (Text with EEA relevance. )",
+      "EUR-Lex: Regulation (EU) 2017/746 of the European Parliament and of the Council of 5 April 2017 on in vitro diagnostic medical devices and repealing Directive 98/79/EC and Commission Decision 2010/227/EU (Text with EEA relevance. )",
+      "EUR-Lex: Regulation (EU) 2017/746 of the European Parliament and of the Council of 5 April 2017 on in vitro diagnostic medical devices and repealing Directive 98/79/EC and Commission Decision 2010/227/EU (Text with EEA relevance. )",
+      "EUR-Lex: Regulation (EU) 2017/746 of the European Parliament and of the Council of 5 April 2017 on in vitro diagnostic medical devices and repealing Directive 98/79/EC and Commission Decision 2010/227/EU (Text with EEA relevance. )",
+      "EUR-Lex: Regulation (EU) 2017/746 of the European Parliament and of the Council of 5 April 2017 on in vitro diagnostic medical devices and repealing Directive 98/79/EC and Commission Decision 2010/227/EU (Text with EEA relevance. )"
+    ],
+    "342419638c3b2ca360a82d11ba14dd951d0c7f76e521f98b9255dff2ac2fe883": [
+      "EUR-Lex: Regulation (EU) 2025/2509 of the European Parliament and of the Council of 26 November 2025 on the safety of toys and repealing Directive 2009/48/EC (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/2509 of the European Parliament and of the Council of 26 November 2025 on the safety of toys and repealing Directive 2009/48/EC (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/2509 of the European Parliament and of the Council of 26 November 2025 on the safety of toys and repealing Directive 2009/48/EC (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/2509 of the European Parliament and of the Council of 26 November 2025 on the safety of toys and repealing Directive 2009/48/EC (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/2509 of the European Parliament and of the Council of 26 November 2025 on the safety of toys and repealing Directive 2009/48/EC (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/2509 of the European Parliament and of the Council of 26 November 2025 on the safety of toys and repealing Directive 2009/48/EC (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/2509 of the European Parliament and of the Council of 26 November 2025 on the safety of toys and repealing Directive 2009/48/EC (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/2509 of the European Parliament and of the Council of 26 November 2025 on the safety of toys and repealing Directive 2009/48/EC (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/2509 of the European Parliament and of the Council of 26 November 2025 on the safety of toys and repealing Directive 2009/48/EC (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/2509 of the European Parliament and of the Council of 26 November 2025 on the safety of toys and repealing Directive 2009/48/EC (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/2509 of the European Parliament and of the Council of 26 November 2025 on the safety of toys and repealing Directive 2009/48/EC (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/2509 of the European Parliament and of the Council of 26 November 2025 on the safety of toys and repealing Directive 2009/48/EC (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/2509 of the European Parliament and of the Council of 26 November 2025 on the safety of toys and repealing Directive 2009/48/EC (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2025/2509 of the European Parliament and of the Council of 26 November 2025 on the safety of toys and repealing Directive 2009/48/EC (Text with EEA relevance)"
+    ],
+    "d5938080585fcefd1caf4d3761e91ee48145b0d97845f4ffa0b862ff39a4b09c": [
+      "EUR-Lex: Council Regulation (EU) 2025/517 of 11 March 2025 amending Regulation (EU) No 904/2010 as regards the VAT administrative cooperation arrangements needed for the digital age",
+      "EUR-Lex: Council Regulation (EU) 2025/517 of 11 March 2025 amending Regulation (EU) No 904/2010 as regards the VAT administrative cooperation arrangements needed for the digital age",
+      "EUR-Lex: Council Regulation (EU) 2025/517 of 11 March 2025 amending Regulation (EU) No 904/2010 as regards the VAT administrative cooperation arrangements needed for the digital age",
+      "EUR-Lex: Council Regulation (EU) 2025/517 of 11 March 2025 amending Regulation (EU) No 904/2010 as regards the VAT administrative cooperation arrangements needed for the digital age",
+      "EUR-Lex: Council Regulation (EU) 2025/517 of 11 March 2025 amending Regulation (EU) No 904/2010 as regards the VAT administrative cooperation arrangements needed for the digital age",
+      "EUR-Lex: Council Regulation (EU) 2025/517 of 11 March 2025 amending Regulation (EU) No 904/2010 as regards the VAT administrative cooperation arrangements needed for the digital age",
+      "EUR-Lex: Council Regulation (EU) 2025/517 of 11 March 2025 amending Regulation (EU) No 904/2010 as regards the VAT administrative cooperation arrangements needed for the digital age",
+      "EUR-Lex: Council Regulation (EU) 2025/517 of 11 March 2025 amending Regulation (EU) No 904/2010 as regards the VAT administrative cooperation arrangements needed for the digital age",
+      "EUR-Lex: Council Regulation (EU) 2025/517 of 11 March 2025 amending Regulation (EU) No 904/2010 as regards the VAT administrative cooperation arrangements needed for the digital age",
+      "EUR-Lex: Council Regulation (EU) 2025/517 of 11 March 2025 amending Regulation (EU) No 904/2010 as regards the VAT administrative cooperation arrangements needed for the digital age",
+      "EUR-Lex: Council Regulation (EU) 2025/517 of 11 March 2025 amending Regulation (EU) No 904/2010 as regards the VAT administrative cooperation arrangements needed for the digital age",
+      "EUR-Lex: Council Regulation (EU) 2025/517 of 11 March 2025 amending Regulation (EU) No 904/2010 as regards the VAT administrative cooperation arrangements needed for the digital age",
+      "EUR-Lex: Council Regulation (EU) 2025/517 of 11 March 2025 amending Regulation (EU) No 904/2010 as regards the VAT administrative cooperation arrangements needed for the digital age",
+      "EUR-Lex: Council Regulation (EU) 2025/517 of 11 March 2025 amending Regulation (EU) No 904/2010 as regards the VAT administrative cooperation arrangements needed for the digital age"
+    ],
+    "000ad73c852cb42fef0669342d4b3252df12acf639b9edaa35646ffb926a2647": [
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)",
+      "EUR-Lex: Regulation (EU) 2024/1257 of the European Parliament and of the Council of 24 April 2024 on type-approval of motor vehicles and engines and of systems, components and separate technical units intended for such vehicles, with respect to their emissions and battery durability (Euro 7), amending Regulation (EU) 2018/858 of the European Parliament and of the Council and repealing Regulations (EC) No 715/2007 and (EC) No 595/2009 of the European Parliament and of the Council, Commission Regulation (EU) No 582/2011, Commission Regulation (EU) 2017/1151, Commission Regulation (EU) 2017/2400 and Commission Implementing Regulation (EU) 2022/1362 (Text with EEA relevance)"
+    ],
+    "7d9f0c249b57cf49f6326550bc01881f2cf63de1c47a43c8e8a79a06b1831876": [
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India",
+      "PRS India"
+    ],
+    "e27eabde5b6731cf99ffe6d4733c0b0e15092474b8a87e0141d7c2949656c9c4": [
+      "Knesset + Open Knesset",
+      "Knesset + Open Knesset",
+      "Knesset + Open Knesset"
+    ],
+    "aed7e22711851ef37472e2976a58aad82887796902f8421103c0a05763a3acd9": [
+      "Knesset + Open Knesset"
+    ],
+    "40c5bd627de01ebceac8ebc84323253c9c966d2de934cdef5c88d22c63908610": [
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)",
+      "Versa - Israeli SC Project (directory)"
+    ],
+    "b6d393e6198e7871751bbc6ded036f3ae95f2b655bf16da2fc58983a6a1007e5": [
+      "data.gov.il",
+      "data.gov.il",
+      "data.gov.il"
+    ],
+    "2a39ecef7cb2f707a78630718f0abf3813c1966a15e3b1f04cbb8d59ab80b1b2": [
+      "RusLawOD: Russian Law #4"
+    ],
+    "c7045d911e292772592dd0737a8fa54276fc8a2693be04ecb1310b36aeed409c": [
+      "RusLawOD: Russian Law #7"
+    ],
+    "6e30abec07ca1a454c94dc16b1aca9e82884ddfc7bca52f817f86fb08b9e0018": [
+      "RusLawOD: Russian Law #8"
+    ],
+    "b57799b9925ccf96c145ab4cd8b6586ee4ebf09888e6072b0a4bcf5d29634aef": [
+      "CourtListener (Free Law Project)",
+      "RECAP Archive",
+      "Caselaw Access Project (Harvard LIL)"
+    ],
+    "5e9cf1d67691179253bd2865597aae5a9023eda9467e0862d44e157ce3db75da": [
+      "Supreme Court of the United States",
+      "Supreme Court of the United States",
+      "Supreme Court of the United States"
+    ],
+    "97ab456ea83798bb40f556857ec0a38bbf6a3a35e682976a99dc464c8ae9291a": [
+      "GovInfo: Center for Biological Diversity et al v. United States Environmental Protection Agency et al"
+    ],
+    "0ca800797db00a9734b0ac4ff8074d2d6d08e6632ca6a6727ada0c5e93b45668": [
+      "GovInfo: American Lending Fairness Act of 2026"
+    ],
+    "2aaa6716c1b5446386119384fada9cd36a66cf814be36b1841c3be54bc4b2c0d": [
+      "Federal Register 2.0"
+    ],
+    "67d8e94243304b3ab84836c9196e8491c0b122cea83de1d20fa6164628816092": [
+      "Federal Register 2.0",
+      "Federal Register 2.0",
+      "Federal Register 2.0",
+      "Federal Register 2.0",
+      "Federal Register 2.0",
+      "Federal Register 2.0",
+      "Federal Register 2.0"
+    ]
+  },
+  "importance_ranking": true,
+  "lexical_only": true,
+  "budget_gb": 50.0,
+  "budget_used_bytes": 53818672,
+  "source_count": 110,
+  "catalog_chunks": 110,
+  "remote_chunks": 65,
+  "checkpoint_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\checkpoints\\ingest_checkpoint.json",
+  "checkpoint_entries_before": 65,
+  "checkpoint_entries_after": 66,
+  "skipped_from_checkpoint": 41,
+  "rehydrated_chunk_count": 406,
+  "upserted_by_collection": {
+    "CASE_LAW_GLOBAL": 30,
+    "COMMENTARY_GLOBAL": 46,
+    "CASE_LAW_US": 28,
+    "STATUTES_US": 9,
+    "CASE_LAW_UK": 6,
+    "STATUTES_UK": 2,
+    "CASE_LAW_EU": 16,
+    "STATUTES_EU": 4,
+    "CASE_LAW_IN": 5,
+    "STATUTES_IN": 5,
+    "STATUTES_RU": 2,
+    "CASE_LAW_RU": 11,
+    "CASE_LAW_IL": 5,
+    "STATUTES_IL": 6
+  },
+  "audit_summary": {
+    "total_sources": 110,
+    "fetchable": 70,
+    "metadata_only": 40,
+    "permission_required": 13,
+    "credential_required": 4,
+    "tier3_blocked": 10,
+    "collections": {
+      "CASE_LAW_GLOBAL": 26,
+      "COMMENTARY_GLOBAL": 23,
+      "CASE_LAW_US": 10,
+      "STATUTES_US": 6,
+      "CASE_LAW_UK": 6,
+      "STATUTES_UK": 2,
+      "CASE_LAW_EU": 6,
+      "STATUTES_EU": 4,
+      "CASE_LAW_IN": 5,
+      "STATUTES_IN": 5,
+      "STATUTES_RU": 2,
+      "CASE_LAW_RU": 8,
+      "CASE_LAW_IL": 4,
+      "STATUTES_IL": 3
+    },
+    "missing_env": [
+      "CONGRESS_API_KEY",
+      "HUDOC_PERMISSION_CONFIRMED",
+      "ICC_LEGAL_TOOLS_PERMISSION_CONFIRMED",
+      "ICRC_PERMISSION_CONFIRMED",
+      "INDIAN_KANOON_API_TOKEN",
+      "ISRAEL_SUPREME_COURT_BULK_CONFIRMED",
+      "ITLOS_PERMISSION_CONFIRMED",
+      "PCA_PERMISSION_CONFIRMED",
+      "SEC_USER_AGENT",
+      "UK_FIND_CASE_LAW_LICENSE_CONFIRMED"
+    ]
+  },
+  "events": [
+    {
+      "source_id": "hugging-face-0-0-huggingface-training-benchmark-datasets-pile-of-law-pile-of-law",
+      "source_name": "pile-of-law/pile-of-law",
+      "adapter": "huggingface_stream",
+      "collection": "CASE_LAW_GLOBAL",
+      "events": [
+        {
+          "status": "error",
+          "dataset": "pile-of-law/pile-of-law",
+          "reason": "RuntimeError: Dataset scripts are no longer supported, but found pile-of-law.py"
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "hugging-face-0-1-huggingface-training-benchmark-datasets-joelniklaus-multi-legal-pile-commercial",
+      "source_name": "joelniklaus/Multi_Legal_Pile (+ _Commercial variant)",
+      "adapter": "huggingface_stream",
+      "collection": "CASE_LAW_GLOBAL",
+      "events": [
+        {
+          "status": "error",
+          "dataset": "joelniklaus/Multi_Legal_Pile",
+          "reason": "RuntimeError: Dataset scripts are no longer supported, but found Multi_Legal_Pile.py"
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "hugging-face-0-2-huggingface-training-benchmark-datasets-nlpaueb-multi-eurlex-coastalcph-multi-e",
+      "source_name": "nlpaueb/multi_eurlex (coastalcph/multi_eurlex)",
+      "adapter": "huggingface_stream",
+      "collection": "COMMENTARY_GLOBAL",
+      "events": [
+        {
+          "status": "error",
+          "dataset": "nlpaueb/multi_eurlex",
+          "reason": "RuntimeError: Dataset scripts are no longer supported, but found multi_eurlex.py"
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "hugging-face-0-3-huggingface-training-benchmark-datasets-coastalcph-lex-glue-lexglue-benchmark",
+      "source_name": "coastalcph/lex_glue (LexGLUE benchmark)",
+      "status": "permission_required",
+      "reason": "Permission/license confirmation required before bulk ingestion."
+    },
+    {
+      "source_id": "hugging-face-0-4-huggingface-training-benchmark-datasets-dennlinger-eur-lex-sum",
+      "source_name": "dennlinger/eur-lex-sum",
+      "adapter": "huggingface_stream",
+      "collection": "COMMENTARY_GLOBAL",
+      "events": [
+        {
+          "status": "error",
+          "dataset": "dennlinger/eur-lex-sum",
+          "reason": "RuntimeError: Dataset scripts are no longer supported, but found eur-lex-sum.py"
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "hugging-face-0-5-huggingface-training-benchmark-datasets-aueb-nlp-ecthr-cases-lex-glue-ecthr-a-b",
+      "source_name": "AUEB-NLP/ecthr_cases (+ lex_glue ecthr_a/b)",
+      "status": "permission_required",
+      "reason": "Permission/license confirmation required before bulk ingestion."
+    },
+    {
+      "source_id": "hugging-face-0-6-huggingface-training-benchmark-datasets-casehold-casehold",
+      "source_name": "casehold/casehold",
+      "adapter": "huggingface_stream",
+      "collection": "CASE_LAW_GLOBAL",
+      "events": [
+        {
+          "status": "error",
+          "dataset": "casehold/casehold",
+          "reason": "RuntimeError: Dataset scripts are no longer supported, but found casehold.py"
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "hugging-face-0-7-huggingface-training-benchmark-datasets-fiscalnote-billsum",
+      "source_name": "FiscalNote/billsum",
+      "adapter": "huggingface_stream",
+      "collection": "COMMENTARY_GLOBAL",
+      "events": [
+        {
+          "status": "checkpoint_skipped",
+          "dataset": "FiscalNote/billsum",
+          "download_key": "530128b24840ea1de8050ff066f0eac5a65c4d9dbc929579ab58939e2be1c873",
+          "chunks": 0
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "hugging-face-0-8-huggingface-training-benchmark-datasets-free-law-caselaw-access-project-teraflo",
+      "source_name": "free-law/Caselaw_Access_Project (+ TeraflopAI, harvard-lil/cold-cases)",
+      "adapter": "huggingface_stream",
+      "collection": "CASE_LAW_GLOBAL",
+      "events": [
+        {
+          "status": "error",
+          "dataset": "free-law/Caselaw_Access_Project",
+          "reason": "DatasetNotFoundError: Dataset 'free-law/Caselaw_Access_Project' is a gated dataset on the Hub. Visit the dataset page at https://huggingface.co/datasets/free-law/Caselaw_Access_Project to ask for access."
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "hugging-face-0-9-huggingface-training-benchmark-datasets-exploration-lab-il-tur-ildc-on-github",
+      "source_name": "Exploration-Lab/IL-TUR (+ ILDC on GitHub)",
+      "adapter": "huggingface_stream",
+      "collection": "CASE_LAW_GLOBAL",
+      "events": [
+        {
+          "status": "error",
+          "dataset": "Exploration-Lab/IL-TUR",
+          "reason": "DatasetNotFoundError: Dataset 'Exploration-Lab/IL-TUR' is a gated dataset on the Hub. Visit the dataset page at https://huggingface.co/datasets/Exploration-Lab/IL-TUR to ask for access."
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "hugging-face-0-10-huggingface-training-benchmark-datasets-irlspbru-ruslawod",
+      "source_name": "irlspbru/RusLawOD",
+      "adapter": "ruslawod",
+      "collection": "COMMENTARY_GLOBAL",
+      "events": [
+        {
+          "status": "completed",
+          "source": "RusLawOD",
+          "total_documents": 10,
+          "total_chunks": 92
+        }
+      ],
+      "chunks": 92
+    },
+    {
+      "source_id": "hugging-face-0-11-huggingface-training-benchmark-datasets-lexlms-lex-files-lexfiles",
+      "source_name": "lexlms/lex_files (LeXFiles)",
+      "adapter": "huggingface_stream",
+      "collection": "CASE_LAW_GLOBAL",
+      "events": [
+        {
+          "status": "checkpoint_skipped",
+          "dataset": "lexlms/lex_files",
+          "download_key": "e3604fd8e082e79b68cd259fc24b097bd120897ff4f28d9f89e20295bd5222c7",
+          "chunks": 0
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "hugging-face-0-12-huggingface-training-benchmark-datasets-alea-institute-kl3m-data",
+      "source_name": "alea-institute/kl3m-data-*",
+      "adapter": "huggingface_stream",
+      "collection": "COMMENTARY_GLOBAL",
+      "events": [
+        {
+          "status": "error",
+          "dataset": "alea-institute/kl3m-data",
+          "reason": "DatasetNotFoundError: Dataset 'alea-institute/kl3m-data' doesn't exist on the Hub or cannot be accessed."
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "hugging-face-0-13-huggingface-training-benchmark-datasets-theatticusproject-cuad-qa",
+      "source_name": "theatticusproject/cuad-qa",
+      "adapter": "huggingface_stream",
+      "collection": "COMMENTARY_GLOBAL",
+      "events": [
+        {
+          "status": "error",
+          "dataset": "theatticusproject/cuad-qa",
+          "reason": "RuntimeError: Dataset scripts are no longer supported, but found cuad-qa.py"
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "hugging-face-0-14-huggingface-training-benchmark-datasets-helsinki-nlp-un-pc-un-parallel-corpus",
+      "source_name": "Helsinki-NLP/un_pc (UN Parallel Corpus)",
+      "adapter": "huggingface_stream",
+      "collection": "COMMENTARY_GLOBAL",
+      "events": [
+        {
+          "status": "error",
+          "dataset": "Helsinki-NLP/un_pc",
+          "reason": "ValueError: Config name is missing.\nPlease pick one among the available configs: ['ar-en', 'ar-es', 'ar-fr', 'ar-ru', 'ar-zh', 'en-es', 'en-fr', 'en-ru', 'en-zh', 'es-fr', 'es-ru', 'es-zh', 'fr-ru', 'fr-zh', 'ru-zh']\nExample of usage:\n\t`load_dataset('Helsinki-NLP/un_pc', 'ar-en')`"
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "hugging-face-0-15-huggingface-training-benchmark-datasets-knesset-corpus-goldin-et-al-2024",
+      "source_name": "Knesset Corpus (Goldin et al., 2024)",
+      "adapter": "http",
+      "collection": "COMMENTARY_GLOBAL",
+      "events": [
+        {
+          "url": "https://arxiv.org/abs/2405.18115",
+          "status": "checkpoint_rehydrated",
+          "download_key": "f0a74f0a8b2d06ecf2c5747e65ed7f1191a2f4ed5e9f8bf40d295ed8835a8f83",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\hugging-face-0-15-huggingface-training-benchmark-datasets-knesset-corpus-goldin-et-al-2024\\ca77249c9abcbfe6af54.html",
+          "chunks": 0
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "international-0-0-international-bodies-international-court-of-justice-icj",
+      "source_name": "International Court of Justice (ICJ)",
+      "adapter": "cd_icj",
+      "collection": "CASE_LAW_GLOBAL",
+      "events": [
+        {
+          "status": "resolved_url",
+          "url": "https://zenodo.org/api/records/10030647/files/CD-ICJ_2023-10-22_EN_CSV_BEST_FULL.zip/content"
+        },
+        {
+          "status": "downloaded",
+          "bytes": 25140649,
+          "sha256": "6282d5f8918fd729a53b2bb331c52c49"
+        },
+        {
+          "status": "completed",
+          "source": "CD-ICJ (Zenodo)",
+          "total_files_in_zip": 0,
+          "documents_ingested": 0,
+          "total_chunks": 0
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "international-0-1-international-bodies-international-criminal-court-icc-case-law-database",
+      "source_name": "International Criminal Court (ICC) + Case Law Database",
+      "status": "permission_required",
+      "reason": "Permission/license confirmation required before bulk ingestion."
+    },
+    {
+      "source_id": "international-0-2-international-bodies-icc-legal-tools-database",
+      "source_name": "ICC Legal Tools Database",
+      "status": "permission_required",
+      "reason": "Permission/license confirmation required before bulk ingestion."
+    },
+    {
+      "source_id": "international-0-3-international-bodies-un-treaty-collection",
+      "source_name": "UN Treaty Collection",
+      "adapter": "http",
+      "collection": "CASE_LAW_GLOBAL",
+      "events": [
+        {
+          "url": "https://treaties.un.org",
+          "status": "checkpoint_rehydrated",
+          "download_key": "7710f5a2fcfedb1fe0994c7b993954c194ac1e99bbedf3ff71baa6edab1ff300",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-3-international-bodies-un-treaty-collection\\f408f2bcd0ae2729fb70.html",
+          "chunks": 168
+        }
+      ],
+      "chunks": 168
+    },
+    {
+      "source_id": "international-0-4-international-bodies-un-digital-library",
+      "source_name": "UN Digital Library",
+      "adapter": "un_digital_library",
+      "collection": "COMMENTARY_GLOBAL",
+      "events": [
+        {
+          "status": "initial_harvest",
+          "records": 100
+        },
+        {
+          "status": "completed",
+          "source": "UN Digital Library",
+          "total_documents": 10,
+          "total_chunks": 26
+        }
+      ],
+      "chunks": 26
+    },
+    {
+      "source_id": "international-0-5-international-bodies-un-official-document-system-ods",
+      "source_name": "UN Official Document System (ODS)",
+      "adapter": "http",
+      "collection": "COMMENTARY_GLOBAL",
+      "events": [
+        {
+          "url": "https://documents.un.org",
+          "status": "checkpoint_rehydrated",
+          "download_key": "d965ee6b24edda0622cb535b1c475b1a9c631cf499eb759c3ed92b5ff3483726",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-5-international-bodies-un-official-document-system-ods\\0694dd4ad2609bada8d3.html",
+          "chunks": 1
+        },
+        {
+          "url": "https://docs.un.org",
+          "status": "checkpoint_rehydrated",
+          "download_key": "38e13d337c452cf491b3f87bf90c0c6f2fef772759c17e7582a174b81c459404",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-5-international-bodies-un-official-document-system-ods\\a0bb89b2f0d0f7844730.html",
+          "chunks": 0
+        }
+      ],
+      "chunks": 1
+    },
+    {
+      "source_id": "international-0-6-international-bodies-un-audiovisual-library-of-international-law",
+      "source_name": "UN Audiovisual Library of International Law",
+      "adapter": "http",
+      "collection": "COMMENTARY_GLOBAL",
+      "events": [
+        {
+          "url": "https://legal.un.org/avl/",
+          "status": "checkpoint_rehydrated",
+          "download_key": "4487a86b91e05a546f26d0d98515cf0fb47d960db337054ce518596e4e6c51a1",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-6-international-bodies-un-audiovisual-library-of-international-law\\e5b9230b9cb7aaba93f9.html",
+          "chunks": 1
+        }
+      ],
+      "chunks": 1
+    },
+    {
+      "source_id": "international-0-7-international-bodies-international-law-commission",
+      "source_name": "International Law Commission",
+      "adapter": "oai_pmh",
+      "collection": "COMMENTARY_GLOBAL",
+      "events": [
+        {
+          "status": "initial_harvest",
+          "records": 100
+        },
+        {
+          "status": "completed",
+          "source": "UN Digital Library",
+          "total_documents": 10,
+          "total_chunks": 26
+        }
+      ],
+      "chunks": 26
+    },
+    {
+      "source_id": "international-0-8-international-bodies-nato",
+      "source_name": "NATO",
+      "adapter": "http",
+      "collection": "CASE_LAW_GLOBAL",
+      "events": [
+        {
+          "url": "https://www.nato.int",
+          "status": "checkpoint_rehydrated",
+          "download_key": "2a6a1f798ea00c18630802a2742d3a28c1d4f184b2ee766621c68308dd7c16cb",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-8-international-bodies-nato\\0c65557fe9d31a377e10.html",
+          "chunks": 0
+        },
+        {
+          "url": "https://archives.nato.int",
+          "status": "checkpoint_rehydrated",
+          "download_key": "476bea4fe652d1b5818af9f8665ce8345f9f3c2d7792c7d757bc1a9baf007448",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-8-international-bodies-nato\\28725d5d537b2e7cd17d.html",
+          "chunks": 1
+        }
+      ],
+      "chunks": 1
+    },
+    {
+      "source_id": "international-0-9-international-bodies-nato-stanags-public-subset",
+      "source_name": "NATO STANAGs (public subset)",
+      "adapter": "http",
+      "collection": "COMMENTARY_GLOBAL",
+      "events": [
+        {
+          "url": "https://nso.nato.int",
+          "status": "http_error",
+          "code": 403,
+          "reason": "HTTP Error 403: Forbidden"
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "international-0-10-international-bodies-wilson-center-digital-archive-incl-cwihp",
+      "source_name": "Wilson Center Digital Archive (incl. CWIHP)",
+      "adapter": "http",
+      "collection": "COMMENTARY_GLOBAL",
+      "events": [
+        {
+          "url": "https://digitalarchive.wilsoncenter.org",
+          "status": "http_error",
+          "code": 403,
+          "reason": "HTTP Error 403: Forbidden"
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "international-0-11-international-bodies-parallel-history-project-php-eth-zurich",
+      "source_name": "Parallel History Project (PHP) — ETH Zurich",
+      "status": "metadata_only",
+      "reason": "Parallel History Project is defunct; keep metadata only."
+    },
+    {
+      "source_id": "international-0-12-international-bodies-icrc-ihl-databases",
+      "source_name": "ICRC IHL Databases",
+      "status": "permission_required",
+      "reason": "Permission/license confirmation required before bulk ingestion."
+    },
+    {
+      "source_id": "international-0-13-international-bodies-wto-dispute-settlement",
+      "source_name": "WTO Dispute Settlement",
+      "adapter": "http",
+      "collection": "CASE_LAW_GLOBAL",
+      "events": [
+        {
+          "url": "https://www.wto.org/english/tratop_e/dispu_e/",
+          "status": "http_error",
+          "code": 403,
+          "reason": "HTTP Error 403: Forbidden"
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "international-0-14-international-bodies-itlos",
+      "source_name": "ITLOS",
+      "status": "permission_required",
+      "reason": "Permission/license confirmation required before bulk ingestion."
+    },
+    {
+      "source_id": "international-0-15-international-bodies-permanent-court-of-arbitration-pca",
+      "source_name": "Permanent Court of Arbitration (PCA)",
+      "status": "permission_required",
+      "reason": "Permission/license confirmation required before bulk ingestion."
+    },
+    {
+      "source_id": "international-0-16-international-bodies-wipo-lex",
+      "source_name": "WIPO Lex",
+      "adapter": "http",
+      "collection": "CASE_LAW_GLOBAL",
+      "events": [
+        {
+          "url": "https://www.wipo.int/wipolex",
+          "status": "checkpoint_rehydrated",
+          "download_key": "542105ed47b96cd6aad9b566e673310d1172b0fe35d9446c90c28f890b774ff3",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-16-international-bodies-wipo-lex\\9e8d6e4d5f844187bb8e.html",
+          "chunks": 0
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "international-0-17-international-bodies-inter-american-court-of-human-rights-iacthr",
+      "source_name": "Inter-American Court of Human Rights (IACtHR)",
+      "adapter": "http",
+      "collection": "CASE_LAW_GLOBAL",
+      "events": [
+        {
+          "url": "https://www.corteidh.or.cr",
+          "status": "checkpoint_rehydrated",
+          "download_key": "3585c8bffda680f726ddf95397e87696637a5545f63e9fcb6666e442b5c91e7e",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-17-international-bodies-inter-american-court-of-human-rights-iacthr\\054e0cd1d8d3cededa0d.html",
+          "chunks": 0
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "international-0-18-international-bodies-african-court-on-human-and-peoples-rights",
+      "source_name": "African Court on Human and Peoples' Rights",
+      "adapter": "http",
+      "collection": "CASE_LAW_GLOBAL",
+      "events": [
+        {
+          "url": "https://www.african-court.org",
+          "status": "checkpoint_rehydrated",
+          "download_key": "6edde70e3b708d0636549bfc9cf5b5422e1972860b03a5a027fda1dd7bb97b9b",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-18-international-bodies-african-court-on-human-and-peoples-rights\\bb10d4f2ba70989bd6b3.html",
+          "chunks": 0
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "international-0-19-international-bodies-icsid",
+      "source_name": "ICSID",
+      "adapter": "http",
+      "collection": "CASE_LAW_GLOBAL",
+      "events": [
+        {
+          "url": "https://icsid.worldbank.org",
+          "status": "checkpoint_rehydrated",
+          "download_key": "b05afb0bc6a1d7eca6d0b1aad21246128b9aadb89b9bb39dbb6e107770a97174",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-19-international-bodies-icsid\\f1ac9ad316e73d65bcdb.html",
+          "chunks": 0
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "international-0-20-international-bodies-unctad-isds-navigator",
+      "source_name": "UNCTAD ISDS Navigator",
+      "adapter": "http",
+      "collection": "CASE_LAW_GLOBAL",
+      "events": [
+        {
+          "url": "https://investmentpolicy.unctad.org/investment-dispute-settlement",
+          "status": "checkpoint_rehydrated",
+          "download_key": "99e6edc3e3f723aed18da2a8199954c6041c6893af3fd16cf083b51ff0a959e8",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-20-international-bodies-unctad-isds-navigator\\77766d90da88afcbf94e.html",
+          "chunks": 0
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "international-0-21-international-bodies-jusmundi",
+      "source_name": "JusMundi",
+      "status": "metadata_only",
+      "reason": "JusMundi is proprietary and not available for open bulk ingestion."
+    },
+    {
+      "source_id": "international-0-22-international-bodies-max-planck-encyclopedias-of-international-law-mpepil-mpe",
+      "source_name": "Max Planck Encyclopedias of International Law (MPEPIL/MPEiPro)",
+      "adapter": "http",
+      "collection": "COMMENTARY_GLOBAL",
+      "events": [
+        {
+          "url": "https://opil.ouplaw.com/home/mpil",
+          "status": "checkpoint_rehydrated",
+          "download_key": "c4f8b45cb4bd894ff148046cdc4208291efc4c2103557f65c15e247c10b0e7bf",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-22-international-bodies-max-planck-encyclopedias-of-international-law-mpepil-mpe\\736e8176f4430b2f706f.html",
+          "chunks": 0
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "international-0-23-international-bodies-icty-ictr-irmct",
+      "source_name": "ICTY / ICTR / IRMCT",
+      "adapter": "http",
+      "collection": "CASE_LAW_GLOBAL",
+      "events": [
+        {
+          "url": "https://www.icty.org",
+          "status": "checkpoint_rehydrated",
+          "download_key": "d79f9a821cdb6038c19034cdc6822a6b605a95d91fcbb5f0fcf8e4c1e184c1f0",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-23-international-bodies-icty-ictr-irmct\\f3d9e77a370191789935.html",
+          "chunks": 0
+        },
+        {
+          "url": "https://unictr.irmct.org",
+          "status": "checkpoint_rehydrated",
+          "download_key": "c2ded9604c0c9b23b4a273f9d69e458374c82b36aff65b092d24515ec17f752b",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-23-international-bodies-icty-ictr-irmct\\30734c9af051193aa215.html",
+          "chunks": 28
+        },
+        {
+          "url": "https://cld.irmct.org",
+          "status": "checkpoint_rehydrated",
+          "download_key": "a94de6841227cc054f0bfdd3a23acf001da26ce4dc86751ec6eb6e2ea045fe1b",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-23-international-bodies-icty-ictr-irmct\\ee08456ee675c5fdb9e3.html",
+          "chunks": 21
+        },
+        {
+          "url": "https://ucr.irmct.org",
+          "status": "checkpoint_rehydrated",
+          "download_key": "2f6f1d4c7392c5de73246475f695f52d19d72a524bc75316ff839ff91c79960f",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\international-0-23-international-bodies-icty-ictr-irmct\\1e142a5b0f4816de2d7e.html",
+          "chunks": 0
+        }
+      ],
+      "chunks": 49
+    },
+    {
+      "source_id": "mix-0-0-us-courtlistener-free-law-project",
+      "source_name": "CourtListener (Free Law Project)",
+      "adapter": "courtlistener_api",
+      "collection": "CASE_LAW_US",
+      "events": [
+        {
+          "query": "international law",
+          "status": "fetched",
+          "results_in_page": 20,
+          "opinions_fetched": 10,
+          "total_so_far": 10
+        },
+        {
+          "status": "completed",
+          "source": "CourtListener",
+          "total_opinions": 10,
+          "total_chunks": 94
+        }
+      ],
+      "chunks": 94
+    },
+    {
+      "source_id": "mix-0-1-us-govinfo-gpo",
+      "source_name": "GovInfo (GPO)",
+      "adapter": "govinfo_api",
+      "collection": "CASE_LAW_US",
+      "events": [
+        {
+          "collection": "USCOURTS",
+          "status": "completed",
+          "packages_available": 20,
+          "items_ingested": 1,
+          "chunks": 1
+        },
+        {
+          "collection": "PLAW",
+          "status": "completed",
+          "packages_available": 20,
+          "items_ingested": 3,
+          "chunks": 15
+        },
+        {
+          "collection": "BILLS",
+          "status": "completed",
+          "packages_available": 20,
+          "items_ingested": 3,
+          "chunks": 19
+        },
+        {
+          "status": "completed",
+          "source": "GovInfo",
+          "total_chunks": 35
+        }
+      ],
+      "chunks": 35
+    },
+    {
+      "source_id": "mix-0-2-us-office-of-law-revision-counsel-u-s-code",
+      "source_name": "Office of Law Revision Counsel (U.S. Code)",
+      "status": "metadata_only",
+      "reason": "No usable URL was present in the catalog record."
+    },
+    {
+      "source_id": "mix-0-3-us-gpo-bulk-data-ecfr-cfr",
+      "source_name": "GPO Bulk Data (eCFR/CFR)",
+      "adapter": "ecfr_api",
+      "collection": "STATUTES_US",
+      "events": [
+        {
+          "url": "https://www.ecfr.gov/api/versioner/v1/titles.json",
+          "status": "checkpoint_rehydrated",
+          "download_key": "54d876c20223be6383d110346f73ff069b714b05459b2d44005c1cc717363f51",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\mix-0-3-us-gpo-bulk-data-ecfr-cfr\\05841d70d8370d159a7f.json",
+          "chunks": 2
+        }
+      ],
+      "chunks": 2
+    },
+    {
+      "source_id": "mix-1-0-uk-national-archives-find-case-law-api",
+      "source_name": "National Archives Find Case Law API",
+      "status": "permission_required",
+      "reason": "Permission/license confirmation required before bulk ingestion."
+    },
+    {
+      "source_id": "mix-1-1-uk-legislation-gov-uk-api",
+      "source_name": "Legislation.gov.uk API",
+      "adapter": "uk_legislation_api",
+      "collection": "STATUTES_UK",
+      "events": [
+        {
+          "url": "https://www.legislation.gov.uk/ukpga/data.feed",
+          "status": "checkpoint_rehydrated",
+          "download_key": "925027512c01417ae3924f736ebad59326728073d31d1de783e114c47128a3d7",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\mix-1-1-uk-legislation-gov-uk-api\\8f2241492f33ecf4d921.html",
+          "chunks": 0
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "mix-1-2-uk-bailii-british-irish-legal-information-institute",
+      "source_name": "BAILII (British & Irish Legal Information Institute)",
+      "status": "metadata_only",
+      "reason": "BAILII prohibits bulk download/external indexing."
+    },
+    {
+      "source_id": "mix-2-0-eu-eur-lex-eu-cellar-api",
+      "source_name": "EUR-Lex / EU Cellar API",
+      "adapter": "eurlex_cellar",
+      "collection": "CASE_LAW_EU",
+      "events": [
+        {
+          "query": "legislation",
+          "results": 10
+        },
+        {
+          "query": "cjeu_caselaw",
+          "results": 0
+        },
+        {
+          "status": "completed",
+          "source": "EUR-Lex / CELLAR",
+          "total_documents": 10,
+          "total_chunks": 30
+        }
+      ],
+      "chunks": 30
+    },
+    {
+      "source_id": "mix-2-1-eu-curia-cjeu-case-law-database",
+      "source_name": "Curia (CJEU case-law database)",
+      "status": "metadata_only",
+      "reason": "No usable URL was present in the catalog record."
+    },
+    {
+      "source_id": "mix-2-2-eu-eu-open-data-portal-data-europa-eu",
+      "source_name": "EU Open Data Portal (data.europa.eu)",
+      "status": "metadata_only",
+      "reason": "No usable URL was present in the catalog record."
+    },
+    {
+      "source_id": "mix-3-0-in-aws-open-data-indian-supreme-court-judgments",
+      "source_name": "AWS Open Data – Indian Supreme Court Judgments",
+      "adapter": "india_aws_sc",
+      "collection": "CASE_LAW_IN",
+      "events": [
+        {
+          "status": "metadata_error",
+          "reason": "HTTPError: HTTP Error 404: Not Found"
+        },
+        {
+          "status": "s3_listing_fallback",
+          "keys": 0
+        },
+        {
+          "status": "completed",
+          "source": "India SC (AWS Open Data)",
+          "total_judgments": 0,
+          "total_chunks": 0
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "mix-3-1-in-india-code-legislative-repository",
+      "source_name": "India Code (legislative repository)",
+      "status": "metadata_only",
+      "reason": "No usable URL was present in the catalog record."
+    },
+    {
+      "source_id": "mix-3-2-in-e-gazette-of-india",
+      "source_name": "E-Gazette of India",
+      "status": "metadata_only",
+      "reason": "No usable URL was present in the catalog record."
+    },
+    {
+      "source_id": "mix-4-0-russia-official-legal-information-portal-pravo-gov-ru",
+      "source_name": "Official Legal Information Portal (pravo.gov.ru)",
+      "status": "metadata_only",
+      "reason": "No usable URL was present in the catalog record."
+    },
+    {
+      "source_id": "mix-4-1-russia-supreme-court-of-the-russian-federation",
+      "source_name": "Supreme Court of the Russian Federation",
+      "status": "metadata_only",
+      "reason": "No usable URL was present in the catalog record."
+    },
+    {
+      "source_id": "mix-4-2-russia-constitutional-court-of-the-russian-federation",
+      "source_name": "Constitutional Court of the Russian Federation",
+      "status": "metadata_only",
+      "reason": "No usable URL was present in the catalog record."
+    },
+    {
+      "source_id": "mix-5-0-israel-supreme-court-of-israel-court-gov-il",
+      "source_name": "Supreme Court of Israel (court.gov.il)",
+      "status": "metadata_only",
+      "reason": "No usable URL was present in the catalog record."
+    },
+    {
+      "source_id": "mix-5-1-israel-israeli-supreme-court-database-iscd",
+      "source_name": "Israeli Supreme Court Database (ISCD)",
+      "status": "metadata_only",
+      "reason": "No usable URL was present in the catalog record."
+    },
+    {
+      "source_id": "mix-6-0-international-international-court-of-justice-icj",
+      "source_name": "International Court of Justice (ICJ)",
+      "status": "metadata_only",
+      "reason": "No usable URL was present in the catalog record."
+    },
+    {
+      "source_id": "mix-6-1-international-cd-icj-corpus-of-decisions-icj",
+      "source_name": "CD-ICJ (Corpus of Decisions: ICJ)",
+      "adapter": "cd_icj",
+      "collection": "CASE_LAW_GLOBAL",
+      "events": [
+        {
+          "status": "resolved_url",
+          "url": "https://zenodo.org/api/records/10030647/files/CD-ICJ_2023-10-22_EN_CSV_BEST_FULL.zip/content"
+        },
+        {
+          "status": "downloaded",
+          "bytes": 25140649,
+          "sha256": "6282d5f8918fd729a53b2bb331c52c49"
+        },
+        {
+          "status": "completed",
+          "source": "CD-ICJ (Zenodo)",
+          "total_files_in_zip": 0,
+          "documents_ingested": 0,
+          "total_chunks": 0
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "mix-6-2-international-un-treaty-collection",
+      "source_name": "UN Treaty Collection",
+      "status": "metadata_only",
+      "reason": "No usable URL was present in the catalog record."
+    },
+    {
+      "source_id": "mix-6-3-international-avalon-project-yale-law-school",
+      "source_name": "Avalon Project (Yale Law School)",
+      "status": "metadata_only",
+      "reason": "No usable URL was present in the catalog record."
+    },
+    {
+      "source_id": "national-eu-0-0-european-union-eur-lex-cellar",
+      "source_name": "EUR-Lex + CELLAR",
+      "adapter": "eurlex_cellar",
+      "collection": "CASE_LAW_EU",
+      "events": [
+        {
+          "query": "legislation",
+          "results": 10
+        },
+        {
+          "query": "cjeu_caselaw",
+          "results": 0
+        },
+        {
+          "status": "completed",
+          "source": "EUR-Lex / CELLAR",
+          "total_documents": 10,
+          "total_chunks": 30
+        }
+      ],
+      "chunks": 30
+    },
+    {
+      "source_id": "national-eu-0-1-european-union-curia-court-of-justice-of-the-eu",
+      "source_name": "CURIA (Court of Justice of the EU)",
+      "adapter": "eurlex_cellar",
+      "collection": "CASE_LAW_EU",
+      "events": [
+        {
+          "query": "legislation",
+          "results": 10
+        },
+        {
+          "query": "cjeu_caselaw",
+          "results": 0
+        },
+        {
+          "status": "completed",
+          "source": "EUR-Lex / CELLAR",
+          "total_documents": 10,
+          "total_chunks": 30
+        }
+      ],
+      "chunks": 30
+    },
+    {
+      "source_id": "national-eu-0-2-european-union-hudoc-european-court-of-human-rights",
+      "source_name": "HUDOC (European Court of Human Rights)",
+      "status": "permission_required",
+      "reason": "Permission/license confirmation required before bulk ingestion."
+    },
+    {
+      "source_id": "national-eu-0-3-european-union-official-journal-of-the-eu",
+      "source_name": "Official Journal of the EU",
+      "adapter": "eurlex_cellar",
+      "collection": "STATUTES_EU",
+      "events": [
+        {
+          "query": "legislation",
+          "results": 10
+        },
+        {
+          "query": "cjeu_caselaw",
+          "results": 0
+        },
+        {
+          "status": "completed",
+          "source": "EUR-Lex / CELLAR",
+          "total_documents": 10,
+          "total_chunks": 30
+        }
+      ],
+      "chunks": 30
+    },
+    {
+      "source_id": "national-eu-0-4-european-union-edpb-european-data-protection-board",
+      "source_name": "EDPB (European Data Protection Board)",
+      "adapter": "http",
+      "collection": "CASE_LAW_EU",
+      "events": [
+        {
+          "url": "https://www.edpb.europa.eu",
+          "status": "checkpoint_rehydrated",
+          "download_key": "4c7bba0777d6b6de6a51cb5a3eb304f1fe841ad6f309b2d715e781353e422681",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-eu-0-4-european-union-edpb-european-data-protection-board\\cf4c18ded6fbeb3ba873.html",
+          "chunks": 0
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "national-eu-0-5-european-union-european-parliament-open-data-portal",
+      "source_name": "European Parliament Open Data Portal",
+      "adapter": "http",
+      "collection": "COMMENTARY_GLOBAL",
+      "events": [
+        {
+          "url": "https://data.europarl.europa.eu",
+          "status": "checkpoint_rehydrated",
+          "download_key": "78d09c7a0844ed445fe9158c4734f8d09c0f8915a7f01ffbbb4e489d03ff23f5",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-eu-0-5-european-union-european-parliament-open-data-portal\\56a96f1119be8867a225.html",
+          "chunks": 0
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "national-eu-0-6-european-union-n-lex",
+      "source_name": "N-Lex",
+      "status": "metadata_only",
+      "reason": "N-Lex is a gateway and does not host ingestible content."
+    },
+    {
+      "source_id": "national-eu-0-7-european-union-eli-european-legislation-identifier-framework",
+      "source_name": "ELI (European Legislation Identifier) framework",
+      "adapter": "eurlex_cellar",
+      "collection": "STATUTES_EU",
+      "events": [
+        {
+          "query": "legislation",
+          "results": 10
+        },
+        {
+          "query": "cjeu_caselaw",
+          "results": 0
+        },
+        {
+          "status": "completed",
+          "source": "EUR-Lex / CELLAR",
+          "total_documents": 10,
+          "total_chunks": 30
+        }
+      ],
+      "chunks": 30
+    },
+    {
+      "source_id": "national-in-0-0-india-indian-kanoon",
+      "source_name": "Indian Kanoon",
+      "status": "credential_required",
+      "reason": "Credential or required API identity is missing."
+    },
+    {
+      "source_id": "national-in-0-1-india-supreme-court-of-india-e-scr",
+      "source_name": "Supreme Court of India + e-SCR",
+      "adapter": "http",
+      "collection": "CASE_LAW_IN",
+      "events": [
+        {
+          "url": "https://main.sci.gov.in",
+          "status": "error",
+          "reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1010)>"
+        },
+        {
+          "url": "https://judgments.ecourts.gov.in",
+          "status": "checkpoint_rehydrated",
+          "download_key": "6da3e32ad57223e60f0d24f3f1fe269dba31722e6d036dc0f5dd0507512d7316",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-in-0-1-india-supreme-court-of-india-e-scr\\5388688bc0cf6ed5f2e0.html",
+          "chunks": 0
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "national-in-0-2-india-india-code",
+      "source_name": "India Code",
+      "adapter": "oai_pmh",
+      "collection": "STATUTES_IN",
+      "events": [
+        {
+          "status": "initial_harvest",
+          "records": 100
+        },
+        {
+          "status": "completed",
+          "source": "UN Digital Library",
+          "total_documents": 10,
+          "total_chunks": 26
+        }
+      ],
+      "chunks": 26
+    },
+    {
+      "source_id": "national-in-0-3-india-ecourts-district-hc-aggregation",
+      "source_name": "eCourts (district + HC aggregation)",
+      "status": "metadata_only",
+      "reason": "CAPTCHA-only sources are not ingested automatically."
+    },
+    {
+      "source_id": "national-in-0-4-india-prs-india",
+      "source_name": "PRS India",
+      "adapter": "http",
+      "collection": "COMMENTARY_GLOBAL",
+      "events": [
+        {
+          "url": "https://prsindia.org",
+          "status": "checkpoint_rehydrated",
+          "download_key": "4218ba84a4bdeaddf05cc2d5a55268f596ead88e4bacece379b44be7a4605923",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-in-0-4-india-prs-india\\d5c37e13cb7833e4a3d6.html",
+          "chunks": 161
+        }
+      ],
+      "chunks": 161
+    },
+    {
+      "source_id": "national-in-0-5-india-high-court-websites-delhi-bombay-kerala-etc",
+      "source_name": "High Court websites (Delhi, Bombay, Kerala, etc.)",
+      "status": "metadata_only",
+      "reason": "CAPTCHA-only sources are not ingested automatically."
+    },
+    {
+      "source_id": "national-in-0-6-india-legislative-department-ministry-of-law-justice",
+      "source_name": "Legislative Department (Ministry of Law & Justice)",
+      "adapter": "http",
+      "collection": "STATUTES_IN",
+      "events": [
+        {
+          "url": "https://legislative.gov.in",
+          "status": "checkpoint_rehydrated",
+          "download_key": "4bdd1dd1f4d5b5201909bd4af506d075fa4638d43b00088552c42ce5572c5198",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-in-0-6-india-legislative-department-ministry-of-law-justice\\17d624a2da6e55f5514d.html",
+          "chunks": 0
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "national-in-0-7-india-gazette-of-india",
+      "source_name": "Gazette of India",
+      "adapter": "http",
+      "collection": "STATUTES_IN",
+      "events": [
+        {
+          "url": "https://egazette.gov.in",
+          "status": "checkpoint_rehydrated",
+          "download_key": "e35a927031049b888bd2c7a8814e603cec3d3a6a4af0a6ff5b992e4e1a7a1dab",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-in-0-7-india-gazette-of-india\\b227f75b13ec7c86b025.html",
+          "chunks": 0
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "national-israel-0-0-israel-israel-supreme-court",
+      "source_name": "Israel Supreme Court",
+      "status": "permission_required",
+      "reason": "Permission/license confirmation required before bulk ingestion."
+    },
+    {
+      "source_id": "national-israel-0-1-israel-knesset-open-knesset",
+      "source_name": "Knesset + Open Knesset",
+      "adapter": "http",
+      "collection": "STATUTES_IL",
+      "events": [
+        {
+          "url": "https://main.knesset.gov.il",
+          "status": "checkpoint_rehydrated",
+          "download_key": "3ae5c0bb94cf3aed717e47ff83d9c5807902a247d3f834a41d149d514647ab54",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-israel-0-1-israel-knesset-open-knesset\\67e46665bf51696b35e4.html",
+          "chunks": 2
+        },
+        {
+          "url": "https://knesset.gov.il/openknessetdata",
+          "status": "checkpoint_rehydrated",
+          "download_key": "1a20558f59457d3acb371a473806dd31057edac7252daa08529d7ff7457b7e15",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-israel-0-1-israel-knesset-open-knesset\\67e46665bf51696b35e4.html",
+          "chunks": 2
+        },
+        {
+          "url": "https://oknesset.org",
+          "status": "checkpoint_rehydrated",
+          "download_key": "6d5ea8f942622e1e183c6db72db4c4ecc31340c2b3fae6f5c570c0e08e168df1",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-israel-0-1-israel-knesset-open-knesset\\0488dded1b8faefb80f1.html",
+          "chunks": 2
+        }
+      ],
+      "chunks": 6
+    },
+    {
+      "source_id": "national-israel-0-2-israel-reshumot-official-gazette",
+      "source_name": "Reshumot (Official Gazette)",
+      "adapter": "http",
+      "collection": "STATUTES_IL",
+      "events": [
+        {
+          "url": "https://www.gov.il/he/departments/publications",
+          "status": "http_error",
+          "code": 403,
+          "reason": "HTTP Error 403: Forbidden"
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "national-israel-0-3-israel-ministry-of-justice",
+      "source_name": "Ministry of Justice",
+      "adapter": "http",
+      "collection": "COMMENTARY_GLOBAL",
+      "events": [
+        {
+          "url": "https://www.justice.gov.il",
+          "status": "error",
+          "reason": "URLError: <urlopen error [SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1010)>"
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "national-israel-0-4-israel-versa-cardozo-israeli-supreme-court-project",
+      "source_name": "Versa (Cardozo Israeli Supreme Court Project)",
+      "adapter": "israel_versa",
+      "collection": "CASE_LAW_IL",
+      "events": [
+        {
+          "status": "directory_fetched",
+          "case_links_found": 0
+        },
+        {
+          "status": "completed",
+          "source": "Versa (Cardozo Israeli SC Project)",
+          "total_cases": 0,
+          "total_chunks": 135
+        }
+      ],
+      "chunks": 135
+    },
+    {
+      "source_id": "national-israel-0-5-israel-data-gov-il",
+      "source_name": "data.gov.il",
+      "adapter": "ckan_api",
+      "collection": "STATUTES_IL",
+      "events": [
+        {
+          "url": "https://data.gov.il/api/3/action/package_search?rows=5&q=law",
+          "status": "checkpoint_rehydrated",
+          "download_key": "6ae8d53fe593e7382d12b912c9e9af0aa135b037fde0d4c56f1fd867b6c365c3",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-israel-0-5-israel-data-gov-il\\12270cd20ef27bc0d0dd.json",
+          "chunks": 4
+        },
+        {
+          "url": "https://data.gov.il",
+          "status": "checkpoint_rehydrated",
+          "download_key": "cd2c96c59b3dfdfe14a0cce58121f8a439694eb71898ed1634630a5b979c75ad",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-israel-0-5-israel-data-gov-il\\e0fd8a425dded19657c4.html",
+          "chunks": 0
+        }
+      ],
+      "chunks": 4
+    },
+    {
+      "source_id": "national-russia-0-0-russia-ruslawod-academic-corpus",
+      "source_name": "RusLawOD (academic corpus)",
+      "adapter": "ruslawod",
+      "collection": "STATUTES_RU",
+      "events": [
+        {
+          "status": "completed",
+          "source": "RusLawOD",
+          "total_documents": 10,
+          "total_chunks": 92
+        }
+      ],
+      "chunks": 92
+    },
+    {
+      "source_id": "national-russia-0-1-russia-pravo-gov-ru-publication-pravo-gov-ru",
+      "source_name": "pravo.gov.ru / publication.pravo.gov.ru",
+      "adapter": "http",
+      "collection": "CASE_LAW_RU",
+      "events": [
+        {
+          "url": "http://publication.pravo.gov.ru",
+          "status": "checkpoint_rehydrated",
+          "download_key": "9e0b20c5ee5e1eea8419b24e613bebaf08bd30bad8bc8e984ed48e3a0b550a14",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-russia-0-1-russia-pravo-gov-ru-publication-pravo-gov-ru\\dea8341f9800ab5b534c.html",
+          "chunks": 1
+        }
+      ],
+      "chunks": 1
+    },
+    {
+      "source_id": "national-russia-0-2-russia-supreme-court-of-russia",
+      "source_name": "Supreme Court of Russia",
+      "adapter": "http",
+      "collection": "CASE_LAW_RU",
+      "events": [
+        {
+          "url": "https://vsrf.ru",
+          "status": "error",
+          "reason": "URLError: <urlopen error [WinError 10053] An established connection was aborted by the software in your host machine>"
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "national-russia-0-3-russia-constitutional-court-of-russia",
+      "source_name": "Constitutional Court of Russia",
+      "adapter": "http",
+      "collection": "CASE_LAW_RU",
+      "events": [
+        {
+          "url": "https://www.ksrf.ru",
+          "status": "error",
+          "reason": "URLError: <urlopen error [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond>"
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "national-russia-0-4-russia-sudact-ru",
+      "source_name": "sudact.ru",
+      "adapter": "http",
+      "collection": "CASE_LAW_RU",
+      "events": [
+        {
+          "url": "https://sudact.ru",
+          "status": "checkpoint_rehydrated",
+          "download_key": "8932870ab8b23e15c76c33959c8317c25c01628567c504ec2d47393198ada376",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-russia-0-4-russia-sudact-ru\\55173690c1b5b32c8c22.html",
+          "chunks": 1
+        }
+      ],
+      "chunks": 1
+    },
+    {
+      "source_id": "national-russia-0-5-russia-kad-arbitr-ru-ras-arbitr-ru",
+      "source_name": "kad.arbitr.ru / ras.arbitr.ru",
+      "status": "metadata_only",
+      "reason": "CAPTCHA-only sources are not ingested automatically."
+    },
+    {
+      "source_id": "national-russia-0-6-russia-sudrf-ru-gas-pravosudie",
+      "source_name": "sudrf.ru / GAS Pravosudie",
+      "adapter": "http",
+      "collection": "CASE_LAW_RU",
+      "events": [
+        {
+          "url": "https://sudrf.ru",
+          "status": "checkpoint_rehydrated",
+          "download_key": "d1cf25b78763edb20b909f034e15f762cafe1d3805ae9c67e26a96f233c18f39",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-russia-0-6-russia-sudrf-ru-gas-pravosudie\\a1828b388e1c424b4b1a.html",
+          "chunks": 1
+        },
+        {
+          "url": "https://bsr.sudrf.ru",
+          "status": "error",
+          "reason": "URLError: <urlopen error [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond>"
+        }
+      ],
+      "chunks": 1
+    },
+    {
+      "source_id": "national-uk-0-0-united-kingdom-legislation-gov-uk",
+      "source_name": "legislation.gov.uk",
+      "adapter": "uk_legislation_api",
+      "collection": "STATUTES_UK",
+      "events": [
+        {
+          "url": "https://www.legislation.gov.uk/ukpga/data.feed",
+          "status": "checkpoint_rehydrated",
+          "download_key": "19ea73f323d1320eb114f798e985619be3e21823b0c978d03095ab5469eed47f",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-uk-0-0-united-kingdom-legislation-gov-uk\\05379ab6db42797f79a7.html",
+          "chunks": 0
+        },
+        {
+          "url": "https://www.legislation.gov.uk",
+          "status": "checkpoint_rehydrated",
+          "download_key": "dd1f6beb8c977ffc80c51e9573e8acf050ec345d1bf188477c097efe6c208154",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-uk-0-0-united-kingdom-legislation-gov-uk\\20c10c9ce4d088ef5b10.html",
+          "chunks": 0
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "national-uk-0-1-united-kingdom-find-case-law-the-national-archives",
+      "source_name": "Find Case Law (The National Archives)",
+      "status": "permission_required",
+      "reason": "Permission/license confirmation required before bulk ingestion."
+    },
+    {
+      "source_id": "national-uk-0-2-united-kingdom-bailii",
+      "source_name": "BAILII",
+      "status": "metadata_only",
+      "reason": "BAILII prohibits bulk download/external indexing."
+    },
+    {
+      "source_id": "national-uk-0-3-united-kingdom-uk-supreme-court",
+      "source_name": "UK Supreme Court",
+      "status": "permission_required",
+      "reason": "Permission/license confirmation required before bulk ingestion."
+    },
+    {
+      "source_id": "national-uk-0-4-united-kingdom-judiciary-uk",
+      "source_name": "Judiciary.uk",
+      "status": "permission_required",
+      "reason": "Permission/license confirmation required before bulk ingestion."
+    },
+    {
+      "source_id": "national-uk-0-5-united-kingdom-uk-parliament-apis-hansard-bills",
+      "source_name": "UK Parliament APIs (Hansard, Bills)",
+      "adapter": "http",
+      "collection": "COMMENTARY_GLOBAL",
+      "events": [
+        {
+          "url": "https://api.parliament.uk",
+          "status": "checkpoint_rehydrated",
+          "download_key": "aafe5d08802bf542394510e62afc71ec6aa935dd2885590435c919586180fd85",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-uk-0-5-united-kingdom-uk-parliament-apis-hansard-bills\\01dc5b166b9b09a8f992.html",
+          "chunks": 0
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "national-us-0-0-united-states-courtlistener-free-law-project",
+      "source_name": "CourtListener (Free Law Project)",
+      "adapter": "courtlistener_api",
+      "collection": "CASE_LAW_US",
+      "events": [
+        {
+          "query": "international law",
+          "status": "fetched",
+          "results_in_page": 20,
+          "opinions_fetched": 10,
+          "total_so_far": 10
+        },
+        {
+          "status": "completed",
+          "source": "CourtListener",
+          "total_opinions": 10,
+          "total_chunks": 94
+        }
+      ],
+      "chunks": 94
+    },
+    {
+      "source_id": "national-us-0-1-united-states-recap-archive",
+      "source_name": "RECAP Archive",
+      "adapter": "courtlistener_api",
+      "collection": "CASE_LAW_US",
+      "events": [
+        {
+          "query": "international law",
+          "status": "fetched",
+          "results_in_page": 20,
+          "opinions_fetched": 10,
+          "total_so_far": 10
+        },
+        {
+          "status": "completed",
+          "source": "CourtListener",
+          "total_opinions": 10,
+          "total_chunks": 94
+        }
+      ],
+      "chunks": 94
+    },
+    {
+      "source_id": "national-us-0-2-united-states-pacer",
+      "source_name": "PACER",
+      "status": "metadata_only",
+      "reason": "Direct PACER bulk harvesting is excluded; prefer RECAP/CourtListener."
+    },
+    {
+      "source_id": "national-us-0-3-united-states-supreme-court-of-the-united-states",
+      "source_name": "Supreme Court of the United States",
+      "adapter": "http",
+      "collection": "CASE_LAW_US",
+      "events": [
+        {
+          "url": "https://www.supremecourt.gov",
+          "status": "downloaded",
+          "download_key": "b747eaa73f6d2b68fa4f2c96a6e321a19b574b10a6e9dc303624e1b347ac29e8",
+          "bytes": 143450,
+          "sha256": "dbb20a686e5dfbdecc4af2ce6079a0af97c44ba4b432a26e7e7107b220d03771",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-us-0-3-united-states-supreme-court-of-the-united-states\\dbb20a686e5dfbdecc4a.html",
+          "chunks": 4
+        }
+      ],
+      "chunks": 4
+    },
+    {
+      "source_id": "national-us-0-4-united-states-caselaw-access-project-harvard-lil",
+      "source_name": "Caselaw Access Project (Harvard LIL)",
+      "adapter": "courtlistener_api",
+      "collection": "CASE_LAW_US",
+      "events": [
+        {
+          "query": "international law",
+          "status": "fetched",
+          "results_in_page": 20,
+          "opinions_fetched": 10,
+          "total_so_far": 10
+        },
+        {
+          "status": "completed",
+          "source": "CourtListener",
+          "total_opinions": 10,
+          "total_chunks": 94
+        }
+      ],
+      "chunks": 94
+    },
+    {
+      "source_id": "national-us-0-5-united-states-cornell-legal-information-institute-lii",
+      "source_name": "Cornell Legal Information Institute (LII)",
+      "adapter": "http",
+      "collection": "CASE_LAW_US",
+      "events": [
+        {
+          "url": "https://www.law.cornell.edu",
+          "status": "checkpoint_rehydrated",
+          "download_key": "047a9a072b14aabc5ba15f1c711a09a9bceda9e4f8ce80a97f9c666c960e98b8",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-us-0-5-united-states-cornell-legal-information-institute-lii\\ce5ba226bb2c40934158.html",
+          "chunks": 0
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "national-us-0-6-united-states-govinfo-gpo",
+      "source_name": "GovInfo (GPO)",
+      "adapter": "govinfo_api",
+      "collection": "CASE_LAW_US",
+      "events": [
+        {
+          "collection": "USCOURTS",
+          "status": "completed",
+          "packages_available": 20,
+          "items_ingested": 1,
+          "chunks": 1
+        },
+        {
+          "collection": "PLAW",
+          "status": "completed",
+          "packages_available": 20,
+          "items_ingested": 3,
+          "chunks": 15
+        },
+        {
+          "collection": "BILLS",
+          "status": "completed",
+          "packages_available": 20,
+          "items_ingested": 3,
+          "chunks": 19
+        },
+        {
+          "status": "completed",
+          "source": "GovInfo",
+          "total_chunks": 35
+        }
+      ],
+      "chunks": 35
+    },
+    {
+      "source_id": "national-us-0-7-united-states-ecfr",
+      "source_name": "eCFR",
+      "adapter": "govinfo_api",
+      "collection": "STATUTES_US",
+      "events": [
+        {
+          "package": "USCOURTS-azd-2_21-cv-00357",
+          "status": "summary_error",
+          "reason": "URLError: <urlopen error [Errno 11001] getaddrinfo failed>"
+        },
+        {
+          "package": "USCOURTS-azd-2_21-cv-00140",
+          "status": "summary_error",
+          "reason": "URLError: <urlopen error [Errno 11001] getaddrinfo failed>"
+        },
+        {
+          "package": "USCOURTS-azd-4_21-cv-00027",
+          "status": "summary_error",
+          "reason": "URLError: <urlopen error [Errno 11001] getaddrinfo failed>"
+        },
+        {
+          "package": "USCOURTS-azd-4_20-cv-00555",
+          "status": "summary_error",
+          "reason": "URLError: <urlopen error [Errno 11001] getaddrinfo failed>"
+        },
+        {
+          "package": "USCOURTS-azd-4_20-cv-00512",
+          "status": "summary_error",
+          "reason": "URLError: <urlopen error [Errno 11001] getaddrinfo failed>"
+        },
+        {
+          "package": "USCOURTS-azd-2_21-cv-00145",
+          "status": "summary_error",
+          "reason": "URLError: <urlopen error [Errno 11001] getaddrinfo failed>"
+        },
+        {
+          "package": "USCOURTS-azd-4_20-cv-00461",
+          "status": "summary_error",
+          "reason": "URLError: <urlopen error [Errno 11001] getaddrinfo failed>"
+        },
+        {
+          "collection": "USCOURTS",
+          "status": "completed",
+          "packages_available": 20,
+          "items_ingested": 0,
+          "chunks": 0
+        },
+        {
+          "collection": "PLAW",
+          "status": "error",
+          "reason": "URLError: <urlopen error [Errno 11001] getaddrinfo failed>"
+        },
+        {
+          "collection": "BILLS",
+          "status": "error",
+          "reason": "URLError: <urlopen error [Errno 11001] getaddrinfo failed>"
+        },
+        {
+          "status": "completed",
+          "source": "GovInfo",
+          "total_chunks": 0
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "national-us-0-8-united-states-federal-register-2-0",
+      "source_name": "Federal Register 2.0",
+      "adapter": "federal_register_api",
+      "collection": "STATUTES_US",
+      "events": [
+        {
+          "url": "https://www.federalregister.gov/api/v1/articles.json?per_page=5",
+          "status": "checkpoint_rehydrated",
+          "download_key": "dd93e5384e4785041a3f070604434fcc6eeee3d3e87d3b4138b5e979362ddf5e",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-us-0-8-united-states-federal-register-2-0\\bc9bedfb7c89ed440c4f.json",
+          "chunks": 2
+        },
+        {
+          "url": "https://www.federalregister.gov",
+          "status": "checkpoint_rehydrated",
+          "download_key": "06d8e34a75c76c32f2bd94ecc767fc89b644de4ab48fdbc023d791647aeead09",
+          "raw_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\raw\\national-us-0-8-united-states-federal-register-2-0\\ff9c026f39cfb7dbae01.html",
+          "chunks": 8
+        }
+      ],
+      "chunks": 10
+    },
+    {
+      "source_id": "national-us-0-9-united-states-congress-gov-api",
+      "source_name": "Congress.gov API",
+      "status": "credential_required",
+      "reason": "Credential or required API identity is missing."
+    },
+    {
+      "source_id": "national-us-0-10-united-states-sec-edgar",
+      "source_name": "SEC EDGAR",
+      "status": "credential_required",
+      "reason": "Credential or required API identity is missing."
+    },
+    {
+      "source_id": "national-us-0-11-united-states-justia",
+      "source_name": "Justia",
+      "status": "metadata_only",
+      "reason": "Justia large-scale scraping is risky under site terms."
+    },
+    {
+      "source_id": "national-us-0-12-united-states-law-library-of-congress-congress-gov-treaty-documents",
+      "source_name": "Law Library of Congress / Congress.gov Treaty Documents",
+      "status": "credential_required",
+      "reason": "Credential or required API identity is missing."
+    }
+  ]
+}

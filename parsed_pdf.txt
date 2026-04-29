@@ -1,0 +1,633 @@
+ 
+ 
+AI MEDICAL REPORT ANALYZER USING DOMAIN-
+SPECIFIC LLM WITH ROUGE & BLEU EVALUATION 
+Submitted by 
+HEMANTH KUMAR D           2116231801057 
+                                         BALAJI R                                  2116231801018 
+ 
+                            in partial fulfilment for the award of the degree of 
+BACHELOR OF TECHNOLOGY 
+in 
+ARTIFICIAL INTELLIGENCE AND DATA SCIENCE 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+RAJALAKSHMI ENGINEERING COLLEGE (AUTONOMOUS) THANDALAM, 
+DEPARTMENT OF ARTIFICIAL INTELLIGENCE AND DATA SCIENCE 
+ANNA UNIVERSITY, CHENNAI 600 025 
+APRIL 2026 
+
+ 
+ 
+BONAFIDE CERTIFICATE 
+ 
+ 
+Certified that this  Thesis AI Medical Report Analyzer using Domain-Specific LLM with ROUGE & BLEU 
+Evaluation is the Bonafide work of HEMANTH KUMAR D (2116231801057)  and BALAJI R 
+(2116231801018) who carried out  the project work under my supervision. Certified further that to the 
+best of my knowledge the work reported herein does not form part of any other thesis or dissertation 
+based on which a degree or award was conferred on an earlier occasion on this or any other candidate. 
+ 
+Dr. J M GNANASEKAR 
+DR. BEULAH A 
+ 
+Head of the Department Professor 
+Department of Artificial Intelligence and Data 
+Science, 
+Rajalakshmi Engineering College Thandalam, 
+Chennai – 602105. 
+Assistant Professor  
+Department of Artificial Intelligence and Data 
+Science, 
+Rajalakshmi Engineering College Thandalam, 
+Chennai – 602105. 
+ 
+ 
+ 
+Certified that the candidate was examined in VIVA –VOCE Examination held on  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+INTERNAL EXAMINER  
+ 
+ 
+ 
+   EXTERNAL EXAMINER
+
+ 
+DECLARATION 
+ 
+ 
+ 
+ 
+We hereby declare that the thesis entitled AI Medical Report Analyzer using Domain-Specific 
+LLM with ROUGE & BLEU Evaluation  is a Bonafide work carried out by us under the 
+supervision of DR. BEULAH A, Associate Professor, Department of Artificial Intelligence and 
+Data Science, Rajalakshmi Engineering College, Thandalam, Chennai. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Hemanth Kumar D (2116231801057) 
+Balaji R (2116231801018)  
+
+ 
+ACKNOWLEDGEMENT 
+ 
+Initially We thank the Almighty for being with us through every walk of our life and showering his 
+blessings through the endeavour to put forth this report. We sincerely thank our respected Chairman 
+Mr. S. MEGANATHAN, B.E, F.I.E., our Chairperson Dr.(Mrs.) THANGAM MEGANATHAN, 
+Ph.D., and our Vice Chairman  Mr.  ABHAY  SHANKAR  MEGANATHAN,  B.E.,  M.S.,  for  
+providing us with the requisite infrastructure and sincere endeavoring in educating us in their 
+premier institution. We sincerely thank Dr. S. N. MURUGESAN, M.E., Ph.D., our beloved 
+Principal for his kind support and facilities provided to complete my work in time. we express my 
+sincere thanks to Dr. J M GNANASEKAR, Ph.D., Professor and Head of the Department of 
+Artificial Intelligence and Data Science for his guidance and encouragement throughout the project 
+work. We convey our sincere and deepest gratitude to our internal guide, DR. BEULAH A, 
+Associate Professor , Department of Artificial Intelligence and Data Science, Rajalakshmi 
+Engineering College for her valuable guidance throughout the course of the project. We are very 
+glad to convey our sincere gratitude to our Project Coordinator, DR. BEULAH A, Associate 
+Professor, Department Artificial Intelligence and Data Science for his useful tips during our review 
+to build our project. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ABSTRACT 
+ 
+The rapid advancement of Artificial Intelligence, particularly in the field of Generative AI, has 
+opened new possibilities for automating complex text-based tasks across various domains, 
+including healthcare. Medical reports such as laboratory results and prescriptions contain 
+detailed information with complex terminology and numerical data that are often difficult for 
+patients to interpret without professional assistance. This project presents the design, 
+development, and deployment of a domain-specific Large Language Model (LLM) application 
+aimed at automating the analysis and generation of structured medical report summaries. The 
+proposed system accepts medical documents in the form of PDF or image files and processes 
+them using a multimodal LLM to extract relevant information and generate structured outputs. 
+These outputs include patient-friendly summaries, key findings, risk level classification, and 
+actionable recommendations. The system is implemented using Python and deployed through 
+a web-based interface, enabling easy accessibility and interaction for users. Prompt engineering 
+techniques are employed to guide the model in generating consistent and domain-specific 
+responses without the need for extensive fine-tuning. To evaluate the performance of the 
+system, quantitative metrics such as ROUGE and BLEU are used to compare the AI-generated 
+outputs with human-verified reference data. The results demonstrate that the model effectively 
+captures essential medical information and produces meaningful summaries, although 
+variations in phrasing affect precision-based metrics like BLEU. Overall, the project highlights 
+the potential of domain-specific LLM applications in improving accessibility, efficiency, and 
+understanding of medical information, while also emphasizing the importance of evaluation in 
+validating generative AI systems. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+Table of Contents 
+CHAPTER 1: INTRODUCTION ................................................................................. 4 
+1.1 Background ...................................................................................................... 4 
+1.2 Motivation ......................................................................................................... 4 
+1.3 Problem Statement ........................................................................................... 4 
+1.4 Objectives ......................................................................................................... 5 
+CHAPTER 2: LITERATURE SURVEY ....................................................................... 5 
+2.1 Existing Systems .............................................................................................. 5 
+2.2 Limitations of Existing Systems ........................................................................ 6 
+2.3 Research Gap................................................................................................... 6 
+2.4 Base Model Selection ....................................................................................... 6 
+CHAPTER 3: REQUIREMENTS ................................................................................ 7 
+3.1 Hardware Requirements ................................................................................... 7 
+3.2 Software Requirements .................................................................................... 7 
+CHAPTER 4: SYSTEM ARCHITECTURE ................................................................. 7 
+4.1 Overview of the System .................................................................................... 7 
+4.2 Architecture Description .................................................................................... 8 
+4.3 Components Description .................................................................................. 8 
+CHAPTER 5: METHODOLOGY ................................................................................ 9 
+5.1 System Design .................................................................................................. 9 
+5.2 Model Selection ................................................................................................ 9 
+5.3 Prompt Engineering .......................................................................................... 9 
+5.4 Response Generation Process ......................................................................... 9 
+5.5 Evaluation Process (ROUGE and BLEU Metrics) ........................................... 10 
+CHAPTER 6: IMPLEMENTATION AND DEPLOYMENT ......................................... 10 
+6.1 Implementation Overview ............................................................................... 10 
+6.2 Tools and Technologies Used ......................................................................... 10 
+6.3 Code Implementation Details .......................................................................... 11 
+6.4 Deployment Process ....................................................................................... 11 
+6.5 Application Interface ....................................................................................... 12 
+CHAPTER 7: EXPERIMENTAL RESULTS .............................................................. 12 
+7.1 Evaluation Setup ............................................................................................. 12 
+7.2 Results and Observations ............................................................................... 12 
+
+ 
+7.3 Performance Analysis ..................................................................................... 13 
+CHAPTER 8: DISCUSSION .................................................................................... 13 
+8.1 Interpretation of Results .................................................................................. 13 
+8.2 Comparison with Expected Output ................................................................. 13 
+CHAPTER 9: ADVANTAGES AND LIMITATIONS .................................................. 14 
+9.1 Advantages ..................................................................................................... 14 
+9.2 Limitations ...................................................................................................... 14 
+CHAPTER 10: CONCLUSION AND FUTURE SCOPE ........................................... 15 
+10.1 Conclusion .................................................................................................... 15 
+10.2 Future Scope ................................................................................................ 15 
+CHAPTER 11: REFERENCES ................................................................................ 16 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+CHAPTER 1: INTRODUCTION 
+1.1 Background 
+In recent years, the rapid advancement of Artificial Intelligence has significantly transformed 
+various domains, with healthcare emerging as one of the most impactful areas of application. 
+Among the many developments in AI, Large Language Models (LLMs) have demonstrated 
+remarkable capability in understanding, processing, and generating human-like text. These 
+models are trained on vast amounts of data and can interpret complex language patterns, 
+making them highly suitable for tasks involving unstructured textual information. In the 
+healthcare domain, a large portion of data exists in textual form, such as laboratory reports, 
+prescriptions, and diagnostic summaries. 
+1.2 Motivation 
+The motivation behind this project arises from the challenges faced by individuals when 
+attempting to understand their medical reports without professional assistance. Most patients 
+lack the medical knowledge required to interpret test values, identify abnormal parameters, or 
+understand the implications of certain medical terms. This often leads to confusion, anxiety, or 
+misinterpretation of health conditions. Additionally, healthcare professionals are frequently 
+burdened with heavy workloads, limiting the time they can dedicate to explaining reports in 
+detail to each patient. In rural and underserved areas, access to qualified medical professionals 
+is further restricted, making it even more difficult for individuals to receive proper guidance.  
+1.3 Problem Statement 
+Medical reports are inherently complex, containing numerical values, abbreviations, and 
+domain-specific terminology such as HbA1c, LDL cholesterol, TSH levels, and various 
+biochemical indicators. For a non-medical user, interpreting these values and understanding 
+their significance is a difficult task. Traditional systems either display reports in their original 
+format or provide limited assistance, without offering meaningful interpretation or personalized 
+insights. Furthermore, manual analysis by healthcare professionals is time-consuming and may 
+not always be readily available. This creates a need for an automated system that can process 
+medical documents, extract relevant information, and generate understandable summaries. The 
+problem addressed in this project is the development of a domain-specific LLM-based 
+application that can accept medical reports in formats such as PDF or images, analyze their 
+content, generate structured outputs including summaries and risk levels, and evaluate the 
+
+ 
+quality of generated text using quantitative metrics like ROUGE and BLEU in comparison with 
+human-verified reference data. 
+1.4 Objectives 
+The primary objective of this project is to design and implement a domain-specific Large 
+Language Model application that automates the process of medical report analysis and text 
+generation. The system aims to support multiple types of medical documents, including 
+laboratory reports and prescriptions, and generate structured outputs such as patient-friendly 
+summaries, key findings, risk classifications, and recommendations. Another important 
+objective is to deploy the application using a user-friendly interface so that it can be accessed 
+easily by users without technical expertise. In addition to functionality, the project also focuses 
+on evaluating the performance of the model using established metrics such as ROUGE and 
+BLEU to measure linguistic accuracy and content retention. By comparing AI-generated 
+outputs with human-written references, the system’s effectiveness can be quantitatively 
+assessed. Overall, the project seeks to demonstrate how generative AI can be applied to solve 
+real-world healthcare problems by improving accessibility, understanding, and efficiency in 
+medical data interpretation. 
+CHAPTER 2: LITERATURE SURVEY 
+2.1 Existing Systems 
+The application of Artificial Intelligence in healthcare has led to the development of several 
+systems aimed at assisting medical professionals and improving patient outcomes. One of the 
+notable systems is IBM Watson Health, which was designed to support clinical decision-
+making by analyzing large volumes of medical data. Although it demonstrated strong 
+capabilities, it was primarily enterprise-focused and not accessible for general public use. 
+Similarly, Google developed MedPaLM, a specialized language model trained for medical 
+question answering, which showcased high accuracy in understanding clinical queries. 
+However, its availability is limited and it is not designed for direct deployment by students or 
+small-scale developers. General-purpose models like ChatGPT are widely used for text 
+generation tasks, but they are not specifically tailored for structured medical report analysis 
+and may lack domain-specific consistency. Additionally, services such as Amazon Comprehend 
+Medical focus mainly on extracting medical entities from text rather than generating 
+meaningful summaries or recommendations. Most existing hospital systems and report portals 
+
+ 
+only provide digital access to reports without any intelligent interpretation, leaving users to 
+rely on manual understanding. 
+2.2 Limitations of Existing Systems 
+Despite the availability of advanced AI tools, several limitations persist in current systems. 
+Many platforms are either restricted to enterprise environments or require significant financial 
+investment, making them inaccessible for academic or individual use. General-purpose 
+language models often generate unstructured responses, which may not align with the need for 
+standardized outputs such as JSON-based medical summaries. Furthermore, most existing tools 
+do not support multimodal inputs like PDFs and images simultaneously, which is essential for 
+real-world medical report processing. Another major limitation is the absence of risk 
+classification and personalized recommendations, which are critical for helping users 
+understand the severity of their health conditions. In addition, existing systems rarely 
+incorporate evaluation mechanisms such as ROUGE and BLEU metrics, making it difficult to 
+quantitatively assess the quality of generated outputs.  
+2.3 Research Gap 
+From the analysis of existing systems, it is evident that there is a lack of a unified solution that 
+combines accessibility, structured output generation, multimodal input handling, and 
+quantitative evaluation. Most available tools either focus on information extraction or provide 
+general conversational responses, but do not offer a complete pipeline for medical report 
+analysis. There is also a noticeable absence of systems that are freely deployable and suitable 
+for academic projects while still maintaining a reasonable level of performance. Another 
+important gap is the lack of integration between text generation and evaluation metrics, which 
+are essential for validating the effectiveness of AI-generated content. 
+2.4 Base Model Selection 
+To address the identified gaps, an appropriate base model must be selected that satisfies the 
+requirements of performance, accessibility, and ease of integration. In this project, the model 
+chosen is Gemini 2.5 Flash developed by Google DeepMind. This model offers several 
+advantages, including native support for multimodal inputs such as PDF and image files, which 
+eliminates the need for additional preprocessing steps like Optical Character Recognition. It is 
+capable of generating structured outputs, which is essential for producing consistent and 
+interpretable results. Another key advantage is the availability of a free API tier, making it 
+suitable for academic use without significant cost constraints. The model also demonstrates 
+
+ 
+strong performance in understanding medical terminology and generating contextually relevant 
+responses. Furthermore, it can be easily integrated into Python-based applications using the 
+official SDK, allowing seamless development and deployment. These features make Gemini 
+2.5 Flash an appropriate choice for building a domain-specific LLM application focused on 
+medical report analysis. 
+CHAPTER 3: REQUIREMENTS 
+3.1 Hardware Requirements 
+The successful implementation and deployment of the proposed system require a basic 
+computing environment that is accessible and does not demand high-end infrastructure. The 
+memory requirement is relatively low, with a minimum of 4 GB RAM being adequate, although 
+8 GB is recommended for better performance and multitasking. Storage requirements are 
+minimal, as the project mainly involves code files and lightweight datasets, requiring 
+approximately 500 MB of free disk space. 
+3.2 Software Requirements 
+The software requirements for this project are centered around creating a flexible, scalable, and 
+user-friendly application environment. The core programming language used is Python, chosen 
+for its simplicity, extensive library support, and strong ecosystem for AI and data processing 
+tasks. The user interface is developed using the Streamlit framework, which enables rapid 
+development of interactive web applications with minimal effort. For evaluation purposes, the 
+rouge-score library is employed to compute ROUGE metrics, which measure content 
+similarity, while the NLTK library is used to calculate BLEU scores, which evaluate the 
+precision of generated text. Version control is managed using Git and GitHub, enabling 
+efficient collaboration and code maintenance. Finally, the application is deployed using 
+Streamlit Community Cloud, which provides a free and convenient platform for hosting and 
+sharing the application. Together, these software components create a robust and efficient 
+environment for developing and deploying the domain-specific LLM application. 
+CHAPTER 4: SYSTEM ARCHITECTURE 
+4.1 Overview of the System 
+The system architecture of the proposed application is designed to provide a seamless flow 
+from user input to AI-generated output while maintaining modularity and scalability. The 
+
+ 
+architecture follows a layered approach consisting of the user interface layer, processing layer, 
+model interaction layer, and evaluation layer. The user interacts with the system through a web-
+based interface, where medical reports can be uploaded in the form of PDF or image files. Once 
+the input is received, the system processes the document, extracts relevant content, and sends 
+it to a domain-specific Large Language Model for analysis. The model generates structured 
+outputs, which are then validated, enhanced with additional processing such as risk detection, 
+and displayed to the user in an understandable format. In parallel, an evaluation pipeline is used 
+to assess the quality of the generated output by comparing it with reference data using ROUGE 
+and BLEU metrics. This architecture ensures that the system is both functional and measurable 
+in terms of performance. 
+4.2 Architecture Description 
+The architecture begins with the user interface, which is implemented using a web framework 
+that allows users to upload files and interact with the system. Once a document is uploaded, it 
+is passed to the extraction module, which reads the file content and converts it into a suitable 
+format for further processing. This step prevents irrelevant or incorrect inputs from being 
+processed further. After classification, the content is sent to the analysis module, where the 
+Large Language Model processes the data based on predefined prompts. The model generates 
+a structured response that includes key findings, summaries, risk levels, and recommendations. 
+Following validation, additional processing is performed, such as identifying important 
+medical terms and determining the overall risk level based on predefined conditions. The 
+processed output is then displayed to the user through the interface, where it is organized into 
+different sections for easy understanding. Additionally, the system includes a chat component 
+that allows users to ask follow-up questions based on the uploaded report. Alongside the main 
+processing pipeline, an evaluation module operates separately, taking AI-generated outputs and 
+comparing them with human-written references to compute performance metrics. This 
+comprehensive architecture ensures that the system is capable of handling real-world inputs 
+while maintaining reliability and usability. 
+4.3 Components Description 
+The system is composed of several interconnected components, each responsible for a specific 
+function within the overall workflow. The document extractor is responsible for reading and 
+converting input files into a format suitable for processing. The analyzer component interacts 
+with the Large Language Model to generate structured outputs based on the extracted content.  
+
+ 
+CHAPTER 5: METHODOLOGY 
+5.1 System Design 
+The methodology adopted in this project is centered around building a structured and modular 
+pipeline that transforms raw medical documents into meaningful, user-friendly insights. The 
+system is designed in such a way that it can handle real-world inputs while maintaining clarity, 
+accuracy, and scalability. The overall design follows a two-phase approach consisting of an 
+analysis phase and an evaluation phase. In the analysis phase, the system accepts medical 
+reports in the form of PDF or image files, processes the input, and generates structured outputs 
+such as summaries, key findings, and risk levels. In the evaluation phase, the generated outputs 
+are compared with human-written reference data to measure the performance of the model 
+using quantitative metrics.  
+5.2 Model Selection 
+The choice of the underlying model plays a crucial role in determining the performance of the 
+system. In this project, a domain-specific adaptation is achieved using the Gemini 2.5 Flash 
+model, which is capable of handling both textual and visual inputs. The model is selected due 
+to its ability to process multimodal data, generate structured responses, and provide fast 
+inference. Unlike traditional machine learning models that require extensive training and fine-
+tuning, this approach leverages prompt engineering to guide the model’s behavior.  
+5.3 Prompt Engineering 
+Prompt engineering is a critical aspect of this methodology, as it enables the model to produce 
+domain-specific outputs without explicit retraining. Carefully designed prompts are used to 
+instruct the model on how to interpret the input and generate responses in a structured format. 
+Different prompts are created for different tasks, such as document classification, lab report 
+analysis, prescription analysis, and interactive chat responses. 
+5.4 Response Generation Process 
+The response generation process begins with the extraction of content from the uploaded 
+document, which is then passed to a classification module to determine whether the document 
+is relevant to the medical domain. Once validated, the content is sent to the model along with 
+the appropriate prompt based on the selected mode, such as lab report or prescription analysis. 
+Additional processing steps are performed to enhance the output, such as identifying key 
+medical terms and determining the overall risk level. The final output is then displayed to the 
+
+ 
+user in a clear and organized manner. This multi-step process ensures that the system produces 
+reliable and meaningful results from unstructured input data. 
+5.5 Evaluation Process (ROUGE and BLEU Metrics) 
+To assess the quality of the generated outputs, the system incorporates a quantitative evaluation 
+process using ROUGE and BLEU metrics. These metrics are widely used in natural language 
+processing tasks to measure the similarity between machine-generated text and human-written 
+reference text. ROUGE focuses on recall by evaluating how much of the reference content is 
+captured in the generated output, while BLEU focuses on precision by measuring how closely 
+the generated text matches the reference in terms of word usage. In this project, multiple 
+variants of ROUGE, such as ROUGE-1, ROUGE-2, and ROUGE-L, are used to capture 
+different levels of similarity, including word-level overlap, phrase-level overlap, and sequence 
+matching. BLEU score is computed using smoothing techniques to handle cases where exact 
+matches are limited. The evaluation process involves generating outputs for a set of predefined 
+samples and comparing them with corresponding reference outputs. This evaluation not only 
+validates the effectiveness of the system but also helps identify areas for improvement in 
+prompt design and response generation. 
+CHAPTER 6: IMPLEMENTATION AND DEPLOYMENT 
+6.1 Implementation Overview 
+The implementation of the proposed system focuses on developing a functional, user-friendly, 
+and modular application that integrates a Large Language Model for medical report analysis. 
+The entire system is built using Python, which provides a flexible and efficient environment 
+for handling data processing, API integration, and web application development. The 
+implementation is divided into multiple modules to ensure clarity, maintainability, and 
+scalability. Each module is responsible for a specific task, such as file extraction, document 
+analysis, validation, risk detection, and user interaction. By adopting a modular approach, the 
+system becomes easier to debug, extend, and optimize in the future. 
+6.2 Tools and Technologies Used 
+The development of this system relies on a combination of modern tools and technologies that 
+support both backend processing and frontend interaction. Python serves as the core 
+programming language due to its simplicity and extensive support for libraries related to 
+
+ 
+artificial intelligence and web development. The user interface is developed using Streamlit, 
+which allows rapid creation of interactive web applications with minimal code. 
+For handling image inputs and processing uploaded files, the Pillow library is used, which 
+supports various image formats and simplifies file manipulation. For evaluation purposes, the 
+rouge-score library is used to compute ROUGE metrics, while the NLTK library is used for 
+calculating BLEU scores. Git and GitHub are used for version control, allowing efficient 
+tracking of changes and collaboration. Together, these tools provide a comprehensive 
+environment for building and deploying the application. 
+6.3 Code Implementation Details 
+The implementation involves several key functionalities that work together to deliver the final 
+output. The document classification function is responsible for determining whether the 
+uploaded file is a valid medical document. This step prevents unnecessary processing of 
+irrelevant inputs. Once the document is validated, the analysis function sends the content to the 
+model along with the appropriate prompt, depending on whether the input is a lab report or a 
+prescription. The model then generates a structured response, which is parsed and converted 
+into a usable format. The validation module ensures that the generated output adheres to a 
+predefined schema and contains all required fields. If any inconsistencies are detected, 
+appropriate measures are taken to handle them. 
+6.4 Deployment Process 
+The deployment of the application is carried out using Streamlit Community Cloud, which 
+provides a free and convenient platform for hosting web applications. The source code of the 
+project is first uploaded to a GitHub repository, which acts as the central storage for all project 
+files. The deployment platform is then connected to the repository, allowing automatic updates 
+whenever changes are pushed to the main branch. The entry point of the application is defined 
+in a main script file, which initializes the user interface and handles user interactions. 
+To ensure secure access to the API, the required API key is stored using the secrets management 
+feature provided by the deployment platform. Once deployed, the application is accessible 
+through a public URL, enabling users to interact with the system from any device with an 
+internet connection. This deployment approach ensures scalability, ease of access, and minimal 
+maintenance effort. 
+
+ 
+6.5 Application Interface 
+The user interface of the application is designed to be simple, intuitive, and user-friendly, 
+ensuring that even non-technical users can easily interact with the system. The main interface 
+includes a sidebar where users can upload medical reports and select the type of analysis they 
+wish to perform. Once the file is uploaded and the analysis is triggered, the system processes 
+the input and displays the results in a structured format. 
+Visual indicators, such as color-coded risk levels, are used to highlight the severity of the 
+condition. The interface also includes a chat feature that allows users to ask follow-up questions 
+related to the uploaded report, providing an interactive experience. Overall, the application 
+interface enhances usability and ensures that the system effectively communicates complex 
+medical information in a simplified manner. 
+CHAPTER 7: EXPERIMENTAL RESULTS 
+7.1 Evaluation Setup 
+The experimental evaluation of the proposed system is conducted to measure the effectiveness 
+of the Large Language Model in generating accurate and meaningful medical report 
+summaries. The evaluation process is designed to compare the AI-generated outputs with 
+human-written reference data to ensure reliability and quality. A small dataset consisting of 
+representative medical reports is prepared, including common test types such as Complete 
+Blood Count (CBC), Lipid Panel, and Thyroid Profile.  
+The model used for evaluation is Gemini 2.5 Flash, and the outputs are generated using the 
+same prompts defined during the implementation phase. To ensure consistency, preprocessing 
+steps such as text normalization and lowercasing are applied before computing evaluation 
+metrics. Additionally, risk classification accuracy is evaluated by comparing the predicted risk 
+level with the reference risk level for each sample. This setup ensures a balanced assessment 
+of both linguistic quality and practical usefulness. 
+7.2 Results and Observations 
+The results obtained from the evaluation demonstrate the performance of the system across 
+different metrics. The ROUGE-1 score, which measures word-level overlap, shows a value of 
+approximately 0.5078, indicating that the model successfully captures a significant portion of 
+the key terms present in the reference summaries. The ROUGE-2 score, which evaluates 
+
+ 
+phrase-level similarity, is relatively lower at around 0.1986, suggesting that the model often 
+rephrases content rather than directly matching the reference text.  
+7.3 Performance Analysis 
+The performance of the system highlights both its strengths and areas for improvement. The 
+relatively high ROUGE-1 score demonstrates that the model is effective in identifying and 
+including important medical terms and concepts in its output. This is particularly important in 
+the healthcare domain, where accurate representation of key information is critical. The 
+moderate ROUGE-L score indicates that the model is capable of maintaining a logical flow of 
+information, even if the exact sentence structure differs from the reference. 
+On the other hand, the low ROUGE-2 and BLEU scores suggest that the model frequently 
+paraphrases content, which reduces exact n-gram matches. However, this behavior is not 
+necessarily a limitation, as it reflects the model’s ability to generate natural and diverse 
+language. 
+CHAPTER 8: DISCUSSION 
+8.1 Interpretation of Results 
+The results obtained from the experimental evaluation provide important insights into the 
+performance and behavior of the proposed system. The relatively high ROUGE-1 score 
+indicates that the model is effective in capturing the essential medical terms and key 
+information present in the reference summaries. This suggests that the system is capable of 
+identifying critical aspects of medical reports, such as abnormal values, diagnostic indicators, 
+and relevant conditions. The moderate ROUGE-L score further demonstrates that the generated 
+outputs maintain a logical flow and coherence, even when the sentence structure differs from 
+that of the reference text. This is particularly important in ensuring that the generated 
+summaries are readable and understandable for users. 
+8.2 Comparison with Expected Output 
+When comparing the AI-generated outputs with the human-written reference data, it is 
+observed that the system successfully captures the core meaning and intent of the reference 
+summaries in most cases. The generated outputs include relevant medical terms, appropriate 
+risk classifications, and meaningful recommendations, which align closely with the expected 
+outcomes. 
+
+ 
+CHAPTER 9: ADVANTAGES AND LIMITATIONS 
+9.1 Advantages 
+The proposed system offers several significant advantages that make it a practical and 
+impactful solution for medical report analysis. One of the primary benefits is its ability to 
+simplify complex medical information into clear and understandable language, making it 
+accessible even to users without a medical background. By leveraging a domain-specific Large 
+Language Model, the system can accurately identify key findings, interpret medical terms, and 
+provide structured summaries, which reduces the dependency on manual interpretation by 
+healthcare professionals. This not only saves time but also enhances efficiency in 
+understanding medical reports. 
+Another important advantage is the system’s ability to process multiple input formats, including 
+PDF and image files, which reflects real-world usage where medical reports are often shared 
+in different formats. The inclusion of risk classification adds further value by helping users 
+quickly understand the severity of their condition, enabling them to take appropriate action. 
+The interactive chat feature enhances user experience by allowing follow-up questions, thereby 
+providing a more personalized and engaging interface. 
+9.2 Limitations 
+Despite its advantages, the system has certain limitations that need to be acknowledged. One 
+of the primary limitations is the reliance on internet connectivity, as the application depends on 
+external API calls to access the Large Language Model. This may restrict usability in areas 
+with poor network infrastructure. Another limitation is the relatively small size of the 
+evaluation dataset, which may not fully represent the diversity of real-world medical reports. 
+A larger dataset would provide a more comprehensive assessment of the system’s performance. 
+The evaluation metrics used in the project, particularly BLEU, may not accurately reflect the 
+quality of generated text in cases where the model produces paraphrased outputs. Since BLEU 
+focuses on exact word matches, it tends to assign lower scores even when the generated content 
+is semantically correct. Additionally, the system currently supports only English language 
+reports, limiting its applicability in regions where other languages are commonly used. 
+
+ 
+CHAPTER 10: CONCLUSION AND FUTURE SCOPE 
+10.1 Conclusion 
+The project successfully demonstrates the design and development of a domain-specific Large 
+Language Model application for automated medical report analysis. By integrating generative 
+AI techniques with a user-friendly interface, the system is able to process medical documents, 
+extract meaningful information, and present it in a structured and understandable format. The 
+application effectively handles different types of inputs such as laboratory reports and 
+prescriptions, and generates outputs that include summaries, key findings, risk levels, and 
+recommendations. This significantly improves the accessibility of medical information, 
+especially for users who do not possess a medical background. 
+An important aspect of the project is the evaluation of the generated outputs using quantitative 
+metrics such as ROUGE and BLEU. These metrics provide a systematic way to assess the 
+similarity between AI-generated text and human-written reference data, thereby validating the 
+effectiveness of the system. Although certain limitations exist in the evaluation process, the 
+results indicate that the model performs well in capturing essential information and generating 
+meaningful summaries. Overall, the project highlights the potential of generative AI in 
+transforming the way medical information is interpreted and communicated. 
+10.2 Future Scope 
+While the current system provides a strong foundation, there are several opportunities for 
+further enhancement and expansion. One of the key areas for improvement is the fine-tuning 
+of the language model using domain-specific datasets. This would help in improving accuracy, 
+reducing inconsistencies, and making the outputs more aligned with clinical standards. 
+Expanding the evaluation dataset to include a larger and more diverse set of medical reports 
+would also lead to more reliable and statistically significant results. 
+In terms of practical application, the system can be integrated with hospital management 
+systems or electronic medical records to enable real-time data processing without manual 
+uploads. The development of a mobile application would further improve accessibility and user 
+convenience. Additionally, collaboration with medical professionals for clinical validation 
+would enhance the credibility and reliability of the system. By addressing these areas, the 
+proposed system can evolve into a more comprehensive and impactful solution in the 
+healthcare domain. 
+
+ 
+CHAPTER 11: REFERENCES 
+The following references were used in the development of this project, including research 
+papers, documentation, and official resources related to Large Language Models, healthcare 
+AI, and evaluation metrics. 
+1. Large Language Models in Healthcare (Research Paper)  
+2. Large Language Models in Healthcare and Medical Domain: A Review (ResearchGate)  
+3. Large Language Models in Healthcare (arXiv PDF)  
+4. Applications of LLMs in Healthcare (Springer Article)  
+5. Evaluating Large Language Models for Healthcare (ScienceDirect)  
+6. ROUGE and BLEU Evaluation in Medical LLMs (BMJ Study)  
+7. Machine Learning & Medical Summarization using LLMs (Thesis PDF)  
+8. Streamlit Official Documentation  
+9. Google AI / Gemini API Documentation  
+10. NLTK BLEU Score Documentation  
+11. ROUGE Score Python Library Documentation 
+ 

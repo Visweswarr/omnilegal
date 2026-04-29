@@ -1,0 +1,235 @@
+[
+  {
+    "jurisdiction": "US",
+    "sources": [
+      {
+        "name": "CourtListener (Free Law Project)",
+        "type": "Non-profit legal data aggregator",
+        "coverage": "U.S. federal and state court opinions (millions of cases, including Supreme Court and lower courts)【3†L62-L65】",
+        "access": "Open API and bulk CSV downloads via CourtListener website; supports developer API and search",
+        "format": "CSV, JSON (via API); opinions in text (OCR of PDF) and metadata",
+        "license": "Public domain (U.S. court opinions)【3†L62-L65】; CourtListener data is CC0",
+        "recommended_for": ["CASE_LAW","NATIONAL_US"]
+      },
+      {
+        "name": "GovInfo (GPO)",
+        "type": "U.S. government publishing office",
+        "coverage": "Federal court opinions (USCOURTS collection), U.S. Code, Code of Federal Regulations, Federal Register, etc.",
+        "access": "REST API (api.govinfo.gov) and Bulk Data repository (sitemaps available)【16†L445-L450】【23†L159-L166】",
+        "format": "JSON (API), XML (bulk data), PDF, HTML",
+        "license": "Public domain (U.S. government works)",
+        "recommended_for": ["CASE_LAW","NATIONAL_US"]
+      },
+      {
+        "name": "Office of Law Revision Counsel (U.S. Code)",
+        "type": "U.S. Government (House of Representatives)",
+        "coverage": "Entire United States Code (updated through latest Public Law)【19†L142-L149】",
+        "access": "Direct download of XML/XHTML/PDF for each title via uscode.house.gov【19†L146-L154】【19†L158-L160】",
+        "format": "XML, XHTML, PDF (zipped archives)",
+        "license": "Public domain (federal statutes)",
+        "recommended_for": ["NATIONAL_US"]
+      },
+      {
+        "name": "GPO Bulk Data (eCFR/CFR)",
+        "type": "U.S. Government (Federal Register/GPO)",
+        "coverage": "Code of Federal Regulations (eCFR, CFR) and Federal Register (since 1994)",
+        "access": "Bulk XML downloads from GPO (eCFR XML)【20†L43-L47】 and GovInfo API",
+        "format": "XML (machine-readable), PDF",
+        "license": "Public domain (federal regulations)",
+        "recommended_for": ["NATIONAL_US"]
+      }
+    ]
+  },
+  {
+    "jurisdiction": "UK",
+    "sources": [
+      {
+        "name": "National Archives Find Case Law API",
+        "type": "UK Government (National Archives)",
+        "coverage": "UK court judgments and tribunal decisions (Supreme Court, Court of Appeal, High Court, etc.)",
+        "access": "REST API (LegalDocML/Atom format)【29†L25-L30】",
+        "format": "XML (LegalDocML), Atom XML feeds",
+        "license": "Open Justice Licence (allows reuse with attribution; requires permission for bulk automated analysis)【29†L40-L48】",
+        "recommended_for": ["CASE_LAW","NATIONAL_UK"]
+      },
+      {
+        "name": "Legislation.gov.uk API",
+        "type": "UK Government (National Archives)",
+        "coverage": "United Kingdom primary and secondary legislation (Acts, SIs)",
+        "access": "REST API providing XML/HTML/RDF content (append .xml for raw data)【27†L65-L73】",
+        "format": "XML, HTML",
+        "license": "Open Government Licence",
+        "recommended_for": ["NATIONAL_UK"]
+      },
+      {
+        "name": "BAILII (British & Irish Legal Information Institute)",
+        "type": "Charitable legal information institute",
+        "coverage": "UK and Irish case law (Supreme Court, Court of Appeal, High Court, etc.)",
+        "access": "Website (HTML/PDF); no API available",
+        "format": "HTML, PDF",
+        "license": "Crown copyright (judgments) and BAILII copyright on presentation; bulk scraping is prohibited【31†L201-L205】",
+        "recommended_for": ["CASE_LAW"]
+      }
+    ]
+  },
+  {
+    "jurisdiction": "EU",
+    "sources": [
+      {
+        "name": "EUR-Lex / EU Cellar API",
+        "type": "European Union official portal",
+        "coverage": "EU treaties, legislation (regulations, directives, decisions), and Court of Justice case-law",
+        "access": "RESTful web services (SPARQL/Cellar API) and bulk data dumps for CELEX data【33†L248-L256】【33†L279-L287】",
+        "format": "XML (Formex for Official Journal, XML for directives/regs, HTML, PDF)",
+        "license": "Reuse free of charge under EU terms (EUR-Lex content copyright applies)【33†L233-L240】",
+        "recommended_for": ["CASE_LAW","NATIONAL_EU"]
+      },
+      {
+        "name": "Curia (CJEU case-law database)",
+        "type": "European Union (Court of Justice)",
+        "coverage": "Court of Justice and General Court judgments, opinions, orders",
+        "access": "Official website search (no public API)",
+        "format": "HTML, PDF",
+        "license": "Public access (EU court decisions)",
+        "recommended_for": ["CASE_LAW"]
+      },
+      {
+        "name": "EU Open Data Portal (data.europa.eu)",
+        "type": "European Commission open data",
+        "coverage": "Official Journal listings (L/C series), EU institutions data",
+        "access": "CSV/JSON/ODK downloads of metadata (OJ issue lists) linking to XML documents【33†L258-L266】",
+        "format": "CSV, XML, JSON",
+        "license": "Open (most data CC0/CC-BY)",
+        "recommended_for": ["NATIONAL_EU"]
+      }
+    ]
+  },
+  {
+    "jurisdiction": "IN",
+    "sources": [
+      {
+        "name": "AWS Open Data – Indian Supreme Court Judgments",
+        "type": "Open data repository (Dattam Labs)",
+        "coverage": "Supreme Court of India judgments (1950–2025, ~88,000 cases)【63†L26-L34】",
+        "access": "Public S3 bucket (aws s3 ls without credentials)【63†L26-L34】",
+        "format": "Zip of PDF judgments (English & regional languages), JSON metadata, Parquet structured data【63†L26-L34】【63†L36-L38】",
+        "license": "CC BY 4.0 (open license)【63†L36-L38】",
+        "recommended_for": ["CASE_LAW","NATIONAL_IN"]
+      },
+      {
+        "name": "India Code (legislative repository)",
+        "type": "Indian Government (National Informatics Centre)",
+        "coverage": "All Central and State Acts, and subordinate legislation (in force)",
+        "access": "Official website with searchable PDFs of statutes【70†L82-L89】",
+        "format": "PDF (official text), HTML interface",
+        "license": "Public domain (statutes)【70†L82-L89】",
+        "recommended_for": ["NATIONAL_IN"]
+      },
+      {
+        "name": "E-Gazette of India",
+        "type": "Indian Government (Department of Publication)",
+        "coverage": "Official Gazette (notifications of laws, rules, amendments)",
+        "access": "Official e-Gazette website (egazette.gov.in)",
+        "format": "PDF",
+        "license": "Public domain (official publications)",
+        "recommended_for": ["NATIONAL_IN"]
+      }
+    ]
+  },
+  {
+    "jurisdiction": "RUSSIA",
+    "sources": [
+      {
+        "name": "Official Legal Information Portal (pravo.gov.ru)",
+        "type": "Russian government",
+        "coverage": "Federal legislation (laws, codes, presidential decrees, etc.) in Russian",
+        "access": "Web portal (no public API)",
+        "format": "HTML",
+        "license": "Government documents (use subject to Russian law)",
+        "recommended_for": ["RUSSIA"]
+      },
+      {
+        "name": "Supreme Court of the Russian Federation",
+        "type": "Russian government (judiciary)",
+        "coverage": "Supreme Court rulings and Plenum resolutions (in Russian)",
+        "access": "Official site (PDF/HTML; no API)",
+        "format": "PDF, HTML",
+        "license": "Judicial opinions (government work)",
+        "recommended_for": ["RUSSIA","CASE_LAW"]
+      },
+      {
+        "name": "Constitutional Court of the Russian Federation",
+        "type": "Russian government (judiciary)",
+        "coverage": "Constitutional Court judgments (in Russian, some English summaries)",
+        "access": "Official site (PDF/HTML; no API)",
+        "format": "PDF, HTML",
+        "license": "Judicial opinions (government work)",
+        "recommended_for": ["RUSSIA","CASE_LAW"]
+      }
+    ]
+  },
+  {
+    "jurisdiction": "ISRAEL",
+    "sources": [
+      {
+        "name": "Supreme Court of Israel (court.gov.il)",
+        "type": "Israeli government",
+        "coverage": "Supreme Court decisions (Hebrew original, some English translations)",
+        "access": "Official website search (no public API)",
+        "format": "HTML, PDF",
+        "license": "State judicial opinions",
+        "recommended_for": ["ISRAEL","CASE_LAW"]
+      },
+      {
+        "name": "Israeli Supreme Court Database (ISCD)",
+        "type": "Academic project (Cardozo Law School)",
+        "coverage": "Structured database of Israeli Supreme Court decisions (2010–2018, ~16K cases)【54†L47-L54】",
+        "access": "Open research database (was online)",
+        "format": "CSV/SQL (analytical metadata)",
+        "license": "Open access (research dataset)",
+        "recommended_for": ["ISRAEL","CASE_LAW"]
+      }
+    ]
+  },
+  {
+    "jurisdiction": "International",
+    "sources": [
+      {
+        "name": "International Court of Justice (ICJ)",
+        "type": "United Nations court",
+        "coverage": "All ICJ judgments and advisory opinions (1947–present)",
+        "access": "Official ICJ website (PDF of decisions)",
+        "format": "PDF (English/French)",
+        "license": "International court decisions (public domain/UN)",
+        "recommended_for": ["CASE_LAW"]
+      },
+      {
+        "name": "CD-ICJ (Corpus of Decisions: ICJ)",
+        "type": "Academic open dataset",
+        "coverage": "All published ICJ decisions (judgments, opinions, dissents)【39†L37-L44】",
+        "access": "Zenodo repository (downloadable data)",
+        "format": "PDF, TXT, CSV",
+        "license": "CC0 1.0 (public domain)【39†L115-L118】",
+        "recommended_for": ["CASE_LAW"]
+      },
+      {
+        "name": "UN Treaty Collection",
+        "type": "United Nations (Depositary)",
+        "coverage": "Multilateral treaties registered with the UN (status, texts)",
+        "access": "UNTC website (search by treaty or country)",
+        "format": "HTML",
+        "license": "UN documents (no specific open license)",
+        "recommended_for": []
+      },
+      {
+        "name": "Avalon Project (Yale Law School)",
+        "type": "Academic historical archive",
+        "coverage": "Major historical treaties and documents (e.g. NATO Treaty 1949, Warsaw Pact 1955)",
+        "access": "Website (HTML texts)",
+        "format": "HTML",
+        "license": "Public domain historical documents",
+        "recommended_for": []
+      }
+    ]
+  }
+]

@@ -1,0 +1,469 @@
+2026-04-29 11:33:33 - INFO - chainlit - Your app is available at http://localhost:8014
+2026-04-29 11:34:15 - WARNING - chainlit - Translated markdown file for en-US not found. Defaulting to chainlit.md.
+2026-04-29 11:34:15 - INFO - chainlit - Missing custom logo. Falling back to default logo.
+2026-04-29 11:34:16 - INFO - src.rag.vector_store - Vector backend resolved to: embedded_qdrant (QDRANT_URL=http://localhost:6333)
+[OmniLegal] Vector backend = 'embedded_qdrant', QDRANT_URL = 'http://localhost:6333'
+2026-04-29 11:34:21 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections "HTTP/1.1 200 OK"
+2026-04-29 11:34:21 - INFO - src.rag.vector_store - Qdrant server detected at http://localhost:6333 — auto-switching from embedded to server_qdrant
+[OmniLegal] Auto-switching from embedded to server_qdrant (server at http://localhost:6333 is alive)
+2026-04-29 11:34:21 - INFO - src.rag.vector_store - Connecting to Qdrant server at http://localhost:6333
+2026-04-29 11:34:21 - INFO - httpx - HTTP Request: GET http://localhost:6333 "HTTP/1.1 200 OK"
+2026-04-29 11:34:23 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections "HTTP/1.1 200 OK"
+2026-04-29 11:34:23 - INFO - src.rag.vector_store - Successfully connected to Qdrant server
+2026-04-29 11:34:24 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections "HTTP/1.1 200 OK"
+2026-04-29 11:34:24 - INFO - httpx - HTTP Request: GET http://localhost:6333 "HTTP/1.1 200 OK"
+2026-04-29 11:34:24 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/INTL_TREATIES "HTTP/1.1 200 OK"
+2026-04-29 11:34:24 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_IN "HTTP/1.1 200 OK"
+2026-04-29 11:34:24 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_US "HTTP/1.1 200 OK"
+2026-04-29 11:34:25 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_UK "HTTP/1.1 200 OK"
+2026-04-29 11:34:25 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_EU "HTTP/1.1 200 OK"
+2026-04-29 11:34:25 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_RU "HTTP/1.1 200 OK"
+2026-04-29 11:34:25 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_IL "HTTP/1.1 200 OK"
+2026-04-29 11:34:25 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW "HTTP/1.1 200 OK"
+2026-04-29 11:34:25 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/SHAW_PRIVATE "HTTP/1.1 200 OK"
+2026-04-29 11:34:25 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/COMMENTARY "HTTP/1.1 200 OK"
+2026-04-29 11:34:25 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/REFERENCE_DATASET "HTTP/1.1 200 OK"
+2026-04-29 11:34:26 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/REFERENCE_DATASET_GLOBAL "HTTP/1.1 200 OK"
+2026-04-29 11:34:26 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/REFERENCE_DATASET_EU "HTTP/1.1 200 OK"
+2026-04-29 11:34:26 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_GLOBAL "HTTP/1.1 200 OK"
+2026-04-29 11:34:27 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_US "HTTP/1.1 200 OK"
+2026-04-29 11:34:27 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_IN "HTTP/1.1 200 OK"
+2026-04-29 11:34:27 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_EU "HTTP/1.1 200 OK"
+2026-04-29 11:34:27 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_UK "HTTP/1.1 200 OK"
+2026-04-29 11:34:27 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_RU "HTTP/1.1 200 OK"
+2026-04-29 11:34:27 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_IL "HTTP/1.1 200 OK"
+2026-04-29 11:34:27 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_US "HTTP/1.1 200 OK"
+2026-04-29 11:34:27 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_IN "HTTP/1.1 200 OK"
+2026-04-29 11:34:27 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_EU "HTTP/1.1 200 OK"
+2026-04-29 11:34:27 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_UK "HTTP/1.1 200 OK"
+2026-04-29 11:34:28 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_RU "HTTP/1.1 200 OK"
+2026-04-29 11:34:28 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_IL "HTTP/1.1 200 OK"
+2026-04-29 11:34:28 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/COMMENTARY_GLOBAL "HTTP/1.1 200 OK"
+2026-04-29 11:34:28 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:34:29 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:34:29 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:34:30 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:34:31 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:34:31 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:34:31 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:34:32 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:34:41 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections "HTTP/1.1 200 OK"
+2026-04-29 11:34:42 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/INTL_TREATIES "HTTP/1.1 200 OK"
+2026-04-29 11:34:42 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_IN "HTTP/1.1 200 OK"
+2026-04-29 11:34:42 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_US "HTTP/1.1 200 OK"
+2026-04-29 11:34:42 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_UK "HTTP/1.1 200 OK"
+2026-04-29 11:34:42 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_EU "HTTP/1.1 200 OK"
+2026-04-29 11:34:43 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_RU "HTTP/1.1 200 OK"
+2026-04-29 11:34:43 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_IL "HTTP/1.1 200 OK"
+2026-04-29 11:34:43 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW "HTTP/1.1 200 OK"
+2026-04-29 11:34:43 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/SHAW_PRIVATE "HTTP/1.1 200 OK"
+2026-04-29 11:34:43 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/COMMENTARY "HTTP/1.1 200 OK"
+2026-04-29 11:34:44 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/REFERENCE_DATASET "HTTP/1.1 200 OK"
+2026-04-29 11:34:44 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/REFERENCE_DATASET_GLOBAL "HTTP/1.1 200 OK"
+2026-04-29 11:34:44 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/REFERENCE_DATASET_EU "HTTP/1.1 200 OK"
+2026-04-29 11:34:44 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_GLOBAL "HTTP/1.1 200 OK"
+2026-04-29 11:34:44 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_US "HTTP/1.1 200 OK"
+2026-04-29 11:34:44 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_IN "HTTP/1.1 200 OK"
+2026-04-29 11:34:44 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_EU "HTTP/1.1 200 OK"
+2026-04-29 11:34:44 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_UK "HTTP/1.1 200 OK"
+2026-04-29 11:34:46 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_RU "HTTP/1.1 200 OK"
+2026-04-29 11:34:47 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_IL "HTTP/1.1 200 OK"
+2026-04-29 11:34:47 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_US "HTTP/1.1 200 OK"
+2026-04-29 11:34:47 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_IN "HTTP/1.1 200 OK"
+2026-04-29 11:34:47 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_EU "HTTP/1.1 200 OK"
+2026-04-29 11:34:47 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_UK "HTTP/1.1 200 OK"
+2026-04-29 11:34:47 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_RU "HTTP/1.1 200 OK"
+2026-04-29 11:34:47 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_IL "HTTP/1.1 200 OK"
+2026-04-29 11:34:47 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/COMMENTARY_GLOBAL "HTTP/1.1 200 OK"
+2026-04-29 11:34:47 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:34:48 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:34:48 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:34:48 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:34:48 - INFO - presidio-analyzer - Using device of type: cuda
+2026-04-29 11:34:48 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:34:48 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:34:49 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:34:49 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:35:33 - INFO - presidio-analyzer - nlp_engine not provided, creating default.
+2026-04-29 11:35:33 - WARNING - presidio-analyzer - Failed to enable GPU (cuda), falling back to CPU: Cannot use GPU, CuPy is not installed
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Created NLP engine: spacy. Loaded models: ['en']
+2026-04-29 11:35:41 - INFO - presidio-analyzer - registry not provided, creating default.
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Loaded recognizer: CreditCardRecognizer
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Loaded recognizer: CreditCardRecognizer
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Loaded recognizer: CreditCardRecognizer
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Loaded recognizer: CreditCardRecognizer
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Loaded recognizer: UsBankRecognizer
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Loaded recognizer: UsLicenseRecognizer
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Loaded recognizer: UsItinRecognizer
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Loaded recognizer: UsPassportRecognizer
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Loaded recognizer: UsSsnRecognizer
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Loaded recognizer: NhsRecognizer
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Loaded recognizer: EsNifRecognizer
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Loaded recognizer: EsNieRecognizer
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Loaded recognizer: ItDriverLicenseRecognizer
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Loaded recognizer: ItFiscalCodeRecognizer
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Loaded recognizer: ItVatCodeRecognizer
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Loaded recognizer: ItIdentityCardRecognizer
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Loaded recognizer: ItPassportRecognizer
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Loaded recognizer: PlPeselRecognizer
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Loaded recognizer: CryptoRecognizer
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Loaded recognizer: DateRecognizer
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Loaded recognizer: EmailRecognizer
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Loaded recognizer: IbanRecognizer
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Loaded recognizer: IpRecognizer
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Loaded recognizer: MedicalLicenseRecognizer
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Loaded recognizer: MacAddressRecognizer
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Loaded recognizer: PhoneRecognizer
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Loaded recognizer: UrlRecognizer
+2026-04-29 11:35:41 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: es, registry supported languages: en
+2026-04-29 11:35:41 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: it, registry supported languages: en
+2026-04-29 11:35:41 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - CreditCardRecognizer supported languages: pl, registry supported languages: en
+2026-04-29 11:35:41 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - EsNifRecognizer supported languages: es, registry supported languages: en
+2026-04-29 11:35:41 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - EsNieRecognizer supported languages: es, registry supported languages: en
+2026-04-29 11:35:41 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - ItDriverLicenseRecognizer supported languages: it, registry supported languages: en
+2026-04-29 11:35:41 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - ItFiscalCodeRecognizer supported languages: it, registry supported languages: en
+2026-04-29 11:35:41 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - ItVatCodeRecognizer supported languages: it, registry supported languages: en
+2026-04-29 11:35:41 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - ItIdentityCardRecognizer supported languages: it, registry supported languages: en
+2026-04-29 11:35:41 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - ItPassportRecognizer supported languages: it, registry supported languages: en
+2026-04-29 11:35:41 - WARNING - presidio-analyzer - Recognizer not added to registry because language is not supported by registry - PlPeselRecognizer supported languages: pl, registry supported languages: en
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Loaded recognizer: SpacyRecognizer
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Fetching all recognizers for language en
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Fetching all recognizers for language en
+Warning: main-env GLiNER NER failed: GLiNER model loaded as None; trying isolated adapter
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Fetching all recognizers for language en
+2026-04-29 11:35:41 - INFO - presidio-analyzer - Fetching all recognizers for language en
+Warning: isolated GLiNER adapter failed: Command '['C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\.venv-gliner\\Scripts\\python.exe', 'C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\scripts\\gliner_worker.py']' timed out after 25 seconds
+2026-04-29 11:36:12 - INFO - src.rag.vector_store - Loading BAAI/bge-m3 for embeddings on ['cuda:0'] with batch_size=8
+2026-04-29 11:36:17 - WARNING - chainlit_app.py - Entity extraction: Entity Extraction timed out after 45s.
+2026-04-29 11:36:17 - INFO - src.rag.vector_store - Loading BAAI/bge-m3 for embeddings on ['cuda:0'] with batch_size=8
+2026-04-29 11:36:18 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/MoritzLaurer/deberta-v3-large-zeroshot-v2.0-c/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-29 11:36:18 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/BAAI/bge-m3/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-29 11:36:18 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/MoritzLaurer/deberta-v3-large-zeroshot-v2.0-c/b2730f16019076bb0009481121efbe4705e0e378/config.json "HTTP/1.1 200 OK"
+2026-04-29 11:36:18 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/BAAI/bge-m3/5617a9f61b028005a4858fdac845db406aefb181/config.json "HTTP/1.1 200 OK"
+2026-04-29 11:36:19 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/BAAI/bge-m3/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-29 11:36:19 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/BAAI/bge-m3/5617a9f61b028005a4858fdac845db406aefb181/config.json "HTTP/1.1 200 OK"
+2026-04-29 11:36:19 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/BAAI/bge-m3/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-29 11:36:19 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/BAAI/bge-m3/5617a9f61b028005a4858fdac845db406aefb181/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-29 11:36:19 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/MoritzLaurer/deberta-v3-large-zeroshot-v2.0-c/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-29 11:36:19 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/BAAI/bge-m3/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-29 11:36:19 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/MoritzLaurer/deberta-v3-large-zeroshot-v2.0-c/b2730f16019076bb0009481121efbe4705e0e378/config.json "HTTP/1.1 200 OK"
+2026-04-29 11:36:20 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/BAAI/bge-m3/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-29 11:36:20 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/BAAI/bge-m3/5617a9f61b028005a4858fdac845db406aefb181/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-29 11:36:20 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/BAAI/bge-m3/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-29 11:36:20 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/BAAI/bge-m3/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-29 11:36:21 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/MoritzLaurer/deberta-v3-large-zeroshot-v2.0-c/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-29 11:36:22 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/MoritzLaurer/deberta-v3-large-zeroshot-v2.0-c/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-29 11:36:22 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/BAAI/bge-m3/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-29 11:36:26 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/BAAI/bge-m3 "HTTP/1.1 200 OK"
+2026-04-29 11:36:30 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/BAAI/bge-m3/revision/main "HTTP/1.1 200 OK"
+2026-04-29 11:36:33 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/BAAI/bge-m3 "HTTP/1.1 200 OK"
+2026-04-29 11:36:33 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/MoritzLaurer/deberta-v3-large-zeroshot-v2.0-c "HTTP/1.1 200 OK"
+2026-04-29 11:36:33 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/BAAI/bge-m3/revision/main "HTTP/1.1 200 OK"
+2026-04-29 11:36:34 - INFO - FlagEmbedding.finetune.embedder.encoder_only.m3.runner - loading existing colbert_linear and sparse_linear---------
+2026-04-29 11:36:35 - INFO - FlagEmbedding.finetune.embedder.encoder_only.m3.runner - loading existing colbert_linear and sparse_linear---------
+2026-04-29 11:36:57 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/NATIONAL_IN/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:37:00 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/NATIONAL_IN/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:37:01 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/STATUTES_IN/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:37:01 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/STATUTES_IN/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:37:01 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/CASE_LAW_IN/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:37:02 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/CASE_LAW_IN/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:37:02 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/STATUTES_RU/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:37:02 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/STATUTES_RU/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:37:03 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/CASE_LAW_RU/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:37:03 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/CASE_LAW_RU/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:37:04 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/COMMENTARY_GLOBAL/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:37:05 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/COMMENTARY_GLOBAL/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:37:07 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:37:07 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:37:07 - INFO - chainlit_app.py - Retrieval: 0 passages found
+2026-04-29 11:37:07 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/INTL_TREATIES/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:37:08 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/INTL_TREATIES/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:37:08 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/REFERENCE_DATASET_GLOBAL/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:37:08 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/REFERENCE_DATASET_GLOBAL/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:37:08 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/REFERENCE_DATASET_EU/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:37:08 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/REFERENCE_DATASET_EU/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:37:11 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-29 11:37:11 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/BAAI/bge-reranker-v2-m3/953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e/config.json "HTTP/1.1 200 OK"
+2026-04-29 11:37:13 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-29 11:37:13 - INFO - chainlit_app.py - Source escalation: added=8 total=8 events=[{'source': 'static_source_pack', 'status': 'added', 'count': 8}, {'source': 'CourtListener', 'status': 'completed', 'count': 3}]
+2026-04-29 11:37:13 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/BAAI/bge-reranker-v2-m3/953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-29 11:37:14 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/BAAI/bge-reranker-v2-m3/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-29 11:37:14 - INFO - src.services.provider_registry - Registered provider: openai_compatible (available=True)
+2026-04-29 11:37:14 - INFO - src.services.provider_registry - Registered provider: openai_compatible_2 (available=True)
+2026-04-29 11:37:14 - INFO - src.services.provider_registry - Registered provider: openai_compatible_3 (available=True)
+2026-04-29 11:37:14 - INFO - src.services.provider_registry - Registered provider: openai_compatible_4 (available=True)
+2026-04-29 11:37:14 - INFO - src.services.provider_registry - Registered provider: gemini (available=True)
+2026-04-29 11:37:14 - INFO - src.services.provider_registry - Registered provider: huggingface (available=True)
+2026-04-29 11:37:14 - INFO - src.services.provider_registry - Registered provider: groq (available=True)
+2026-04-29 11:37:14 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/BAAI/bge-reranker-v2-m3/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-29 11:37:26 - INFO - chainlit_app.py - Council: starting with 7 providers
+2026-04-29 11:37:29 - INFO - google_genai.models - AFC is enabled with max remote calls: 10.
+2026-04-29 11:37:30 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/BAAI/bge-reranker-v2-m3 "HTTP/1.1 200 OK"
+2026-04-29 11:37:30 - WARNING - src.services.provider_registry - openai_compatible error (minimax/minimax-m2.5:free): 429 Client Error: Too Many Requests for url: https://openrouter.ai/api/v1/chat/completions
+2026-04-29 11:37:30 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-29 11:37:30 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/BAAI/bge-reranker-v2-m3/953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e/config.json "HTTP/1.1 200 OK"
+2026-04-29 11:37:30 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/BAAI/bge-reranker-v2-m3/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-29 11:37:30 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/BAAI/bge-reranker-v2-m3/953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e/config.json "HTTP/1.1 200 OK"
+2026-04-29 11:37:39 - INFO - httpx - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-04-29 11:37:56 - WARNING - src.pipeline.council_orchestrator - Drafter openai_compatible_2 timed out
+2026-04-29 11:37:57 - WARNING - src.services.provider_registry - openai_compatible error (minimax/minimax-m2.5:free): 429 Client Error: Too Many Requests for url: https://openrouter.ai/api/v1/chat/completions
+2026-04-29 11:37:57 - WARNING - src.services.provider_registry - openai_compatible error (minimax/minimax-m2.5:free): 429 Client Error: Too Many Requests for url: https://openrouter.ai/api/v1/chat/completions
+2026-04-29 11:38:00 - WARNING - src.services.provider_registry - openai_compatible error (minimax/minimax-m2.5:free): 429 Client Error: Too Many Requests for url: https://openrouter.ai/api/v1/chat/completions
+2026-04-29 11:38:00 - INFO - chainlit_app.py - Council: finished. sections=5 models=['gemini'] confidence=0.82
+2026-04-29 11:38:03 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/NATIONAL_IN/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:38:04 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/INTL_TREATIES/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:38:04 - INFO - chainlit_app.py - Citations: 8 verified, 8 total
+2026-04-29 11:38:04 - INFO - presidio-analyzer - Fetching all recognizers for language en
+2026-04-29 11:38:04 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/INTL_TREATIES/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:38:05 - INFO - presidio-analyzer - Fetching all recognizers for language en
+2026-04-29 11:38:05 - INFO - presidio-analyzer - Fetching all recognizers for language en
+2026-04-29 11:38:05 - INFO - presidio-analyzer - Fetching all recognizers for language en
+2026-04-29 11:39:02 - INFO - presidio-analyzer - Fetching all recognizers for language en
+2026-04-29 11:39:02 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections "HTTP/1.1 200 OK"
+2026-04-29 11:39:02 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/INTL_TREATIES "HTTP/1.1 200 OK"
+2026-04-29 11:39:02 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_IN "HTTP/1.1 200 OK"
+2026-04-29 11:39:02 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_US "HTTP/1.1 200 OK"
+2026-04-29 11:39:02 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_UK "HTTP/1.1 200 OK"
+2026-04-29 11:39:02 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_EU "HTTP/1.1 200 OK"
+2026-04-29 11:39:02 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_RU "HTTP/1.1 200 OK"
+2026-04-29 11:39:03 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_IL "HTTP/1.1 200 OK"
+2026-04-29 11:39:03 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW "HTTP/1.1 200 OK"
+2026-04-29 11:39:03 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/SHAW_PRIVATE "HTTP/1.1 200 OK"
+2026-04-29 11:39:03 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/COMMENTARY "HTTP/1.1 200 OK"
+2026-04-29 11:39:03 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/REFERENCE_DATASET "HTTP/1.1 200 OK"
+2026-04-29 11:39:03 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/REFERENCE_DATASET_GLOBAL "HTTP/1.1 200 OK"
+2026-04-29 11:39:03 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/REFERENCE_DATASET_EU "HTTP/1.1 200 OK"
+2026-04-29 11:39:03 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_GLOBAL "HTTP/1.1 200 OK"
+2026-04-29 11:39:03 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_US "HTTP/1.1 200 OK"
+2026-04-29 11:39:03 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_IN "HTTP/1.1 200 OK"
+2026-04-29 11:39:03 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_EU "HTTP/1.1 200 OK"
+2026-04-29 11:39:03 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_UK "HTTP/1.1 200 OK"
+2026-04-29 11:39:03 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_RU "HTTP/1.1 200 OK"
+2026-04-29 11:39:03 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_IL "HTTP/1.1 200 OK"
+2026-04-29 11:39:03 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_US "HTTP/1.1 200 OK"
+2026-04-29 11:39:03 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_IN "HTTP/1.1 200 OK"
+2026-04-29 11:39:03 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_EU "HTTP/1.1 200 OK"
+2026-04-29 11:39:03 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_UK "HTTP/1.1 200 OK"
+2026-04-29 11:39:04 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_RU "HTTP/1.1 200 OK"
+2026-04-29 11:39:04 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_IL "HTTP/1.1 200 OK"
+2026-04-29 11:39:04 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/COMMENTARY_GLOBAL "HTTP/1.1 200 OK"
+2026-04-29 11:39:04 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:39:04 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:39:04 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:39:04 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:39:04 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:39:05 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:39:05 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:39:05 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:39:12 - INFO - presidio-analyzer - Fetching all recognizers for language en
+2026-04-29 11:39:12 - INFO - presidio-analyzer - Fetching all recognizers for language en
+2026-04-29 11:39:12 - INFO - presidio-analyzer - Fetching all recognizers for language en
+2026-04-29 11:39:12 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections "HTTP/1.1 200 OK"
+2026-04-29 11:39:12 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/INTL_TREATIES "HTTP/1.1 200 OK"
+2026-04-29 11:39:12 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_IN "HTTP/1.1 200 OK"
+2026-04-29 11:39:12 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_US "HTTP/1.1 200 OK"
+2026-04-29 11:39:12 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_UK "HTTP/1.1 200 OK"
+2026-04-29 11:39:12 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_EU "HTTP/1.1 200 OK"
+2026-04-29 11:39:12 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_RU "HTTP/1.1 200 OK"
+2026-04-29 11:39:12 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_IL "HTTP/1.1 200 OK"
+2026-04-29 11:39:12 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW "HTTP/1.1 200 OK"
+2026-04-29 11:39:12 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/SHAW_PRIVATE "HTTP/1.1 200 OK"
+2026-04-29 11:39:12 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/COMMENTARY "HTTP/1.1 200 OK"
+2026-04-29 11:39:12 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/REFERENCE_DATASET "HTTP/1.1 200 OK"
+2026-04-29 11:39:12 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/REFERENCE_DATASET_GLOBAL "HTTP/1.1 200 OK"
+2026-04-29 11:39:12 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/REFERENCE_DATASET_EU "HTTP/1.1 200 OK"
+2026-04-29 11:39:12 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_GLOBAL "HTTP/1.1 200 OK"
+2026-04-29 11:39:12 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_US "HTTP/1.1 200 OK"
+2026-04-29 11:39:12 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_IN "HTTP/1.1 200 OK"
+2026-04-29 11:39:12 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_EU "HTTP/1.1 200 OK"
+2026-04-29 11:39:12 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_UK "HTTP/1.1 200 OK"
+2026-04-29 11:39:12 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_RU "HTTP/1.1 200 OK"
+2026-04-29 11:39:12 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_IL "HTTP/1.1 200 OK"
+2026-04-29 11:39:13 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_US "HTTP/1.1 200 OK"
+2026-04-29 11:39:13 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_IN "HTTP/1.1 200 OK"
+2026-04-29 11:39:13 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_EU "HTTP/1.1 200 OK"
+2026-04-29 11:39:13 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_UK "HTTP/1.1 200 OK"
+2026-04-29 11:39:13 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_RU "HTTP/1.1 200 OK"
+2026-04-29 11:39:13 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_IL "HTTP/1.1 200 OK"
+2026-04-29 11:39:13 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/COMMENTARY_GLOBAL "HTTP/1.1 200 OK"
+2026-04-29 11:39:13 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:39:13 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:39:13 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:39:13 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:39:13 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:39:13 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:39:13 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:39:13 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+Warning: main-env GLiNER NER failed: GLiNER model loaded as None; trying isolated adapter
+Warning: isolated GLiNER adapter failed: Command '['C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\.venv-gliner\\Scripts\\python.exe', 'C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\scripts\\gliner_worker.py']' timed out after 25 seconds
+2026-04-29 11:39:46 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/MoritzLaurer/deberta-v3-large-zeroshot-v2.0-c/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-29 11:39:47 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/MoritzLaurer/deberta-v3-large-zeroshot-v2.0-c/b2730f16019076bb0009481121efbe4705e0e378/config.json "HTTP/1.1 200 OK"
+2026-04-29 11:39:50 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/MoritzLaurer/deberta-v3-large-zeroshot-v2.0-c/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-29 11:39:51 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/MoritzLaurer/deberta-v3-large-zeroshot-v2.0-c/b2730f16019076bb0009481121efbe4705e0e378/config.json "HTTP/1.1 200 OK"
+2026-04-29 11:39:54 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/MoritzLaurer/deberta-v3-large-zeroshot-v2.0-c/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-29 11:39:56 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/MoritzLaurer/deberta-v3-large-zeroshot-v2.0-c/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-29 11:40:03 - WARNING - chainlit_app.py - Entity extraction: Entity Extraction timed out after 45s.
+2026-04-29 11:40:04 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/NATIONAL_IN/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:40:07 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/NATIONAL_IN/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:40:11 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/STATUTES_IN/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:40:12 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/STATUTES_IN/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:40:12 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/CASE_LAW_IN/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:40:13 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/CASE_LAW_IN/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:40:13 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/MoritzLaurer/deberta-v3-large-zeroshot-v2.0-c "HTTP/1.1 200 OK"
+2026-04-29 11:40:14 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/STATUTES_RU/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:40:15 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/STATUTES_RU/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:40:16 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/CASE_LAW_RU/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:40:18 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/CASE_LAW_RU/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:40:19 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/COMMENTARY_GLOBAL/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:40:20 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/COMMENTARY_GLOBAL/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:40:23 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:40:24 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:40:32 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/INTL_TREATIES/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:40:33 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/INTL_TREATIES/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:40:34 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/REFERENCE_DATASET_GLOBAL/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:40:34 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/REFERENCE_DATASET_GLOBAL/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:40:35 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/REFERENCE_DATASET_EU/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:40:36 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/REFERENCE_DATASET_EU/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:40:48 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/NATIONAL_IN/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:40:48 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/INTL_TREATIES/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:40:48 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/INTL_TREATIES/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:40:48 - INFO - chainlit_app.py - Retrieval: 8 passages found
+2026-04-29 11:40:52 - INFO - chainlit_app.py - Source escalation: added=8 total=9 events=[{'source': 'jurisdiction_filter', 'status': 'filtered', 'kept': 1, 'removed': 7, 'jurisdictions': ['in', 'international', 'ru']}, {'source': 'static_source_pack', 'status': 'added', 'count': 8}, {'source': 'CourtListener', 'status': 'completed', 'count': 3}]
+2026-04-29 11:40:52 - INFO - chainlit_app.py - Council: starting with 7 providers
+2026-04-29 11:41:06 - WARNING - src.services.provider_registry - openai_compatible error (minimax/minimax-m2.5:free): 429 Client Error: Too Many Requests for url: https://openrouter.ai/api/v1/chat/completions
+2026-04-29 11:41:11 - INFO - google_genai.models - AFC is enabled with max remote calls: 10.
+2026-04-29 11:41:16 - INFO - httpx - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-04-29 11:41:23 - WARNING - src.pipeline.council_orchestrator - Drafter openai_compatible_2 timed out
+2026-04-29 11:41:32 - WARNING - src.services.provider_registry - openai_compatible error (minimax/minimax-m2.5:free): 429 Client Error: Too Many Requests for url: https://openrouter.ai/api/v1/chat/completions
+2026-04-29 11:41:53 - WARNING - src.pipeline.council_orchestrator - Source critic failed: 
+2026-04-29 11:42:33 - WARNING - src.pipeline.council_orchestrator - Judge synthesis failed: 
+2026-04-29 11:42:33 - INFO - chainlit_app.py - Council: finished. sections=5 models=['gemini'] confidence=0.82
+2026-04-29 11:42:35 - INFO - chainlit_app.py - Citations: 8 verified, 8 total
+2026-04-29 11:42:37 - INFO - presidio-analyzer - Fetching all recognizers for language en
+2026-04-29 11:42:55 - INFO - presidio-analyzer - Fetching all recognizers for language en
+2026-04-29 11:42:57 - INFO - presidio-analyzer - Fetching all recognizers for language en
+2026-04-29 11:42:58 - INFO - presidio-analyzer - Fetching all recognizers for language en
+2026-04-29 11:43:07 - INFO - presidio-analyzer - Fetching all recognizers for language en
+2026-04-29 11:43:08 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections "HTTP/1.1 200 OK"
+2026-04-29 11:43:08 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/INTL_TREATIES "HTTP/1.1 200 OK"
+2026-04-29 11:43:08 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_IN "HTTP/1.1 200 OK"
+2026-04-29 11:43:08 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_US "HTTP/1.1 200 OK"
+2026-04-29 11:43:09 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_UK "HTTP/1.1 200 OK"
+2026-04-29 11:43:09 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_EU "HTTP/1.1 200 OK"
+2026-04-29 11:43:09 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_RU "HTTP/1.1 200 OK"
+2026-04-29 11:43:09 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_IL "HTTP/1.1 200 OK"
+2026-04-29 11:43:09 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW "HTTP/1.1 200 OK"
+2026-04-29 11:43:09 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/SHAW_PRIVATE "HTTP/1.1 200 OK"
+2026-04-29 11:43:09 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/COMMENTARY "HTTP/1.1 200 OK"
+2026-04-29 11:43:09 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/REFERENCE_DATASET "HTTP/1.1 200 OK"
+2026-04-29 11:43:09 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/REFERENCE_DATASET_GLOBAL "HTTP/1.1 200 OK"
+2026-04-29 11:43:09 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/REFERENCE_DATASET_EU "HTTP/1.1 200 OK"
+2026-04-29 11:43:10 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_GLOBAL "HTTP/1.1 200 OK"
+2026-04-29 11:43:10 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_US "HTTP/1.1 200 OK"
+2026-04-29 11:43:10 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_IN "HTTP/1.1 200 OK"
+2026-04-29 11:43:10 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_EU "HTTP/1.1 200 OK"
+2026-04-29 11:43:10 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_UK "HTTP/1.1 200 OK"
+2026-04-29 11:43:10 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_RU "HTTP/1.1 200 OK"
+2026-04-29 11:43:10 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_IL "HTTP/1.1 200 OK"
+2026-04-29 11:43:10 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_US "HTTP/1.1 200 OK"
+2026-04-29 11:43:10 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_IN "HTTP/1.1 200 OK"
+2026-04-29 11:43:10 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_EU "HTTP/1.1 200 OK"
+2026-04-29 11:43:10 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_UK "HTTP/1.1 200 OK"
+2026-04-29 11:43:10 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_RU "HTTP/1.1 200 OK"
+2026-04-29 11:43:10 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_IL "HTTP/1.1 200 OK"
+2026-04-29 11:43:10 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/COMMENTARY_GLOBAL "HTTP/1.1 200 OK"
+2026-04-29 11:43:11 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:43:11 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:43:11 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:43:11 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:43:11 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:43:11 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:43:12 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:43:12 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:45:45 - INFO - presidio-analyzer - Fetching all recognizers for language en
+2026-04-29 11:45:45 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections "HTTP/1.1 200 OK"
+2026-04-29 11:45:46 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/INTL_TREATIES "HTTP/1.1 200 OK"
+2026-04-29 11:45:46 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_IN "HTTP/1.1 200 OK"
+2026-04-29 11:45:47 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_US "HTTP/1.1 200 OK"
+2026-04-29 11:45:47 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_UK "HTTP/1.1 200 OK"
+2026-04-29 11:45:47 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_EU "HTTP/1.1 200 OK"
+2026-04-29 11:45:47 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_RU "HTTP/1.1 200 OK"
+2026-04-29 11:45:47 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/NATIONAL_IL "HTTP/1.1 200 OK"
+2026-04-29 11:45:47 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW "HTTP/1.1 200 OK"
+2026-04-29 11:45:48 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/SHAW_PRIVATE "HTTP/1.1 200 OK"
+2026-04-29 11:45:48 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/COMMENTARY "HTTP/1.1 200 OK"
+2026-04-29 11:45:48 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/REFERENCE_DATASET "HTTP/1.1 200 OK"
+2026-04-29 11:45:48 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/REFERENCE_DATASET_GLOBAL "HTTP/1.1 200 OK"
+2026-04-29 11:45:48 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/REFERENCE_DATASET_EU "HTTP/1.1 200 OK"
+2026-04-29 11:45:48 - INFO - presidio-analyzer - Fetching all recognizers for language en
+2026-04-29 11:45:48 - INFO - presidio-analyzer - Fetching all recognizers for language en
+2026-04-29 11:45:49 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_GLOBAL "HTTP/1.1 200 OK"
+2026-04-29 11:45:50 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_US "HTTP/1.1 200 OK"
+2026-04-29 11:45:50 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_IN "HTTP/1.1 200 OK"
+2026-04-29 11:45:50 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_EU "HTTP/1.1 200 OK"
+2026-04-29 11:45:52 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_UK "HTTP/1.1 200 OK"
+2026-04-29 11:45:52 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_RU "HTTP/1.1 200 OK"
+2026-04-29 11:45:52 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/CASE_LAW_IL "HTTP/1.1 200 OK"
+2026-04-29 11:45:52 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_US "HTTP/1.1 200 OK"
+2026-04-29 11:45:52 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_IN "HTTP/1.1 200 OK"
+2026-04-29 11:45:53 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_EU "HTTP/1.1 200 OK"
+2026-04-29 11:45:53 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_UK "HTTP/1.1 200 OK"
+2026-04-29 11:45:54 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_RU "HTTP/1.1 200 OK"
+2026-04-29 11:45:54 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/STATUTES_IL "HTTP/1.1 200 OK"
+2026-04-29 11:45:54 - INFO - httpx - HTTP Request: GET http://localhost:6333/collections/COMMENTARY_GLOBAL "HTTP/1.1 200 OK"
+2026-04-29 11:45:55 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:45:55 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:45:55 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:45:56 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:45:56 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:45:57 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:45:58 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+Warning: main-env GLiNER NER failed: GLiNER model loaded as None; trying isolated adapter
+2026-04-29 11:45:58 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/scroll "HTTP/1.1 200 OK"
+Warning: isolated GLiNER adapter failed: Command '['C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\.venv-gliner\\Scripts\\python.exe', 'C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\scripts\\gliner_worker.py']' timed out after 25 seconds
+2026-04-29 11:46:40 - WARNING - chainlit_app.py - Entity extraction: Entity Extraction timed out after 45s.
+2026-04-29 11:46:41 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/NATIONAL_IN/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:46:41 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/MoritzLaurer/deberta-v3-large-zeroshot-v2.0-c/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-29 11:46:42 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/NATIONAL_IN/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:46:43 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/STATUTES_IN/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:46:43 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/STATUTES_IN/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:46:44 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/CASE_LAW_IN/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:46:44 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/MoritzLaurer/deberta-v3-large-zeroshot-v2.0-c/b2730f16019076bb0009481121efbe4705e0e378/config.json "HTTP/1.1 200 OK"
+2026-04-29 11:46:44 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/CASE_LAW_IN/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:46:45 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/STATUTES_RU/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:46:46 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/STATUTES_RU/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:46:47 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/CASE_LAW_RU/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:46:47 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/CASE_LAW_RU/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:46:48 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/MoritzLaurer/deberta-v3-large-zeroshot-v2.0-c/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-29 11:46:49 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/COMMENTARY_GLOBAL/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:46:49 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/COMMENTARY_GLOBAL/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:46:49 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/MoritzLaurer/deberta-v3-large-zeroshot-v2.0-c/b2730f16019076bb0009481121efbe4705e0e378/config.json "HTTP/1.1 200 OK"
+2026-04-29 11:46:50 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:46:52 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/SHAW_PRIVATE/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:46:54 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/INTL_TREATIES/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:46:54 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/INTL_TREATIES/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:46:55 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/REFERENCE_DATASET_GLOBAL/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:46:55 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/REFERENCE_DATASET_GLOBAL/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:46:55 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/REFERENCE_DATASET_EU/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:46:56 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/REFERENCE_DATASET_EU/points/query "HTTP/1.1 200 OK"
+2026-04-29 11:47:01 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/NATIONAL_IN/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:47:02 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/INTL_TREATIES/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:47:02 - INFO - httpx - HTTP Request: POST http://localhost:6333/collections/INTL_TREATIES/points/scroll "HTTP/1.1 200 OK"
+2026-04-29 11:47:02 - INFO - chainlit_app.py - Retrieval: 8 passages found
+2026-04-29 11:47:09 - INFO - chainlit_app.py - Source escalation: added=8 total=9 events=[{'source': 'jurisdiction_filter', 'status': 'filtered', 'kept': 1, 'removed': 7, 'jurisdictions': ['in', 'international', 'ru']}, {'source': 'static_source_pack', 'status': 'added', 'count': 8}, {'source': 'CourtListener', 'status': 'completed', 'count': 3}]
+2026-04-29 11:47:09 - INFO - chainlit_app.py - Council: starting with 7 providers
+2026-04-29 11:47:10 - INFO - google_genai.models - AFC is enabled with max remote calls: 10.
+2026-04-29 11:47:14 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/MoritzLaurer/deberta-v3-large-zeroshot-v2.0-c/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-29 11:47:16 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/MoritzLaurer/deberta-v3-large-zeroshot-v2.0-c/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-29 11:47:27 - INFO - httpx - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-04-29 11:47:41 - WARNING - src.pipeline.council_orchestrator - Drafter gemini timed out
+2026-04-29 11:47:41 - WARNING - src.pipeline.council_orchestrator - Drafter openai_compatible timed out
+2026-04-29 11:47:42 - WARNING - src.pipeline.council_orchestrator - Drafter openai_compatible_2 timed out
+2026-04-29 11:47:42 - INFO - chainlit_app.py - Council: finished. sections=0 models=[] confidence=0.00
+2026-04-29 11:47:42 - INFO - chainlit_app.py - Citations: 0 verified, 0 total
+2026-04-29 11:47:42 - INFO - chainlit_app.py - Source-grounded answer builder replaced weak/generated answer
+2026-04-29 11:47:43 - INFO - presidio-analyzer - Fetching all recognizers for language en
+2026-04-29 11:47:44 - INFO - presidio-analyzer - Fetching all recognizers for language en
+2026-04-29 11:47:44 - INFO - presidio-analyzer - Fetching all recognizers for language en
+2026-04-29 11:47:44 - INFO - presidio-analyzer - Fetching all recognizers for language en
+2026-04-29 11:47:47 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/MoritzLaurer/deberta-v3-large-zeroshot-v2.0-c "HTTP/1.1 200 OK"

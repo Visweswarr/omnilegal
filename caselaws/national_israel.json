@@ -1,0 +1,65 @@
+{
+  "jurisdiction": "Israel",
+  "sources": [
+    {
+      "name": "Israel Supreme Court",
+      "url": "https://supreme.court.gov.il (and legacy elyon1.court.gov.il)",
+      "type": "official",
+      "coverage": "SC decisions (Hebrew), judgments, administrative appeals, HCJ rulings; reasonably complete from ~1990s; earlier partial",
+      "access": "Free web search; direct PDF links on elyon1 (/files/YY/NNN/NNN/XNN/filename.pdf); no official bulk API — uncertain — verify Court Administration policy",
+      "format": "PDF (Hebrew text layer usually present), HTML metadata",
+      "license": "Public domain under Israeli Copyright Act (judgments excluded); ToS on bulk download unclear — verify",
+      "recommended_for": ["ISRAEL", "CASE_LAW"]
+    },
+    {
+      "name": "Knesset + Open Knesset",
+      "url": "https://main.knesset.gov.il; https://knesset.gov.il/openknessetdata; https://oknesset.org",
+      "type": "official + community",
+      "coverage": "Bills, committee proceedings, plenum transcripts, voting records, MK data. National Legislation Database centralizes primary + secondary legislation.",
+      "access": "Free web; OData/JSON endpoints for committees/members/votes; Hasadna's open-source `knesset-data` Python library; Open Knesset derived datasets",
+      "format": "HTML, PDF, JSON/XML",
+      "license": "Government works; no explicit CC on official portal; Open Knesset adds more permissive licensing",
+      "recommended_for": ["ISRAEL"]
+    },
+    {
+      "name": "Reshumot (Official Gazette)",
+      "url": "https://www.gov.il/he/departments/publications (legacy old.justice.gov.il/MOJHeb/Reshumot/publication/)",
+      "type": "official",
+      "coverage": "Sefer Ha-Chukkim (primary laws), Hatza'ot Chok (bills), Kovetz Ha-Takkanot (regulations), Yalkut Ha-Pirsumim (notices); since 1948, online from 2005",
+      "access": "Free web PDF downloads; no bulk API",
+      "format": "PDF (Hebrew)",
+      "license": "Public domain",
+      "recommended_for": ["ISRAEL"]
+    },
+    {
+      "name": "Ministry of Justice",
+      "url": "https://www.justice.gov.il",
+      "type": "official",
+      "coverage": "Ministry publications, Attorney General directives, legal guidelines",
+      "access": "Free web",
+      "format": "PDF, HTML",
+      "license": "Public domain",
+      "recommended_for": ["ISRAEL", "COMMENTARY (AG directives)"]
+    },
+    {
+      "name": "Versa (Cardozo Israeli Supreme Court Project)",
+      "url": "https://versa.cardozo.yu.edu",
+      "type": "academic",
+      "coverage": "English translations of selected SC decisions with abstracts (Nevo-prepared, reused with attribution)",
+      "access": "Free web; no bulk API",
+      "format": "HTML, PDF",
+      "license": "Academic reuse with attribution — excellent English-language source for Israeli case law",
+      "recommended_for": ["ISRAEL", "CASE_LAW", "COMMENTARY"]
+    },
+    {
+      "name": "data.gov.il",
+      "url": "https://data.gov.il",
+      "type": "official CKAN portal",
+      "coverage": "General government datasets — limited direct legal material",
+      "access": "CKAN API",
+      "format": "CSV, JSON, XLS",
+      "license": "Dataset-specific open",
+      "recommended_for": ["ISRAEL (limited)"]
+    }
+  ]
+}

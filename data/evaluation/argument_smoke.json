@@ -1,0 +1,34 @@
+{
+  "task": "argument_mining",
+  "benchmark": "manual_argument_smoke",
+  "split": "smoke",
+  "generated_at": "2026-03-31T18:10:59.252227+00:00",
+  "metrics": [
+    {
+      "name": "avg_argument_spans",
+      "value": 8.0,
+      "display_value": null,
+      "notes": null
+    },
+    {
+      "name": "cited_span_rate",
+      "value": 1.0,
+      "display_value": null,
+      "notes": null
+    }
+  ],
+  "notes": [
+    "This is a structural smoke benchmark for Debate Coach argument extraction.",
+    "RMU:ECHR remains registry-backed for richer offline evaluation."
+  ],
+  "source_file": null,
+  "provenance": [
+    {
+      "donor_id": "mining_legal_arguments",
+      "donor_label": "Mining Legal Arguments",
+      "capability": "argument_mining",
+      "usage_mode": "runtime",
+      "notes": "Inspires argument span extraction and importance scoring for Debate Coach."
+    }
+  ]
+}

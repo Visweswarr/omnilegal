@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl" class="rtl">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-15521464-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-15521464-1');
+    </script>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Language" content="he">
+    <title>Open Knesset</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <base href="/"/>
+    <link rel="stylesheet" type="text/css" href="static/css/app.css"/>
+    <link rel="stylesheet" type="text/css" href="static/css/responsive.css"/>
+    <link href="static/css/jquery.jgrowl.css" rel="stylesheet" type="text/css" media="screen"/>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link rel="shortcut icon" href="static/img/favicon.png"/>
+</head>
+<body>
+<header id="app-header" class="container">
+    <div class="row">
+        <div id="logo" class="span4 clearfix">
+            <h1><a href="/"><img src="static/img/oknesset-logo.png" alt="oknesset-logo"/><span>כנסת פתוחה</span></a></h1>
+        </div>
+    </div>
+
+    <ul class="nav nav-pills">
+        <li id="nav-parties"><a href="/members/index.html">ח"כים וסיעות</a></li>
+        <li id="nav-committees"><a href="/committees/index.html">ועדות</a></li>
+    </ul>
+</header>
+<section class="container">
+    <ul class="breadcrumb">
+        <li><a class="home-icon"
+               href="/index.html">דף הבית</a> <span
+                class="divider">/</span>
+        </li>
+        
+
+    </ul>
+    <div id="content-main" class="main">
+        <div id="subnav"> </div>
+         
+        <div>
+            
+    <div class="row">
+        <h1>כנסת פתוחה</h1>
+        פרויקט כנסת פתוחה מנגיש נתונים מעודכנים אודות הכנסת. הנתונים הלקחים ברובם מממשקי הנתונים הרשמיים של הכנסת ומעודכים באופן יומי.
+        להלן תיאור הנתונים הזמינים ואופן הגישה אליהם -
+        <h2>נתונים זמינים באתר</h2>
+        <ul>
+            <li><a href="/members/index.html">ח"כים וסיעות</a> - מכיל מידע אודות הח"כים והחלוקה לסיעות בכל כנסת. עבור כל ח"כ וסיעה מופיעים נתונים קשורים - סיעות, ועדות, ומשרדים ממשלתיים שהח"כ חבר בהם.</li>
+            <li><a href="/committees/index.html">ועדות</a> - מופיעות רשימת הועדות בכל כנסת, עבור כל ועדה ניתן לראות את רשימת הישיבות ולקרוא את הפרוטוקול (אם קיים) בצורה נוחה עם חלוקה לדוברים.</li>
+        </ul>
+        <h2>נתונים זמינים במסד הנתונים</h2>
+        מסד הנתונים של כנסת פתוחה מכיל מידע רב ומגוון הנגיש דרך מספר ממשקים:
+        <br/>
+        <ul>
+            <li><a href="https://production.oknesset.org/pipelines/data/">קבצי נתונים</a> - בעיקר קבצי CSV</li>
+            <li><a href="https://redash.hasadna.org.il/">גישה למסד הנתונים באמצעות Redash</a> - ניתן לגשת באופן חופשי באמצעות ביצוע כניסה עם כתובת מייל של ספק מוכר כגון GMAIL, אם לא מצליח, צרו איתנו קשר ונתן לכם גישה. לאחר הכניסה ניתן להריץ new query ולבחור בdata source בשם next-oknesset</li>
+        </ul>
+        <br/>
+        להלן תיאור של חלק מהנתונים הזמינים בשני הממשקים הנ"ל. הרשימה חלקית וייתכן שקיימים נתונים נוספים שלא מופיעים פה,
+        מומלץ להתייעץ איתנו אם יש צורך בנתונים נוספים, ייתכן שהם קיימים או שניתן להנגיש אותם.
+        <br/>
+        
+            <h4>ועדות</h4>
+            <table>
+            
+            <tr>
+                <td style="border: 1px solid black;padding: 5px;">committees/kns_committee</td>
+                <td style="border: 1px solid black;padding: 5px;">רשימת הועדות מסוגים שונות</td>
+            </tr>
+            
+            <tr>
+                <td style="border: 1px solid black;padding: 5px;">committees/kns_jointcommittee</td>
+                <td style="border: 1px solid black;padding: 5px;">רשימה המקשרת בין רשומות בטבלת kns_committee שמייצגות ועדות משותפות</td>
+            </tr>
+            
+            <tr>
+                <td style="border: 1px solid black;padding: 5px;">committees/kns_cmtsessionitem</td>
+                <td style="border: 1px solid black;padding: 5px;">כל שורה מייצגת נושא שמקושר לישיבת ועדה. יכולים להיות מספר נושאים לכל ישיבה.</td>
+            </tr>
+            
+            <tr>
+                <td style="border: 1px solid black;padding: 5px;">committees/kns_committeesession</td>
+                <td style="border: 1px solid black;padding: 5px;">כל ישיבות הועדה, כולל מידע מקושר וקישור לפרוטוקול הישיבה בפורמטים שונים.
+הפרוטוקולים זמינים בפורמטים הבאים: קבצי המקור, קבצים טקסטואליים וקובץ מחולק לפי דוברים.
+ניתן להוריד את הקבצים מהתיקיות הבאות באמצעות הוספת הנתיב שמופיע בנתונים לכתובות הבאות:
+עבור קבצי טקסט - https://production.oknesset.org/pipelines/data/committees/meeting_protocols_text/
+עבור קבצים מחולקים לדוברים - https://production.oknesset.org/pipelines/data/committees/meeting_protocols_parts/
+</td>
+            </tr>
+            
+            </table>
+        
+            <h4>נתונים כלליים</h4>
+            <table>
+            
+            <tr>
+                <td style="border: 1px solid black;padding: 5px;">knesset/kns_knessetdates</td>
+                <td style="border: 1px solid black;padding: 5px;">תאריכי תחילה וסיום של כל כנסת ומידע כללי אודות הכנסת</td>
+            </tr>
+            
+            <tr>
+                <td style="border: 1px solid black;padding: 5px;">knesset/kns_govministry</td>
+                <td style="border: 1px solid black;padding: 5px;">משרדים ממשלתיים</td>
+            </tr>
+            
+            <tr>
+                <td style="border: 1px solid black;padding: 5px;">knesset/kns_itemtype</td>
+                <td style="border: 1px solid black;padding: 5px;">סוגי פריטים</td>
+            </tr>
+            
+            <tr>
+                <td style="border: 1px solid black;padding: 5px;">knesset/kns_status</td>
+                <td style="border: 1px solid black;padding: 5px;">סטטוסים</td>
+            </tr>
+            
+            </table>
+        
+            <h4>חוקים</h4>
+            <table>
+            
+            <tr>
+                <td style="border: 1px solid black;padding: 5px;">laws/kns_law_binding</td>
+                <td style="border: 1px solid black;padding: 5px;">קישור בין חוקים לחוקי אב</td>
+            </tr>
+            
+            <tr>
+                <td style="border: 1px solid black;padding: 5px;">laws/kns_israel_law</td>
+                <td style="border: 1px solid black;padding: 5px;">חוקי אב</td>
+            </tr>
+            
+            <tr>
+                <td style="border: 1px solid black;padding: 5px;">laws/kns_israel_law_name</td>
+                <td style="border: 1px solid black;padding: 5px;">שמות חוקי אב</td>
+            </tr>
+            
+            <tr>
+                <td style="border: 1px solid black;padding: 5px;">laws/kns_israel_law_ministry</td>
+                <td style="border: 1px solid black;padding: 5px;">משרדים הקשורים לחוקי אב</td>
+            </tr>
+            
+            <tr>
+                <td style="border: 1px solid black;padding: 5px;">laws/kns_israel_law_classification</td>
+                <td style="border: 1px solid black;padding: 5px;">סיווג חוקי אב</td>
+            </tr>
+            
+            <tr>
+                <td style="border: 1px solid black;padding: 5px;">laws/kns_israel_law_binding</td>
+                <td style="border: 1px solid black;padding: 5px;">חוקי אב שהוחלפו</td>
+            </tr>
+            
+            </table>
+        
+            <h4>לוביסטים</h4>
+            <table>
+            
+            <tr>
+                <td style="border: 1px solid black;padding: 5px;">lobbyists/v_lobbyist</td>
+                <td style="border: 1px solid black;padding: 5px;">שדלנים</td>
+            </tr>
+            
+            <tr>
+                <td style="border: 1px solid black;padding: 5px;">lobbyists/v_lobbyist_clients</td>
+                <td style="border: 1px solid black;padding: 5px;">לקוחות של שדלנים</td>
+            </tr>
+            
+            </table>
+        
+            <h4>ח&#34;כים</h4>
+            <table>
+            
+            <tr>
+                <td style="border: 1px solid black;padding: 5px;">members/kns_person</td>
+                <td style="border: 1px solid black;padding: 5px;">חברי כנסת ואנשים נוספים כגון מנהלי ועדות</td>
+            </tr>
+            
+            <tr>
+                <td style="border: 1px solid black;padding: 5px;">members/kns_position</td>
+                <td style="border: 1px solid black;padding: 5px;">סוגי התפקידים הקיימים בכנסת</td>
+            </tr>
+            
+            <tr>
+                <td style="border: 1px solid black;padding: 5px;">members/kns_persontoposition</td>
+                <td style="border: 1px solid black;padding: 5px;">קשר בין חברי כנסת לתפקידים שלהם</td>
+            </tr>
+            
+            <tr>
+                <td style="border: 1px solid black;padding: 5px;">members/mk_individual</td>
+                <td style="border: 1px solid black;padding: 5px;">מידע מפורט אודות חברי הכנסת כולל מידע מקושר ומורחב מטבלאות ומקורות שונים</td>
+            </tr>
+            
+            <tr>
+                <td style="border: 1px solid black;padding: 5px;">members/presence</td>
+                <td style="border: 1px solid black;padding: 5px;">מידע על הנוכחות של חברי הכנסת</td>
+            </tr>
+            
+            </table>
+        
+            <h4>מידע על אנשים המופיעים במידע</h4>
+            <table>
+            
+            <tr>
+                <td style="border: 1px solid black;padding: 5px;">people/committee-meeting-attendees</td>
+                <td style="border: 1px solid black;padding: 5px;">רשימת משתתפים בפגישות ועדה</td>
+            </tr>
+            
+            <tr>
+                <td style="border: 1px solid black;padding: 5px;">people/committee-meeting-speaker-stats</td>
+                <td style="border: 1px solid black;padding: 5px;">סטטיסטיקות עבור כל חלק דיבור בפרוטוקולים של ישיבות ועדה</td>
+            </tr>
+            
+            <tr>
+                <td style="border: 1px solid black;padding: 5px;">people/committee-meeting-attendees-mks-stats</td>
+                <td style="border: 1px solid black;padding: 5px;">אגרגציה של נתונים אודות המשתתפים בועדות וקישורם לנתונים אודות חברי הכנסת</td>
+            </tr>
+            
+            <tr>
+                <td style="border: 1px solid black;padding: 5px;">people/committee-meeting-attendees-mks-full-stats</td>
+                <td style="border: 1px solid black;padding: 5px;">הרחבת וקישור המידע אודות חברי הכנסת למידע על נוכחותם בועדות</td>
+            </tr>
+            
+            </table>
+        
+            <h4>מליאה</h4>
+            <table>
+            
+            <tr>
+                <td style="border: 1px solid black;padding: 5px;">plenum/kns_plenumsession</td>
+                <td style="border: 1px solid black;padding: 5px;">ישיבות המליאה</td>
+            </tr>
+            
+            <tr>
+                <td style="border: 1px solid black;padding: 5px;">plenum/kns_plmsessionitem</td>
+                <td style="border: 1px solid black;padding: 5px;">פריטים המקושרים לישיבות המליאה</td>
+            </tr>
+            
+            <tr>
+                <td style="border: 1px solid black;padding: 5px;">plenum/kns_documentplenumsession</td>
+                <td style="border: 1px solid black;padding: 5px;">מסמכי ישיבות המליאה</td>
+            </tr>
+            
+            </table>
+        
+            <h4>הצבעות</h4>
+            <table>
+            
+            <tr>
+                <td style="border: 1px solid black;padding: 5px;">votes/view_vote_rslts_hdr_approved</td>
+                <td style="border: 1px solid black;padding: 5px;">נתונים אודות הצבעות, כולל כמה הצביעו בעד/נגד/נמנעים</td>
+            </tr>
+            
+            <tr>
+                <td style="border: 1px solid black;padding: 5px;">votes/vote_rslts_kmmbr_shadow</td>
+                <td style="border: 1px solid black;padding: 5px;">פירוט איזה חבר כנסת הצביע באיזה אופן בכל הצבעה</td>
+            </tr>
+            
+            </table>
+        
+    </div>
+    <div class="row">
+        <b>נשמח לעזרה!</b>
+        <br/><br/>
+         אפשר<a style="text-decoration:underline; color:blue" href="https://calendly.com/d/2fq-rkj-3fp">להתנדב</a> בפיתוח האתר / <a style="text-decoration:underline; color:blue" href="https://www.jgive.com/he/donation_targets/3268?currency=ILS">תרמו</a>  לסדנא
+    </div>
+
+        </div>
+    </div>
+</section>
+<p><a href="javascript:$('#dataSource').toggle();">קוד המקור של הנתונים</a></p>
+<div id="dataSource" style="display:none;">
+    
+        <p>הנתונים מגיעים מ<a href="http://main.knesset.gov.il/Activity/Info/Pages/Databases.aspx">ממשק הנתונים של מידע פרלמנטרי נגיש</a>.</p>
+        <p>הנתונים נמשכים בתדירות יומית ומעודכנים באתר זה ובמסדי נתונים וקבצים אחרים באמצעות פרוייקט <a href="https://github.com/hasadna/knesset-data-pipelines">knesset-data-pipelines</a></p>
+        <p>דף הhtml הנוכחי נוצר בתאריך 18/04/2026 בשעה 04:30 GMT ממחשב בשם airflow-committees-dist-render-homepage-pcgpnumt</p>
+    
+</div>
+<footer id="app-footer">
+    <div class="container">
+        <div class="row">
+            <nav class="span8">
+                <ul class="nav nav-pills">
+                    <li><a class="home-icon" href="/index.html">דף הבית</a></li>
+                    <li><a href="/members/index.html">ח"כים וסיעות</a></li>
+                    <li><a href="/committees/index.html">ועדות</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="row about">
+            <div class="span4">
+                <div class="about-oknesset">
+                    <h3>כנסת פתוחה הוא פרוייקט שמטרתו לחשוף את פעילות הכנסת לציבור</h3>
+                </div>
+            </div>
+            <div class="span4 offset4 hasadna">
+                <h3>
+                    <img src="static/img/sadna30x30.png" alt="הסדנא לידע ציבורי">
+                    <span>פרוייקט של</span><a href="http://www.hasadna.org.il">הסדנא לידע ציבורי</a>
+                </h3>
+                <ul>
+                    <li><a href="http://www.obudget.org/" target="_blank">מפתח התקציב</a></li>
+                    <li><a href="http://kikar.org/" target="_blank">כיכר המדינה</a></li>
+                    <li><a href="http://www.anyway.co.il/" target="_blank">ANYWAY</a></li>
+                    <li><a href="http://www.openpension.org.il/" target="_blank">פנסיה פתוחה</a></li>
+                </ul>
+                <form method="post" action="https://www.paypal.com/cgi-bin/webscr">
+                    <input type="hidden" value="_s-xclick" name="cmd">
+                    <input type="hidden" value="K7X4FWYPBR7H4" name="hosted_button_id">
+                    <input type="submit" name="submit" value="תרמו לסדנא" class="btn  btn-big btn-large btn-primary">
+                    <img width="1" height="1" border="0" src="https://www.paypalobjects.com/WEBSCR-640-20110306-1/he_IL/i/scr/pixel.gif" alt="">
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span12">                חלק מהזכויות שמורות. שימוש בנתונים מהאתר בכפוף לקרדיט
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="static/js/jquery-1.8.3.min.js"></script>
+<script src="static/js/bootstrap-transition.js"></script>
+<script src="static/js/bootstrap-alert.js"></script>
+<script src="static/js/bootstrap-modal.js"></script>
+<script src="static/js/bootstrap-dropdown.js"></script>
+<script src="static/js/bootstrap-scrollspy.js"></script>
+<script src="static/js/bootstrap-tab.js"></script>
+<script src="static/js/bootstrap-tooltip.js"></script>
+<script src="static/js/bootstrap-popover.js"></script>
+<script src="static/js/bootstrap-button.js"></script>
+<script src="static/js/bootstrap-collapse.js"></script>
+<script src="static/js/bootstrap-carousel.js"></script>
+<script src="static/js/bootstrap-typeahead.js"></script>
+<script src="static/js/jquery.jgrowl.js"></script>
+<script src="static/js/okhelptexts.js"></script>
+<script src="static/js/togglehelpextended.js"></script>
+<script src="static/js/ok-toggle.js"></script>
+<script src="static/js/ok-more.js"></script>
+<script src="static/js/ok-search.js"></script>
+<script src="static/js/ok-suggest.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+{
+  "description": "Authoritative source metadata for the simplified source-first runtime. This manifest lists sources and aliases only; it does not contain final legal conclusions.",
+  "sources": [
+    {
+      "title": "Vienna Convention on Diplomatic Relations",
+      "role": "treaty",
+      "jurisdiction": "international",
+      "url": "https://legal.un.org/ilc/texts/instruments/english/conventions/9_1_1961.pdf",
+      "aliases": ["VCDR", "diplomatic immunity"]
+    },
+    {
+      "title": "Arrest Warrant of 11 April 2000",
+      "role": "case_law",
+      "jurisdiction": "international",
+      "url": "https://www.icj-cij.org/case/121",
+      "aliases": ["Arrest Warrant", "DRC v Belgium"]
+    },
+    {
+      "title": "Bharatiya Nyaya Sanhita, 2023",
+      "role": "local_statute",
+      "jurisdiction": "india",
+      "url": "https://www.indiacode.nic.in/handle/123456789/20062",
+      "aliases": ["BNS", "BNS Section 69", "BNS Section 103"]
+    },
+    {
+      "title": "Convention on Road Traffic",
+      "role": "treaty",
+      "jurisdiction": "international",
+      "url": "https://unece.org/DAM/trans/conventn/Conv_road_traffic_EN.pdf",
+      "aliases": ["Vienna Road Traffic Convention", "international driving permit"]
+    },
+    {
+      "title": "Federal Law on Road Traffic Safety",
+      "role": "local_statute",
+      "jurisdiction": "russia",
+      "url": "https://ips.pravo.gov.ru/",
+      "aliases": ["196-FZ", "Russian driving law"]
+    },
+    {
+      "title": "Motor Vehicles Act, 1988",
+      "role": "local_statute",
+      "jurisdiction": "india",
+      "url": "https://www.indiacode.nic.in/",
+      "aliases": ["Indian driving licence", "international driving permit India"]
+    },
+    {
+      "title": "18 U.S.C. 1111",
+      "role": "local_statute",
+      "jurisdiction": "us",
+      "url": "https://www.govinfo.gov/content/pkg/USCODE-2023-title18/pdf/USCODE-2023-title18-partI-chap51-sec1111.pdf",
+      "aliases": ["federal murder", "US murder sentencing"]
+    },
+    {
+      "title": "Sentencing Act 2020 Schedule 21",
+      "role": "local_statute",
+      "jurisdiction": "uk",
+      "url": "https://www.legislation.gov.uk/ukpga/2020/17/schedule/21",
+      "aliases": ["mandatory life sentence", "murder sentencing England and Wales"]
+    },
+    {
+      "title": "Tinoco Arbitration",
+      "role": "case_law",
+      "jurisdiction": "international",
+      "url": "https://legal.un.org/riaa/cases/vol_I/369-399.pdf",
+      "aliases": ["Great Britain v Costa Rica", "de facto government"]
+    },
+    {
+      "title": "Wall Advisory Opinion",
+      "role": "case_law",
+      "jurisdiction": "international",
+      "url": "https://www.icj-cij.org/case/131",
+      "aliases": ["Construction of a Wall", "Occupied Palestinian Territory"]
+    }
+  ]
+}

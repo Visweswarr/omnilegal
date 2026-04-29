@@ -1,0 +1,386 @@
+{
+  "created_at": "2026-04-20T17:18:53.653301+00:00",
+  "applied": false,
+  "total_matched": 23,
+  "total_deleted": 0,
+  "collections": [
+    {
+      "collection": "INTL_TREATIES",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "NATIONAL_IN",
+      "matched": 4,
+      "deleted": 0,
+      "findings": [
+        {
+          "id": 2114912398318306036,
+          "source_name": "Supreme Court of India + e-SCR",
+          "doc_type": "remote_source_content",
+          "jurisdiction": "india",
+          "hits": [
+            "skip to main content"
+          ],
+          "preview": "Home | Judgements and Orders, Supreme Court and High courts of India Skip to navigation Skip to main content A- A A+ A A English অসমীয়া - Assamese বাংলা - Bengali আ·চিক - Garo ગુજરાતી - Gujarati हिन्दी - Hindi ಕನ್ನಡ - Kannada कॉशुर - Kashm"
+        },
+        {
+          "id": 2789429799370210874,
+          "source_name": "Supreme Court of India + e-SCR",
+          "doc_type": "remote_source_content",
+          "jurisdiction": "india",
+          "hits": [
+            "skip to main content"
+          ],
+          "preview": "Skip to main content A- A A+ A A"
+        },
+        {
+          "id": 6012595544910560628,
+          "source_name": "Gazette of India",
+          "doc_type": "remote_source_content",
+          "jurisdiction": "india",
+          "hits": [
+            "login"
+          ],
+          "preview": "eGazette Home Directorate of Printing Department of Publication M/o Housing and Urban Affairs Government of India The Gazette of India *** All the Central Government Ministries, Departments, Attached and Subordinate Offices are requested to"
+        },
+        {
+          "id": 6234059098543114403,
+          "source_name": "Gazette of India",
+          "doc_type": "remote_source_content",
+          "jurisdiction": "india",
+          "hits": [
+            "login"
+          ],
+          "preview": "Login"
+        }
+      ]
+    },
+    {
+      "collection": "NATIONAL_US",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "NATIONAL_UK",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "NATIONAL_EU",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "NATIONAL_RU",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "NATIONAL_IL",
+      "matched": 3,
+      "deleted": 0,
+      "findings": [
+        {
+          "id": 22996380345492158,
+          "source_name": "Knesset Corpus (Goldin et al., 2024)",
+          "doc_type": "remote_source_content",
+          "jurisdiction": "huggingface training/benchmark datasets",
+          "hits": [
+            "login"
+          ],
+          "preview": "Title Author Abstract Comments Journal reference ACM classification MSC classification Report number arXiv identifier DOI ORCID arXiv author ID Help pages Full text Search GO quick links Login Help Pages About Computer Science > Computation"
+        },
+        {
+          "id": 1746154498074014701,
+          "source_name": "Knesset Corpus (Goldin et al., 2024)",
+          "doc_type": "remote_source_content",
+          "jurisdiction": "huggingface training/benchmark datasets",
+          "hits": [
+            "login",
+            "skip to main content"
+          ],
+          "preview": "[2405.18115] The Knesset Corpus: An Annotated Corpus of Hebrew Parliamentary Proceedings Skip to main content Learn about arXiv becoming an independent nonprofit. We gratefully acknowledge support from the Simons Foundation, member institut"
+        },
+        {
+          "id": 7819469659478196731,
+          "source_name": "Knesset Corpus (Goldin et al., 2024)",
+          "doc_type": "remote_source_content",
+          "jurisdiction": "huggingface training/benchmark datasets",
+          "hits": [
+            "skip to main content"
+          ],
+          "preview": "[2405.18115] The Knesset Corpus: An Annotated Corpus of Hebrew Parliamentary Proceedings Skip to main content Learn about arXiv becoming an independent nonprofit. We gratefully acknowledge support from the Simons Foundation, member institut"
+        }
+      ]
+    },
+    {
+      "collection": "CASE_LAW",
+      "matched": 16,
+      "deleted": 0,
+      "findings": [
+        {
+          "id": 1322626836643873249,
+          "source_name": "ICTY / ICTR / IRMCT",
+          "doc_type": "remote_source_content",
+          "jurisdiction": "international bodies",
+          "hits": [
+            "skip to main content"
+          ],
+          "preview": "Skip to main content United Nations | International Residual Mechanism for Criminal Tribunals"
+        },
+        {
+          "id": 1656811708961560428,
+          "source_name": "ICTY / ICTR / IRMCT",
+          "doc_type": "remote_source_content",
+          "jurisdiction": "international bodies",
+          "hits": [
+            "sign in"
+          ],
+          "preview": "SIGN IN or"
+        },
+        {
+          "id": 1678757358604735988,
+          "source_name": "Inter-American Court of Human Rights (IACtHR)",
+          "doc_type": "remote_source_content",
+          "jurisdiction": "international bodies",
+          "hits": [
+            "login"
+          ],
+          "preview": "Login or register"
+        },
+        {
+          "id": 1931260549445264458,
+          "source_name": "UNCTAD ISDS Navigator",
+          "doc_type": "remote_source_content",
+          "jurisdiction": "international bodies",
+          "hits": [
+            "login"
+          ],
+          "preview": "Investment Dispute Settlement Navigator | UNCTAD Investment Policy Hub Welcome to UN Trade and Development (UNCTAD) Investment Policy Hub Home Country Navigator Search for a country Afghanistan Åland Islands Albania Algeria Andorra Angola A"
+        },
+        {
+          "id": 2515150093540955191,
+          "source_name": "Inter-American Court of Human Rights (IACtHR)",
+          "doc_type": "remote_source_content",
+          "jurisdiction": "international bodies",
+          "hits": [
+            "login"
+          ],
+          "preview": "Corte Interamericana Estancias de Investigación CONTACTO Contacto Login or register Contact Language Search ESP | ENG | POR En Vivo | Casos en estudio por la Corte IDH. Jurisprudencia sistematizada con IA. Busca fácil la jurisprudencia de l"
+        },
+        {
+          "id": 2521611160799259698,
+          "source_name": "ICSID",
+          "doc_type": "remote_source_content",
+          "jurisdiction": "international bodies",
+          "hits": [
+            "skip to main content"
+          ],
+          "preview": "International Centre for Settlement of Investment Disputes Skip to main content File a Request Languages English Français Español Home About Member States Overview Role of Member States Administrative Council Database of Member States Joini"
+        },
+        {
+          "id": 3802506883375878911,
+          "source_name": "UNCTAD ISDS Navigator",
+          "doc_type": "remote_source_content",
+          "jurisdiction": "international bodies",
+          "hits": [
+            "login"
+          ],
+          "preview": "Login"
+        },
+        {
+          "id": 4256359647168791636,
+          "source_name": "ICTY / ICTR / IRMCT",
+          "doc_type": "remote_source_content",
+          "jurisdiction": "international bodies",
+          "hits": [
+            "sign in"
+          ],
+          "preview": "Unified Court Records Database English bosanski, hrvatski ili srpski English Français Kinyarwanda Shqip македонски EN SH EN FR RW SQ MK The Unified Court Records (UCR) database provides access to the public court records of the ICTR, the IC"
+        },
+        {
+          "id": 5239586865878938896,
+          "source_name": "UNCTAD ISDS Navigator",
+          "doc_type": "remote_source_content",
+          "jurisdiction": "international bodies",
+          "hits": [
+            "login"
+          ],
+          "preview": "Login Lost password?"
+        },
+        {
+          "id": 5404348485175404813,
+          "source_name": "ICTY / ICTR / IRMCT",
+          "doc_type": "remote_source_content",
+          "jurisdiction": "international bodies",
+          "hits": [
+            "skip to main content"
+          ],
+          "preview": "International Criminal Tribunal for the former Yugoslavia | United Nations<br /> International Criminal Tribunal for the former Yugoslavia Skip to main content United Nations | International Residual Mechanism for Criminal Tribunals IRMCT A"
+        },
+        {
+          "id": 5531971812943867276,
+          "source_name": "ICTY / ICTR / IRMCT",
+          "doc_type": "remote_source_content",
+          "jurisdiction": "international bodies",
+          "hits": [
+            "sign in"
+          ],
+          "preview": "Sign In"
+        },
+        {
+          "id": 5589522248755154569,
+          "source_name": "Inter-American Court of Human Rights (IACtHR)",
+          "doc_type": "remote_source_content",
+          "jurisdiction": "international bodies",
+          "hits": [
+            "login"
+          ],
+          "preview": "Corte Interamericana de Derechos Humanos - Inicio SOBRE LA CORTE IDH ¿Qué es la Corte IDH? ¿Qué es la Convención Americana? Historia Conozca a los Jueces y Juezas Estatuto Reglamento Reglamento FALV Reglamento Acompañamiento Psicológico Inf"
+        },
+        {
+          "id": 5762113943363043728,
+          "source_name": "ICSID",
+          "doc_type": "remote_source_content",
+          "jurisdiction": "international bodies",
+          "hits": [
+            "skip to main content"
+          ],
+          "preview": "Skip to main content"
+        },
+        {
+          "id": 5839944277648663496,
+          "source_name": "African Court on Human and Peoples' Rights",
+          "doc_type": "remote_source_content",
+          "jurisdiction": "international bodies",
+          "hits": [
+            "login"
+          ],
+          "preview": "Login to your account below"
+        },
+        {
+          "id": 6650846375137594001,
+          "source_name": "African Court on Human and Peoples' Rights",
+          "doc_type": "remote_source_content",
+          "jurisdiction": "international bodies",
+          "hits": [
+            "login"
+          ],
+          "preview": "Decisions FOCUS AREAS Judgments and Advisory Opinions The Court ensures access to justice by hearing cases, issuing binding decisions and authoritative advisory opinions on human and peoples’ rights across the continent. Compliance with Dec"
+        },
+        {
+          "id": 8671571297585448204,
+          "source_name": "ICTY / ICTR / IRMCT",
+          "doc_type": "remote_source_content",
+          "jurisdiction": "international bodies",
+          "hits": [
+            "sign in"
+          ],
+          "preview": "Sign In"
+        }
+      ]
+    },
+    {
+      "collection": "SHAW_PRIVATE",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "COMMENTARY",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "CASE_LAW_GLOBAL",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "CASE_LAW_US",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "CASE_LAW_IN",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "CASE_LAW_EU",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "CASE_LAW_UK",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "CASE_LAW_RU",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "CASE_LAW_IL",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "STATUTES_US",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "STATUTES_IN",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "STATUTES_EU",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "STATUTES_UK",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "STATUTES_RU",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "STATUTES_IL",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "COMMENTARY_GLOBAL",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    }
+  ]
+}

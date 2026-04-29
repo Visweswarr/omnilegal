@@ -1,0 +1,44 @@
+{
+  "task": "retrieval",
+  "benchmark": "all_corpus_smoke",
+  "split": "smoke",
+  "generated_at": "2026-04-07T17:01:14.556446+00:00",
+  "metrics": [
+    {
+      "name": "records",
+      "value": 3.0,
+      "display_value": null,
+      "notes": null
+    },
+    {
+      "name": "recall_at_5",
+      "value": 0.3333333333333333,
+      "display_value": null,
+      "notes": null
+    },
+    {
+      "name": "recall_at_10",
+      "value": 0.3333333333333333,
+      "display_value": null,
+      "notes": null
+    },
+    {
+      "name": "citation_coverage",
+      "value": 1.0,
+      "display_value": null,
+      "notes": null
+    },
+    {
+      "name": "source_diversity",
+      "value": 1.0,
+      "display_value": null,
+      "notes": null
+    }
+  ],
+  "notes": [
+    "Smoke retrieval eval generated from normalized local records.",
+    "Run this before deciding whether to launch reranker adapter training."
+  ],
+  "source_file": null,
+  "provenance": []
+}

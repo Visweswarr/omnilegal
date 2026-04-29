@@ -1,0 +1,245 @@
+{
+  "created_at": "2026-04-20T17:11:23.452412+00:00",
+  "samples_per_collection": 1,
+  "counts": {
+    "INTL_TREATIES": 274,
+    "NATIONAL_IN": 589,
+    "NATIONAL_US": 864,
+    "NATIONAL_UK": 0,
+    "NATIONAL_EU": 511,
+    "NATIONAL_RU": 0,
+    "NATIONAL_IL": 166,
+    "CASE_LAW": 3930,
+    "SHAW_PRIVATE": 1184,
+    "COMMENTARY": 0,
+    "CASE_LAW_GLOBAL": 26,
+    "CASE_LAW_US": 10,
+    "CASE_LAW_IN": 5,
+    "CASE_LAW_EU": 6,
+    "CASE_LAW_UK": 6,
+    "CASE_LAW_RU": 8,
+    "CASE_LAW_IL": 4,
+    "STATUTES_US": 6,
+    "STATUTES_IN": 5,
+    "STATUTES_EU": 4,
+    "STATUTES_UK": 2,
+    "STATUTES_RU": 2,
+    "STATUTES_IL": 3,
+    "COMMENTARY_GLOBAL": 23
+  },
+  "total_problem_count": 28,
+  "status": "fail",
+  "collections": {
+    "INTL_TREATIES": {
+      "count": 274,
+      "sampled": 1,
+      "findings": [
+        {
+          "source_name": "UN Charter",
+          "doc_type": "treaty",
+          "jurisdiction": "international",
+          "problems": [
+            "missing_metadata:doc_hash",
+            "missing_metadata:canonical_doc_id",
+            "missing_metadata:legal_type",
+            "missing_metadata:importance_score"
+          ],
+          "preview": "Article 79 The terms of trusteeship for each territory to be placed under the trusteeship system, including any alteration or amendment, shall be agreed upon by the states directly concerned, including the mandatory power in the case of ter"
+        }
+      ]
+    },
+    "NATIONAL_IN": {
+      "count": 589,
+      "sampled": 1,
+      "findings": [
+        {
+          "source_name": "Constitution of India",
+          "doc_type": "constitutional_text",
+          "jurisdiction": "indian",
+          "problems": [
+            "missing_metadata:doc_hash",
+            "missing_metadata:canonical_doc_id",
+            "missing_metadata:legal_type",
+            "missing_metadata:importance_score"
+          ],
+          "preview": "the proceeds of any duty or tax are, or may be, assigned to any State, provide for the manner in which the proceeds are to be calculated, for the time from or at which and the manner in which any payments are to be made, for the making of a"
+        }
+      ]
+    },
+    "NATIONAL_US": {
+      "count": 864,
+      "sampled": 1,
+      "findings": [
+        {
+          "source_name": "Collins v. American Buslines, Inc.",
+          "doc_type": "case_law",
+          "jurisdiction": "us",
+          "problems": [
+            "missing_metadata:doc_hash",
+            "missing_metadata:canonical_doc_id",
+            "missing_metadata:legal_type",
+            "missing_metadata:importance_score"
+          ],
+          "preview": "Collins v. American Buslines, Inc. 350 US 528 Syllabus: U.S. Supreme CourtCollins v. American Buslines, Inc., 350 U.S. 528 (1956)Collins v. American Buslines, Inc.No. 523Argued March 29, 1956Decided April 9, 1956350 U.S. 528Syllabus The wid"
+        }
+      ]
+    },
+    "NATIONAL_UK": {
+      "count": 0,
+      "sampled": 0,
+      "findings": []
+    },
+    "NATIONAL_EU": {
+      "count": 511,
+      "sampled": 1,
+      "findings": [
+        {
+          "source_name": "ECHR Case: 9.  The first applicant, the Metropolitan Church of Bessarabia, is an autonomous Orthodox Church hav",
+          "doc_type": "case_law",
+          "jurisdiction": "eu",
+          "problems": [
+            "missing_metadata:doc_hash",
+            "missing_metadata:canonical_doc_id",
+            "missing_metadata:legal_type",
+            "missing_metadata:importance_score"
+          ],
+          "preview": "the Bessarabian Orthodox Church”. 45. In its annual report for 1997 the International Helsinki Federation for Human Rights criticised the Moldovan government’s refusal to recognise the Metropoltitan Church of Bessarabia. The report stated t"
+        }
+      ]
+    },
+    "NATIONAL_RU": {
+      "count": 0,
+      "sampled": 0,
+      "findings": []
+    },
+    "NATIONAL_IL": {
+      "count": 166,
+      "sampled": 1,
+      "findings": [
+        {
+          "source_name": "Versa (Cardozo Israeli Supreme Court Project)",
+          "doc_type": "remote_source_content",
+          "jurisdiction": "israel",
+          "problems": [
+            "missing_metadata:doc_hash",
+            "missing_metadata:canonical_doc_id",
+            "missing_metadata:legal_type",
+            "missing_metadata:importance_score"
+          ],
+          "preview": "Basic Law: The Knesset , --"
+        }
+      ]
+    },
+    "CASE_LAW": {
+      "count": 3930,
+      "sampled": 1,
+      "findings": [
+        {
+          "source_name": "General Box Company v. United States",
+          "doc_type": "case_law",
+          "jurisdiction": "international",
+          "problems": [
+            "missing_metadata:doc_hash",
+            "missing_metadata:canonical_doc_id",
+            "missing_metadata:legal_type",
+            "missing_metadata:importance_score"
+          ],
+          "preview": "Otherwise the Court would not reserve decision on whether the Due Process Clause of the Fifth Amendment has been violated. If the timber is \"property\" so far as the Due Process Clause is concerned, it Page 351 U. S. 169 would seem to be \"pr"
+        }
+      ]
+    },
+    "SHAW_PRIVATE": {
+      "count": 1184,
+      "sampled": 1,
+      "findings": [
+        {
+          "source_name": "Malcolm Shaw - International Law",
+          "doc_type": "commentary",
+          "jurisdiction": "international",
+          "problems": [
+            "missing_metadata:doc_hash",
+            "missing_metadata:canonical_doc_id",
+            "missing_metadata:legal_type",
+            "missing_metadata:importance_score"
+          ],
+          "preview": "Postal 589 F.2d 862 (5th Cir."
+        }
+      ]
+    },
+    "COMMENTARY": {
+      "count": 0,
+      "sampled": 0,
+      "findings": []
+    },
+    "CASE_LAW_GLOBAL": {
+      "count": 26,
+      "sampled": 1,
+      "findings": []
+    },
+    "CASE_LAW_US": {
+      "count": 10,
+      "sampled": 1,
+      "findings": []
+    },
+    "CASE_LAW_IN": {
+      "count": 5,
+      "sampled": 1,
+      "findings": []
+    },
+    "CASE_LAW_EU": {
+      "count": 6,
+      "sampled": 1,
+      "findings": []
+    },
+    "CASE_LAW_UK": {
+      "count": 6,
+      "sampled": 1,
+      "findings": []
+    },
+    "CASE_LAW_RU": {
+      "count": 8,
+      "sampled": 1,
+      "findings": []
+    },
+    "CASE_LAW_IL": {
+      "count": 4,
+      "sampled": 1,
+      "findings": []
+    },
+    "STATUTES_US": {
+      "count": 6,
+      "sampled": 1,
+      "findings": []
+    },
+    "STATUTES_IN": {
+      "count": 5,
+      "sampled": 1,
+      "findings": []
+    },
+    "STATUTES_EU": {
+      "count": 4,
+      "sampled": 1,
+      "findings": []
+    },
+    "STATUTES_UK": {
+      "count": 2,
+      "sampled": 1,
+      "findings": []
+    },
+    "STATUTES_RU": {
+      "count": 2,
+      "sampled": 1,
+      "findings": []
+    },
+    "STATUTES_IL": {
+      "count": 3,
+      "sampled": 1,
+      "findings": []
+    },
+    "COMMENTARY_GLOBAL": {
+      "count": 23,
+      "sampled": 1,
+      "findings": []
+    }
+  }
+}

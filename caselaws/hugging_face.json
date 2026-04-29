@@ -1,0 +1,165 @@
+{
+  "jurisdiction": "HuggingFace training/benchmark datasets",
+  "sources": [
+    {
+      "name": "pile-of-law/pile-of-law",
+      "url": "https://huggingface.co/datasets/pile-of-law/pile-of-law",
+      "type": "academic (Stanford, Henderson et al.)",
+      "coverage": "~256 GB, 35 sub-corpora: CourtListener opinions (through 12/31/2022), Atticus contracts, BVA, EOIR, USC, CFR, Federal Register, r/legaladvice, EDGAR, casebooks, Canadian decisions, and more",
+      "access": "HF Datasets, jsonl.xz per subset",
+      "format": "JSONL",
+      "license": "CC BY-NC-SA 4.0 — NON-COMMERCIAL; disqualifies commercial RAG without renegotiation",
+      "recommended_for": ["NATIONAL_US", "CASE_LAW", "COMMENTARY"]
+    },
+    {
+      "name": "joelniklaus/Multi_Legal_Pile (+ _Commercial variant)",
+      "url": "https://huggingface.co/datasets/joelniklaus/Multi_Legal_Pile",
+      "type": "academic",
+      "coverage": "689 GB across 24 EU languages; Native MLP 112GB, Eurlex 179GB, Legal MC4 106GB, Pile-of-Law 292GB",
+      "access": "HF Datasets",
+      "format": "JSONL per {lang}_{type}",
+      "license": "Mixed — use Multi_Legal_Pile_Commercial for commercially-safe subset",
+      "recommended_for": ["NATIONAL_EU", "NATIONAL_UK (en subsets)", "CASE_LAW", "COMMENTARY"]
+    },
+    {
+      "name": "nlpaueb/multi_eurlex (coastalcph/multi_eurlex)",
+      "url": "https://huggingface.co/datasets/nlpaueb/multi_eurlex",
+      "type": "academic (Chalkidis et al., EMNLP 2021)",
+      "coverage": "65k EU laws in 23 languages; EUROVOC-annotated; chronological split 1958–2016",
+      "access": "HF Datasets",
+      "format": "JSON records per CELEX ID with per-language text dict",
+      "license": "CC BY-SA 4.0 (verify on card) — EU editorial content",
+      "recommended_for": ["NATIONAL_EU"]
+    },
+    {
+      "name": "coastalcph/lex_glue (LexGLUE benchmark)",
+      "url": "https://huggingface.co/datasets/coastalcph/lex_glue",
+      "type": "academic benchmark (Chalkidis et al., ACL 2022)",
+      "coverage": "7 tasks: ecthr_a, ecthr_b, scotus, eurlex (EURLEX57K), ledgar, unfair_tos, case_hold",
+      "access": "HF Datasets",
+      "format": "Parquet, task-structured",
+      "license": "CC BY 4.0 — commercial-safe",
+      "recommended_for": ["CASE_LAW", "NATIONAL_US", "NATIONAL_EU", "COMMENTARY"]
+    },
+    {
+      "name": "dennlinger/eur-lex-sum",
+      "url": "https://huggingface.co/datasets/dennlinger/eur-lex-sum",
+      "type": "academic (Aumiller et al., EMNLP 2022)",
+      "coverage": "Up to 1,500 doc/summary pairs per language; 375 acts aligned across all 24 EU languages",
+      "access": "HF Datasets",
+      "format": "JSON",
+      "license": "CC BY 4.0",
+      "recommended_for": ["NATIONAL_EU", "COMMENTARY"]
+    },
+    {
+      "name": "AUEB-NLP/ecthr_cases (+ lex_glue ecthr_a/b)",
+      "url": "https://huggingface.co/datasets/AUEB-NLP/ecthr_cases",
+      "type": "academic (Chalkidis)",
+      "coverage": "~11k ECtHR cases (train 9k 2001–2016, dev/test 2016–2019); facts-paragraphs + violated/alleged articles + (silver/gold) rationales",
+      "access": "HF Datasets",
+      "format": "JSON list[str] of paragraphs",
+      "license": "Likely CC BY-NC-SA 4.0 — verify",
+      "recommended_for": ["CASE_LAW"]
+    },
+    {
+      "name": "casehold/casehold",
+      "url": "https://huggingface.co/datasets/casehold/casehold",
+      "type": "academic (Zheng et al., ICAIL 2021)",
+      "coverage": "53k legal holdings MCQ from Harvard CAP",
+      "access": "HF Datasets",
+      "format": "JSON",
+      "license": "Apache-2.0 code; CC0 underlying data (verify card)",
+      "recommended_for": ["CASE_LAW", "NATIONAL_US"]
+    },
+    {
+      "name": "FiscalNote/billsum",
+      "url": "https://huggingface.co/datasets/FiscalNote/billsum",
+      "type": "academic",
+      "coverage": "23.5k US Congress + California bills with summaries",
+      "access": "HF Datasets",
+      "format": "JSON",
+      "license": "CC0 1.0 — commercial-safe",
+      "recommended_for": ["NATIONAL_US"]
+    },
+    {
+      "name": "free-law/Caselaw_Access_Project (+ TeraflopAI, harvard-lil/cold-cases)",
+      "url": "https://huggingface.co/free-law",
+      "type": "academic/non-profit",
+      "coverage": "~6.7M US decisions 1658–2020 (CAP); cold-cases reformats CourtListener bulk with privacy filters",
+      "access": "HF Datasets",
+      "format": "Parquet/JSONL",
+      "license": "CC0 (CAP); cold-cases follows CourtListener removal norms",
+      "recommended_for": ["CASE_LAW", "NATIONAL_US"]
+    },
+    {
+      "name": "Exploration-Lab/IL-TUR (+ ILDC on GitHub)",
+      "url": "https://huggingface.co/datasets/Exploration-Lab/IL-TUR",
+      "type": "academic (IIT Kanpur, ACL 2024)",
+      "coverage": "Indian legal benchmark: L-NER, CJPE, legal-statute ID, semantic segmentation; ILDC has 35k SCI cases (GitHub Exploration-Lab/CJPE)",
+      "access": "HF Datasets; ILDC via GitHub",
+      "format": "JSON",
+      "license": "Per-task — verify",
+      "recommended_for": ["NATIONAL_IN", "CASE_LAW"]
+    },
+    {
+      "name": "irlspbru/RusLawOD",
+      "url": "https://github.com/irlcode/RusLawOD",
+      "type": "academic",
+      "coverage": "Russian federal legislation (laws, decrees, resolutions) through late 2025/early 2026; Akoma-Ntoso-inspired XML",
+      "access": "GitHub releases / HF",
+      "format": "XML",
+      "license": "Open — verify",
+      "recommended_for": ["RUSSIA"]
+    },
+    {
+      "name": "lexlms/lex_files (LeXFiles)",
+      "url": "https://huggingface.co/datasets/lexlms/lex_files",
+      "type": "academic (Chalkidis & Garneau 2023)",
+      "coverage": "11 English sub-corpora spanning EU, CoE, Canada, US, UK, India; ~6M docs, ~19B tokens — best single multi-jurisdiction English legal corpus",
+      "access": "HF Datasets",
+      "format": "JSONL",
+      "license": "Per-subcorpus — verify",
+      "recommended_for": ["NATIONAL_US", "NATIONAL_UK", "NATIONAL_EU", "NATIONAL_IN", "CASE_LAW"]
+    },
+    {
+      "name": "alea-institute/kl3m-data-*",
+      "url": "https://huggingface.co/alea-institute",
+      "type": "academic/industry (KL3M project, 2024–2025)",
+      "coverage": "Copyright-clean 132M documents, trillions of tokens, 16 sources (EDGAR 10-Ks, GovInfo, .gov sites)",
+      "access": "HF Datasets",
+      "format": "JSONL/Parquet",
+      "license": "CC BY 4.0 (verify per subset) — strongly commercial-safe",
+      "recommended_for": ["NATIONAL_US", "COMMENTARY"]
+    },
+    {
+      "name": "theatticusproject/cuad-qa",
+      "url": "https://huggingface.co/datasets/theatticusproject/cuad-qa",
+      "type": "academic",
+      "coverage": "510 commercial contracts, 13,000+ expert annotations across 41 clause categories",
+      "access": "HF Datasets",
+      "format": "SQuAD-style QA",
+      "license": "CC BY 4.0",
+      "recommended_for": ["COMMENTARY", "NATIONAL_US"]
+    },
+    {
+      "name": "Helsinki-NLP/un_pc (UN Parallel Corpus)",
+      "url": "https://huggingface.co/datasets/Helsinki-NLP/un_pc",
+      "type": "official-derived",
+      "coverage": "UN documents 1990–2014 in 6 UN languages (AR/ZH/EN/FR/RU/ES), manually translated, MT-aligned",
+      "access": "HF Datasets",
+      "format": "TMX/parallel sentence pairs",
+      "license": "Liberal (UN disclaimer)",
+      "recommended_for": ["COMMENTARY (treaties + documents; multilingual alignment)"]
+    },
+    {
+      "name": "Knesset Corpus (Goldin et al., 2024)",
+      "url": "https://arxiv.org/abs/2405.18115",
+      "type": "academic",
+      "coverage": "32M sentences / 384M tokens of Israeli parliamentary proceedings; used to fine-tune Knesset-DictaBERT",
+      "access": "ElasticSearch distribution per paper",
+      "format": "Structured text",
+      "license": "Verify with authors",
+      "recommended_for": ["ISRAEL"]
+    }
+  ]
+}

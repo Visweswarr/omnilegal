@@ -1,0 +1,478 @@
+{
+  "created_at": "2026-04-19T01:58:57.912034+00:00",
+  "samples_per_collection": 2,
+  "counts": {
+    "INTL_TREATIES": 274,
+    "NATIONAL_IN": 589,
+    "NATIONAL_US": 864,
+    "NATIONAL_UK": 0,
+    "NATIONAL_EU": 511,
+    "NATIONAL_RU": 0,
+    "NATIONAL_IL": 166,
+    "CASE_LAW": 3930,
+    "SHAW_PRIVATE": 1184,
+    "COMMENTARY": 0,
+    "CASE_LAW_GLOBAL": 26,
+    "CASE_LAW_US": 10,
+    "CASE_LAW_IN": 5,
+    "CASE_LAW_EU": 6,
+    "CASE_LAW_UK": 6,
+    "CASE_LAW_RU": 8,
+    "CASE_LAW_IL": 4,
+    "STATUTES_US": 6,
+    "STATUTES_IN": 5,
+    "STATUTES_EU": 4,
+    "STATUTES_UK": 2,
+    "STATUTES_RU": 2,
+    "STATUTES_IL": 3,
+    "COMMENTARY_GLOBAL": 23
+  },
+  "total_problem_count": 77,
+  "status": "fail",
+  "collections": {
+    "INTL_TREATIES": {
+      "count": 274,
+      "sampled": 2,
+      "findings": [
+        {
+          "source_name": "UN Charter",
+          "doc_type": "treaty",
+          "jurisdiction": "international",
+          "problems": [
+            "missing_metadata:doc_hash",
+            "missing_metadata:canonical_doc_id",
+            "missing_metadata:legal_type",
+            "missing_metadata:importance_score"
+          ],
+          "preview": "Article 79 The terms of trusteeship for each territory to be placed under the trusteeship system, including any alteration or amendment, shall be agreed upon by the states directly concerned, including the mandatory power in the case of ter"
+        },
+        {
+          "source_name": "ICCPR",
+          "doc_type": "treaty",
+          "jurisdiction": "international",
+          "problems": [
+            "missing_metadata:doc_hash",
+            "missing_metadata:canonical_doc_id",
+            "missing_metadata:legal_type",
+            "missing_metadata:importance_score"
+          ],
+          "preview": "Article 2 1. Each State Party to the present Covenant undertakes to respect and to ensure to all individuals within its territory and subject to its jurisdiction the rights recognized in the present Covenant, without distinction of any kind"
+        }
+      ]
+    },
+    "NATIONAL_IN": {
+      "count": 589,
+      "sampled": 2,
+      "findings": [
+        {
+          "source_name": "Constitution of India",
+          "doc_type": "constitutional_text",
+          "jurisdiction": "indian",
+          "problems": [
+            "missing_metadata:doc_hash",
+            "missing_metadata:canonical_doc_id",
+            "missing_metadata:legal_type",
+            "missing_metadata:importance_score"
+          ],
+          "preview": "the proceeds of any duty or tax are, or may be, assigned to any State, provide for the manner in which the proceeds are to be calculated, for the time from or at which and the manner in which any payments are to be made, for the making of a"
+        },
+        {
+          "source_name": "Constitution of India",
+          "doc_type": "constitutional_text",
+          "jurisdiction": "indian",
+          "problems": [
+            "missing_metadata:doc_hash",
+            "missing_metadata:canonical_doc_id",
+            "missing_metadata:legal_type",
+            "missing_metadata:importance_score"
+          ],
+          "preview": "Schedule) 31115. War and peace.16. Foreign jurisdiction.17. Citizenship, naturalisation and aliens.18. Extradition.19. Admission into, and emigration and expulsion from, India; passports and visas. 20. Pilgrimages to places outside India.21"
+        }
+      ]
+    },
+    "NATIONAL_US": {
+      "count": 864,
+      "sampled": 2,
+      "findings": [
+        {
+          "source_name": "Collins v. American Buslines, Inc.",
+          "doc_type": "case_law",
+          "jurisdiction": "us",
+          "problems": [
+            "missing_metadata:doc_hash",
+            "missing_metadata:canonical_doc_id",
+            "missing_metadata:legal_type",
+            "missing_metadata:importance_score"
+          ],
+          "preview": "Collins v. American Buslines, Inc. 350 US 528 Syllabus: U.S. Supreme CourtCollins v. American Buslines, Inc., 350 U.S. 528 (1956)Collins v. American Buslines, Inc.No. 523Argued March 29, 1956Decided April 9, 1956350 U.S. 528Syllabus The wid"
+        },
+        {
+          "source_name": "Kremen v. United States",
+          "doc_type": "case_law",
+          "jurisdiction": "us",
+          "problems": [
+            "missing_metadata:doc_hash",
+            "missing_metadata:canonical_doc_id",
+            "missing_metadata:legal_type",
+            "missing_metadata:importance_score"
+          ],
+          "preview": "Kremen v. United States 353 US 346 Syllabus: U.S. Supreme CourtKremen v. United States, 353 U.S. 346 (1957)Kremen v. United StatesNo. 162Argued March 6, 1957Decided May 13, 1957353 U.S. 346Syllabus The three petitioners were arrested by fed"
+        }
+      ]
+    },
+    "NATIONAL_UK": {
+      "count": 0,
+      "sampled": 0,
+      "findings": []
+    },
+    "NATIONAL_EU": {
+      "count": 511,
+      "sampled": 2,
+      "findings": [
+        {
+          "source_name": "ECHR Case: 9.  The first applicant, the Metropolitan Church of Bessarabia, is an autonomous Orthodox Church hav",
+          "doc_type": "case_law",
+          "jurisdiction": "eu",
+          "problems": [
+            "missing_metadata:doc_hash",
+            "missing_metadata:canonical_doc_id",
+            "missing_metadata:legal_type",
+            "missing_metadata:importance_score"
+          ],
+          "preview": "the Bessarabian Orthodox Church”. 45. In its annual report for 1997 the International Helsinki Federation for Human Rights criticised the Moldovan government’s refusal to recognise the Metropoltitan Church of Bessarabia. The report stated t"
+        },
+        {
+          "source_name": "ECHR Case: 8.  On 14 February 1992 the pension fund of the applicant’s employer granted the applicant a full te",
+          "doc_type": "case_law",
+          "jurisdiction": "eu",
+          "problems": [
+            "missing_metadata:doc_hash",
+            "missing_metadata:canonical_doc_id",
+            "missing_metadata:legal_type",
+            "missing_metadata:importance_score"
+          ],
+          "preview": "reasoning the decision as follows: “[The Insurance Court refers to] the reasons given in the Pension Board’s decision. The new material filed while the case was pending [before the Insurance Court] does not change the evaluation of [the app"
+        }
+      ]
+    },
+    "NATIONAL_RU": {
+      "count": 0,
+      "sampled": 0,
+      "findings": []
+    },
+    "NATIONAL_IL": {
+      "count": 166,
+      "sampled": 2,
+      "findings": [
+        {
+          "source_name": "Versa (Cardozo Israeli Supreme Court Project)",
+          "doc_type": "remote_source_content",
+          "jurisdiction": "israel",
+          "problems": [
+            "missing_metadata:doc_hash",
+            "missing_metadata:canonical_doc_id",
+            "missing_metadata:legal_type",
+            "missing_metadata:importance_score"
+          ],
+          "preview": "Basic Law: The Knesset , --"
+        },
+        {
+          "source_name": "Knesset Corpus (Goldin et al., 2024)",
+          "doc_type": "remote_source_content",
+          "jurisdiction": "huggingface training/benchmark datasets",
+          "problems": [
+            "bad_content:login",
+            "missing_metadata:doc_hash",
+            "missing_metadata:canonical_doc_id",
+            "missing_metadata:legal_type",
+            "missing_metadata:importance_score"
+          ],
+          "preview": "Title Author Abstract Comments Journal reference ACM classification MSC classification Report number arXiv identifier DOI ORCID arXiv author ID Help pages Full text Search GO quick links Login Help Pages About Computer Science > Computation"
+        }
+      ]
+    },
+    "CASE_LAW": {
+      "count": 3930,
+      "sampled": 2,
+      "findings": [
+        {
+          "source_name": "General Box Company v. United States",
+          "doc_type": "case_law",
+          "jurisdiction": "international",
+          "problems": [
+            "missing_metadata:doc_hash",
+            "missing_metadata:canonical_doc_id",
+            "missing_metadata:legal_type",
+            "missing_metadata:importance_score"
+          ],
+          "preview": "Otherwise the Court would not reserve decision on whether the Due Process Clause of the Fifth Amendment has been violated. If the timber is \"property\" so far as the Due Process Clause is concerned, it Page 351 U. S. 169 would seem to be \"pr"
+        },
+        {
+          "source_name": "Affronti v. United States",
+          "doc_type": "case_law",
+          "jurisdiction": "international",
+          "problems": [
+            "missing_metadata:doc_hash",
+            "missing_metadata:canonical_doc_id",
+            "missing_metadata:legal_type",
+            "missing_metadata:importance_score"
+          ],
+          "preview": "Id. at 275 U. S. 356. It was concluded that it would be more reasonable to construe the Probation Act so as to reconcile the three methods of mitigation of criminal sentences, thereby \"making them as little of a repetition as we can.\" Id. a"
+        }
+      ]
+    },
+    "SHAW_PRIVATE": {
+      "count": 1184,
+      "sampled": 2,
+      "findings": [
+        {
+          "source_name": "Malcolm Shaw - International Law",
+          "doc_type": "commentary",
+          "jurisdiction": "international",
+          "problems": [
+            "missing_metadata:doc_hash",
+            "missing_metadata:canonical_doc_id",
+            "missing_metadata:legal_type",
+            "missing_metadata:importance_score"
+          ],
+          "preview": "Postal 589 F.2d 862 (5th Cir."
+        },
+        {
+          "source_name": "Malcolm Shaw - International Law",
+          "doc_type": "commentary",
+          "jurisdiction": "international",
+          "problems": [
+            "missing_metadata:doc_hash",
+            "missing_metadata:canonical_doc_id",
+            "missing_metadata:legal_type",
+            "missing_metadata:importance_score"
+          ],
+          "preview": "469, 470, 471, 769 Art III 467, 470 Art VI(2) 470 Art XI 454, 470 Art XI(4) 470 Art XI(5) 470 Art XI(7) 470 Art XIV 751 Art XV 883 Agreement on Control Machinery in Germany 1944 Art 2 840 Agreement on Implementation of the Seabed Provisions"
+        }
+      ]
+    },
+    "COMMENTARY": {
+      "count": 0,
+      "sampled": 0,
+      "findings": []
+    },
+    "CASE_LAW_GLOBAL": {
+      "count": 26,
+      "sampled": 2,
+      "findings": [
+        {
+          "source_name": "Permanent Court of Arbitration (PCA)",
+          "doc_type": "source_catalog",
+          "jurisdiction": "international",
+          "problems": [
+            "case_collection_doc_type:source_catalog"
+          ],
+          "preview": "Source catalog entry: Permanent Court of Arbitration (PCA) Jurisdiction: International bodies URL: https://pca-cpa.org; https://pcacases.com Type: intergovernmental arbitration Coverage: Inter-state, investor-State, commercial, maritime/bou"
+        },
+        {
+          "source_name": "coastalcph/lex_glue (LexGLUE benchmark)",
+          "doc_type": "source_catalog",
+          "jurisdiction": "huggingface training/benchmark datasets",
+          "problems": [
+            "case_jurisdiction_mismatch:huggingface training/benchmark datasets",
+            "case_collection_doc_type:source_catalog"
+          ],
+          "preview": "Source catalog entry: coastalcph/lex_glue (LexGLUE benchmark) Jurisdiction: HuggingFace training/benchmark datasets URL: https://huggingface.co/datasets/coastalcph/lex_glue Type: academic benchmark (Chalkidis et al., ACL 2022) Coverage: 7 t"
+        }
+      ]
+    },
+    "CASE_LAW_US": {
+      "count": 10,
+      "sampled": 2,
+      "findings": [
+        {
+          "source_name": "Justia",
+          "doc_type": "source_catalog",
+          "jurisdiction": "us",
+          "problems": [
+            "case_collection_doc_type:source_catalog"
+          ],
+          "preview": "Source catalog entry: Justia Jurisdiction: United States URL: https://www.justia.com Type: aggregator (commercial, free reader access) Coverage: SCOTUS (1791–), federal appellate, federal district (partial), state courts (variable), US Code"
+        },
+        {
+          "source_name": "CourtListener (Free Law Project)",
+          "doc_type": "source_catalog",
+          "jurisdiction": "us",
+          "problems": [
+            "case_collection_doc_type:source_catalog"
+          ],
+          "preview": "Source catalog entry: CourtListener (Free Law Project) Jurisdiction: US URL: not listed Type: Non-profit legal data aggregator Coverage: U.S. federal and state court opinions (millions of cases, including Supreme Court and lower courts)【3†L"
+        }
+      ]
+    },
+    "CASE_LAW_IN": {
+      "count": 5,
+      "sampled": 2,
+      "findings": [
+        {
+          "source_name": "eCourts (district + HC aggregation)",
+          "doc_type": "source_catalog",
+          "jurisdiction": "in",
+          "problems": [
+            "case_collection_doc_type:source_catalog"
+          ],
+          "preview": "Source catalog entry: eCourts (district + HC aggregation) Jurisdiction: India URL: https://ecourts.gov.in Type: official Coverage: District + HC case status, cause lists, orders/judgments across India; full-text elastic search at judgments."
+        },
+        {
+          "source_name": "Indian Kanoon",
+          "doc_type": "source_catalog",
+          "jurisdiction": "in",
+          "problems": [
+            "case_collection_doc_type:source_catalog"
+          ],
+          "preview": "Source catalog entry: Indian Kanoon Jurisdiction: India URL: https://indiankanoon.org Type: aggregator (private, free to read) Coverage: Supreme Court, 24 High Courts, tribunals, Law Commission, parliamentary debates; ~30M+ documents Access"
+        }
+      ]
+    },
+    "CASE_LAW_EU": {
+      "count": 6,
+      "sampled": 2,
+      "findings": [
+        {
+          "source_name": "EUR-Lex + CELLAR",
+          "doc_type": "source_catalog",
+          "jurisdiction": "eu",
+          "problems": [
+            "case_collection_doc_type:source_catalog"
+          ],
+          "preview": "Source catalog entry: EUR-Lex + CELLAR Jurisdiction: European Union URL: https://eur-lex.europa.eu Type: official (Publications Office of the EU) Coverage: All EU law — treaties, regulations, directives, decisions, international agreements,"
+        },
+        {
+          "source_name": "Curia (CJEU case-law database)",
+          "doc_type": "source_catalog",
+          "jurisdiction": "eu",
+          "problems": [
+            "case_collection_doc_type:source_catalog"
+          ],
+          "preview": "Source catalog entry: Curia (CJEU case-law database) Jurisdiction: EU URL: not listed Type: European Union (Court of Justice) Coverage: Court of Justice and General Court judgments, opinions, orders Access: Official website search (no publi"
+        }
+      ]
+    },
+    "CASE_LAW_UK": {
+      "count": 6,
+      "sampled": 2,
+      "findings": [
+        {
+          "source_name": "BAILII (British & Irish Legal Information Institute)",
+          "doc_type": "source_catalog",
+          "jurisdiction": "uk",
+          "problems": [
+            "case_collection_doc_type:source_catalog"
+          ],
+          "preview": "Source catalog entry: BAILII (British & Irish Legal Information Institute) Jurisdiction: UK URL: not listed Type: Charitable legal information institute Coverage: UK and Irish case law (Supreme Court, Court of Appeal, High Court, etc.) Acce"
+        },
+        {
+          "source_name": "BAILII",
+          "doc_type": "source_catalog",
+          "jurisdiction": "uk",
+          "problems": [
+            "case_collection_doc_type:source_catalog"
+          ],
+          "preview": "Source catalog entry: BAILII Jurisdiction: United Kingdom URL: https://www.bailii.org Type: aggregator (charity) Coverage: ~411k cases + ~150k legislation items; UK (incl. Scotland, NI), Ireland, EU, Commonwealth; some historical back to 13"
+        }
+      ]
+    },
+    "CASE_LAW_RU": {
+      "count": 8,
+      "sampled": 2,
+      "findings": [
+        {
+          "source_name": "Supreme Court of Russia",
+          "doc_type": "source_catalog",
+          "jurisdiction": "ru",
+          "problems": [
+            "case_jurisdiction_mismatch:ru",
+            "case_collection_doc_type:source_catalog"
+          ],
+          "preview": "Source catalog entry: Supreme Court of Russia Jurisdiction: Russia URL: https://vsrf.ru Type: official Coverage: SC decisions, plenum clarifications, reviews; post-2014 includes former Supreme Arbitrazh Court Access: Free web; no bulk API F"
+        },
+        {
+          "source_name": "pravo.gov.ru / publication.pravo.gov.ru",
+          "doc_type": "source_catalog",
+          "jurisdiction": "ru",
+          "problems": [
+            "case_jurisdiction_mismatch:ru",
+            "case_collection_doc_type:source_catalog"
+          ],
+          "preview": "Source catalog entry: pravo.gov.ru / publication.pravo.gov.ru Jurisdiction: Russia URL: http://publication.pravo.gov.ru Type: official (primary federal publication platform since 2011) Coverage: Federal laws, presidential decrees, governmen"
+        }
+      ]
+    },
+    "CASE_LAW_IL": {
+      "count": 4,
+      "sampled": 2,
+      "findings": [
+        {
+          "source_name": "Supreme Court of Israel (court.gov.il)",
+          "doc_type": "source_catalog",
+          "jurisdiction": "il",
+          "problems": [
+            "case_jurisdiction_mismatch:il",
+            "case_collection_doc_type:source_catalog"
+          ],
+          "preview": "Source catalog entry: Supreme Court of Israel (court.gov.il) Jurisdiction: ISRAEL URL: not listed Type: Israeli government Coverage: Supreme Court decisions (Hebrew original, some English translations) Access: Official website search (no pu"
+        },
+        {
+          "source_name": "Israel Supreme Court",
+          "doc_type": "source_catalog",
+          "jurisdiction": "il",
+          "problems": [
+            "case_jurisdiction_mismatch:il",
+            "case_collection_doc_type:source_catalog"
+          ],
+          "preview": "Source catalog entry: Israel Supreme Court Jurisdiction: Israel URL: https://supreme.court.gov.il (and legacy elyon1.court.gov.il) Type: official Coverage: SC decisions (Hebrew), judgments, administrative appeals, HCJ rulings; reasonably co"
+        }
+      ]
+    },
+    "STATUTES_US": {
+      "count": 6,
+      "sampled": 2,
+      "findings": []
+    },
+    "STATUTES_IN": {
+      "count": 5,
+      "sampled": 2,
+      "findings": []
+    },
+    "STATUTES_EU": {
+      "count": 4,
+      "sampled": 2,
+      "findings": []
+    },
+    "STATUTES_UK": {
+      "count": 2,
+      "sampled": 2,
+      "findings": []
+    },
+    "STATUTES_RU": {
+      "count": 2,
+      "sampled": 2,
+      "findings": [
+        {
+          "source_name": "RusLawOD (academic corpus)",
+          "doc_type": "source_catalog",
+          "jurisdiction": "ru",
+          "problems": [
+            "bad_content:github.com"
+          ],
+          "preview": "Source catalog entry: RusLawOD (academic corpus) Jurisdiction: Russia URL: https://github.com/irlcode/RusLawOD (HF: irlspbru/RusLawOD) Type: academic open corpus Coverage: Federal laws, presidential decrees, government resolutions, through "
+        }
+      ]
+    },
+    "STATUTES_IL": {
+      "count": 3,
+      "sampled": 2,
+      "findings": []
+    },
+    "COMMENTARY_GLOBAL": {
+      "count": 23,
+      "sampled": 2,
+      "findings": []
+    }
+  }
+}

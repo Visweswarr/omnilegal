@@ -1,0 +1,22 @@
+before
+importing pip main
+running check
+Timeout (0:00:10)!
+Thread 0x0000868c (most recent call first):
+  File "C:\Users\reddy\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\platform.py", line 327 in _wmi_query
+  File "C:\Users\reddy\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\platform.py", line 388 in _win32_ver
+  File "C:\Users\reddy\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\platform.py", line 450 in win32_ver
+  File "C:\Users\reddy\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\platform.py", line 922 in uname
+  File "C:\Users\reddy\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\platform.py", line 1006 in release
+  File "C:\Users\reddy\Downloads\NLP Legal Summarizer\omnilegal\.venv\Lib\site-packages\pip\_vendor\packaging\markers.py", line 250 in default_environment
+  File "C:\Users\reddy\Downloads\NLP Legal Summarizer\omnilegal\.venv\Lib\site-packages\pip\_vendor\packaging\markers.py", line 310 in evaluate
+  File "C:\Users\reddy\Downloads\NLP Legal Summarizer\omnilegal\.venv\Lib\site-packages\pip\_internal\metadata\importlib\_dists.py", line 225 in iter_dependencies
+  File "C:\Users\reddy\Downloads\NLP Legal Summarizer\omnilegal\.venv\Lib\site-packages\pip\_internal\operations\check.py", line 58 in create_package_set_from_installed
+  File "C:\Users\reddy\Downloads\NLP Legal Summarizer\omnilegal\.venv\Lib\site-packages\pip\_internal\commands\check.py", line 27 in run
+  File "C:\Users\reddy\Downloads\NLP Legal Summarizer\omnilegal\.venv\Lib\site-packages\pip\_internal\cli\base_command.py", line 97 in _inner_run
+  File "C:\Users\reddy\Downloads\NLP Legal Summarizer\omnilegal\.venv\Lib\site-packages\pip\_internal\cli\base_command.py", line 106 in _run_wrapper
+  File "C:\Users\reddy\Downloads\NLP Legal Summarizer\omnilegal\.venv\Lib\site-packages\pip\_internal\cli\base_command.py", line 240 in _main
+  File "C:\Users\reddy\Downloads\NLP Legal Summarizer\omnilegal\.venv\Lib\site-packages\pip\_internal\cli\base_command.py", line 158 in main
+  File "C:\Users\reddy\Downloads\NLP Legal Summarizer\omnilegal\.venv\Lib\site-packages\pip\_internal\cli\main.py", line 80 in main
+  File "<stdin>", line 8 in <module>
+rc 0

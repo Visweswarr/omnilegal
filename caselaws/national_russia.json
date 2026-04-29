@@ -1,0 +1,75 @@
+{
+  "jurisdiction": "Russia",
+  "sources": [
+    {
+      "name": "RusLawOD (academic corpus)",
+      "url": "https://github.com/irlcode/RusLawOD (HF: irlspbru/RusLawOD)",
+      "type": "academic open corpus",
+      "coverage": "Federal laws, presidential decrees, government resolutions, through late 2025/early 2026; derived from IPS 'Zakonodatelstvo RF'",
+      "access": "Bulk download from GitHub releases / HF — RECOMMENDED PRIMARY for legislation",
+      "format": "XML (Akoma Ntoso-inspired)",
+      "license": "Open; verify LICENSE file before redistribution",
+      "recommended_for": ["RUSSIA"]
+    },
+    {
+      "name": "pravo.gov.ru / publication.pravo.gov.ru",
+      "url": "http://publication.pravo.gov.ru",
+      "type": "official (primary federal publication platform since 2011)",
+      "coverage": "Federal laws, presidential decrees, government resolutions, ministerial acts, regional + municipal legislation",
+      "access": "Free HTML; NO official bulk API; documents often scanned PDF/TIFF (OCR required)",
+      "format": "PDF (often scanned), HTML",
+      "license": "Statutory public domain — Civil Code Art. 1259 exempts laws, judicial decisions, and official documents from copyright; no open-data license declared",
+      "recommended_for": ["RUSSIA"]
+    },
+    {
+      "name": "Supreme Court of Russia",
+      "url": "https://vsrf.ru",
+      "type": "official",
+      "coverage": "SC decisions, plenum clarifications, reviews; post-2014 includes former Supreme Arbitrazh Court",
+      "access": "Free web; no bulk API",
+      "format": "PDF, HTML",
+      "license": "Public domain (Civil Code Art. 1259)",
+      "recommended_for": ["RUSSIA", "CASE_LAW"]
+    },
+    {
+      "name": "Constitutional Court of Russia",
+      "url": "https://www.ksrf.ru",
+      "type": "official",
+      "coverage": "All Constitutional Court rulings/decisions from 1995 (~46k+)",
+      "access": "Free web; English /en/ section; no bulk API",
+      "format": "PDF (primary), HTML",
+      "license": "Public domain",
+      "recommended_for": ["RUSSIA", "CASE_LAW"]
+    },
+    {
+      "name": "sudact.ru",
+      "url": "https://sudact.ru",
+      "type": "aggregator (private, free) of court decisions",
+      "coverage": "General-jurisdiction, arbitrazh, and magistrate courts",
+      "access": "Free web search; third-party scrapers exist; check robots.txt and rate-limit",
+      "format": "HTML",
+      "license": "Aggregated PD decisions; site ToS unclear — uncertain — verify",
+      "recommended_for": ["RUSSIA", "CASE_LAW"]
+    },
+    {
+      "name": "kad.arbitr.ru / ras.arbitr.ru",
+      "url": "https://kad.arbitr.ru; https://ras.arbitr.ru",
+      "type": "official (federal arbitrazh/commercial courts)",
+      "coverage": "All commercial-court cases — trial, appellate, cassation — with events, decisions",
+      "access": "Undocumented POST endpoints used by frontend; Cloudflare + CAPTCHA; commercial parsers exist; no official public API",
+      "format": "HTML, PDF, JSON (undocumented)",
+      "license": "Public domain (statute); ToS on automated access unclear",
+      "recommended_for": ["RUSSIA", "CASE_LAW"]
+    },
+    {
+      "name": "sudrf.ru / GAS Pravosudie",
+      "url": "https://sudrf.ru (https://bsr.sudrf.ru)",
+      "type": "official (federal general-jurisdiction courts)",
+      "coverage": "Regional + district courts (criminal, civil, administrative)",
+      "access": "Free web; no API; often rate-limited",
+      "format": "HTML + PDF",
+      "license": "Public domain",
+      "recommended_for": ["RUSSIA", "CASE_LAW"]
+    }
+  ]
+}

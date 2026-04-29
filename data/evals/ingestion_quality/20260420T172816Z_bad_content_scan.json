@@ -1,0 +1,152 @@
+{
+  "created_at": "2026-04-20T17:28:16.514873+00:00",
+  "applied": false,
+  "total_matched": 0,
+  "total_deleted": 0,
+  "collections": [
+    {
+      "collection": "INTL_TREATIES",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "NATIONAL_IN",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "NATIONAL_US",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "NATIONAL_UK",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "NATIONAL_EU",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "NATIONAL_RU",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "NATIONAL_IL",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "CASE_LAW",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "SHAW_PRIVATE",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "COMMENTARY",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "CASE_LAW_GLOBAL",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "CASE_LAW_US",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "CASE_LAW_IN",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "CASE_LAW_EU",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "CASE_LAW_UK",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "CASE_LAW_RU",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "CASE_LAW_IL",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "STATUTES_US",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "STATUTES_IN",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "STATUTES_EU",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "STATUTES_UK",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "STATUTES_RU",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "STATUTES_IL",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    },
+    {
+      "collection": "COMMENTARY_GLOBAL",
+      "matched": 0,
+      "deleted": 0,
+      "findings": []
+    }
+  ]
+}

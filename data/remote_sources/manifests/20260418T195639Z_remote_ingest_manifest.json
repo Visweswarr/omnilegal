@@ -1,0 +1,1052 @@
+{
+  "created_at": "2026-04-18T19:56:39.598785+00:00",
+  "catalog": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\caselaws",
+  "mode": "licensed",
+  "download_requested": true,
+  "ingest_requested": false,
+  "resume": true,
+  "reset_checkpoint": false,
+  "adapter_filter": [
+    "cd_icj",
+    "courtlistener_api",
+    "govinfo_api"
+  ],
+  "budget_gb": 50.0,
+  "budget_used_bytes": 55136153,
+  "source_count": 110,
+  "catalog_chunks": 8,
+  "remote_chunks": 950,
+  "checkpoint_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\checkpoints\\ingest_checkpoint.json",
+  "checkpoint_entries_before": 65,
+  "checkpoint_entries_after": 65,
+  "skipped_from_checkpoint": 0,
+  "rehydrated_chunk_count": 0,
+  "upserted_by_collection": {},
+  "audit_summary": {
+    "total_sources": 110,
+    "fetchable": 70,
+    "metadata_only": 40,
+    "permission_required": 13,
+    "credential_required": 4,
+    "tier3_blocked": 10,
+    "collections": {
+      "NATIONAL_US": 24,
+      "NATIONAL_EU": 12,
+      "CASE_LAW": 15,
+      "NATIONAL_IN": 12,
+      "NATIONAL_RU": 11,
+      "COMMENTARY": 19,
+      "NATIONAL_IL": 9,
+      "NATIONAL_UK": 8
+    },
+    "missing_env": [
+      "CONGRESS_API_KEY",
+      "HUDOC_PERMISSION_CONFIRMED",
+      "ICC_LEGAL_TOOLS_PERMISSION_CONFIRMED",
+      "ICRC_PERMISSION_CONFIRMED",
+      "INDIAN_KANOON_API_TOKEN",
+      "ISRAEL_SUPREME_COURT_BULK_CONFIRMED",
+      "ITLOS_PERMISSION_CONFIRMED",
+      "PCA_PERMISSION_CONFIRMED",
+      "SEC_USER_AGENT",
+      "UK_FIND_CASE_LAW_LICENSE_CONFIRMED"
+    ]
+  },
+  "events": [
+    {
+      "source_id": "hugging-face-0-0-huggingface-training-benchmark-datasets-pile-of-law-pile-of-law",
+      "source_name": "pile-of-law/pile-of-law",
+      "adapter": "huggingface_stream",
+      "collection": "NATIONAL_US",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "hugging-face-0-1-huggingface-training-benchmark-datasets-joelniklaus-multi-legal-pile-commercial",
+      "source_name": "joelniklaus/Multi_Legal_Pile (+ _Commercial variant)",
+      "adapter": "huggingface_stream",
+      "collection": "NATIONAL_EU",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "hugging-face-0-2-huggingface-training-benchmark-datasets-nlpaueb-multi-eurlex-coastalcph-multi-e",
+      "source_name": "nlpaueb/multi_eurlex (coastalcph/multi_eurlex)",
+      "adapter": "huggingface_stream",
+      "collection": "NATIONAL_EU",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "hugging-face-0-3-huggingface-training-benchmark-datasets-coastalcph-lex-glue-lexglue-benchmark",
+      "source_name": "coastalcph/lex_glue (LexGLUE benchmark)",
+      "adapter": "metadata",
+      "collection": "NATIONAL_US",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "hugging-face-0-4-huggingface-training-benchmark-datasets-dennlinger-eur-lex-sum",
+      "source_name": "dennlinger/eur-lex-sum",
+      "adapter": "huggingface_stream",
+      "collection": "NATIONAL_EU",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "hugging-face-0-5-huggingface-training-benchmark-datasets-aueb-nlp-ecthr-cases-lex-glue-ecthr-a-b",
+      "source_name": "AUEB-NLP/ecthr_cases (+ lex_glue ecthr_a/b)",
+      "adapter": "metadata",
+      "collection": "CASE_LAW",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "hugging-face-0-6-huggingface-training-benchmark-datasets-casehold-casehold",
+      "source_name": "casehold/casehold",
+      "adapter": "huggingface_stream",
+      "collection": "NATIONAL_US",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "hugging-face-0-7-huggingface-training-benchmark-datasets-fiscalnote-billsum",
+      "source_name": "FiscalNote/billsum",
+      "adapter": "huggingface_stream",
+      "collection": "NATIONAL_US",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "hugging-face-0-8-huggingface-training-benchmark-datasets-free-law-caselaw-access-project-teraflo",
+      "source_name": "free-law/Caselaw_Access_Project (+ TeraflopAI, harvard-lil/cold-cases)",
+      "adapter": "huggingface_stream",
+      "collection": "NATIONAL_US",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "hugging-face-0-9-huggingface-training-benchmark-datasets-exploration-lab-il-tur-ildc-on-github",
+      "source_name": "Exploration-Lab/IL-TUR (+ ILDC on GitHub)",
+      "adapter": "huggingface_stream",
+      "collection": "NATIONAL_IN",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "hugging-face-0-10-huggingface-training-benchmark-datasets-irlspbru-ruslawod",
+      "source_name": "irlspbru/RusLawOD",
+      "adapter": "ruslawod",
+      "collection": "NATIONAL_RU",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "hugging-face-0-11-huggingface-training-benchmark-datasets-lexlms-lex-files-lexfiles",
+      "source_name": "lexlms/lex_files (LeXFiles)",
+      "adapter": "huggingface_stream",
+      "collection": "NATIONAL_US",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "hugging-face-0-12-huggingface-training-benchmark-datasets-alea-institute-kl3m-data",
+      "source_name": "alea-institute/kl3m-data-*",
+      "adapter": "huggingface_stream",
+      "collection": "NATIONAL_US",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "hugging-face-0-13-huggingface-training-benchmark-datasets-theatticusproject-cuad-qa",
+      "source_name": "theatticusproject/cuad-qa",
+      "adapter": "huggingface_stream",
+      "collection": "COMMENTARY",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "hugging-face-0-14-huggingface-training-benchmark-datasets-helsinki-nlp-un-pc-un-parallel-corpus",
+      "source_name": "Helsinki-NLP/un_pc (UN Parallel Corpus)",
+      "adapter": "huggingface_stream",
+      "collection": "COMMENTARY",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "hugging-face-0-15-huggingface-training-benchmark-datasets-knesset-corpus-goldin-et-al-2024",
+      "source_name": "Knesset Corpus (Goldin et al., 2024)",
+      "adapter": "http",
+      "collection": "NATIONAL_IL",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "international-0-0-international-bodies-international-court-of-justice-icj",
+      "source_name": "International Court of Justice (ICJ)",
+      "adapter": "cd_icj",
+      "collection": "COMMENTARY",
+      "events": [
+        {
+          "status": "resolved_url",
+          "url": "https://zenodo.org/api/records/10030647/files/CD-ICJ_2023-10-22_EN_CSV_BEST_FULL.zip/content"
+        },
+        {
+          "status": "downloaded",
+          "bytes": 25140649,
+          "sha256": "6282d5f8918fd729a53b2bb331c52c49"
+        },
+        {
+          "status": "completed",
+          "source": "CD-ICJ (Zenodo)",
+          "total_files_in_zip": 0,
+          "documents_ingested": 0,
+          "total_chunks": 0
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "international-0-1-international-bodies-international-criminal-court-icc-case-law-database",
+      "source_name": "International Criminal Court (ICC) + Case Law Database",
+      "adapter": "metadata",
+      "collection": "CASE_LAW",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "international-0-2-international-bodies-icc-legal-tools-database",
+      "source_name": "ICC Legal Tools Database",
+      "adapter": "metadata",
+      "collection": "COMMENTARY",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "international-0-3-international-bodies-un-treaty-collection",
+      "source_name": "UN Treaty Collection",
+      "adapter": "http",
+      "collection": "COMMENTARY",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "international-0-4-international-bodies-un-digital-library",
+      "source_name": "UN Digital Library",
+      "adapter": "un_digital_library",
+      "collection": "COMMENTARY",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "international-0-5-international-bodies-un-official-document-system-ods",
+      "source_name": "UN Official Document System (ODS)",
+      "adapter": "http",
+      "collection": "COMMENTARY",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "international-0-6-international-bodies-un-audiovisual-library-of-international-law",
+      "source_name": "UN Audiovisual Library of International Law",
+      "adapter": "http",
+      "collection": "COMMENTARY",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "international-0-7-international-bodies-international-law-commission",
+      "source_name": "International Law Commission",
+      "adapter": "oai_pmh",
+      "collection": "COMMENTARY",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "international-0-8-international-bodies-nato",
+      "source_name": "NATO",
+      "adapter": "http",
+      "collection": "COMMENTARY",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "international-0-9-international-bodies-nato-stanags-public-subset",
+      "source_name": "NATO STANAGs (public subset)",
+      "adapter": "http",
+      "collection": "COMMENTARY",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "international-0-10-international-bodies-wilson-center-digital-archive-incl-cwihp",
+      "source_name": "Wilson Center Digital Archive (incl. CWIHP)",
+      "adapter": "http",
+      "collection": "COMMENTARY",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "international-0-11-international-bodies-parallel-history-project-php-eth-zurich",
+      "source_name": "Parallel History Project (PHP) — ETH Zurich",
+      "adapter": "metadata",
+      "collection": "COMMENTARY",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "international-0-12-international-bodies-icrc-ihl-databases",
+      "source_name": "ICRC IHL Databases",
+      "adapter": "metadata",
+      "collection": "COMMENTARY",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "international-0-13-international-bodies-wto-dispute-settlement",
+      "source_name": "WTO Dispute Settlement",
+      "adapter": "http",
+      "collection": "CASE_LAW",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "international-0-14-international-bodies-itlos",
+      "source_name": "ITLOS",
+      "adapter": "metadata",
+      "collection": "CASE_LAW",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "international-0-15-international-bodies-permanent-court-of-arbitration-pca",
+      "source_name": "Permanent Court of Arbitration (PCA)",
+      "adapter": "metadata",
+      "collection": "CASE_LAW",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "international-0-16-international-bodies-wipo-lex",
+      "source_name": "WIPO Lex",
+      "adapter": "http",
+      "collection": "COMMENTARY",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "international-0-17-international-bodies-inter-american-court-of-human-rights-iacthr",
+      "source_name": "Inter-American Court of Human Rights (IACtHR)",
+      "adapter": "http",
+      "collection": "CASE_LAW",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "international-0-18-international-bodies-african-court-on-human-and-peoples-rights",
+      "source_name": "African Court on Human and Peoples' Rights",
+      "adapter": "http",
+      "collection": "CASE_LAW",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "international-0-19-international-bodies-icsid",
+      "source_name": "ICSID",
+      "adapter": "http",
+      "collection": "CASE_LAW",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "international-0-20-international-bodies-unctad-isds-navigator",
+      "source_name": "UNCTAD ISDS Navigator",
+      "adapter": "http",
+      "collection": "CASE_LAW",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "international-0-21-international-bodies-jusmundi",
+      "source_name": "JusMundi",
+      "adapter": "metadata",
+      "collection": "COMMENTARY",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "international-0-22-international-bodies-max-planck-encyclopedias-of-international-law-mpepil-mpe",
+      "source_name": "Max Planck Encyclopedias of International Law (MPEPIL/MPEiPro)",
+      "adapter": "http",
+      "collection": "COMMENTARY",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "international-0-23-international-bodies-icty-ictr-irmct",
+      "source_name": "ICTY / ICTR / IRMCT",
+      "adapter": "http",
+      "collection": "CASE_LAW",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "mix-0-0-us-courtlistener-free-law-project",
+      "source_name": "CourtListener (Free Law Project)",
+      "adapter": "courtlistener_api",
+      "collection": "NATIONAL_US",
+      "events": [
+        {
+          "query": "international law",
+          "status": "fetched",
+          "results_in_page": 20,
+          "opinions_fetched": 3,
+          "total_so_far": 3
+        },
+        {
+          "status": "completed",
+          "source": "CourtListener",
+          "total_opinions": 3,
+          "total_chunks": 16
+        }
+      ],
+      "chunks": 16
+    },
+    {
+      "source_id": "mix-0-1-us-govinfo-gpo",
+      "source_name": "GovInfo (GPO)",
+      "adapter": "federal_register_api",
+      "collection": "NATIONAL_US",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "mix-0-2-us-office-of-law-revision-counsel-u-s-code",
+      "source_name": "Office of Law Revision Counsel (U.S. Code)",
+      "adapter": "metadata",
+      "collection": "NATIONAL_US",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "mix-0-3-us-gpo-bulk-data-ecfr-cfr",
+      "source_name": "GPO Bulk Data (eCFR/CFR)",
+      "adapter": "ecfr_api",
+      "collection": "NATIONAL_US",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "mix-1-0-uk-national-archives-find-case-law-api",
+      "source_name": "National Archives Find Case Law API",
+      "adapter": "metadata",
+      "collection": "NATIONAL_UK",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "mix-1-1-uk-legislation-gov-uk-api",
+      "source_name": "Legislation.gov.uk API",
+      "adapter": "uk_legislation_api",
+      "collection": "NATIONAL_UK",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "mix-1-2-uk-bailii-british-irish-legal-information-institute",
+      "source_name": "BAILII (British & Irish Legal Information Institute)",
+      "adapter": "metadata",
+      "collection": "CASE_LAW",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "mix-2-0-eu-eur-lex-eu-cellar-api",
+      "source_name": "EUR-Lex / EU Cellar API",
+      "adapter": "eurlex_cellar",
+      "collection": "NATIONAL_EU",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "mix-2-1-eu-curia-cjeu-case-law-database",
+      "source_name": "Curia (CJEU case-law database)",
+      "adapter": "metadata",
+      "collection": "CASE_LAW",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "mix-2-2-eu-eu-open-data-portal-data-europa-eu",
+      "source_name": "EU Open Data Portal (data.europa.eu)",
+      "adapter": "metadata",
+      "collection": "NATIONAL_EU",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "mix-3-0-in-aws-open-data-indian-supreme-court-judgments",
+      "source_name": "AWS Open Data – Indian Supreme Court Judgments",
+      "adapter": "india_aws_sc",
+      "collection": "NATIONAL_IN",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "mix-3-1-in-india-code-legislative-repository",
+      "source_name": "India Code (legislative repository)",
+      "adapter": "metadata",
+      "collection": "NATIONAL_IN",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "mix-3-2-in-e-gazette-of-india",
+      "source_name": "E-Gazette of India",
+      "adapter": "metadata",
+      "collection": "NATIONAL_IN",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "mix-4-0-russia-official-legal-information-portal-pravo-gov-ru",
+      "source_name": "Official Legal Information Portal (pravo.gov.ru)",
+      "adapter": "metadata",
+      "collection": "NATIONAL_RU",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "mix-4-1-russia-supreme-court-of-the-russian-federation",
+      "source_name": "Supreme Court of the Russian Federation",
+      "adapter": "metadata",
+      "collection": "NATIONAL_RU",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "mix-4-2-russia-constitutional-court-of-the-russian-federation",
+      "source_name": "Constitutional Court of the Russian Federation",
+      "adapter": "metadata",
+      "collection": "NATIONAL_RU",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "mix-5-0-israel-supreme-court-of-israel-court-gov-il",
+      "source_name": "Supreme Court of Israel (court.gov.il)",
+      "adapter": "metadata",
+      "collection": "NATIONAL_IL",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "mix-5-1-israel-israeli-supreme-court-database-iscd",
+      "source_name": "Israeli Supreme Court Database (ISCD)",
+      "adapter": "metadata",
+      "collection": "NATIONAL_IL",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "mix-6-0-international-international-court-of-justice-icj",
+      "source_name": "International Court of Justice (ICJ)",
+      "adapter": "metadata",
+      "collection": "CASE_LAW",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "mix-6-1-international-cd-icj-corpus-of-decisions-icj",
+      "source_name": "CD-ICJ (Corpus of Decisions: ICJ)",
+      "adapter": "cd_icj",
+      "collection": "CASE_LAW",
+      "events": [
+        {
+          "status": "resolved_url",
+          "url": "https://zenodo.org/api/records/10030647/files/CD-ICJ_2023-10-22_EN_CSV_BEST_FULL.zip/content"
+        },
+        {
+          "status": "downloaded",
+          "bytes": 25140649,
+          "sha256": "6282d5f8918fd729a53b2bb331c52c49"
+        },
+        {
+          "status": "completed",
+          "source": "CD-ICJ (Zenodo)",
+          "total_files_in_zip": 0,
+          "documents_ingested": 0,
+          "total_chunks": 0
+        }
+      ],
+      "chunks": 0
+    },
+    {
+      "source_id": "mix-6-2-international-un-treaty-collection",
+      "source_name": "UN Treaty Collection",
+      "adapter": "metadata",
+      "collection": "COMMENTARY",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "mix-6-3-international-avalon-project-yale-law-school",
+      "source_name": "Avalon Project (Yale Law School)",
+      "adapter": "metadata",
+      "collection": "COMMENTARY",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-eu-0-0-european-union-eur-lex-cellar",
+      "source_name": "EUR-Lex + CELLAR",
+      "adapter": "eurlex_cellar",
+      "collection": "NATIONAL_EU",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-eu-0-1-european-union-curia-court-of-justice-of-the-eu",
+      "source_name": "CURIA (Court of Justice of the EU)",
+      "adapter": "eurlex_cellar",
+      "collection": "NATIONAL_EU",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-eu-0-2-european-union-hudoc-european-court-of-human-rights",
+      "source_name": "HUDOC (European Court of Human Rights)",
+      "adapter": "metadata",
+      "collection": "CASE_LAW",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-eu-0-3-european-union-official-journal-of-the-eu",
+      "source_name": "Official Journal of the EU",
+      "adapter": "eurlex_cellar",
+      "collection": "NATIONAL_EU",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-eu-0-4-european-union-edpb-european-data-protection-board",
+      "source_name": "EDPB (European Data Protection Board)",
+      "adapter": "http",
+      "collection": "NATIONAL_EU",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-eu-0-5-european-union-european-parliament-open-data-portal",
+      "source_name": "European Parliament Open Data Portal",
+      "adapter": "http",
+      "collection": "NATIONAL_EU",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-eu-0-6-european-union-n-lex",
+      "source_name": "N-Lex",
+      "adapter": "metadata",
+      "collection": "NATIONAL_EU",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-eu-0-7-european-union-eli-european-legislation-identifier-framework",
+      "source_name": "ELI (European Legislation Identifier) framework",
+      "adapter": "eurlex_cellar",
+      "collection": "NATIONAL_EU",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-in-0-0-india-indian-kanoon",
+      "source_name": "Indian Kanoon",
+      "adapter": "http",
+      "collection": "NATIONAL_IN",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-in-0-1-india-supreme-court-of-india-e-scr",
+      "source_name": "Supreme Court of India + e-SCR",
+      "adapter": "http",
+      "collection": "NATIONAL_IN",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-in-0-2-india-india-code",
+      "source_name": "India Code",
+      "adapter": "oai_pmh",
+      "collection": "NATIONAL_IN",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-in-0-3-india-ecourts-district-hc-aggregation",
+      "source_name": "eCourts (district + HC aggregation)",
+      "adapter": "metadata",
+      "collection": "NATIONAL_IN",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-in-0-4-india-prs-india",
+      "source_name": "PRS India",
+      "adapter": "http",
+      "collection": "NATIONAL_IN",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-in-0-5-india-high-court-websites-delhi-bombay-kerala-etc",
+      "source_name": "High Court websites (Delhi, Bombay, Kerala, etc.)",
+      "adapter": "metadata",
+      "collection": "NATIONAL_IN",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-in-0-6-india-legislative-department-ministry-of-law-justice",
+      "source_name": "Legislative Department (Ministry of Law & Justice)",
+      "adapter": "http",
+      "collection": "NATIONAL_IN",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-in-0-7-india-gazette-of-india",
+      "source_name": "Gazette of India",
+      "adapter": "http",
+      "collection": "NATIONAL_IN",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-israel-0-0-israel-israel-supreme-court",
+      "source_name": "Israel Supreme Court",
+      "adapter": "metadata",
+      "collection": "NATIONAL_IL",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-israel-0-1-israel-knesset-open-knesset",
+      "source_name": "Knesset + Open Knesset",
+      "adapter": "http",
+      "collection": "NATIONAL_IL",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-israel-0-2-israel-reshumot-official-gazette",
+      "source_name": "Reshumot (Official Gazette)",
+      "adapter": "http",
+      "collection": "NATIONAL_IL",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-israel-0-3-israel-ministry-of-justice",
+      "source_name": "Ministry of Justice",
+      "adapter": "http",
+      "collection": "NATIONAL_IL",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-israel-0-4-israel-versa-cardozo-israeli-supreme-court-project",
+      "source_name": "Versa (Cardozo Israeli Supreme Court Project)",
+      "adapter": "israel_versa",
+      "collection": "NATIONAL_IL",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-israel-0-5-israel-data-gov-il",
+      "source_name": "data.gov.il",
+      "adapter": "ckan_api",
+      "collection": "NATIONAL_IL",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-russia-0-0-russia-ruslawod-academic-corpus",
+      "source_name": "RusLawOD (academic corpus)",
+      "adapter": "ruslawod",
+      "collection": "NATIONAL_RU",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-russia-0-1-russia-pravo-gov-ru-publication-pravo-gov-ru",
+      "source_name": "pravo.gov.ru / publication.pravo.gov.ru",
+      "adapter": "http",
+      "collection": "NATIONAL_RU",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-russia-0-2-russia-supreme-court-of-russia",
+      "source_name": "Supreme Court of Russia",
+      "adapter": "http",
+      "collection": "NATIONAL_RU",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-russia-0-3-russia-constitutional-court-of-russia",
+      "source_name": "Constitutional Court of Russia",
+      "adapter": "http",
+      "collection": "NATIONAL_RU",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-russia-0-4-russia-sudact-ru",
+      "source_name": "sudact.ru",
+      "adapter": "http",
+      "collection": "NATIONAL_RU",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-russia-0-5-russia-kad-arbitr-ru-ras-arbitr-ru",
+      "source_name": "kad.arbitr.ru / ras.arbitr.ru",
+      "adapter": "metadata",
+      "collection": "NATIONAL_RU",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-russia-0-6-russia-sudrf-ru-gas-pravosudie",
+      "source_name": "sudrf.ru / GAS Pravosudie",
+      "adapter": "http",
+      "collection": "NATIONAL_RU",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-uk-0-0-united-kingdom-legislation-gov-uk",
+      "source_name": "legislation.gov.uk",
+      "adapter": "uk_legislation_api",
+      "collection": "NATIONAL_UK",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-uk-0-1-united-kingdom-find-case-law-the-national-archives",
+      "source_name": "Find Case Law (The National Archives)",
+      "adapter": "metadata",
+      "collection": "NATIONAL_UK",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-uk-0-2-united-kingdom-bailii",
+      "source_name": "BAILII",
+      "adapter": "metadata",
+      "collection": "NATIONAL_UK",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-uk-0-3-united-kingdom-uk-supreme-court",
+      "source_name": "UK Supreme Court",
+      "adapter": "metadata",
+      "collection": "NATIONAL_UK",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-uk-0-4-united-kingdom-judiciary-uk",
+      "source_name": "Judiciary.uk",
+      "adapter": "metadata",
+      "collection": "NATIONAL_UK",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-uk-0-5-united-kingdom-uk-parliament-apis-hansard-bills",
+      "source_name": "UK Parliament APIs (Hansard, Bills)",
+      "adapter": "http",
+      "collection": "NATIONAL_UK",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-us-0-0-united-states-courtlistener-free-law-project",
+      "source_name": "CourtListener (Free Law Project)",
+      "adapter": "courtlistener_api",
+      "collection": "NATIONAL_US",
+      "events": [
+        {
+          "query": "international law",
+          "status": "fetched",
+          "results_in_page": 20,
+          "opinions_fetched": 3,
+          "total_so_far": 3
+        },
+        {
+          "status": "completed",
+          "source": "CourtListener",
+          "total_opinions": 3,
+          "total_chunks": 16
+        }
+      ],
+      "chunks": 16
+    },
+    {
+      "source_id": "national-us-0-1-united-states-recap-archive",
+      "source_name": "RECAP Archive",
+      "adapter": "courtlistener_api",
+      "collection": "NATIONAL_US",
+      "events": [
+        {
+          "query": "international law",
+          "status": "fetched",
+          "results_in_page": 20,
+          "opinions_fetched": 3,
+          "total_so_far": 3
+        },
+        {
+          "status": "completed",
+          "source": "CourtListener",
+          "total_opinions": 3,
+          "total_chunks": 16
+        }
+      ],
+      "chunks": 16
+    },
+    {
+      "source_id": "national-us-0-2-united-states-pacer",
+      "source_name": "PACER",
+      "adapter": "metadata",
+      "collection": "NATIONAL_US",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-us-0-3-united-states-supreme-court-of-the-united-states",
+      "source_name": "Supreme Court of the United States",
+      "adapter": "govinfo_api",
+      "collection": "NATIONAL_US",
+      "events": [
+        {
+          "collection": "USCOURTS",
+          "status": "completed",
+          "packages_available": 20,
+          "items_ingested": 0,
+          "chunks": 0
+        },
+        {
+          "collection": "PLAW",
+          "status": "completed",
+          "packages_available": 20,
+          "items_ingested": 3,
+          "chunks": 867
+        },
+        {
+          "collection": "BILLS",
+          "status": "completed",
+          "packages_available": 20,
+          "items_ingested": 3,
+          "chunks": 19
+        },
+        {
+          "status": "completed",
+          "source": "GovInfo",
+          "total_chunks": 886
+        }
+      ],
+      "chunks": 886
+    },
+    {
+      "source_id": "national-us-0-4-united-states-caselaw-access-project-harvard-lil",
+      "source_name": "Caselaw Access Project (Harvard LIL)",
+      "adapter": "courtlistener_api",
+      "collection": "NATIONAL_US",
+      "events": [
+        {
+          "query": "international law",
+          "status": "fetched",
+          "results_in_page": 20,
+          "opinions_fetched": 3,
+          "total_so_far": 3
+        },
+        {
+          "status": "completed",
+          "source": "CourtListener",
+          "total_opinions": 3,
+          "total_chunks": 16
+        }
+      ],
+      "chunks": 16
+    },
+    {
+      "source_id": "national-us-0-5-united-states-cornell-legal-information-institute-lii",
+      "source_name": "Cornell Legal Information Institute (LII)",
+      "adapter": "http",
+      "collection": "NATIONAL_US",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-us-0-6-united-states-govinfo-gpo",
+      "source_name": "GovInfo (GPO)",
+      "adapter": "ecfr_api",
+      "collection": "NATIONAL_US",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-us-0-7-united-states-ecfr",
+      "source_name": "eCFR",
+      "adapter": "ecfr_api",
+      "collection": "NATIONAL_US",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-us-0-8-united-states-federal-register-2-0",
+      "source_name": "Federal Register 2.0",
+      "adapter": "federal_register_api",
+      "collection": "NATIONAL_US",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-us-0-9-united-states-congress-gov-api",
+      "source_name": "Congress.gov API",
+      "status": "credential_required",
+      "reason": "Credential or required API identity is missing."
+    },
+    {
+      "source_id": "national-us-0-10-united-states-sec-edgar",
+      "source_name": "SEC EDGAR",
+      "adapter": "sec_api",
+      "collection": "NATIONAL_US",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-us-0-11-united-states-justia",
+      "source_name": "Justia",
+      "adapter": "metadata",
+      "collection": "NATIONAL_US",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    },
+    {
+      "source_id": "national-us-0-12-united-states-law-library-of-congress-congress-gov-treaty-documents",
+      "source_name": "Law Library of Congress / Congress.gov Treaty Documents",
+      "adapter": "congress_api",
+      "collection": "NATIONAL_US",
+      "status": "phase_skipped",
+      "reason": "adapter outside requested ingestion phase"
+    }
+  ]
+}

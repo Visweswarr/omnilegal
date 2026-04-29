@@ -1,0 +1,245 @@
+{
+  "jurisdiction": "International bodies",
+  "sources": [
+    {
+      "name": "International Court of Justice (ICJ)",
+      "url": "https://www.icj-cij.org",
+      "type": "official (primary UN judicial organ)",
+      "coverage": "All ICJ judgments, advisory opinions, orders, pleadings since 1946 + predecessor PCIJ 1922–1946 (~180 cases)",
+      "access": "No API; scraping. THIRD-PARTY BULK: 'Corpus of Decisions: ICJ' (CD-ICJ) by Fobbe on Zenodo (DOI 10.5281/zenodo.3826444) — ~2,215 EN / 2,197 FR docs, PDF+TXT+CSV, OCR-enhanced, biannual updates, openly licensed. RECOMMENDED.",
+      "format": "PDF (older scanned); CD-ICJ provides cleaned text",
+      "license": "ICJ docs are UN public-domain-type; bulk redistribution from ICJ site uncertain — verify",
+      "recommended_for": ["CASE_LAW", "COMMENTARY"]
+    },
+    {
+      "name": "International Criminal Court (ICC) + Case Law Database",
+      "url": "https://www.icc-cpi.int; https://www.legal-tools.org/cld",
+      "type": "official",
+      "coverage": "All ICC judgments/decisions since 2004; 6,000+ extracted legal findings in CLD (launched March 2021)",
+      "access": "JavaScript SPA; no public API; headless-browser scraping",
+      "format": "PDF (judgments), HTML/JSON (CLD via SPA)",
+      "license": "Public; reuse with attribution — verify bulk terms",
+      "recommended_for": ["CASE_LAW"]
+    },
+    {
+      "name": "ICC Legal Tools Database",
+      "url": "https://www.legal-tools.org",
+      "type": "collaborative (ICC OTP + CILRAP)",
+      "coverage": "145,000+ documents in 9 collections: ICC materials, ICL treaties, other ICT/ICC-like courts, national implementing legislation, scholarly commentary, HR law decisions, UN war-crimes materials",
+      "access": "JavaScript SPA; contact CILRAP for bulk",
+      "format": "Mostly PDF",
+      "license": "Open-access philosophy; per-doc copyrights vary",
+      "recommended_for": ["CASE_LAW", "COMMENTARY"]
+    },
+    {
+      "name": "UN Treaty Collection",
+      "url": "https://treaties.un.org",
+      "type": "official (UN treaty depositary)",
+      "coverage": "~560+ multilateral treaties; full UNTS (~30k since 1946); LNTS (1920–1944); MTDSG status",
+      "access": "Search UI only; no API; no bulk downloads officially",
+      "format": "PDF (treaties), HTML (status)",
+      "license": "Individual treaty texts public-domain; DB itself proprietary per shop.un.org — bulk reuse requires permission",
+      "recommended_for": ["CASE_LAW (peripheral — treaty-sourcing)", "COMMENTARY"]
+    },
+    {
+      "name": "UN Digital Library",
+      "url": "https://digitallibrary.un.org",
+      "type": "official (Invenio repository)",
+      "coverage": "Bibliographic records since 1979; full-text UN documents; resolutions, voting data",
+      "access": "OAI-PMH at /oai2d (Dublin Core) — TRUE BULK METADATA ENDPOINT; search-URL scripting also viable",
+      "format": "PDF full text; XML/DC metadata",
+      "license": "UN docs reusable with attribution; bulk harvesting via OAI-PMH explicitly supported",
+      "recommended_for": ["COMMENTARY", "CASE_LAW (embedded court docs)"]
+    },
+    {
+      "name": "UN Official Document System (ODS)",
+      "url": "https://documents.un.org; https://docs.un.org",
+      "type": "official",
+      "coverage": "Full text of all UN official docs since 1993; GA/SC/ECOSOC/Trusteeship resolutions since 1946; 6 UN languages",
+      "access": "No API; UNDOCS/EZ-Link deep-link by symbol (docs.un.org/{symbol})",
+      "format": "PDF, Word",
+      "license": "Public UN docs; reuse with attribution",
+      "recommended_for": ["COMMENTARY"]
+    },
+    {
+      "name": "UN Audiovisual Library of International Law",
+      "url": "https://legal.un.org/avl/",
+      "type": "official (UN OLA)",
+      "coverage": "Historic Archives (treaty negotiation records), Lecture Series (240+ scholars), Research Library",
+      "access": "Scraping; podcast feed; no API",
+      "format": "HTML, MP4/MP3, PDF",
+      "license": "'© United Nations — All Rights Reserved' — stricter than ordinary UN material; reuse constrained",
+      "recommended_for": ["COMMENTARY"]
+    },
+    {
+      "name": "International Law Commission",
+      "url": "https://legal.un.org/ilc/",
+      "type": "official",
+      "coverage": "Annual reports (A/xx/10 since 1949); draft articles + commentaries (State Responsibility, Law of Treaties, Jus Cogens, etc.); special rapporteur reports; yearbooks",
+      "access": "Direct PDFs; also indexed in ODS + UNDL OAI-PMH",
+      "format": "PDF, HTML",
+      "license": "UN public docs; reuse with attribution",
+      "recommended_for": ["COMMENTARY"]
+    },
+    {
+      "name": "NATO",
+      "url": "https://www.nato.int; https://archives.nato.int",
+      "type": "intergovernmental",
+      "coverage": "NAT treaty + protocols; PfP docs; all ministerial communiqués since 1949; NATO Archives Online (105,000+ declassified docs); NATOTerm",
+      "access": "Scraping; Archives Online search UI — no API",
+      "format": "PDF (EN/FR)",
+      "license": "NATO docs reusable for informational purposes; no CC; verify reuse",
+      "recommended_for": ["CASE_LAW (treaty texts)", "COMMENTARY"]
+    },
+    {
+      "name": "NATO STANAGs (public subset)",
+      "url": "https://nso.nato.int",
+      "type": "official (highly restricted)",
+      "coverage": "Public index contains ONLY non-classified releasable-to-public STANAGs; most are NATO CLASSIFIED",
+      "access": "Public DB only; do NOT attempt classified material",
+      "format": "PDF",
+      "license": "NATO copyright",
+      "recommended_for": ["COMMENTARY (minimal)"]
+    },
+    {
+      "name": "Wilson Center Digital Archive (incl. CWIHP)",
+      "url": "https://digitalarchive.wilsoncenter.org",
+      "type": "academic declassified archive",
+      "coverage": "Warsaw Pact docs (1955–1988) from Russian/Bulgarian/Romanian/Polish archives; Soviet military exercises; diplomatic cables; many with English translations",
+      "access": "Search UI; registered on re3data.org; no documented public API/bulk; scraping possible",
+      "format": "HTML + attached PDF scans",
+      "license": "Reuse welcomed for research/education; some docs have rights-holder copyrights; commercial reuse needs permission",
+      "recommended_for": ["COMMENTARY"]
+    },
+    {
+      "name": "Parallel History Project (PHP) — ETH Zurich",
+      "url": "http://www.php.isn.ethz.ch",
+      "type": "academic (former)",
+      "coverage": "Formerly: Parallel History Project on NATO and Warsaw Pact, extensive Cold War military docs",
+      "access": "EFFECTIVELY DEFUNCT — server returns 'not available' notice; some content via Wayback Machine or migrated to Wilson Center",
+      "format": "N/A (archive only)",
+      "license": "N/A",
+      "recommended_for": ["COMMENTARY (archival only)"]
+    },
+    {
+      "name": "ICRC IHL Databases",
+      "url": "https://ihl-databases.icrc.org",
+      "type": "official (ICRC)",
+      "coverage": "(1) IHL Treaties + Commentaries (Geneva Conventions, APs, all IHL instruments, updated commentaries); (2) Customary IHL Study (Henckaerts & Doswald-Beck); (3) National Implementation",
+      "access": "JavaScript SPA; no documented API; headless-browser scraping required",
+      "format": "HTML, PDF",
+      "license": "ICRC copyright; citation with attribution permitted; bulk/commercial reuse requires ICRC permission",
+      "recommended_for": ["CASE_LAW (treaties)", "COMMENTARY"]
+    },
+    {
+      "name": "WTO Dispute Settlement",
+      "url": "https://www.wto.org/english/tratop_e/dispu_e/",
+      "type": "official",
+      "coverage": "All WTO disputes since 1995 (DS1+); 631+ requests, 350+ rulings by end-2024; Analytical Index; AB Repertory",
+      "access": "Search UI on wto.org; no public API. Curated 1995–2016 dataset from EUI (Johannesson & Mavroidis) at globalgovernanceprogramme.eui.eu/wto-case-law-project",
+      "format": "Word (.doc), PDF",
+      "license": "WTO Secretariat materials; reuse with attribution for informational purposes",
+      "recommended_for": ["CASE_LAW"]
+    },
+    {
+      "name": "ITLOS",
+      "url": "https://www.itlos.org",
+      "type": "official",
+      "coverage": "All ITLOS cases + advisory opinions since 1997",
+      "access": "Scraping only; /en/main/cases/list-of-cases/case-no-N/",
+      "format": "PDF",
+      "license": "RESTRICTIVE — explicit non-commercial clause; redistribution/translation requires Registrar's written permission",
+      "recommended_for": ["CASE_LAW"]
+    },
+    {
+      "name": "Permanent Court of Arbitration (PCA)",
+      "url": "https://pca-cpa.org; https://pcacases.com",
+      "type": "intergovernmental arbitration",
+      "coverage": "Inter-state, investor-State, commercial, maritime/boundary cases; cases public only with party consent",
+      "access": "Scraping; no API",
+      "format": "PDF",
+      "license": "PCA © 2026 all rights reserved — reuse by permission",
+      "recommended_for": ["CASE_LAW"]
+    },
+    {
+      "name": "WIPO Lex",
+      "url": "https://www.wipo.int/wipolex",
+      "type": "official (WIPO)",
+      "coverage": "50,000+ documents from 200 jurisdictions; IP laws, treaties, IP judgments from 18+ states; 6 UN languages",
+      "access": "Search UI; WIPO API Catalog for IP launched Sep 2024 at wipo.int/en/web/standards/ip-api-catalog — dedicated WIPO Lex bulk API uncertain — verify",
+      "format": "PDF, HTML",
+      "license": "CC BY 3.0 IGO for many WIPO works; national laws are state works",
+      "recommended_for": ["CASE_LAW", "COMMENTARY"]
+    },
+    {
+      "name": "Inter-American Court of Human Rights (IACtHR)",
+      "url": "https://www.corteidh.or.cr",
+      "type": "official (OAS)",
+      "coverage": "All merits/reparations judgments, provisional measures, advisory opinions, compliance orders",
+      "access": "Official site has cookies/security wall; no API. Third-party: SUMMA (summa.cejil.org) by CEJIL/HURIDOCS — free, 3 langs; Loyola Law School IACHR Project (iachr.lls.edu, 273+ summaries).",
+      "format": "PDF (mostly Spanish; selective English)",
+      "license": "Official judgments public; SUMMA is open",
+      "recommended_for": ["CASE_LAW"]
+    },
+    {
+      "name": "African Court on Human and Peoples' Rights",
+      "url": "https://www.african-court.org",
+      "type": "official (AU)",
+      "coverage": "Judgments, procedural decisions, orders, provisional measures, advisory opinions since 2009",
+      "access": "Court DB (no keyword full-text); third-party IHRDA analyzer last updated 2017; scraping required",
+      "format": "PDF",
+      "license": "Public; terms not explicit — verify",
+      "recommended_for": ["CASE_LAW"]
+    },
+    {
+      "name": "ICSID",
+      "url": "https://icsid.worldbank.org",
+      "type": "official (World Bank)",
+      "coverage": "All ICSID-registered cases since 1972; ICSID/Additional Facility/UNCITRAL rules",
+      "access": "Searchable DB; no API/bulk of decisions; Caseload-Statistics semi-annual",
+      "format": "PDF",
+      "license": "Decisions public when authorized; reuse with attribution",
+      "recommended_for": ["CASE_LAW"]
+    },
+    {
+      "name": "UNCTAD ISDS Navigator",
+      "url": "https://investmentpolicy.unctad.org/investment-dispute-settlement",
+      "type": "official (UNCTAD)",
+      "coverage": "1,440 investor-State arbitration cases (as of 31 July 2025)",
+      "access": "FULL EXCEL RELEASE, free — near-ideal structured bulk",
+      "format": "XLSX",
+      "license": "Free reuse with citation",
+      "recommended_for": ["CASE_LAW (metadata/registry)"]
+    },
+    {
+      "name": "JusMundi",
+      "url": "https://jusmundi.com",
+      "type": "commercial",
+      "coverage": "Arbitration awards, treaties, Wiki Notes, CiteMap, commentary",
+      "access": "Freemium; ToS prohibit bulk; no public API",
+      "format": "PDF + structured",
+      "license": "Proprietary — EXCLUDE for open RAG",
+      "recommended_for": []
+    },
+    {
+      "name": "Max Planck Encyclopedias of International Law (MPEPIL/MPEiPro)",
+      "url": "https://opil.ouplaw.com/home/mpil",
+      "type": "academic (OUP + Max Planck)",
+      "coverage": "1,700+ peer-reviewed entries across all public international law; MPEiPro merged into MPEPIL on 1 Jan 2024",
+      "access": "Since April 2025, open-access via Subscribe-to-Open; browsable/downloadable per entry; no bulk API",
+      "format": "HTML, PDF",
+      "license": "Open-access (S2O) — verify per-entry CC variant",
+      "recommended_for": ["COMMENTARY"]
+    },
+    {
+      "name": "ICTY / ICTR / IRMCT",
+      "url": "https://www.icty.org; https://unictr.irmct.org; https://cld.irmct.org; https://ucr.irmct.org",
+      "type": "official UN tribunals + Residual Mechanism",
+      "coverage": "All public records; Case Law Database ~1,800 entries of Appeals jurisprudence; Unified Court Records (email registration required)",
+      "access": "Search UI; no API; scraping feasible",
+      "format": "PDF, HTML",
+      "license": "UN docs; reuse with attribution",
+      "recommended_for": ["CASE_LAW"]
+    }
+  ]
+}

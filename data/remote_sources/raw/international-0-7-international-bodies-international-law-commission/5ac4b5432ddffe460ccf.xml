@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="https://digitallibrary.un.org/css/oai2.xsl.v1.0" ?>
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+<responseDate>2026-04-18T15:17:48Z</responseDate><request verb="Identify">https://digitallibrary.un.org/oai2d</request><Identify>
+<repositoryName>United Nations Digital Library System</repositoryName><baseURL>https://digitallibrary.un.org/oai2d</baseURL><protocolVersion>2.0</protocolVersion><adminEmail>library-ny@un.org</adminEmail><earliestDatestamp>2017-04-08T17:20:06Z</earliestDatestamp><deletedRecord>persistent</deletedRecord><granularity>YYYY-MM-DDThh:mm:ssZ</granularity><description><oai-identifier xmlns="http://www.openarchives.org/OAI/2.0/oai-identifier"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai-identifier
+                                       http://www.openarchives.org/OAI/2.0/oai-identifier.xsd"><scheme>oai</scheme><repositoryIdentifier>digitallibrary.un.org</repositoryIdentifier><delimiter>:</delimiter><sampleIdentifier></sampleIdentifier></oai-identifier></description><description>
+<eprints xmlns="http://www.openarchives.org/OAI/1.1/eprints"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.openarchives.org/OAI/1.1/eprints
+http://www.openarchives.org/OAI/1.1/eprints.xsd">
+<content>
+<URL>https://digitallibrary.un.org</URL>
+</content>
+<metadataPolicy>
+<text>Please contact the site administrators for metadata harvesting policy.</text>
+</metadataPolicy>
+<dataPolicy>
+<text>Full content, i.e. preprints may not be harvested by robots.
+Please contact the site administrators for data harvesting policy.</text>
+</dataPolicy>
+</eprints>
+</description></Identify>
+</OAI-PMH>
+

@@ -1,0 +1,154 @@
+{
+  "created_at": "2026-04-18T18:51:58.311274+00:00",
+  "overall": "not_ready",
+  "thresholds": {
+    "ragas_faithfulness": 0.85,
+    "citation_existence": 0.95,
+    "quote_match": 0.9,
+    "unsupported_rate_max": 0.15
+  },
+  "gates": [
+    {
+      "name": "remote_checkpoint",
+      "status": "pass",
+      "checkpoint_entries": 57,
+      "checkpoint_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\checkpoints\\ingest_checkpoint.json"
+    },
+    {
+      "name": "required_collections_nonempty",
+      "status": "pass",
+      "counts": {
+        "INTL_TREATIES": 274,
+        "NATIONAL_IN": 589,
+        "NATIONAL_US": 235,
+        "NATIONAL_UK": 11,
+        "NATIONAL_EU": 1274,
+        "NATIONAL_RU": 451,
+        "NATIONAL_IL": 166,
+        "CASE_LAW": 3283,
+        "SHAW_PRIVATE": 1184,
+        "COMMENTARY": 1089
+      }
+    },
+    {
+      "name": "ragas_faithfulness",
+      "status": "fail",
+      "value": 0.0,
+      "threshold": 0.85,
+      "artifact": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\evals\\results\\20260418T135046Z_ragas.json"
+    },
+    {
+      "name": "citation_existence",
+      "status": "fail",
+      "value": null,
+      "threshold": 0.95,
+      "artifact": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\evals\\results\\20260418T131133Z_smoke.json"
+    },
+    {
+      "name": "quote_match",
+      "status": "fail",
+      "value": null,
+      "threshold": 0.9,
+      "artifact": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\evals\\results\\20260418T131133Z_smoke.json"
+    },
+    {
+      "name": "unsupported_rate",
+      "status": "pass",
+      "value": 0.0,
+      "threshold_max": 0.15,
+      "artifact": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\evals\\results\\20260418T131133Z_smoke.json"
+    },
+    {
+      "name": "legalbench_run",
+      "status": "pass",
+      "artifact": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\evals\\results\\20260418T120923Z_legalbench_rag.json"
+    },
+    {
+      "name": "translation_strategy_recorded",
+      "status": "pass",
+      "manifest": {
+        "created_at": "2026-04-18T17:37:50.039309+00:00",
+        "collections": [
+          "NATIONAL_RU",
+          "NATIONAL_IL"
+        ],
+        "provider_requested": "auto",
+        "provider_selected": null,
+        "status": "no_provider",
+        "candidate_count": 18,
+        "translated_chunks": 0,
+        "upserted": 0,
+        "policy": "original-language retrieval remains active; no ingest-time auto-translation without provider keys"
+      }
+    }
+  ],
+  "remote_status": {
+    "root": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources",
+    "latest_manifest": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\manifests\\latest_remote_ingest_manifest.json",
+    "latest_content_manifest": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\manifests\\20260418T184948Z_remote_ingest_manifest.json",
+    "latest_audit": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\manifests\\latest_source_audit.json",
+    "has_manifest": true,
+    "has_content_manifest": true,
+    "has_audit": true,
+    "checkpoint_path": "C:\\Users\\reddy\\Downloads\\NLP Legal Summarizer\\omnilegal\\data\\remote_sources\\checkpoints\\ingest_checkpoint.json",
+    "checkpoint_exists": true,
+    "checkpoint_entries": 57,
+    "last_remote_chunks": 6448,
+    "last_catalog_chunks": 110,
+    "last_upserted_by_collection": {
+      "NATIONAL_US": 209,
+      "NATIONAL_EU": 1242,
+      "CASE_LAW": 3073,
+      "NATIONAL_IN": 360,
+      "NATIONAL_RU": 442,
+      "COMMENTARY": 1065,
+      "NATIONAL_IL": 157,
+      "NATIONAL_UK": 10
+    },
+    "last_content_remote_chunks": 6448,
+    "last_content_catalog_chunks": 110,
+    "last_content_budget_used_bytes": 6722786,
+    "last_content_upserted_by_collection": {
+      "NATIONAL_US": 209,
+      "NATIONAL_EU": 1242,
+      "CASE_LAW": 3073,
+      "NATIONAL_IN": 360,
+      "NATIONAL_RU": 442,
+      "COMMENTARY": 1065,
+      "NATIONAL_IL": 157,
+      "NATIONAL_UK": 10
+    },
+    "audit_summary": {
+      "total_sources": 110,
+      "fetchable": 56,
+      "metadata_only": 54,
+      "permission_required": 13,
+      "credential_required": 17,
+      "tier3_blocked": 10,
+      "collections": {
+        "NATIONAL_US": 24,
+        "NATIONAL_EU": 12,
+        "CASE_LAW": 15,
+        "NATIONAL_IN": 12,
+        "NATIONAL_RU": 11,
+        "COMMENTARY": 19,
+        "NATIONAL_IL": 9,
+        "NATIONAL_UK": 8
+      },
+      "missing_env": [
+        "CONGRESS_API_KEY",
+        "COURTLISTENER_TOKEN",
+        "GOVINFO_API_KEY",
+        "HUDOC_PERMISSION_CONFIRMED",
+        "ICC_LEGAL_TOOLS_PERMISSION_CONFIRMED",
+        "ICRC_PERMISSION_CONFIRMED",
+        "INDIAN_KANOON_API_TOKEN",
+        "ISRAEL_SUPREME_COURT_BULK_CONFIRMED",
+        "ITLOS_PERMISSION_CONFIRMED",
+        "PCA_PERMISSION_CONFIRMED",
+        "SEC_USER_AGENT",
+        "UK_FIND_CASE_LAW_LICENSE_CONFIRMED"
+      ]
+    }
+  }
+}

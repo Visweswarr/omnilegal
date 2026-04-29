@@ -1,0 +1,25 @@
+{
+  "task": "conflict_detection",
+  "benchmark": "manual_conflict_gold",
+  "split": "smoke",
+  "generated_at": "2026-03-31T18:43:44.600125+00:00",
+  "metrics": [
+    {
+      "name": "macro_f1",
+      "value": 1.0,
+      "display_value": null,
+      "notes": null
+    }
+  ],
+  "notes": [],
+  "source_file": null,
+  "provenance": [
+    {
+      "donor_id": "lleqa",
+      "donor_label": "LLeQA",
+      "capability": "retrieval",
+      "usage_mode": "runtime",
+      "notes": "Contributes long-form QA patterns, retriever/generator separation, and retrieval metrics ideas."
+    }
+  ]
+}

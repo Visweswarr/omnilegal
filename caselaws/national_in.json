@@ -1,0 +1,85 @@
+{
+  "jurisdiction": "India",
+  "sources": [
+    {
+      "name": "Indian Kanoon",
+      "url": "https://indiankanoon.org",
+      "type": "aggregator (private, free to read)",
+      "coverage": "Supreme Court, 24 High Courts, tribunals, Law Commission, parliamentary debates; ~30M+ documents",
+      "access": "Paid API at api.indiankanoon.org (Rs 500 signup credit; reported non-commercial Rs 10,000/month free credit — uncertain — verify 2026); direct HTML scraping risky under ToS. Third-party 'kanoon.dev' exists but unofficial.",
+      "format": "HTML (web), JSON (API)",
+      "license": "Proprietary ToS on compiled corpus; underlying judgments public-domain under Indian Copyright Act §52(1)(q)",
+      "recommended_for": ["NATIONAL_IN", "CASE_LAW"]
+    },
+    {
+      "name": "Supreme Court of India + e-SCR",
+      "url": "https://main.sci.gov.in (and https://judgments.ecourts.gov.in)",
+      "type": "official",
+      "coverage": "e-SCR: reported SC judgments from 1950 (~34,000+ at Jan 2023 launch, growing);  main.sci: daily orders, cause lists, case status. Neutral citations adopted.",
+      "access": "Free web search/download; no official bulk API",
+      "format": "PDF (primary), HTML metadata",
+      "license": "Public-domain under §52(1)(q) Indian Copyright Act (government works / judgments)",
+      "recommended_for": ["NATIONAL_IN", "CASE_LAW"]
+    },
+    {
+      "name": "India Code",
+      "url": "https://www.indiacode.nic.in",
+      "type": "official (Legislative Dept, Ministry of Law & Justice; DSpace)",
+      "coverage": "All enforced central + state Acts + rules, regulations, notifications, ordinances", 
+      "access": "DSpace handle URLs; OAI-PMH may be available — uncertain — verify",
+      "format": "PDF (primary), HTML metadata",
+      "license": "Public-domain government works (no explicit open-data license)",
+      "recommended_for": ["NATIONAL_IN"]
+    },
+    {
+      "name": "eCourts (district + HC aggregation)",
+      "url": "https://ecourts.gov.in",
+      "type": "official",
+      "coverage": "District + HC case status, cause lists, orders/judgments across India;  full-text elastic search at judgments.ecourts.gov.in",
+      "access": "Free web + CAPTCHA; no documented bulk API",
+      "format": "PDF + HTML",
+      "license": "Public domain",
+      "recommended_for": ["NATIONAL_IN", "CASE_LAW"]
+    },
+    {
+      "name": "PRS India",
+      "url": "https://prsindia.org",
+      "type": "academic/NGO (non-profit)",
+      "coverage": "Bills (central + state), Acts, policy briefs, budget analyses, committee reports",
+      "access": "Free web; no formal API; CC license allows crawling",
+      "format": "HTML, PDF",
+      "license": "CC BY 4.0 (site-wide) — best-licensed Indian legal source for RAG",
+      "recommended_for": ["NATIONAL_IN", "COMMENTARY"]
+    },
+    {
+      "name": "High Court websites (Delhi, Bombay, Kerala, etc.)",
+      "url": "https://delhihighcourt.nic.in; https://bombayhighcourt.nic.in; +22 others",
+      "type": "official",
+      "coverage": "Respective HC judgments + orders; Delhi + Kerala adopted neutral citations; also aggregated in ecourts",
+      "access": "Free web, some CAPTCHA; no unified API",
+      "format": "PDF + HTML",
+      "license": "Public domain",
+      "recommended_for": ["NATIONAL_IN", "CASE_LAW"]
+    },
+    {
+      "name": "Legislative Department (Ministry of Law & Justice)",
+      "url": "https://legislative.gov.in",
+      "type": "official",
+      "coverage": "Constitution, Central Acts, gazette notifications, drafting manuals",
+      "access": "Free web",
+      "format": "PDF, HTML",
+      "license": "Public domain",
+      "recommended_for": ["NATIONAL_IN"]
+    },
+    {
+      "name": "Gazette of India",
+      "url": "https://egazette.gov.in",
+      "type": "official",
+      "coverage": "Daily official gazette — central notifications, orders, appointments, rules",
+      "access": "Free web; downloadable per issue; no bulk API",
+      "format": "PDF (older issues often scanned — OCR needed)",
+      "license": "Public domain",
+      "recommended_for": ["NATIONAL_IN"]
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "created_at": "2026-04-18T17:41:13.761626+00:00",
+  "files": [
+    {
+      "file": "C:\\Users\\reddy\\Downloads\\nlp project.pdf",
+      "status": "ok",
+      "doc_type": "project_reference",
+      "chunks": 1,
+      "extraction_method": "ocr_unavailable",
+      "ocr_status": "ocr_unavailable"
+    },
+    {
+      "file": "C:\\Users\\reddy\\Downloads\\high.pdf",
+      "status": "ok",
+      "doc_type": "source_map",
+      "chunks": 1,
+      "extraction_method": "ocr_unavailable",
+      "ocr_status": "ocr_unavailable"
+    }
+  ],
+  "chunks": 2,
+  "upserted": 2,
+  "collection": "COMMENTARY"
+}

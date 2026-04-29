@@ -1,0 +1,2 @@
+C:\Users\reddy\Downloads\NLP Legal Summarizer\omnilegal\.venv\Lib\site-packages\qdrant_client\qdrant_remote.py:288: UserWarning: Failed to obtain server version. Unable to check client-server compatibility. Set check_compatibility=False to skip version check.
+  show_warning(
