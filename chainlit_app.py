@@ -1,11 +1,15 @@
-"""OmniLegal Chainlit frontend — evidence-first pipeline.
+"""OmniLegal Chainlit UI — verification-first, 3 modes.
 
-Routes every query through the LangGraph ``compiled_graph``:
-  classify → extract_entities → source_gate → retrieve
-  → analyze_jurisdictions → synthesize → gemini_refine
-  → verify_citations → answer
+  • Legal Research — deep research with citations and interpretations.
+  • Conflict Analyzer — international vs domestic law supremacy.
+  • Tourist Safety — practical traveller rights & duties.
 
-No direct ``search_documents()`` + ``generate()`` calls.
+Every answer is produced by `pipeline_v2.run_query`, which:
+  1. Classifies mode + jurisdictions,
+  2. Retrieves from the indexed corpus with hard jurisdiction filter,
+  3. Generates a grounded answer (Groq → Gemini → OpenRouter fallback),
+  4. Verifies every citation maps to an actual retrieved source,
+  5. Flags any unsupported claims with ⚠ so the user sees what is not grounded.
 """
 from __future__ import annotations
 
@@ -14,227 +18,158 @@ import logging
 import os
 import sys
 from pathlib import Path
-from typing import Any
 
-sys.path.append(str(Path(__file__).parent))
+# Make sure /app is on sys.path so pipeline_v2 resolves
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-try:
-    from engineio.payload import Payload
+import chainlit as cl  # noqa: E402
 
-    Payload.max_decode_packets = int(os.getenv("ENGINEIO_MAX_DECODE_PACKETS", "128"))
-except Exception:
-    pass
+from pipeline_v2 import run_query  # noqa: E402
+from pipeline_v2.vector_store import collection_count  # noqa: E402
 
-import chainlit as cl
-
-from src.config import LEGAL_RESEARCH_DISCLAIMER
-from src.pipeline.graph import compiled_graph
-from src.services.production_controls import check_rate_limit, write_trace
-from src.services.ui_sanitizer import clean_answer_text
-
-logger = logging.getLogger(__name__)
-
-_PENDING_QUERY_KEY = "pending_query"
-_STYLE_PROMPT = "Choose the answer style."
-
-_WELCOME = (
-    "**OmniLegal — Evidence-First Legal Research**\n\n"
-    "Ask a legal question and choose either **SHORT** for plain-English practical meaning "
-    "or **LONG** for structured legal analysis with verified sources.\n\n"
-    "Every answer is built from retrieved evidence. If required sources are "
-    "not indexed, the system will tell you exactly what is missing.\n\n"
-    f"{LEGAL_RESEARCH_DISCLAIMER}"
+logging.basicConfig(
+    level=os.getenv("LOG_LEVEL", "INFO"),
+    format="%(asctime)s %(levelname)s %(name)s: %(message)s",
 )
+log = logging.getLogger("omnilegal.chainlit")
+
+_SK_MODE = "mode"
+_SK_STYLE = "style"
+_SK_PENDING = "pending_query"
 
 
-def _style_only_choice(text: str) -> str | None:
-    lowered = " ".join((text or "").strip().lower().split())
-    if lowered in {"short", "brief", "summary", "plain english", "layman"}:
-        return "short"
-    if lowered in {"long", "detailed", "detail", "analysis", "legal analysis"}:
-        return "long"
-    return None
+# ── Welcome ────────────────────────────────────────────────────────────────
+
+WELCOME = """# ⚖️ OmniLegal — Verification-First Legal Research
+
+Ask a legal question. Every answer is grounded in an indexed source — if the corpus cannot support a claim, the system says so instead of guessing.
+
+**Modes**
+- 🔎 **Legal Research** — case law, statutes, interpretations, attack/defence angles
+- ⚖️ **Conflict Analyzer** — international vs domestic law, which prevails and why
+- 🧳 **Tourist Safety** — your rights, your duties, what to do if something goes wrong
+
+Use the chips below to pick a mode, then type your question."""
 
 
-def _extract_inline_style(query: str) -> tuple[str, str | None]:
-    stripped = (query or "").strip()
-    lowered = stripped.lower()
-    prefixes = {
-        "short:": "short",
-        "short answer:": "short",
-        "brief:": "short",
-        "long:": "long",
-        "long answer:": "long",
-        "detailed:": "long",
-        "detailed answer:": "long",
-    }
-    for prefix, style in prefixes.items():
-        if lowered.startswith(prefix):
-            return stripped[len(prefix):].strip(), style
-    if lowered.startswith("short answer "):
-        return stripped[len("short answer "):].strip(), "short"
-    if lowered.startswith("long answer "):
-        return stripped[len("long answer "):].strip(), "long"
-    return stripped, None
+def _mode_actions() -> list[cl.Action]:
+    return [
+        cl.Action(
+            name="set_mode",
+            payload={"mode": "research"},
+            label="🔎 Legal Research",
+            description="Deep legal research with citations",
+        ),
+        cl.Action(
+            name="set_mode",
+            payload={"mode": "conflict"},
+            label="⚖️ Conflict Analyzer",
+            description="International vs domestic law supremacy",
+        ),
+        cl.Action(
+            name="set_mode",
+            payload={"mode": "tourist"},
+            label="🧳 Tourist Safety",
+            description="Travel safety law & traveller rights",
+        ),
+    ]
 
 
-async def _prompt_for_style(query: str) -> None:
-    cl.user_session.set(_PENDING_QUERY_KEY, query)
-    response = await cl.AskActionMessage(
-        content=_STYLE_PROMPT,
-        actions=[
-            cl.Action(name="set_answer_style", payload={"answer_style": "short"}, label="SHORT"),
-            cl.Action(name="set_answer_style", payload={"answer_style": "long"}, label="LONG"),
-        ],
-        timeout=300,
-        raise_on_timeout=False,
-    ).send()
-    if not response:
-        return
-    pending_query = cl.user_session.get(_PENDING_QUERY_KEY)
-    style = _style_only_choice(str((response.get("payload") or {}).get("answer_style", "")))
-    if pending_query and style:
-        cl.user_session.set(_PENDING_QUERY_KEY, None)
-        await _run_query(str(pending_query), style)
-
-
-def _extract_answer(result: dict[str, Any]) -> str:
-    """Pull the verified answer text from pipeline result."""
-    final = result.get("final") or {}
-    if isinstance(final, dict):
-        answer = final.get("answer", "")
-        if answer:
-            return str(answer)
-
-    # Fallback: try verified_draft, then draft
-    for key in ("verified_draft", "draft"):
-        text = result.get(key, "")
-        if text and str(text).strip():
-            return str(text)
-
-    return ""
-
-
-def _extract_error(result: dict[str, Any]) -> str | None:
-    """Extract the first pipeline error or missing-source message."""
-    errors = result.get("pipeline_errors") or []
-    if errors:
-        return str(errors[0])
-    source_avail = result.get("source_availability") or {}
-    missing = source_avail.get("missing") or []
-    if missing:
-        lines = ["Required sources are not indexed:"]
-        lines.extend(f"  • {m}" for m in missing)
-        return "\n".join(lines)
-    return None
-
-
-async def _run_query(query: str, answer_style: str) -> None:
-    style = "short" if answer_style == "short" else "long"
-
-    status = cl.Message(content="Running evidence-first pipeline…")
-    await status.send()
-
-    try:
-        # Build initial pipeline state
-        initial_state = {
-            "raw_input": query,
-            "answer_style": style,
-        }
-
-        # Run the full LangGraph pipeline in a thread
-        result = await asyncio.to_thread(compiled_graph.invoke, initial_state)
-
-        # Check for pipeline failures
-        error_msg = _extract_error(result)
-        if result.get("insufficient_context") and error_msg:
-            await status.remove()
-            await cl.Message(content=error_msg).send()
-            asyncio.create_task(
-                asyncio.to_thread(
-                    write_trace,
-                    "query_insufficient",
-                    {
-                        "query_length": len(query),
-                        "answer_style": style,
-                        "missing_sources": (result.get("source_availability") or {}).get("missing", []),
-                    },
-                )
-            )
-            return
-
-        # Extract and clean the answer
-        answer = _extract_answer(result)
-        if not answer.strip():
-            await status.remove()
-            await cl.Message(
-                content=(
-                    "The pipeline did not produce a verified answer for this query.\n\n"
-                    "Try including a specific country, statute, treaty, or case citation. "
-                    "If the corpus has not been ingested yet, run:\n"
-                    "```\npython scripts/seed_qdrant.py\n```"
-                )
-            ).send()
-            return
-
-        answer = clean_answer_text(answer)
-
-        # Add fallback note for unsupported jurisdictions
-        source_plan = result.get("source_plan") or {}
-        fallback_note = source_plan.get("fallback_note", "")
-        if fallback_note:
-            answer = f"> ⚠️ {fallback_note}\n\n{answer}"
-
-        await status.remove()
-        await cl.Message(content=answer).send()
-
-        asyncio.create_task(
-            asyncio.to_thread(
-                write_trace,
-                "query_completed",
-                {
-                    "query_length": len(query),
-                    "answer_style": style,
-                    "source_count": len(result.get("retrieved") or []),
-                    "grounding_status": result.get("grounding_status", ""),
-                    "insufficient_context": result.get("insufficient_context", False),
-                },
-            )
-        )
-    except Exception as exc:
-        logger.exception("RAG pipeline failed")
-        await status.remove()
-        await cl.Message(
-            content=(
-                "The evidence-first pipeline encountered an error. "
-                "Please try a narrower question with a country, statute, treaty, or case name.\n\n"
-                f"Error: {type(exc).__name__}"
-            )
-        ).send()
-        asyncio.create_task(
-            asyncio.to_thread(
-                write_trace,
-                "query_failed",
-                {"query_length": len(query), "answer_style": style, "error_type": type(exc).__name__},
-            )
-        )
+def _style_actions() -> list[cl.Action]:
+    return [
+        cl.Action(
+            name="set_style",
+            payload={"style": "short"},
+            label="⚡ SHORT",
+            description="Concise plain-English answer",
+        ),
+        cl.Action(
+            name="set_style",
+            payload={"style": "long"},
+            label="📚 LONG",
+            description="Full structured analysis",
+        ),
+    ]
 
 
 @cl.on_chat_start
 async def on_start() -> None:
-    await cl.Message(content=_WELCOME).send()
+    count = collection_count()
+    cl.user_session.set(_SK_MODE, "research")
+    cl.user_session.set(_SK_STYLE, "long")
+
+    banner = WELCOME
+    if count == 0:
+        banner += (
+            "\n\n> ⚠️ **Corpus is empty.** Seed it before asking a question:\n"
+            "> ```bash\n> python -m pipeline_v2.ingest_seed\n> ```"
+        )
+    else:
+        banner += f"\n\n> 📚 Corpus ready — **{count}** indexed passages."
+
+    await cl.Message(content=banner).send()
+    await cl.Message(
+        content="**Pick a mode to start** (you can change it any time):",
+        actions=_mode_actions(),
+    ).send()
 
 
-@cl.action_callback("set_answer_style")
-async def on_set_answer_style(action: cl.Action) -> None:
-    pending_query = cl.user_session.get(_PENDING_QUERY_KEY)
-    if not pending_query:
+@cl.action_callback("set_mode")
+async def on_set_mode(action: cl.Action) -> None:
+    mode = (action.payload or {}).get("mode", "research")
+    cl.user_session.set(_SK_MODE, mode)
+    label = {
+        "research": "🔎 Legal Research",
+        "conflict": "⚖️ Conflict Analyzer",
+        "tourist": "🧳 Tourist Safety",
+    }.get(mode, mode)
+    await cl.Message(content=f"Mode set to **{label}**. Ask your question below.").send()
+
+
+@cl.action_callback("set_style")
+async def on_set_style(action: cl.Action) -> None:
+    style = (action.payload or {}).get("style", "long")
+    cl.user_session.set(_SK_STYLE, style)
+    pending = cl.user_session.get(_SK_PENDING)
+    cl.user_session.set(_SK_PENDING, None)
+    if pending:
+        await _answer(str(pending), style)
+
+
+async def _ask_style(query: str) -> None:
+    cl.user_session.set(_SK_PENDING, query)
+    await cl.Message(
+        content="**Answer length?**", actions=_style_actions()
+    ).send()
+
+
+async def _answer(query: str, style: str) -> None:
+    mode = cl.user_session.get(_SK_MODE) or "research"
+    status = cl.Message(content=f"⏳ Running verification-first pipeline ({mode}, {style})…")
+    await status.send()
+
+    try:
+        result = await asyncio.to_thread(run_query, query, mode, style)
+    except Exception as e:  # noqa: BLE001
+        log.exception("pipeline failed")
+        await status.remove()
+        await cl.Message(
+            content=f"❌ Pipeline error: `{type(e).__name__}: {e}`"
+        ).send()
         return
-    style = _style_only_choice(str((action.payload or {}).get("answer_style", "")))
-    if not style:
-        return
-    cl.user_session.set(_PENDING_QUERY_KEY, None)
-    await _run_query(str(pending_query), style)
+
+    await status.remove()
+
+    # Header line with stats
+    provider = result.get("provider") or "n/a"
+    elapsed = result.get("elapsed_ms") or 0
+    juris = ", ".join(result.get("jurisdictions") or []) or "unspecified"
+    header = (
+        f"**Mode:** {result.get('mode')} · **Jurisdictions detected:** {juris} · "
+        f"**Provider:** `{provider}` · **Time:** {elapsed} ms"
+    )
+    await cl.Message(content=header, author="OmniLegal").send()
+    await cl.Message(content=result["answer"], author="OmniLegal").send()
 
 
 @cl.on_message
@@ -243,39 +178,27 @@ async def on_message(message: cl.Message) -> None:
     if not query:
         return
 
-    if getattr(message, "elements", None):
-        await cl.Message(
-            content=(
-                "Document uploads are not supported in the chat UI. "
-                "To add documents to the corpus, run: `python scripts/seed_qdrant.py`"
-            )
-        ).send()
-        return
+    # Inline mode/style prefixes: "research:" / "tourist:" / "conflict:"
+    prefixes = {
+        "research:": "research",
+        "conflict:": "conflict",
+        "tourist:": "tourist",
+    }
+    for prefix, mode in prefixes.items():
+        if query.lower().startswith(prefix):
+            cl.user_session.set(_SK_MODE, mode)
+            query = query[len(prefix):].strip()
+            break
 
-    pending_query = cl.user_session.get(_PENDING_QUERY_KEY)
-    style_reply = _style_only_choice(query)
-    if style_reply and pending_query:
-        cl.user_session.set(_PENDING_QUERY_KEY, None)
-        await _run_query(str(pending_query), style_reply)
-        return
-
-    query, inline_style = _extract_inline_style(query)
     if not query:
+        await cl.Message(content="Please include your question after the mode prefix.").send()
         return
 
-    user_key = (
-        getattr(message, "author", None)
-        or cl.user_session.get("id")
-        or cl.user_session.get("user")
-        or "anonymous"
-    )
-    allowed, reason = check_rate_limit(str(user_key), max_requests=30, window_seconds=3600)
-    if not allowed:
-        await cl.Message(content=reason).send()
+    style = cl.user_session.get(_SK_STYLE) or "long"
+    # First question of the session → ask style once
+    if not cl.user_session.get("style_asked"):
+        cl.user_session.set("style_asked", True)
+        await _ask_style(query)
         return
 
-    if not inline_style:
-        await _prompt_for_style(query)
-        return
-
-    await _run_query(query, inline_style)
+    await _answer(query, style)

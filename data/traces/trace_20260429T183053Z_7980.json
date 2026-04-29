@@ -1,0 +1,16 @@
+{
+  "query": "What does Miranda v Arizona require police to do?",
+  "mode": "research",
+  "jurisdictions": [],
+  "style": "short",
+  "provider": "groq/llama-3.3-70b-versatile",
+  "source_count": 8,
+  "verification": {
+    "cited": 5,
+    "uncited": 0,
+    "grounded_ratio": 1.0,
+    "invalid": [],
+    "insufficient": false
+  },
+  "elapsed_ms": 1248
+}

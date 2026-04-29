@@ -1,0 +1,18 @@
+{
+  "query": "Does an Indian court have to follow an ICJ ruling, or can domestic law override international law?",
+  "mode": "conflict",
+  "jurisdictions": [
+    "IN"
+  ],
+  "style": "short",
+  "provider": "groq/llama-3.3-70b-versatile",
+  "source_count": 8,
+  "verification": {
+    "cited": 6,
+    "uncited": 0,
+    "grounded_ratio": 1.0,
+    "invalid": [],
+    "insufficient": false
+  },
+  "elapsed_ms": 2034
+}

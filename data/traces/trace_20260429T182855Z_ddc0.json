@@ -1,0 +1,19 @@
+{
+  "query": "If I am an Indian tourist arrested in Russia for a traffic offence, what are my rights?",
+  "mode": "research",
+  "jurisdictions": [
+    "IN",
+    "RU"
+  ],
+  "style": "short",
+  "provider": "groq/llama-3.3-70b-versatile",
+  "source_count": 8,
+  "verification": {
+    "cited": 8,
+    "uncited": 1,
+    "grounded_ratio": 0.8888888888888888,
+    "invalid": [],
+    "insufficient": false
+  },
+  "elapsed_ms": 1688
+}

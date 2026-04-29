@@ -1,0 +1,16 @@
+{
+  "query": "Explain Singapore Penal Code Section 377A",
+  "mode": "research",
+  "jurisdictions": [],
+  "style": "short",
+  "provider": "groq/llama-3.3-70b-versatile",
+  "source_count": 8,
+  "verification": {
+    "cited": 0,
+    "uncited": 0,
+    "grounded_ratio": 1.0,
+    "invalid": [],
+    "insufficient": true
+  },
+  "elapsed_ms": 2081
+}
