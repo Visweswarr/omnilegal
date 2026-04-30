@@ -47,4 +47,11 @@ class PipelineStateDict(TypedDict, total=False):
     source_plan: dict[str, Any]            # required roles, target collections, missing sources
     source_availability: dict[str, Any]    # {ok: bool, missing: list[str]}
     regeneration_attempt: int              # citation retry counter (0 = first attempt)
+    # Merged pipeline additions (from pipeline_v2)
+    mode: str                              # "tourist" | "conflict" | "research"
+    jurisdictions: list[str]              # ISO codes detected (e.g. ["US", "IN"])
+    doc_types: list[str]                  # detected doc type intents
+    provider: str                          # LLM provider used for synthesis
+    grounded_ratio: float                 # fraction of cited sentences with valid [S#] tags
+    confidence_badge: str                 # visual badge: "🟢 …" | "🟡 …" | "🔴 …"
 

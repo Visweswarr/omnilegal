@@ -109,7 +109,13 @@ def should_attempt_gemini_fallback(state: PipelineStateDict) -> bool:
         return True
 
     answer = str(final.get("answer") or "").lower()
-    return "insufficient evidence" in answer or "no retrieved source passages" in answer
+    if "insufficient evidence" in answer or "no retrieved source passages" in answer:
+        return True
+    
+    if state.get("provider") == "extractive_fallback":
+        return True
+        
+    return False
 
 
 def apply_gemini_fallback(state: PipelineStateDict) -> PipelineStateDict:
@@ -134,6 +140,7 @@ def apply_gemini_fallback(state: PipelineStateDict) -> PipelineStateDict:
             **state,
             "verified_draft": answer,
             "final": final,
+            "provider": "local_practical_fallback",
             "gemini_fallback_used": True,
             "gemini_fallback_model": "local_practical_fallback",
             "gemini_fallback_cache_hit": False,
@@ -156,6 +163,7 @@ def apply_gemini_fallback(state: PipelineStateDict) -> PipelineStateDict:
         **state,
         "verified_draft": result.text,
         "final": final,
+        "provider": result.model,
         "gemini_fallback_used": True,
         "gemini_fallback_model": result.model,
         "gemini_fallback_cache_hit": result.cache_hit,

@@ -492,6 +492,19 @@ COLLECTION_PROFILES: dict[str, list[str]] = {
 INGESTION_PHASES: dict[int, list[str]] = {
     1: ["courtlistener_api", "cd_icj", "govinfo_api"],
     2: ["eurlex_cellar", "un_digital_library", "oai_pmh"],
-    3: ["uk_legislation_api", "uk_find_caselaw", "india_aws_sc", "open_data_http"],
+    3: ["uk_legislation_api", "uk_find_caselaw", "indian_kanoon_api", "india_aws_sc", "open_data_http"],
     4: ["ruslawod", "git_or_hf", "israel_versa"],
+}
+
+# Friendly aliases for the five P0 bulk-ingestion sources. Used by
+# scripts/pipeline_source.py so callers can run `--source courtlistener`
+# instead of the internal adapter label.
+SOURCE_ALIASES: dict[str, str] = {
+    "courtlistener": "courtlistener_api",
+    "govinfo": "govinfo_api",
+    "eurlex": "eurlex_cellar",
+    "uk-legislation": "uk_legislation_api",
+    "uk_legislation": "uk_legislation_api",
+    "indian-kanoon": "indian_kanoon_api",
+    "indian_kanoon": "indian_kanoon_api",
 }

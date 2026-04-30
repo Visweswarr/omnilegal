@@ -1,7 +1,4 @@
-"""
-Step 1 — Input classification.
-Cascade: regex heuristics → DeBERTa zero-shot (only when regex confidence < 0.8).
-"""
+"""Step 1 - deterministic input classification."""
 from __future__ import annotations
 
 import re
@@ -10,12 +7,8 @@ from pathlib import Path
 
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
-from src.config import OMNILEGAL_ENABLE_HEAVY_MODELS, OMNILEGAL_ENABLE_ZERO_SHOT
 from src.pipeline.state import PipelineStateDict
-from src.models.heavy_nlp import get_zero_shot_classifier
 
-
-_LABELS = ["question", "treaty", "news_claim", "statement"]
 
 _QUESTION_RE = re.compile(r"\?\s*$")
 _QUESTION_PREFIX_RE = re.compile(
@@ -42,21 +35,23 @@ def classify_input(state: PipelineStateDict) -> PipelineStateDict:
     elif _NEWS_RE.search(text):
         label, confidence = "news_claim", 0.85
 
-    if confidence < 0.8 and OMNILEGAL_ENABLE_HEAVY_MODELS and OMNILEGAL_ENABLE_ZERO_SHOT:
-        try:
-            clf = get_zero_shot_classifier(multi_label=False)
-            if clf:
-                result = clf(text[:512], candidate_labels=_LABELS)
-                label = result["labels"][0]
-                confidence = float(result["scores"][0])
-            else:
-                label, confidence = "question", 0.55
-        except Exception as exc:
-            print(f"Warning: zero-shot classifier failed: {exc}")
-            if not confidence:
-                label, confidence = "question", 0.5
-    elif confidence < 0.8:
-        # Local CPU default: avoid blocking Chainlit while large HF models download.
+    if confidence < 0.8:
         label, confidence = "question", 0.55
 
-    return {**state, "input_class": label, "input_confidence": confidence}
+    updated: PipelineStateDict = {**state, "input_class": label, "input_confidence": confidence}
+
+    # Merged: run v2's mode/jurisdiction/doc_type classifier
+    try:
+        from pipeline_v2.classifier import analyze_query
+
+        analysis = analyze_query(text)
+        updated["mode"] = analysis.mode
+        updated["jurisdictions"] = analysis.jurisdictions
+        updated["doc_types"] = analysis.doc_types
+    except Exception as exc:
+        print(f"Warning: v2 mode classifier failed: {exc}")
+        updated.setdefault("mode", "research")
+        updated.setdefault("jurisdictions", [])
+        updated.setdefault("doc_types", [])
+
+    return updated

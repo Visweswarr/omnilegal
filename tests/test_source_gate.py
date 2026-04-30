@@ -23,10 +23,8 @@ class TestSourceGateFailures:
         # Default topic has no required sources → ok
         assert avail.get("ok") is True or avail.get("missing") == []
 
-    def test_unsupported_jurisdiction_adds_fallback_note(self):
-        """When a query mentions a country outside the indexed set,
-        the gate should add a fallback note and proceed with
-        international sources."""
+    def test_unsupported_jurisdiction_fails_early(self):
+        """Unsupported local-law jurisdictions must not fall back."""
         state = {
             "raw_input": "What is the driving law in Brazil?",
             "entities": {"iso_country_codes": ["br"]},
@@ -34,7 +32,9 @@ class TestSourceGateFailures:
         result = source_gate(state)
         plan = result.get("source_plan", {})
         assert "br" in plan.get("unsupported_jurisdictions", [])
-        assert "international" in plan.get("fallback_note", "").lower()
+        assert result.get("insufficient_context") is True
+        missing = result.get("source_availability", {}).get("missing", [])
+        assert any("BR" in item or "br" in item for item in missing)
 
     def test_source_plan_has_required_roles_for_diplomatic(self):
         """Diplomatic immunity queries should populate required_roles."""

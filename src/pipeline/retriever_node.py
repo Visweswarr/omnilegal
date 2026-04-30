@@ -49,6 +49,7 @@ from src.config import (
     COLLECTION_STATUTES_RU,
     COLLECTION_STATUTES_UK,
     COLLECTION_STATUTES_US,
+    LEGAL_RESEARCH_SHORT_DISCLAIMER,
     RERANK_TOP_N,
 )
 from src.pipeline.state import PipelineStateDict
@@ -953,6 +954,7 @@ def _second_pass_case_retrieval(
     intent_primary: list[str],
     collection_weights: dict[str, float],
     query: str,
+    allowed_collections: set[str] | None = None,
 ) -> dict[str, list]:
     """For each named case run targeted sub-queries for facts/holding/reasoning."""
     from src.rag.retriever import hybrid_search
@@ -962,6 +964,8 @@ def _second_pass_case_retrieval(
         for aspect in aspects:
             sub_query = f"{case_name} {aspect}"
             for col in (*CASE_LAW_COLLECTIONS, COLLECTION_CASE_LAW, COLLECTION_SHAW_PRIVATE):
+                if allowed_collections is not None and col not in allowed_collections:
+                    continue
                 try:
                     hits = hybrid_search(sub_query, col, k=max(_TOP_K_PER_COLLECTION * 2, 6))
                     for hit in hits:
@@ -1414,6 +1418,211 @@ def _compute_retrieval_confidence(
     }
 
 
+def _role_for_passage(passage: dict[str, Any]) -> str:
+    meta = passage.get("metadata") or {}
+    role = str(meta.get("source_role") or "").lower()
+    if role:
+        return role
+    doc_type = str(meta.get("doc_type") or "").lower()
+    collection = str(meta.get("collection") or "").upper()
+    if doc_type == "treaty" or collection == COLLECTION_INTL_TREATIES:
+        return "treaty"
+    if doc_type == "case_law" or "CASE_LAW" in collection:
+        return "case_law"
+    if doc_type == "official_guidance" or collection.startswith("NATIONAL_"):
+        return "official_guidance"
+    if doc_type in {"statute", "legislation", "domestic_law"} or "STATUTES" in collection:
+        return "local_statute"
+    if doc_type == "commentary" or "COMMENTARY" in collection or collection == COLLECTION_SHAW_PRIVATE:
+        return "commentary"
+    return doc_type
+
+
+def _retrieval_sufficiency_gaps(state: PipelineStateDict, retrieved: list[dict[str, Any]]) -> list[str]:
+    source_plan = state.get("source_plan") or {}
+    required_roles = source_plan.get("required_roles") or []
+    if not required_roles:
+        return ["No retrieved source passages were available."] if not retrieved else []
+
+    roles_present = {_role_for_passage(p) for p in retrieved}
+    gaps: list[str] = []
+    for req in required_roles:
+        role = str(req.get("role") or "").lower()
+        if role and role not in roles_present:
+            gaps.append(f"Missing required source role in retrieval: {role} — {req.get('description', role)}")
+        if not any(_matches_source_requirement(p, req) for p in retrieved):
+            gaps.append(f"Missing required source in retrieval: {req.get('description', role)}")
+
+    primary_roles = {"treaty", "case_law", "local_statute", "local_case", "official_guidance"}
+    if not any(_role_for_passage(p) in primary_roles for p in retrieved):
+        gaps.append("Missing primary authority in retrieved context.")
+
+    if len(required_roles) > 1:
+        independent_sources = {
+            str((p.get("metadata") or {}).get("canonical_doc_id")
+                or (p.get("metadata") or {}).get("source_fingerprint")
+                or (p.get("metadata") or {}).get("citation")
+                or (p.get("metadata") or {}).get("source_name")
+                or p.get("text", "")[:80])
+            for p in retrieved
+        }
+        if len(independent_sources) < 2:
+            gaps.append("Missing at least two independent retrieved legal sources.")
+
+    return gaps
+
+
+def _source_plan_exact_hits(state: PipelineStateDict, retrieved: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Add exact source-pattern hits for required roles missed by vector search."""
+    source_plan = state.get("source_plan") or {}
+    required_roles = source_plan.get("required_roles") or []
+    if not required_roles:
+        return retrieved
+
+    existing_keys = {
+        str((p.get("metadata") or {}).get("canonical_doc_id")
+            or (p.get("metadata") or {}).get("source_fingerprint")
+            or (p.get("metadata") or {}).get("citation")
+            or (p.get("metadata") or {}).get("source_name")
+            or p.get("text", "")[:120])
+        for p in retrieved
+    }
+    additions: list[dict[str, Any]] = []
+    try:
+        from src.rag.vector_store import get_store
+
+        store = get_store()
+        for req in required_roles:
+            role = str(req.get("role") or "").lower()
+            if any(_matches_source_requirement(passage, req) for passage in retrieved):
+                continue
+            collection = str(req.get("collection") or "").upper()
+            pattern = str(req.get("source_pattern") or "").strip()
+            if not collection:
+                continue
+            try:
+                compiled = re.compile(pattern, re.IGNORECASE) if pattern else None
+            except re.error:
+                compiled = re.compile(re.escape(pattern), re.IGNORECASE)
+            for payload in store.load_all_documents_metadata_only([collection]):
+                haystack = " ".join(
+                    str(payload.get(key) or "")
+                    for key in (
+                        "source_name",
+                        "citation",
+                        "source_url",
+                        "doc_type",
+                        "jurisdiction",
+                        "article_number",
+                        "section",
+                        "text",
+                        "raw_text",
+                    )
+                )
+                if compiled and not compiled.search(haystack):
+                    continue
+                text = str(payload.get("raw_text") or payload.get("text") or "")
+                if not text.strip():
+                    continue
+                metadata = dict(payload)
+                metadata.pop("index_text", None)
+                metadata.setdefault("collection", collection)
+                metadata.setdefault("source_role", role)
+                key = str(
+                    metadata.get("canonical_doc_id")
+                    or metadata.get("source_fingerprint")
+                    or metadata.get("citation")
+                    or metadata.get("source_name")
+                    or text[:120]
+                )
+                if key in existing_keys:
+                    break
+                existing_keys.add(key)
+                additions.append({
+                    "text": text,
+                    "score": 1.0,
+                    "metadata": metadata,
+                    "term_overlap": 0,
+                    "phrase_matches": [],
+                    "selection_reason": f"exact required source match for {role}",
+                    "authority_tier": infer_authority_tier(metadata),
+                })
+                break
+    except Exception as exc:
+        print(f"Warning: exact source-plan retrieval failed: {exc}")
+    if not additions:
+        return retrieved
+    return _annotate_retrieved_hits(retrieved + additions)
+
+
+def _matches_source_requirement(passage: dict[str, Any], requirement: dict[str, Any]) -> bool:
+    collection = str((passage.get("metadata") or {}).get("collection") or "").upper()
+    req_collection = str(requirement.get("collection") or "").upper()
+    if req_collection and collection != req_collection:
+        return False
+    pattern = str(requirement.get("source_pattern") or "").strip()
+    if not pattern:
+        return True
+    meta = passage.get("metadata") or {}
+    haystack = " ".join(
+        str(part or "")
+        for part in [
+            meta.get("source_name"),
+            meta.get("citation"),
+            meta.get("source_url"),
+            meta.get("doc_type"),
+            meta.get("jurisdiction"),
+            meta.get("article_number"),
+            passage.get("text"),
+        ]
+    )
+    try:
+        return bool(re.search(pattern, haystack, re.IGNORECASE))
+    except re.error:
+        return pattern.lower() in haystack.lower()
+
+
+def _filter_to_source_plan_patterns(state: PipelineStateDict, retrieved: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    source_plan = state.get("source_plan") or {}
+    topics = source_plan.get("topics") or []
+    if not topics or topics == ["default"]:
+        return retrieved
+    requirements = list(source_plan.get("required_roles") or []) + list(source_plan.get("optional_roles") or [])
+    if not requirements:
+        return retrieved
+    filtered = [
+        passage for passage in retrieved
+        if any(_matches_source_requirement(passage, requirement) for requirement in requirements)
+    ]
+    return filtered or retrieved
+
+
+def _insufficient_retrieval_final(query: str, gaps: list[str], state: PipelineStateDict) -> dict[str, Any]:
+    missing_lines = "\n".join(f"- {gap}" for gap in gaps)
+    answer = (
+        "## Insufficient Verified Sources\n"
+        "I found indexed material, but it does not satisfy the required source plan for this question.\n\n"
+        f"{missing_lines}\n\n"
+        "No legal conclusion was generated.\n\n"
+        f"## Disclaimer\n{LEGAL_RESEARCH_SHORT_DISCLAIMER}"
+    )
+    return {
+        "query": query,
+        "answer": answer,
+        "citations": [],
+        "sources": state.get("retrieved", []) or [],
+        "grounding_status": "no_authority",
+        "authority_gaps": gaps,
+        "answer_style": str(state.get("answer_style") or "long"),
+        "sections": {
+            "insufficient_verified_sources": missing_lines,
+            "disclaimer": LEGAL_RESEARCH_SHORT_DISCLAIMER,
+        },
+        "retrieval_strategy": "qdrant_hybrid_rrf_rerank",
+        "insufficient_context": True,
+    }
+
+
 from typing import Any
 # MAIN RETRIEVAL ENTRY POINT
 # ══════════════════════════════════════════════════════════════════════════
@@ -1450,6 +1659,15 @@ def retrieve(state: PipelineStateDict) -> PipelineStateDict:
     # ── FIX 1: Hard filter collections ────────────────────────────────
     logical_collections = _hard_filter_collections(intent_primary, iso_codes, has_case, query_requests_cases)
     collections = _expand_collection_aliases(logical_collections)
+    source_plan = state.get("source_plan") or {}
+    source_topics = list(source_plan.get("topics") or [])
+    planned_collections = list(source_plan.get("target_collections") or [])
+    if planned_collections and source_topics and source_topics != ["default"]:
+        planned_expanded = _expand_collection_aliases([str(c).upper() for c in planned_collections])
+        planned_set = set(planned_expanded)
+        collections = [collection for collection in collections if collection in planned_set]
+        if not collections:
+            collections = planned_expanded
 
     # ── FIX 6: Pre-retrieval guard ────────────────────────────────────
     if not collections:
@@ -1472,25 +1690,12 @@ def retrieve(state: PipelineStateDict) -> PipelineStateDict:
     state["query_intent"]["priority_collections"] = collection_weights
     state["query_intent"]["hard_filtered_collections"] = collections
     state["query_intent"]["logical_collections"] = logical_collections
+    if planned_collections:
+        state["query_intent"]["source_plan_collections"] = planned_collections
     if scenario_context:
         state["query_intent"]["scenario_context"] = scenario_context
 
     local_model_hints: list[str] = []
-    if (
-        "cross_border_scenario" in intent_primary
-        or {"criminal_procedure", "traffic_offences", "immigration_and_mobility", "consular_assistance"} & set(issue_labels)
-    ):
-        try:
-            from src.services.legal_gpt2 import generate_legal_gpt2_query_hints
-
-            local_model_hints = generate_legal_gpt2_query_hints(
-                query,
-                iso_codes=iso_codes,
-                issue_labels=issue_labels,
-            )
-        except Exception as exc:
-            print(f"Warning: Legal GPT-2 query assist failed: {type(exc).__name__}: {exc}")
-    state["query_intent"]["legal_gpt2_hints"] = local_model_hints
 
     # ── FIX 2: Build safe query variants (jurisdiction-aware) ──────────
     query_variants = _build_query_variants(
@@ -1593,6 +1798,7 @@ def retrieve(state: PipelineStateDict) -> PipelineStateDict:
             intent_primary=intent_primary,
             collection_weights=collection_weights,
             query=query,
+            allowed_collections=set(collections),
         )
 
     merged = _rrf_merge(results_per_col) if results_per_col else []
@@ -1651,27 +1857,6 @@ def retrieve(state: PipelineStateDict) -> PipelineStateDict:
         for p in top_passages
     ]
 
-    # Seed fallback for named cases ONLY — NEVER for conceptual queries.
-    # This was leaking CASE_LAW results back into conceptual queries.
-    if case_names and "named_case" in intent_primary:
-        from src.rag.retriever import seed_case_search
-        case_law_count = sum(
-            1 for p in retrieved
-            if p.get("metadata", {}).get("doc_type") == "case_law"
-        )
-        if case_law_count < 3:
-            for case_name in case_names[:3]:
-                seed_hits = seed_case_search(case_name, top_k=4)
-                # Apply same anchor filter to seed hits
-                seed_hits = _annotate_retrieved_hits(seed_hits)
-                seed_hits = _filter_non_merits_hits(seed_hits, query)
-                seed_hits = _keyword_anchor_filter(seed_hits, key_terms, query_phrases, query)
-                existing_texts = {p["text"][:80] for p in retrieved}
-                for hit in seed_hits:
-                    if hit["text"][:80] not in existing_texts:
-                        retrieved.append(hit)
-                        existing_texts.add(hit["text"][:80])
-
     # ── FIX 4: Diversity enforcement for conceptual queries ───────────
     if (
         ("conceptual" in intent_primary or "jurisdiction_comparison" in intent_primary or iso_codes)
@@ -1688,6 +1873,8 @@ def retrieve(state: PipelineStateDict) -> PipelineStateDict:
     ]
     retrieved = _limit_reference_dataset_hits(retrieved)
     retrieved = _annotate_retrieved_hits(retrieved)
+    retrieved = _source_plan_exact_hits(state, retrieved)
+    retrieved = _filter_to_source_plan_patterns(state, retrieved)
 
     # ── FIX 6: Confidence scoring ─────────────────────────────────────
     confidence = _compute_retrieval_confidence(retrieved, key_terms)
@@ -1699,6 +1886,24 @@ def retrieve(state: PipelineStateDict) -> PipelineStateDict:
     authority_gaps = list(state.get("authority_gaps", []) or [])
     if _partial:
         authority_gaps.append("Retrieval deadline reached; returning partial authority coverage.")
+    sufficiency_gaps = _retrieval_sufficiency_gaps(state, retrieved)
+    if sufficiency_gaps:
+        authority_gaps.extend(sufficiency_gaps)
+        insufficient_state = {
+            **state,
+            "retrieved": retrieved,
+            "queries": queries_used,
+            "retrieval_partial": _partial,
+            "retrieval_time_ms": _elapsed_ms,
+            "authority_gaps": authority_gaps,
+            "insufficient_context": True,
+        }
+        final = _insufficient_retrieval_final(query, sufficiency_gaps, insufficient_state)
+        return {
+            **insufficient_state,
+            "verified_draft": final["answer"],
+            "final": final,
+        }
 
     return {
         **state,

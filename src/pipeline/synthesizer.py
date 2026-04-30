@@ -2,8 +2,8 @@
 Step 5 — grounded synthesis for OmniLegal Codex.
 
 This node turns retrieved passages plus jurisdiction analysis into a structured
-draft. It prefers a deterministic, gap-aware fallback and leaves final phrasing
-to the Gemini-first refiner stage.
+draft. It prefers a deterministic, gap-aware fallback when runtime LLM providers
+are unavailable.
 """
 from __future__ import annotations
 
@@ -16,7 +16,7 @@ sys.path.append(str(Path(__file__).parent.parent.parent))
 from src.config import LEGAL_RESEARCH_SHORT_DISCLAIMER
 from src.pipeline.state import PipelineStateDict
 from src.services.answer_format import format_answer_sections
-from src.services.authority import infer_authority_tier, is_merits_citable_tier
+from src.services.authority import authority_rank, infer_authority_tier, is_merits_citable_tier
 
 
 def _clean_source_excerpt(text: str, *, limit: int = 220) -> str:
@@ -83,29 +83,6 @@ def _detected_case_names(state: dict[str, Any]) -> list[str]:
             seen.add(entity["text"])
             names.append(entity["text"])
     return names
-
-
-def _seed_context_for_cases(case_names: list[str], *, raw_query: str = "") -> str:
-    try:
-        from src.rag.retriever import seed_case_search
-
-        parts: list[str] = []
-        seen: set[str] = set()
-        search_targets = list(case_names)
-        if raw_query:
-            search_targets.append(raw_query)
-        for target in search_targets:
-            for hit in seed_case_search(target, top_k=3):
-                source_name = hit["metadata"].get("source_name", "")
-                if source_name in seen:
-                    continue
-                seen.add(source_name)
-                citation = hit["metadata"].get("citation", "")
-                citation_line = f"Citation: {citation}\n" if citation else ""
-                parts.append(f"SEED — {source_name}:\n{citation_line}{hit['text'][:1200]}")
-        return "\n\n".join(parts)
-    except Exception:
-        return ""
 
 
 def _state_jurisdictions(state: PipelineStateDict) -> list[str]:
@@ -260,6 +237,8 @@ def _fallback_draft(
         licence_iso = _normalize_jurisdiction(scenario_context.get("licence_issuing_iso", ""))
         excerpt = _clean_source_excerpt(passage.get("text", ""))
 
+        if excerpt:
+            return f"{source} excerpt: {excerpt} [{index}]"
         if collection == "INTL_TREATIES" and "consular" in text:
             return f"The Vienna Convention on Consular Relations is retrieved here as the main treaty source on consular notification and consular access for detained foreign nationals. [{index}]"
         if collection == "INTL_TREATIES" and any(term in text for term in ["road traffic", "driving permit", "foreign driving", "driving licence", "driving license"]):
@@ -411,25 +390,69 @@ def _fallback_draft(
 
     sections = {
         "sourced_authority": " ".join(merits_lines).strip(),
-        "general_principles": " ".join(part for part in general_parts if part).strip(),
-        "practical_steps": practical_steps,
+        "general_principles": "",
+        "practical_steps": "",
         "disclaimer": LEGAL_RESEARCH_SHORT_DISCLAIMER,
     }
     return format_answer_sections(sections)
 
 
+def _label_sources(retrieved: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Attach S1, S2, ... labels to retrieved passages for LLM citation."""
+    labeled = []
+    for idx, p in enumerate(retrieved, start=1):
+        labeled.append({**p, "label": f"S{idx}"})
+    return labeled
+
+
 def synthesize(state: PipelineStateDict) -> PipelineStateDict:
     query = state["raw_input"]
     answer_style = str(state.get("answer_style") or "long")
-    retrieved = _apply_temporal_weighting(state.get("retrieved", []) or [])
+    retrieved = sorted(
+        _apply_temporal_weighting(state.get("retrieved", []) or []),
+        key=lambda passage: (
+            authority_rank(infer_authority_tier(passage.get("metadata") or {})),
+            float(passage.get("temporal_score", passage.get("score", 0.0)) or 0.0),
+        ),
+        reverse=True,
+    )
     analyses = state.get("jurisdiction_analyses", []) or []
 
-    case_names = _detected_case_names(state)
-    seed_text = _seed_context_for_cases(case_names, raw_query=query) if case_names else ""
-    merits_passages = [
-        passage for passage in retrieved
-        if is_merits_citable_tier(infer_authority_tier((passage.get("metadata") or {})))
-    ]
+    # SHORT mode should stay layman-readable and cite only merits authority.
+    # Commentary can appear in LONG mode under Malcolm Shaw when relevant.
+    generation_sources = retrieved
+    if answer_style == "short":
+        generation_sources = [
+            passage for passage in retrieved
+            if is_merits_citable_tier(infer_authority_tier(passage.get("metadata") or {}))
+        ] or retrieved
 
-    draft = _fallback_draft(query, retrieved, analyses, state, seed_text=seed_text)
-    return {**state, "retrieved": retrieved, "draft": draft, "conflicts": []}
+    # Attach [S#] labels so the LLM can cite them
+    labeled = _label_sources(generation_sources)
+
+    # Attempt provider-backed generation first (Groq -> Ollama).
+    mode = str(state.get("mode") or "research")
+    draft = ""
+    provider = ""
+    try:
+        from src.pipeline.llm import LLMUnavailable, complete
+        from src.pipeline.prompts import build_synthesis_message, system_for
+
+        system = system_for(mode)
+        user = build_synthesis_message(query, labeled, answer_style)
+        draft, provider = complete(system, user, temperature=0.12)
+    except Exception as exc:  # noqa: BLE001
+        print(f"Warning: LLM synthesis failed ({type(exc).__name__}: {exc}); using template fallback.")
+
+    # Fall back to v1's template-based draft if LLM unavailable or empty
+    if not draft or len(draft.strip()) < 50:
+        draft = _fallback_draft(query, generation_sources, analyses, state, seed_text="")
+        provider = "template_fallback"
+
+    return {
+        **state,
+        "retrieved": labeled,
+        "draft": draft,
+        "conflicts": [],
+        "provider": provider,
+    }

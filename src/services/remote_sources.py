@@ -1588,6 +1588,7 @@ def run_remote_ingestion(
                 try:
                     from src.services.adapters import get_adapter_registry
                     adapter_fn = get_adapter_registry()[plan.adapter]
+                    print(f"[{datetime.now().strftime('%H:%M:%S')}] Running adapter: {plan.adapter} for {record.name}...")
                     chunks, source_events = adapter_fn(
                         record,
                         plan,
@@ -1601,13 +1602,16 @@ def run_remote_ingestion(
                         ingest=ingest,
                         quality_gate=quality_gate,
                     )
+                    print(f"[{datetime.now().strftime('%H:%M:%S')}] Finished {plan.adapter}: {len(chunks)} chunks")
                 except Exception as exc:
+                    print(f"[{datetime.now().strftime('%H:%M:%S')}] Error in {plan.adapter}: {exc}")
                     chunks, source_events = [], [{
                         "status": "adapter_error",
                         "adapter": plan.adapter,
                         "reason": f"{type(exc).__name__}: {exc}",
                     }]
             elif plan.adapter == "huggingface_stream":
+                print(f"[{datetime.now().strftime('%H:%M:%S')}] Running huggingface_stream for {record.name}...")
                 chunks, source_events = _download_huggingface(
                     record,
                     plan,
@@ -1621,6 +1625,7 @@ def run_remote_ingestion(
                     quality_gate=quality_gate,
                 )
             else:
+                print(f"[{datetime.now().strftime('%H:%M:%S')}] Running HTTP download for {record.name}...")
                 chunks, source_events = _download_http(
                     record,
                     plan,

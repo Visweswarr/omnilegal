@@ -11,11 +11,35 @@ SECTION_ORDER = [
     "disclaimer",
 ]
 
+LONG_SECTION_ORDER = [
+    "bottom_line",
+    "legal_issue",
+    "international_law",
+    "malcolm_shaw",
+    "judgments_precedents",
+    "local_law",
+    "conflict_check",
+    "conclusion",
+    "sources",
+]
+
 SECTION_TITLES = {
     "sourced_authority": "Sourced Authority",
     "general_principles": "General Principles / Common Practice",
     "practical_steps": "Practical Steps",
     "disclaimer": "Disclaimer",
+}
+
+LONG_SECTION_TITLES = {
+    "bottom_line": "Bottom Line",
+    "legal_issue": "Legal Issue",
+    "international_law": "International Law",
+    "malcolm_shaw": "Malcolm Shaw",
+    "judgments_precedents": "Judgments / Precedents",
+    "local_law": "Local Law",
+    "conflict_check": "Conflict Check",
+    "conclusion": "Conclusion",
+    "sources": "Sources",
 }
 
 _SHORT_PATTERNS = [
@@ -43,6 +67,24 @@ def detect_answer_style(text: str) -> str | None:
 
 def _canonical_section_key(heading: str) -> str | None:
     lowered = re.sub(r"\s+", " ", heading.strip().lower())
+    if lowered == "bottom line":
+        return "bottom_line"
+    if lowered == "legal issue":
+        return "legal_issue"
+    if lowered == "international law":
+        return "international_law"
+    if lowered == "malcolm shaw":
+        return "malcolm_shaw"
+    if "judgments" in lowered or "judgements" in lowered or "precedents" in lowered:
+        return "judgments_precedents"
+    if lowered == "local law":
+        return "local_law"
+    if lowered == "conflict check":
+        return "conflict_check"
+    if lowered == "conclusion":
+        return "conclusion"
+    if lowered == "sources":
+        return "sources"
     if "sourced authority" in lowered or lowered == "authority" or lowered == "relevant law":
         return "sourced_authority"
     if "general principles" in lowered or "common practice" in lowered or "general guidance" in lowered:
@@ -55,7 +97,7 @@ def _canonical_section_key(heading: str) -> str | None:
 
 
 def split_answer_sections(text: str) -> dict[str, str]:
-    sections = {key: "" for key in SECTION_ORDER}
+    sections = {key: "" for key in [*SECTION_ORDER, *LONG_SECTION_ORDER]}
     current_key: str | None = None
     buffer: list[str] = []
 
@@ -89,6 +131,14 @@ def split_answer_sections(text: str) -> dict[str, str]:
 
 
 def format_answer_sections(sections: dict[str, str]) -> str:
+    if any(str((sections or {}).get(key) or "").strip() for key in LONG_SECTION_ORDER):
+        parts: list[str] = []
+        for key in LONG_SECTION_ORDER:
+            body = str((sections or {}).get(key) or "").strip()
+            if body or key != "sources":
+                parts.append(f"## {LONG_SECTION_TITLES[key]}\n{body}".rstrip())
+        return "\n\n".join(parts).strip()
+
     parts: list[str] = []
     for key in SECTION_ORDER:
         body = str((sections or {}).get(key) or "").strip()
@@ -110,6 +160,8 @@ def missing_citation_sentences(text: str) -> list[str]:
         if len(sentence) < 25:
             continue
         if sentence.startswith(">"):
+            continue
+        if "INSUFFICIENT EVIDENCE" in sentence.upper():
             continue
         if re.search(r"\[[0-9]+\]", sentence):
             continue

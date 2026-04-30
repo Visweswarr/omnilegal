@@ -1,6 +1,7 @@
-"""
-Step 2 — Entity and issue extraction.
-Three parallel passes: spaCy NER + GLiNER zero-shot + DeBERTa issue classifier.
+"""Step 2 - deterministic entity and issue extraction for normal chat.
+
+Heavy NER/classification helpers stay behind explicit environment flags and are
+not part of the default Chainlit runtime.
 """
 from __future__ import annotations
 
@@ -20,7 +21,6 @@ from src.config import (
     OMNILEGAL_ENABLE_ZERO_SHOT,
 )
 from src.pipeline.state import PipelineStateDict
-from src.models.heavy_nlp import get_spacy_model, get_gliner_model, get_zero_shot_classifier
 
 # Alias → canonical name map loaded from landmark_registry.yaml.
 # Allows "Great Britain v Costa Rica" or "Tinoco case" to resolve to
@@ -219,6 +219,8 @@ def _spacy_entities(text: str) -> list[dict[str, Any]]:
     if not OMNILEGAL_ENABLE_HEAVY_MODELS or not OMNILEGAL_ENABLE_LEGAL_NER:
         return []
     try:
+        from src.models.heavy_nlp import get_spacy_model
+
         nlp = get_spacy_model()
         if nlp is None:
             return []
@@ -236,6 +238,8 @@ def _gliner_entities(text: str) -> list[dict[str, Any]]:
     if not OMNILEGAL_ENABLE_HEAVY_MODELS or not OMNILEGAL_ENABLE_GLINER:
         return []
     try:
+        from src.models.heavy_nlp import get_gliner_model
+
         model = get_gliner_model()
         if model is None:
             raise ValueError("GLiNER model loaded as None")
@@ -267,9 +271,13 @@ def _gliner_entities(text: str) -> list[dict[str, Any]]:
 
 def _classify_issues(text: str) -> list[str]:
     heuristic = _heuristic_issues(text)
-    if heuristic and (not OMNILEGAL_ENABLE_HEAVY_MODELS or not OMNILEGAL_ENABLE_ZERO_SHOT):
+    if not OMNILEGAL_ENABLE_HEAVY_MODELS or not OMNILEGAL_ENABLE_ZERO_SHOT:
+        return heuristic or ["general_international_law"]
+    if heuristic:
         return heuristic
     try:
+        from src.models.heavy_nlp import get_zero_shot_classifier
+
         clf = get_zero_shot_classifier(multi_label=True)
         if clf is None:
             return heuristic or ["general_international_law"]
@@ -574,7 +582,9 @@ def extract_entities(state: PipelineStateDict) -> PipelineStateDict:
 
     spacy_ents = _spacy_entities(text)
     pattern_ents = _pattern_entities(text)
-    gliner_ents = _gliner_entities(text)
+    # GLiNER is kept as an offline/experimental helper only; normal chat uses
+    # deterministic aliases and patterns.
+    gliner_ents: list[dict[str, Any]] = []
     alias_ents = _alias_scan_entities(text)
     short_ents = _short_name_entities(text)
     fuzzy_ents = _fuzzy_scan_entities(text)

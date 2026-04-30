@@ -41,6 +41,16 @@ TOP_K_DENSE = int(os.getenv("TOP_K_DENSE", "12"))
 TOP_K_FINAL = int(os.getenv("TOP_K_FINAL", "8"))
 MIN_RETRIEVAL_SCORE = float(os.getenv("MIN_RETRIEVAL_SCORE", "0.30"))
 
+# Cross-encoder reranker (BAAI/bge-reranker-v2-m3) — applied after dense
+# retrieval, before final dedup. Set OMNILEGAL_ENABLE_RERANKER=0 to disable.
+ENABLE_RERANKER = os.getenv("OMNILEGAL_ENABLE_RERANKER", "1").strip() not in {"0", "false", "False", ""}
+RERANKER_MODEL = os.getenv("RERANKER_MODEL_V2", "BAAI/bge-reranker-v2-m3")
+RERANKER_USE_FP16 = os.getenv("RERANKER_USE_FP16", "1").strip() not in {"0", "false", "False", ""}
+RERANKER_BATCH_SIZE = int(os.getenv("RERANKER_BATCH_SIZE", "16"))
+# When the reranker is on, pull this many dense candidates first so it has
+# enough material to rescore. Capped at TOP_K_DENSE * factor.
+RERANKER_CANDIDATE_FACTOR = int(os.getenv("RERANKER_CANDIDATE_FACTOR", "3"))
+
 # Generation
 LLM_TIMEOUT = int(os.getenv("LLM_TIMEOUT", "60"))
 LLM_MAX_TOKENS = int(os.getenv("LLM_MAX_TOKENS", "1800"))

@@ -6,7 +6,13 @@ import re
 from typing import Any
 
 from pipeline_v2.classifier import QueryAnalysis
-from pipeline_v2.settings import MIN_RETRIEVAL_SCORE, TOP_K_DENSE, TOP_K_FINAL
+from pipeline_v2.settings import (
+    ENABLE_RERANKER,
+    MIN_RETRIEVAL_SCORE,
+    RERANKER_CANDIDATE_FACTOR,
+    TOP_K_DENSE,
+    TOP_K_FINAL,
+)
 from pipeline_v2.vector_store import hybrid_search
 
 log = logging.getLogger("pipeline_v2.retriever")
@@ -64,6 +70,10 @@ def retrieve(analysis: QueryAnalysis) -> list[dict[str, Any]]:
     query_variants = _variants(analysis)
     key_terms = _key_terms(analysis.raw_query)
 
+    # When the cross-encoder reranker is active, pull a deeper candidate pool
+    # so rerank has more material to rescore.
+    dense_limit = TOP_K_DENSE * RERANKER_CANDIDATE_FACTOR if ENABLE_RERANKER else TOP_K_DENSE
+
     bucket: dict[int, dict[str, Any]] = {}
     for v in query_variants:
         try:
@@ -71,7 +81,7 @@ def retrieve(analysis: QueryAnalysis) -> list[dict[str, Any]]:
                 query=v,
                 jurisdictions=jurisdiction_filter or None,
                 doc_types=None,
-                limit=TOP_K_DENSE,
+                limit=dense_limit,
             )
         except Exception as e:  # noqa: BLE001
             log.warning("Hybrid search failed for variant %r: %s", v, e)
@@ -88,7 +98,7 @@ def retrieve(analysis: QueryAnalysis) -> list[dict[str, Any]]:
         for v in query_variants:
             try:
                 hits = hybrid_search(
-                    query=v, jurisdictions=None, doc_types=None, limit=TOP_K_DENSE
+                    query=v, jurisdictions=None, doc_types=None, limit=dense_limit
                 )
             except Exception:
                 continue
@@ -98,11 +108,25 @@ def retrieve(analysis: QueryAnalysis) -> list[dict[str, Any]]:
 
     candidates = list(bucket.values())
 
-    # Rerank: combine dense score + keyword overlap boost.
+    # Cross-encoder rerank (BAAI/bge-reranker-v2-m3). Loaded lazily; falls
+    # back to the dense order when the model isn't available.
+    if ENABLE_RERANKER and candidates:
+        try:
+            from pipeline_v2.reranker import rerank as _ce_rerank
+
+            candidates = _ce_rerank(analysis.raw_query, candidates)
+        except Exception as exc:  # noqa: BLE001
+            log.warning("Cross-encoder rerank failed (%s) — using dense order.", exc)
+
+    # Combine dense score + keyword overlap boost. If the reranker ran,
+    # `rerank_score` already pre-sorted the list; otherwise we sort by a
+    # blended score below.
     for c in candidates:
         overlap = _term_overlap_score(c["text"], key_terms)
         c["term_overlap"] = overlap
-        c["final_score"] = c["score"] + 0.04 * overlap
+        rerank_score = c.get("rerank_score")
+        base_score = float(rerank_score) if rerank_score is not None else float(c.get("score") or 0.0)
+        c["final_score"] = base_score + 0.04 * overlap
 
     candidates.sort(key=lambda h: h["final_score"], reverse=True)
 

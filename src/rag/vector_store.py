@@ -145,6 +145,19 @@ def payload_with_ingestion_defaults(collection: str, chunk: dict[str, Any]) -> d
     importance_score, importance_reason, importance_signals = _importance_for_payload(payload, collection)
 
     payload.setdefault("collection", collection)
+    collection_upper = str(collection or payload.get("collection") or "").upper()
+    doc_type_lower = str(payload.get("doc_type") or "").lower()
+    if "source_role" not in payload:
+        if doc_type_lower == "treaty" or collection_upper == "INTL_TREATIES":
+            payload["source_role"] = "treaty"
+        elif doc_type_lower == "case_law" or "CASE_LAW" in collection_upper:
+            payload["source_role"] = "case_law"
+        elif doc_type_lower == "official_guidance" or collection_upper.startswith("NATIONAL_"):
+            payload["source_role"] = "official_guidance"
+        elif doc_type_lower in {"statute", "legislation", "domestic_law"} or "STATUTES" in collection_upper:
+            payload["source_role"] = "local_statute"
+        elif doc_type_lower == "commentary" or "COMMENTARY" in collection_upper or collection_upper == "SHAW_PRIVATE":
+            payload["source_role"] = "commentary"
     payload.setdefault("doc_hash", _hash_text(text_for_hash))
     payload.setdefault("canonical_doc_id", hashlib.sha256(canonical_seed.encode("utf-8", errors="ignore")).hexdigest())
     payload.setdefault("source_fingerprint", fingerprint)

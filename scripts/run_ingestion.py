@@ -36,7 +36,7 @@ if "src.services" not in sys.modules:
     _stub.__package__ = "src.services"
     sys.modules["src.services"] = _stub
 
-from src.config import INGESTION_PHASES
+from src.config import INGESTION_PHASES, SOURCE_ALIASES
 
 
 def _print_section(title: str) -> None:
@@ -102,14 +102,40 @@ def cmd_status(args: argparse.Namespace) -> None:
         print(f"\nAudit: {s.get('fetchable', 0)} fetchable / {s.get('total_sources', 0)} total sources")
 
 
+def _resolve_source_aliases(values: list[str]) -> list[str]:
+    """Translate friendly aliases (e.g. ``courtlistener``) to adapter labels."""
+    resolved: list[str] = []
+    for raw in values:
+        cleaned = raw.strip().lower()
+        if not cleaned:
+            continue
+        resolved.append(SOURCE_ALIASES.get(cleaned, cleaned))
+    return resolved
+
+
+def cmd_list_sources(args: argparse.Namespace) -> None:
+    """Print the friendly source aliases plus all adapter labels by phase."""
+    _print_section("📚 Available source filters")
+    print("Friendly aliases (use with --source):")
+    for alias, label in sorted(SOURCE_ALIASES.items()):
+        print(f"  {alias:18s} → {label}")
+    print("\nAdapter labels by ingestion phase (use with --phase):")
+    for phase, labels in sorted(INGESTION_PHASES.items()):
+        print(f"  Phase {phase}: {', '.join(labels)}")
+
+
 def cmd_ingest(args: argparse.Namespace) -> None:
-    """Run ingestion for specified phase or all phases."""
+    """Run ingestion for specified phase, sources, or all phases."""
     phase = args.phase
+    sources = _resolve_source_aliases(getattr(args, "source", []) or [])
     download = args.download
     ingest = args.ingest
     max_items = args.max_items
 
-    if phase:
+    if sources:
+        _print_section(f"🚀 Source-targeted Ingestion ({', '.join(sources)})")
+        print(f"Target adapters: {sources}")
+    elif phase:
         adapters = INGESTION_PHASES.get(phase, [])
         if not adapters:
             print(f"❌ Unknown phase {phase}. Valid phases: {sorted(INGESTION_PHASES.keys())}")
@@ -127,9 +153,11 @@ def cmd_ingest(args: argparse.Namespace) -> None:
     start = time.time()
     from src.services.remote_sources import run_remote_ingestion
 
-    # Build adapter filter from phase
-    adapter_filter = None
-    if phase:
+    # Build adapter filter: --source takes precedence over --phase
+    adapter_filter: list[str] | None = None
+    if sources:
+        adapter_filter = sources
+    elif phase:
         adapter_filter = INGESTION_PHASES.get(phase, [])
 
     result = run_remote_ingestion(
@@ -179,7 +207,10 @@ def main() -> None:
 Examples:
   python scripts/run_ingestion.py --audit-only
   python scripts/run_ingestion.py --status
+  python scripts/run_ingestion.py --list-sources
   python scripts/run_ingestion.py --phase 1 --download --ingest
+  python scripts/run_ingestion.py --source courtlistener --download --ingest
+  python scripts/run_ingestion.py --source courtlistener --source govinfo --download --ingest
   python scripts/run_ingestion.py --phase 1 --download --ingest --max-items 5
   python scripts/run_ingestion.py --all --download --ingest --fresh
         """,
@@ -198,7 +229,18 @@ Examples:
     # Ingest (default)
     parser.add_argument("--audit-only", action="store_true", help="Run source audit only")
     parser.add_argument("--status", action="store_true", help="Show ingestion status")
+    parser.add_argument("--list-sources", action="store_true", help="List adapter labels and friendly aliases")
     parser.add_argument("--phase", type=int, choices=[1, 2, 3, 4], help="Run specific phase (1-4)")
+    parser.add_argument(
+        "--source",
+        action="append",
+        default=[],
+        metavar="NAME",
+        help=(
+            "Run a single adapter. Accepts friendly aliases (courtlistener, govinfo, "
+            "eurlex, uk-legislation, indian-kanoon) or raw adapter labels. Repeatable."
+        ),
+    )
     parser.add_argument("--all", action="store_true", help="Run all phases")
     parser.add_argument("--catalog", default=None, help="Catalog path (default: caselaws)")
     parser.add_argument("--mode", default="licensed", choices=["licensed", "metadata-only"], help="Permission mode")
@@ -217,7 +259,9 @@ Examples:
         cmd_audit(args)
     elif args.status:
         cmd_status(args)
-    elif args.download or args.ingest or args.phase or args.all:
+    elif args.list_sources:
+        cmd_list_sources(args)
+    elif args.download or args.ingest or args.phase or args.all or args.source:
         cmd_ingest(args)
     else:
         parser.print_help()

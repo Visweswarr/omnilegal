@@ -17,9 +17,9 @@ topics:
         collection: INTL_TREATIES
         description: "VCDR 1961 — diplomatic agent inviolability and immunity"
       - role: case_law
-        source_pattern: "Arrest Warrant"
+        source_pattern: "Arrest Warrant|Tehran|Diplomatic and Consular Staff"
         collection: CASE_LAW_GLOBAL
-        description: "Arrest Warrant of 11 April 2000 (DRC v Belgium)"
+        description: "ICJ diplomatic immunity case law — Tehran Hostages or Arrest Warrant"
     optional:
       - role: commentary
         source_pattern: "Shaw"
@@ -49,7 +49,7 @@ topics:
   bns_69:
     required:
       - role: local_statute
-        source_pattern: "Bharatiya Nyaya Sanhita"
+        source_pattern: "Bharatiya Nyaya Sanhita Section 69|Sexual intercourse by employing"
         collection: STATUTES_IN
         description: "BNS Section 69 — sexual intercourse by deceitful means"
     optional:
@@ -61,7 +61,7 @@ topics:
   murder_sentencing:
     required:
       - role: local_statute
-        source_pattern: "Bharatiya Nyaya Sanhita"
+        source_pattern: "Bharatiya Nyaya Sanhita Section 103|Bharatiya Nyaya Sanhita, 2023, section 103"
         collection: STATUTES_IN
         description: "BNS Section 103 — punishment for murder (India)"
       - role: local_statute
@@ -89,14 +89,14 @@ topics:
   wall:
     required:
       - role: case_law
-        source_pattern: "Wall"
+        source_pattern: "Wall|Occupied Palestinian|Legal Consequences of the Construction"
         collection: CASE_LAW_GLOBAL
         description: "Wall Advisory Opinion (ICJ 2004)"
-    optional:
       - role: treaty
-        source_pattern: "Geneva"
+        source_pattern: "Fourth Geneva Convention"
         collection: INTL_TREATIES
         description: "Fourth Geneva Convention — IHL"
+    optional:
       - role: commentary
         source_pattern: "Shaw"
         collection: COMMENTARY_GLOBAL
@@ -105,11 +105,11 @@ topics:
   travel_india_russia:
     required:
       - role: official_guidance
-        source_pattern: "India"
+        source_pattern: "Dos and Don.?ts for Foreign Travel|MEA travel advisory"
         collection: NATIONAL_IN
         description: "India e-Visa portal or MEA travel advisory"
       - role: official_guidance
-        source_pattern: "Russia"
+        source_pattern: "unified e-visa|evisa.kdmid|Ministry of Foreign Affairs of Russia"
         collection: NATIONAL_RU
         description: "Russia unified e-Visa portal"
     optional:

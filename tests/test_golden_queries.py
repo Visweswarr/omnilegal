@@ -129,12 +129,10 @@ class TestWallAdvisory:
 
 
 class TestUnsupportedJurisdiction:
-    """Unsupported jurisdiction — should proceed with international law + fallback note."""
+    """Unsupported jurisdiction — must fail early."""
 
-    def test_brazil_falls_back_to_international(self):
+    def test_brazil_local_law_fails_early(self):
         result = _invoke_pipeline("What is Brazil's local driving law?")
-        plan = result.get("source_plan") or {}
-        fallback_note = plan.get("fallback_note", "")
-        # Should either have a fallback note or still produce an answer
         answer = _answer_text(result)
-        assert answer.strip() or fallback_note, "Should produce answer or fallback note"
+        assert result.get("insufficient_context") is True
+        assert "missing required source" in answer.lower() or "insufficient" in answer.lower()

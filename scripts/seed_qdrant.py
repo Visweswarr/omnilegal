@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """
-Seed the embedded Qdrant database with all curated JSONL corpora.
+Seed the embedded Qdrant database with raw indexed legal-source JSONL corpora.
 
 Usage (from the omnilegal/ directory):
     python scripts/seed_qdrant.py
     python scripts/seed_qdrant.py --dry-run      # count records, no upsert
     python scripts/seed_qdrant.py --collection CASE_LAW_GLOBAL  # one collection only
     python scripts/seed_qdrant.py --verify        # check source availability after seeding
+    python scripts/seed_qdrant.py --verify-only   # check source availability without upsert
 """
 from __future__ import annotations
 
@@ -78,34 +79,6 @@ _DIR_COLLECTION_MAP: dict[str, str] = {
     "shaw_private": COLLECTION_SHAW_PRIVATE,
 }
 
-# Curated-authority doc_type + jurisdiction → collection
-_DOCTYPE_JURISDICTION_MAP: dict[tuple[str, str], str] = {
-    ("treaty", "international"): COLLECTION_INTL_TREATIES,
-    ("case_law", "international"): COLLECTION_CASE_LAW_GLOBAL,
-    ("case_law", "us"): COLLECTION_CASE_LAW_US,
-    ("case_law", "india"): COLLECTION_CASE_LAW_IN,
-    ("case_law", "uk"): COLLECTION_CASE_LAW_UK,
-    ("case_law", "eu"): COLLECTION_CASE_LAW_EU,
-    ("case_law", "russia"): COLLECTION_CASE_LAW_RU,
-    ("case_law", "israel"): COLLECTION_CASE_LAW_IL,
-    ("statute", "india"): COLLECTION_STATUTES_IN,
-    ("statute", "us"): COLLECTION_STATUTES_US,
-    ("statute", "uk"): COLLECTION_STATUTES_UK,
-    ("statute", "eu"): COLLECTION_STATUTES_EU,
-    ("statute", "russia"): COLLECTION_STATUTES_RU,
-    ("statute", "israel"): COLLECTION_STATUTES_IL,
-    ("official_guidance", "india"): COLLECTION_NATIONAL_IN,
-    ("official_guidance", "russia"): COLLECTION_NATIONAL_RU,
-    ("official_guidance", "us"): COLLECTION_NATIONAL_US,
-    ("official_guidance", "uk"): COLLECTION_NATIONAL_UK,
-    ("official_guidance", "eu"): COLLECTION_NATIONAL_EU,
-    ("official_guidance", "israel"): COLLECTION_NATIONAL_IL,
-    ("commentary", "international"): COLLECTION_COMMENTARY_GLOBAL,
-    ("commentary", "global"): COLLECTION_COMMENTARY_GLOBAL,
-    ("commentary", ""): COLLECTION_COMMENTARY,
-}
-
-
 def _record_to_chunk(record: dict, collection: str, chunk_index: int = 0) -> dict:
     meta = record.get("metadata", {})
     text = record.get("text", "")
@@ -116,11 +89,27 @@ def _record_to_chunk(record: dict, collection: str, chunk_index: int = 0) -> dic
     year = meta.get("year") or record.get("year")
     article_number = meta.get("article_number") or record.get("article_number")
 
+    collection_upper = str(collection or "").upper()
+    doc_type_lower = str(doc_type or "").lower()
+    if doc_type_lower == "treaty" or collection_upper == "INTL_TREATIES":
+        source_role = "treaty"
+    elif doc_type_lower == "case_law" or "CASE_LAW" in collection_upper:
+        source_role = "case_law"
+    elif doc_type_lower == "official_guidance" or collection_upper.startswith("NATIONAL_"):
+        source_role = "official_guidance"
+    elif doc_type_lower in {"statute", "legislation", "domestic_law"} or "STATUTES" in collection_upper:
+        source_role = "local_statute"
+    elif doc_type_lower == "commentary" or "COMMENTARY" in collection_upper or collection_upper == "SHAW_PRIVATE":
+        source_role = "commentary"
+    else:
+        source_role = doc_type_lower or "unknown"
+
     metadata: dict = {
         "source_name": source_name,
         "collection": collection,
         "jurisdiction": jurisdiction,
         "doc_type": doc_type,
+        "source_role": source_role,
         "year": year,
         "article_number": article_number,
         "citation": citation,
@@ -155,21 +144,6 @@ def _record_to_chunk(record: dict, collection: str, chunk_index: int = 0) -> dic
     }
 
 
-def _resolve_curated_collection(record: dict) -> str:
-    """Map a curated-authority record to its target collection."""
-    meta = record.get("metadata", {})
-    doc_type = (meta.get("doc_type") or record.get("doc_type", "")).lower()
-    jurisdiction = (meta.get("jurisdiction") or record.get("jurisdiction", "")).lower()
-    key = (doc_type, jurisdiction)
-    if key in _DOCTYPE_JURISDICTION_MAP:
-        return _DOCTYPE_JURISDICTION_MAP[key]
-    # Fallback: try doc_type only
-    for (dt, _jur), coll in _DOCTYPE_JURISDICTION_MAP.items():
-        if dt == doc_type:
-            return coll
-    return COLLECTION_COMMENTARY_GLOBAL
-
-
 def load_jsonl(path: Path) -> list[dict]:
     records: list[dict] = []
     with open(path, encoding="utf-8", errors="replace") as f:
@@ -195,7 +169,7 @@ def collect_chunks(only_collection: str | None = None) -> dict[str, list[dict]]:
         dir_name = subdir.name.lower()
         collection = _DIR_COLLECTION_MAP.get(dir_name)
         if collection is None:
-            continue  # skip unmapped directories (e.g. curated_authorities)
+            continue  # skip unmapped/generated answer-pack directories
         if only_collection and collection != only_collection:
             continue
         for jsonl_file in sorted(subdir.glob("*.jsonl")):
@@ -250,12 +224,17 @@ def main() -> None:
     parser.add_argument("--collection", default=None, help="Limit to one collection name")
     parser.add_argument("--recreate", action="store_true", help="Drop and recreate collections before upserting")
     parser.add_argument("--verify", action="store_true", help="Check source availability after seeding")
+    parser.add_argument("--verify-only", action="store_true", help="Check source availability without scanning/upserting corpus files")
     args = parser.parse_args()
 
     print("OmniLegal Qdrant Seed Script")
     print("=" * 60)
     print(f"Corpus dir: {CORPUS_DIR}")
     print()
+
+    if args.verify_only:
+        _run_verify()
+        return
 
     print("Scanning corpus files...")
     batches = collect_chunks(only_collection=args.collection)

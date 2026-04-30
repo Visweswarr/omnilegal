@@ -180,7 +180,7 @@ def generate_gemini_content(
                 return GeminiGeneration(text=text, model=candidate)
             errors.append(f"{candidate}: empty response from google-genai")
             continue
-        except ModuleNotFoundError as exc:
+        except ImportError as exc:
             errors.append(f"{candidate}: google-genai unavailable ({exc})")
             should_try_legacy = True
         except Exception as exc:

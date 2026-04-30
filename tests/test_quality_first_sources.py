@@ -1,8 +1,4 @@
-"""Tests for the source availability registry and gate.
-
-Replaces the old test_quality_first_sources.py which tested the now-deleted
-simple_legal_runtime and source_escalator modules.
-"""
+"""Tests for the source availability registry and gate."""
 from __future__ import annotations
 
 import pytest
@@ -30,6 +26,7 @@ def test_detect_diplomatic_immunity():
 def test_detect_india_russia_driving():
     topics = detect_topics("Can an Indian tourist drive in Russia with an Indian licence?")
     assert "driving_india_russia" in topics
+    assert "travel_india_russia" not in topics
 
 
 def test_detect_bns_69():
@@ -87,6 +84,30 @@ def test_registry_driving_has_three_required():
     assert len(driving.required) >= 3
 
 
+def test_registry_requires_matching_source_pattern():
+    idx = IndexedSourcesRegistry()
+    idx._loaded = True
+    idx._collection_counts = {"INTL_TREATIES": 1}
+    idx._metadata_by_collection = {
+        "INTL_TREATIES": [{"source_name": "Unrelated treaty", "citation": "Other"}]
+    }
+    assert idx.collection_has_source("INTL_TREATIES", "Vienna Convention on Diplomatic Relations") is False
+    idx._metadata_by_collection["INTL_TREATIES"].append(
+        {"source_name": "Vienna Convention on Diplomatic Relations", "citation": "500 UNTS 95"}
+    )
+    assert idx.collection_has_source("INTL_TREATIES", "Vienna Convention on Diplomatic Relations") is True
+
+
+def test_seed_qdrant_skips_generated_answer_pack_directory():
+    import scripts.seed_qdrant as seed_qdrant
+
+    batches = seed_qdrant.collect_chunks()
+    for chunks in batches.values():
+        for chunk in chunks:
+            source_url = str((chunk.get("metadata") or {}).get("source_url") or "")
+            assert "curated_authorities" not in source_url
+
+
 # ---------------------------------------------------------------------------
 # Source gate node (unit test with mock state)
 # ---------------------------------------------------------------------------
@@ -99,7 +120,7 @@ def test_source_gate_passes_through_on_default():
     # (even if Qdrant is not loaded)
 
 
-def test_source_gate_adds_unsupported_jurisdiction_note():
+def test_source_gate_rejects_unsupported_jurisdiction():
     state = {
         "raw_input": "What is Brazil's driving law?",
         "entities": {"iso_country_codes": ["br"]},
@@ -107,4 +128,5 @@ def test_source_gate_adds_unsupported_jurisdiction_note():
     result = source_gate(state)
     source_plan = result.get("source_plan", {})
     assert "br" in source_plan.get("unsupported_jurisdictions", [])
-    assert "international" in source_plan.get("fallback_note", "").lower()
+    assert result.get("insufficient_context") is True
+    assert result.get("source_availability", {}).get("ok") is False
