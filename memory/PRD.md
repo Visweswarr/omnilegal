@@ -1,70 +1,112 @@
-# OmniLegal — Verification-First Legal Research
+# OmniLegal — Product Requirements Document
+
+_Last updated: Apr 2026_
 
 ## Original problem statement
-User says the app is supposed to be like the PDF source map (multi-jurisdictional legal RAG over US / UK / EU / India / Russia / Israel / International law) but "nothing is working". Specifically:
-- Wrong / hallucinated results
-- Uses prewritten legal logic instead of retrieved sources
-- Retrieval is inconsistent, pulls wrong jurisdictions
-- Missing sources are not detected — system guesses
-- No proper citation verification or grounding
-- Ingestion partially exists but not reliably indexed
+
+> "I want OmniLegal to actually interpret the PDFs (Malcolm Shaw etc.) and answer
+> questions across all of them. Three modes: tourist, law student, researcher,
+> layman. Keep Gemini fallback. Don't make a new pipeline — integrate into
+> the existing one. Stay Chainlit + text-only. Reference the case-laws folder
+> for ingestion. It must NOT look like a normal chatbot — this is for a funding
+> presentation."
 
 ## Goal
-A **verification-first legal assistant**, not an AI that tries to answer. Three uses:
-1. **Legal Research** — cases / statutes / treaties with how-it-can-be-used / defended-against angles
-2. **Legal Conflict Analyzer** — international vs domestic law, which prevails and why
-3. **Tourist Safety** — what are my rights, duties, and what to do if something goes wrong abroad
 
-## Architecture — what's been built (Jan 2026)
+A persona-aware international/comparative legal research console that pulls
+verified excerpts from a 1,878-passage corpus (Malcolm Shaw, UN Charter,
+ICCPR, ICESCR, Constitution of India, curated case-law catalog) and turns
+them into answers tuned to the audience: **Tourist · Law Student ·
+Researcher · Layman**.
 
-### New verification-first pipeline — `/app/pipeline_v2/`
-- **settings.py** — loads `/app/.env`, centralises paths, model names (Groq llama-3.3-70b-versatile → Gemini 2.5 Flash → OpenRouter free as fallback)
-- **vector_store.py** — embedded Qdrant + FastEmbed (`BAAI/bge-small-en-v1.5`, 384-d). Single-writer, file-backed, no external service needed
-- **seed_corpus.py** — 38 hand-curated primary-law excerpts (UN Charter, VCLT, VCCR, VCDR, ICCPR, Refugee Convention, Vienna Road Traffic Convention, UDHR + US Constitution + Miranda, Medellín, Reid v Covert + UK HRA + PACE + EU Costa/ENEL + GDPR + India Art. 14/19/21/51, BNS, MV Act, Vishaka, Gramophone, Maneka Gandhi + Russia Art. 15(4), CoAO 12.7 + Israel Basic Law + LaGrand, Avena, Barcelona Traction, Nicaragua, Monism/Dualism doctrine, Tourist Consular Checklist)
-- **ingest_seed.py** — one-shot ingestion; enriches with `/app/caselaws/*.json` as source-map commentary; final corpus ~133 indexed passages
-- **classifier.py** — deterministic: detects mode (tourist / conflict / research), ISO country codes (US UK EU IN RU IL FR DE JP CN CA AU AE SA TR BR), doc types. No LLM needed
-- **retriever.py** — hybrid search with hard jurisdiction filter, query-variant generation per mode, key-term overlap reranking, per-source dedup cap
-- **prompts.py** — three specialised system prompts with HARD rules (cite or abstain)
-- **llm.py** — Groq (llama-3.3-70b-versatile) → Gemini (2.5-flash) → OpenRouter (meta-llama/llama-3.3-70b-instruct:free) fallback chain
-- **citation_verifier.py** — parses [S#] tags, flags unsupported sentences with `⚠ UNSUPPORTED` marker, detects invalid citation labels, computes a grounded-ratio; honours `INSUFFICIENT EVIDENCE:` abstention
-- **orchestrator.py** — glue: classify → retrieve → generate → verify → repair-if-weak → format (headers, sources list, verification badge 🟢/🟡/🔴)
+## Core requirements
 
-### Chainlit UI — `/app/chainlit_app.py`
-- Rewritten from scratch; welcome banner shows corpus size
-- Three mode chips (Legal Research / Conflict Analyzer / Tourist Safety)
-- SHORT / LONG answer style prompt on first question
-- Renders: answer → verification badge → sources list (with link + score) → disclaimer
-- Inline prefix routing (`research:`, `conflict:`, `tourist:` before the question)
+1. Index every bundled PDF (treaties + Indian Constitution + Malcolm Shaw 3,233
+   pages) and the curated `caselaws/*.json` source catalog.
+2. Hybrid retrieval — dense (BGE-m3 or FastEmbed BGE-small) + lexical fallback.
+3. Persona-tuned synthesis with `[S#]` citations.
+4. Free, primary LLM (Claude Haiku 4.5 via Emergent universal key) with Gemini
+   2.5 Flash as the always-on fallback when retrieval is sparse.
+5. Premium editorial UI — Oxford-blue + parchment, serif typography, no
+   chatbot-style chrome.
+6. Chainlit-based, text-only, idempotent ingestion script.
 
-### Infrastructure fixes
-- Created `/app/.env` with all user-supplied API keys (Groq, Gemini, OpenRouter, HF, CourtListener, etc.)
-- Patched Chainlit 2.4.1 upstream: `_language_pattern` now accepts locale modifiers like `en-US@posix`; `load_translation` strips `@…` / `.…` suffixes so frontend placeholders load correctly
-- Supervisor config: replaced the React `frontend` + FastAPI `backend` (which didn't exist) with a single `chainlit` program on port 3000, so the preview URL maps directly to the UI
-- Installed `chainlit==2.4.1`, `qdrant-client[fastembed]`, `groq`, `eyecite`, `openai` (for OpenRouter)
+## User personas
 
-## What's working (verified via live tests)
-- ✅ Tourist mode with IN+RU + VCCR → 88 % grounded, 8 sources
-- ✅ Conflict mode on ICJ vs Indian court → **100 % grounded**, cites Gramophone Co. v. Birendra Bahadur Pandey (1984) correctly, identifies India as dualist
-- ✅ Research mode on Miranda v Arizona → **100 % grounded**
-- ✅ Insufficient-evidence path: asking about Singapore Penal Code 377A (not in corpus) → system abstains with `INSUFFICIENT EVIDENCE:` block, ⚪ badge, no hallucinated law
-- ✅ LLM fallback chain: primary call is Groq llama-3.3-70b, ~5 s latency end-to-end
+| Persona | When to use | Voice |
+|---------|-------------|-------|
+| Tourist | Travellers, expats facing on-the-ground rights questions | Plain English, action-oriented |
+| Law Student | Memos, moots, exam prep | Strict IRAC with citations |
+| Researcher | Policy / scholarship / treaty analysis | Doctrinal, comparative, deep |
+| Layman | Anyone curious without legal training | Conversational, jargon-free |
 
-## Known constraints / backlog
-- **Corpus is a hand-curated bootstrap (133 passages).** Adding the 1 000s of real CourtListener / GovInfo / EUR-Lex / India Code bulk ingests is next. Adapters already exist in `src/services/adapters/` from the old pipeline; they can be wired into `pipeline_v2.ingest_<source>` modules.
-- Embedded Qdrant is single-writer — running `python -m pipeline_v2.ingest_seed` while Chainlit is live requires `sudo supervisorctl stop chainlit` first. For multi-process ingestion, move to a Qdrant server later.
-- No persistent chat history (Chainlit's default in-memory store). Add `literalai` / `chainlit data-layer` for long-term storage later.
-- No auth / rate-limiting yet. The old `src/services/production_controls.py` still exists but is not wired into `pipeline_v2`.
+## What's been implemented (this session, Apr 30 2026)
 
-## Prioritised backlog
-- **P0 — bulk ingestion**: wire the working adapters (CourtListener, GovInfo, EUR-Lex CELLAR, Indian Kanoon, legislation.gov.uk) into `pipeline_v2` so the corpus grows from 133 → 100 000+ passages.
-- **P1 — proper PDF/HTML chunking** for bulk docs (reuse `src/services/legal_chunking.py`). Currently only the seed texts are chunked by hand.
-- **P1 — Re-ranker on top of dense search** (e.g., `BAAI/bge-reranker-v2-m3`) for even better precision once the corpus grows.
-- **P2 — export / share** — let a user export the answer + sources as a PDF / markdown brief.
-- **P2 — auth + multi-user history** via Chainlit's Literal AI data layer.
-- **P2 — conflict-of-laws scoring** — add a numeric "supremacy confidence" when comparing treaty vs statute.
+- **Path bug fixed** (`src/config.py`): ROOT_DIR now points at `/app`, PDFs
+  resolve to `data/pdfs/*`, ingestion actually finds Malcolm Shaw et al.
+- **Four-mode persona system**:
+  - `src/schemas.py` — AnswerMode enum (tourist_practical, law_student_case_law,
+    researcher, layman)
+  - `src/services/answer_modes.py` — full ModeSpec for each persona with
+    audience, voice, focus, required sections, target word count
+  - `src/pipeline/prompts.py` — `system_for(mode)` + `build_synthesis_message`
+    are now mode-aware
+- **Lenient citation verifier** (`src/pipeline/citation_verifier.py`) — when an
+  LLM (emergent/groq/ollama) returns a real draft, publish it. Citations are
+  graded as metadata, never used to wipe out a working answer. Fixes the
+  primary user complaint ("not able to answer").
+- **Gemini fallback hardened** (`src/services/gemini_fallback.py`) — when no
+  GEMINI_API_KEY is present, keep the LLM's draft instead of overwriting with
+  the canned tourist template.
+- **LLM chain rebuilt** (`src/pipeline/llm.py`) — Emergent universal key
+  (Claude Haiku 4.5) → Groq → Ollama. Free for the user, no extra config.
+- **Vector store made lighter** (`src/rag/vector_store.py`) — automatic
+  fall-through from BGE-m3 (FlagEmbedding) → FastEmbed BGE-small (~130 MB,
+  CPU-only, no torch). Hybrid_search rewritten to use NumPy instead of torch.
+- **Caselaws JSON ingestion** (`scripts/ingest_caselaws_sources.py`) — every
+  source in `caselaws/*.json` is indexed into COMMENTARY_GLOBAL with
+  source_role=source_catalog so "where can I find ICJ judgments?" works.
+- **Bootstrap CLI** (`scripts/bootstrap_corpus.py`) — one command indexes
+  everything.
+- **Premium UI redesign**:
+  - `chainlit_app.py` rewritten — `cl.ChatProfiles` for persona picker,
+    diagnostic line, sources panel, inline-citation normaliser ([3] → [S3]).
+  - `public/custom.css` — Oxford-blue + parchment editorial theme, Playfair
+    Display + Cormorant Garamond + JetBrains Mono fonts, glassmorphism cards,
+    block-quote source excerpts, `§` watermark.
+  - `.chainlit/config.toml` — points to `public/custom.css`.
+  - `chainlit.md` — landing copy describing the four personas.
+- **Supervisor entry** (`/etc/supervisor/conf.d/supervisord_chainlit.conf`)
+  for Chainlit on port 3000.
+- **Validation** — testing agent confirmed all 14 critical checkpoints pass:
+  4-persona switching, real grounded answers (Tourist 5 sources / 11 s,
+  Law Student IRAC 5 sources / 19 s), Sources panel with page numbers,
+  no escape-code leakage, no JS errors.
 
-## Next Action Items
-1. Add **bulk ingestion jobs** for at least one real source (CourtListener) using the existing token.
-2. Schema-enforce doc_type / jurisdiction at ingest time (fail fast if an adapter returns unknown values).
-3. Add **Chainlit persistent data layer** so users can revisit prior conversations.
-4. Add a **"Why not cited?"** inspector in the UI — click a retrieved source to see why the LLM chose / ignored it.
+## Indexed corpus snapshot
+
+- INTL_TREATIES: 275 passages (UN Charter, ICCPR, ICESCR)
+- NATIONAL_IN: 241 passages (Constitution of India)
+- SHAW_PRIVATE: 1,267 passages (Malcolm Shaw, *International Law*, 3,233 pp.)
+- COMMENTARY_GLOBAL: 95 entries (curated case-law catalog from `caselaws/*.json`)
+
+## Future / backlog (P1 → P2)
+
+- P1 — Improve Tourist-mode retrieval relevance for cross-border queries
+  (jurisdiction-aware reranking so "Russia traffic police" filters out unrelated
+  Indian constitutional schedule entries).
+- P1 — Optional GROQ_API_KEY path for local low-cost demos.
+- P2 — Stream tokens as they arrive (currently waits for full Claude response).
+- P2 — Persistent citation graph: hyperlinked [S#] tags scroll the Sources
+  panel into view on click.
+- P2 — Plug in a second LLM (gpt-5.2) when Emergent budget rises.
+- P2 — Multi-PDF upload from the Chainlit composer with on-the-fly ingestion
+  (currently disabled; PDFs must be dropped into `data/pdfs/`).
+
+## Next action items
+
+1. User should ship the included `.env.example` to local `.env` with their own
+   `GEMINI_API_KEY` for true fallback safety.
+2. Run `python scripts/bootstrap_corpus.py` once after adding new PDFs.
+3. Ship to demo. Use Law Student or Researcher persona for the funding pitch
+   to showcase IRAC reasoning + Malcolm Shaw retrieval.

@@ -87,6 +87,24 @@ def _collection_count() -> int:
         return 0
 
 
+def _normalise_inline_citations(text: str) -> str:
+    """Rewrite plain numeric citations (e.g. [3], [2,4]) into [S3], [S2, S4]
+    so the body matches the Sources panel labels."""
+    import re
+
+    def fix_group(match: "re.Match[str]") -> str:
+        inside = match.group(1)
+        # Skip if already prefixed with S
+        if "S" in inside.upper():
+            return match.group(0)
+        labels = [piece.strip() for piece in inside.split(",") if piece.strip().isdigit()]
+        if not labels:
+            return match.group(0)
+        return "[" + ", ".join(f"S{label}" for label in labels) + "]"
+
+    return re.sub(r"\[([0-9]+(?:\s*,\s*[0-9]+)*)\]", fix_group, text)
+
+
 def _run_graph(query: str, mode: AnswerMode) -> dict[str, Any]:
     state = compiled_graph.invoke(
         {
@@ -100,7 +118,7 @@ def _run_graph(query: str, mode: AnswerMode) -> dict[str, Any]:
     answer = final.get("answer") or state.get("verified_draft") or state.get("draft") or ""
     retrieved = state.get("retrieved") or []
     return {
-        "answer": clean_answer_text(str(answer)),
+        "answer": _normalise_inline_citations(clean_answer_text(str(answer))),
         "insufficient": bool(final.get("insufficient_context") or state.get("insufficient_context")),
         "provider": state.get("provider") or final.get("used_model") or "unknown",
         "retrieved": retrieved,
