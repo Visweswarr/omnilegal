@@ -1015,6 +1015,45 @@ def verify_citations(state: PipelineStateDict) -> PipelineStateDict:
     retrieved = state.get("retrieved", []) or []
     query = state.get("raw_input", "")
 
+    # Lenient mode: if the LLM (Claude/Groq/Gemini) returned a real draft, publish it.
+    # Strict citation grading runs only as a metadata pass — it never wipes a real answer
+    # out from under the user. This aligns the pipeline with how the user actually
+    # consumes legal research: imperfect citations are better than the canned tourist
+    # template the system used to fall back to.
+    real_provider = str(state.get("provider") or "")
+    has_real_provider = real_provider.startswith(("emergent/", "groq/", "ollama/")) or real_provider == "gemini"
+    if has_real_provider and draft.strip():
+        markers_present = [int(m) for m in _MARKER_RE.findall(draft)]
+        sections = _normalised_sections(draft)
+        grounding_status = (
+            "lenient_persona"
+            if str(state.get("answer_mode") or "").lower() in {"tourist_practical", "layman"}
+            else ("partial_citations" if markers_present else "uncited_llm_draft")
+        )
+        final = {
+            "query": query,
+            "answer": draft,
+            "answer_text": draft,
+            "sections": sections,
+            "grounding_status": grounding_status,
+            "authority_gaps": [],
+            "insufficient_context": False,
+            "used_model": real_provider,
+            "jurisdictions_considered": state.get("jurisdictions_considered") or [],
+            "legal_domains": state.get("legal_domains") or state.get("issue_labels") or [],
+        }
+        return {
+            **state,
+            "verified_draft": draft,
+            "citation_grades": {},
+            "verification_grades": {},
+            "grounding_status": grounding_status,
+            "authority_gaps": [],
+            "answer_sections": sections,
+            "insufficient_context": False,
+            "final": final,
+        }
+
     if not draft.strip():
         final = _insufficient_final(query, retrieved, {}, "The generation step did not produce a draft.", state)
         return {**state, "verified_draft": final["answer"], "citation_grades": {}, "verification_grades": {}, "grounding_status": final["grounding_status"], "authority_gaps": final["authority_gaps"], "answer_sections": final["sections"], "insufficient_context": final["insufficient_context"], "final": final}

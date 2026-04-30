@@ -7,7 +7,8 @@ from typing_extensions import TypedDict
 
 class PipelineStateDict(TypedDict, total=False):
     raw_input: str
-    answer_style: str                      # "short" | "long"
+    answer_style: str                      # legacy: "short" | "long"
+    answer_mode: str                       # "tourist_practical"|"law_student_case_law"|"researcher"|"layman"
     input_class: str                        # InputClass enum value
     input_confidence: float
     entities: dict[str, Any]               # EntityIntakeResult serialized

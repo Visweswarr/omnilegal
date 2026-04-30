@@ -287,8 +287,8 @@ class PipelineState(BaseModel):
 class AnswerMode(str, Enum):
     tourist_practical = "tourist_practical"
     law_student_case_law = "law_student_case_law"
-    comparative_research = "comparative_research"
-    source_discovery = "source_discovery"
+    researcher = "researcher"
+    layman = "layman"
 
 
 class CitationGrade(BaseModel):

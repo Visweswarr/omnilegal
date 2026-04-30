@@ -1,17 +1,48 @@
 [project]
-name = "OmniLegal AI — International Law Analyzer"
 enable_telemetry = false
-transports = ["websocket", "polling"]
+session_timeout = 7200
+user_env = []
+allow_origins = ["*"]
 
 [features]
-multi_modal = true
-unsafe_allow_html = false
+unsafe_allow_html = true
+latex = false
+auto_tag_thread = false
+spontaneous_file_upload.enabled = false
+
+[features.audio]
+enabled = false
 
 [UI]
-name = "OmniLegal AI"
-description = "Multi-jurisdictional international law research assistant"
+name = "OmniLegal"
+description = "Persona-driven international legal research console with grounded citations."
 default_collapse_content = false
-hide_cot = false
+hide_cot = true
+default_expand_messages = true
+custom_css = "/public/custom.css"
+custom_meta_image_url = ""
+custom_font = "Cormorant Garamond"
+
+[UI.theme]
+default = "light"
+
+[UI.theme.light]
+background = "#f9f3df"
+paper = "#ffffff"
+
+[UI.theme.light.primary]
+main = "#002147"
+dark = "#001533"
+light = "#0a3a78"
+
+[UI.theme.dark]
+background = "#0c1722"
+paper = "#1a2535"
+
+[UI.theme.dark.primary]
+main = "#d4af66"
+dark = "#b58840"
+light = "#e6c98a"
 
 [meta]
-generated_by = "1.1.0"
+generated_by = "omnilegal-2026.1"

@@ -42,8 +42,8 @@ class GeminiFallbackResult:
     skipped: str = ""
 
 
-_SYSTEM_PROMPT = """\
-You are OmniLegal Codex, a grounded legal research assistant.
+_SYSTEM_PROMPT_BASE = """\
+You are OmniLegal Codex, a grounded international and comparative legal research assistant.
 
 Answer the user's legal question fully and helpfully from your legal knowledge.
 Do not mention retrieval, databases, sources, or any internal pipeline status.
@@ -56,29 +56,24 @@ Rules:
    statements.
 3. Answer the legal question asked — explain the doctrine, applicable law,
    rights, obligations, or practical steps as fully as your knowledge allows.
-4. Return Markdown with exactly these four headings (in this order):
-   ## Legal Analysis
-   ## Key Rights and Obligations
-   ## Practical Steps
-   ## Disclaimer
-5. Keep the disclaimer text exactly as supplied. Do not add extra headers.
+4. Match the persona below — voice, structure, and audience.
 """
+
 
 _USER_TEMPLATE = """\
 User question:
 {query}
 
-Answer style: {answer_style} (short = 2–4 paragraphs total; long = detailed with full reasoning)
-Disclaimer text:
+Persona: {persona_name} — {persona_tagline}
+Required sections (markdown ## H2, in order): {required_sections}
+Disclaimer text (use verbatim under the final ## Disclaimer heading):
 {disclaimer}
 
 Context (do not mention this in the answer):
 - Jurisdictions involved: {jurisdictions}
 - Legal domains: {legal_domains}
-- Jurisdiction analysis:
-{jurisdiction_analysis}
 
-Write a complete legal answer to the question above.
+Write a complete legal answer to the question above respecting the persona.
 """
 
 
@@ -125,6 +120,30 @@ def apply_gemini_fallback(state: PipelineStateDict) -> PipelineStateDict:
 
     result = generate_fallback_answer(state)
     if not result.text:
+        # Gemini unavailable. Prefer the existing LLM draft if any (Claude/Groq via the
+        # primary chain). Only fall back to the canned tourist template when there is
+        # no usable draft at all (extractive_fallback / empty).
+        existing_draft = str(
+            (state.get("final") or {}).get("answer")
+            or state.get("verified_draft")
+            or state.get("draft")
+            or ""
+        ).strip()
+        existing_provider = str(state.get("provider") or "")
+        has_real_draft = bool(existing_draft) and existing_provider not in {
+            "extractive_fallback",
+            "local_practical_fallback",
+            "",
+        }
+
+        if has_real_draft:
+            # Keep the LLM-generated answer. Just record that Gemini wasn't used.
+            return {
+                **state,
+                "gemini_fallback_used": False,
+                "gemini_fallback_error": result.error or result.skipped or "",
+            }
+
         answer = _deterministic_practical_answer(state)
         final = dict(state.get("final") or {})
         final.update(
@@ -212,6 +231,7 @@ def _cache_key(state: PipelineStateDict) -> str:
         "version": _CACHE_VERSION,
         "model": OMNILEGAL_GEMINI_FALLBACK_MODEL,
         "answer_style": str(state.get("answer_style") or "long"),
+        "answer_mode": str(state.get("answer_mode") or "tourist_practical"),
         "query": query,
     }
     raw = json.dumps(payload, ensure_ascii=False, sort_keys=True)
@@ -299,10 +319,11 @@ def _call_gemini(state: PipelineStateDict) -> GeminiGeneration:
 
     def worker() -> None:
         try:
+            system_prompt, user_prompt = _build_prompt(state)
             result_queue.put(
                 generate_gemini_content(
-                    system=_SYSTEM_PROMPT,
-                    prompt=_build_prompt(state),
+                    system=system_prompt,
+                    prompt=user_prompt,
                     model=OMNILEGAL_GEMINI_FALLBACK_MODEL,
                     temperature=0.2,
                     max_output_tokens=_max_output_tokens(state),
@@ -332,21 +353,33 @@ def _call_gemini(state: PipelineStateDict) -> GeminiGeneration:
         return GeminiGeneration(text="", model=OMNILEGAL_GEMINI_FALLBACK_MODEL, error="Gemini returned no result.")
 
 
-def _build_prompt(state: PipelineStateDict) -> str:
-    final = state.get("final") or {}
-    reason = "; ".join(str(err) for err in state.get("pipeline_errors", []) or [])
-    if not reason:
-        reason = "general practical fallback"
+def _build_prompt(state: PipelineStateDict) -> tuple[str, str]:
+    """Return (system_prompt, user_prompt) tuned to the active persona."""
+    from src.services.answer_modes import get_mode_spec, parse_mode
 
-    return _USER_TEMPLATE.format(
+    final = state.get("final") or {}
+    parsed = parse_mode(state.get("answer_mode") or state.get("mode") or "tourist_practical")
+    spec = get_mode_spec(parsed)
+
+    system = (
+        _SYSTEM_PROMPT_BASE
+        + f"\nPERSONA: {spec.display_name.upper()} — {spec.tagline}\n"
+        f"Audience: {spec.audience}\n"
+        f"Voice: {spec.voice}\n"
+        f"Focus: {spec.system_focus}\n"
+        f"Target length: ~{spec.target_word_count} words.\n"
+    )
+
+    user = _USER_TEMPLATE.format(
         query=state.get("raw_input", ""),
-        answer_style=str(state.get("answer_style") or "long"),
+        persona_name=spec.display_name,
+        persona_tagline=spec.tagline,
+        required_sections=", ".join(spec.required_sections),
         disclaimer=LEGAL_RESEARCH_SHORT_DISCLAIMER,
-        reason=reason,
         jurisdictions=", ".join(str(item) for item in final.get("jurisdictions_considered", []) or []) or "unknown",
         legal_domains=", ".join(str(item) for item in final.get("legal_domains", []) or state.get("issue_labels", []) or []) or "unknown",
-        jurisdiction_analysis=_format_jurisdiction_analysis(state),
     )
+    return system, user
 
 
 def _format_jurisdiction_analysis(state: PipelineStateDict) -> str:
@@ -369,7 +402,12 @@ def _format_jurisdiction_analysis(state: PipelineStateDict) -> str:
 
 
 def _max_output_tokens(state: PipelineStateDict) -> int:
-    return 900 if str(state.get("answer_style") or "").lower() == "short" else 1600
+    from src.services.answer_modes import get_mode_spec, parse_mode
+
+    parsed = parse_mode(state.get("answer_mode") or state.get("mode") or "tourist_practical")
+    spec = get_mode_spec(parsed)
+    # Aim for ~2x the target word count converted to tokens (rough 0.75 words / token).
+    return max(700, min(int(spec.target_word_count * 2 / 0.75), 2400))
 
 
 def _normalise_answer(text: str) -> str:

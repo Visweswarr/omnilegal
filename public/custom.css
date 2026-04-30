@@ -1,0 +1,334 @@
+/* OmniLegal — premium "legal research console" styling.
+   Goal: distinct, editorial, Oxford-blue + parchment, NOT a chatbot. */
+
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap");
+
+:root {
+  --ol-ink:        #0c1722;
+  --ol-ink-soft:   #1a2535;
+  --ol-parchment:  #f4ecd8;
+  --ol-paper:      #f9f3df;
+  --ol-rule:       #c8b893;
+  --ol-oxford:     #002147;
+  --ol-oxford-2:   #0a3a78;
+  --ol-amber:      #b58840;
+  --ol-amber-soft: #d4af66;
+  --ol-crimson:    #8b1f2c;
+  --ol-success:    #1f6f43;
+  --ol-shadow:     0 1px 0 rgba(11, 23, 34, 0.05), 0 6px 24px rgba(11, 23, 34, 0.08);
+}
+
+html, body, #root {
+  background: linear-gradient(180deg, var(--ol-paper) 0%, var(--ol-parchment) 100%) !important;
+  color: var(--ol-ink) !important;
+}
+
+/* Editorial typography: serif for body & answers, mono for diagnostics */
+body, .MuiTypography-body1, .markdown-body, [class*="message"] {
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, "Times New Roman", serif !important;
+  font-size: 17px;
+  line-height: 1.7;
+  letter-spacing: 0.005em;
+}
+
+h1, h2, h3, h4, h5,
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3 {
+  font-family: "Playfair Display", "EB Garamond", Georgia, serif !important;
+  font-weight: 700 !important;
+  color: var(--ol-oxford) !important;
+  letter-spacing: -0.01em;
+}
+
+.markdown-body h2 {
+  border-bottom: 1px solid var(--ol-rule);
+  padding-bottom: 4px;
+  margin-top: 18px;
+}
+
+.markdown-body h3 {
+  font-size: 1.15em;
+  margin-top: 14px;
+}
+
+code, pre, .MuiChip-root, .markdown-body code {
+  font-family: "JetBrains Mono", "IBM Plex Mono", "SF Mono", Menlo, monospace !important;
+  font-size: 0.85em;
+}
+
+a, .markdown-body a {
+  color: var(--ol-oxford-2) !important;
+  text-decoration: underline solid var(--ol-amber-soft) 1.5px !important;
+  text-underline-offset: 3px;
+}
+
+/* Strip the chatbot chrome: header, avatar bubbles, etc. */
+header, [class*="Header"] {
+  background: transparent !important;
+  border-bottom: 1px solid var(--ol-rule) !important;
+  box-shadow: none !important;
+}
+
+[class*="MainScreen"],
+[class*="MessageContainer"],
+.cl-message-container {
+  background: transparent !important;
+}
+
+/* Brand-style title in header */
+header [class*="logo"]::before {
+  content: "OmniLegal";
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 700;
+  font-size: 1.4em;
+  color: var(--ol-oxford);
+  letter-spacing: 0.01em;
+  margin-right: 8px;
+}
+header [class*="logo"] img,
+header [class*="logo"] svg {
+  display: none !important;
+}
+
+/* Chat profile (persona) cards — make them look like research tools */
+[class*="ChatProfile"],
+[role="tablist"] [role="tab"] {
+  background: rgba(255, 255, 255, 0.7) !important;
+  border: 1px solid var(--ol-rule) !important;
+  border-radius: 6px !important;
+  padding: 14px 18px !important;
+  box-shadow: var(--ol-shadow);
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+
+[role="tab"][aria-selected="true"],
+[class*="ChatProfile"][class*="active"] {
+  border-color: var(--ol-oxford) !important;
+  background: var(--ol-paper) !important;
+  box-shadow: 0 0 0 3px rgba(0, 33, 71, 0.12), var(--ol-shadow);
+}
+
+[role="tab"]:hover {
+  transform: translateY(-1px);
+  border-color: var(--ol-amber) !important;
+}
+
+/* Message bubbles — soften them into editorial cards */
+[class*="message-content"],
+.cl-message,
+[class*="Message-root"] {
+  background: rgba(255, 255, 255, 0.92) !important;
+  border: 1px solid var(--ol-rule) !important;
+  border-radius: 4px !important;
+  padding: 18px 22px !important;
+  margin: 14px 0 !important;
+  box-shadow: var(--ol-shadow);
+  position: relative;
+}
+
+[class*="message-content"]::before {
+  content: "";
+  position: absolute;
+  left: -22px;
+  top: 18px;
+  color: var(--ol-amber);
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.1em;
+  opacity: 0.5;
+}
+
+/* Author chip */
+[class*="message-author"],
+.cl-author {
+  font-family: "JetBrains Mono", monospace !important;
+  font-size: 0.7rem !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
+  color: var(--ol-amber) !important;
+}
+
+/* Composer (input) — kill the default dark frame Material gives us. */
+[class*="InputBox"],
+form[class*="composer"],
+[class*="composer"],
+[class*="input-container"],
+[class*="MessageComposer"],
+[class*="inputBoxRoot"],
+div[class*="composer"] > * {
+  background: var(--ol-paper) !important;
+  border-color: var(--ol-rule) !important;
+  border-radius: 6px !important;
+  box-shadow: var(--ol-shadow);
+}
+
+/* Bottom strip / button row */
+form[class*="composer"] > div:last-child,
+[class*="composer"] > div:last-child,
+[class*="MessageComposer"] > div:last-child {
+  background: var(--ol-paper) !important;
+  border-top: 1px solid var(--ol-rule) !important;
+}
+
+/* Chainlit 2.x ships its own Tailwind palette — stomp the dark frame around the
+   composer textarea so it stops looking like a YouTube comment box. */
+.bg-accent,
+.dark\:bg-card,
+.bg-card,
+[class*="bg-accent"],
+[class*="bg-card"] {
+  background-color: var(--ol-paper) !important;
+}
+
+/* The wrapper at depth-2 of the textarea */
+.bg-accent.rounded-3xl,
+.bg-accent[class*="rounded"],
+[class*="bg-accent"][class*="rounded"] {
+  background: var(--ol-paper) !important;
+  border: 1px solid var(--ol-rule) !important;
+  box-shadow: var(--ol-shadow);
+  border-radius: 12px !important;
+}
+
+textarea.text-base,
+textarea[class*="ring-offset-background"] {
+  background: var(--ol-paper) !important;
+  color: var(--ol-ink) !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+textarea,
+input[type="text"] {
+  font-family: "Cormorant Garamond", Georgia, serif !important;
+  font-size: 17px !important;
+  background: var(--ol-paper) !important;
+  color: var(--ol-ink) !important;
+}
+
+textarea::placeholder {
+  color: rgba(12, 23, 34, 0.5) !important;
+  font-style: italic;
+}
+
+/* Buttons (Send + Actions) — nuke any stray pink Material default */
+button[type="submit"],
+[class*="SendIcon"],
+button[class*="contained"],
+button[class*="primary"],
+button[aria-label*="Send"],
+button[aria-label*="send"],
+button.bg-primary,
+button[class*="bg-primary"],
+.bg-primary {
+  background: var(--ol-oxford) !important;
+  color: var(--ol-parchment) !important;
+  border: 1px solid var(--ol-oxford) !important;
+  border-radius: 4px !important;
+  font-family: "JetBrains Mono", monospace !important;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.78em !important;
+}
+
+button[type="submit"]:hover,
+button[aria-label*="Send"]:hover,
+button.bg-primary:hover {
+  background: var(--ol-oxford-2) !important;
+  color: var(--ol-paper) !important;
+}
+
+button[aria-label*="Send"] svg,
+button[aria-label*="send"] svg,
+button[type="submit"] svg,
+button.bg-primary svg {
+  color: var(--ol-parchment) !important;
+  fill: var(--ol-parchment) !important;
+}
+
+/* Inline action / quick reply buttons */
+button[class*="action"],
+[class*="actions"] button {
+  background: rgba(255, 255, 255, 0.8) !important;
+  color: var(--ol-oxford) !important;
+  border: 1px solid var(--ol-oxford) !important;
+  border-radius: 4px !important;
+  padding: 8px 14px !important;
+  font-family: "JetBrains Mono", monospace !important;
+  font-size: 0.78em !important;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+button[class*="action"]:hover {
+  background: var(--ol-oxford) !important;
+  color: var(--ol-parchment) !important;
+}
+
+/* Citation tags [S1] [S2, S3] inside the answer */
+.markdown-body p code {
+  background: var(--ol-paper);
+  color: var(--ol-oxford);
+  border: 1px solid var(--ol-rule);
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 0.78em;
+  font-weight: 600;
+}
+
+/* Block quotes — used for source excerpts */
+.markdown-body blockquote {
+  border-left: 3px solid var(--ol-amber);
+  background: linear-gradient(90deg, rgba(212, 175, 102, 0.1), transparent);
+  margin: 10px 0;
+  padding: 8px 14px;
+  color: var(--ol-ink-soft);
+  font-style: italic;
+  border-radius: 0 3px 3px 0;
+}
+
+/* Horizontal rules between source cards */
+.markdown-body hr {
+  border: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--ol-rule), transparent);
+  margin: 22px 0;
+}
+
+/* Watermark on empty state */
+[class*="MainScreen"]::before {
+  content: "\00A7";
+  position: fixed;
+  right: 64px;
+  bottom: 56px;
+  font-size: 220px;
+  font-family: "Playfair Display", Georgia, serif;
+  color: rgba(0, 33, 71, 0.04);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Scrollbar — soften it */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--ol-rule);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Hide the default Chainlit promo / "Built with" footer */
+[class*="watermark"],
+a[href*="chainlit.io"] {
+  display: none !important;
+}
+
+@media (max-width: 720px) {
+  body { font-size: 16px; }
+  [class*="message-content"] { padding: 14px 16px !important; }
+}

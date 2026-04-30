@@ -1,36 +1,28 @@
-# OmniLegal Codex — Quality-First Legal Research
+# OmniLegal — Legal Research Console
 
-**Multi-model council architecture**: parallel AI drafters → source critics → judge synthesis.
+A grounded, persona-aware research console for **international, comparative, and jurisdiction-specific** legal questions.
 
-## Answer Modes (auto-detected)
+## Personas
 
-| Mode | Best for |
-|------|----------|
-| 🌍 **Tourist / Practical** | Rights, steps, and what NOT to do — in plain language |
-| 📚 **Law Student / Case Law** | IRAC analysis, case citations, procedural posture |
-| ⚖️ **Comparative Research** | Side-by-side comparison across jurisdictions |
-| 🔍 **Source Discovery** | Raw authority listing with tier classification |
+| Persona | Voice | Best for |
+|---------|-------|----------|
+| **Tourist** | Plain English, action-oriented | Travellers, expats, on-the-ground rights |
+| **Law Student** | Strict IRAC with citations | Memos, moots, exam practice |
+| **Researcher** | Doctrinal, comparative, deep | Policy work, scholarship, treaty analysis |
+| **Layman** | Conversational, no jargon | Anyone curious without legal training |
 
-## Example Queries
+## How it works
 
-- *I am an Indian citizen stopped by traffic police in Russia. What are my rights?*
-- *Explain BNS Section 69 and its implications*
-- *Analyse the Tinoco Arbitration and its significance for state recognition*
-- *Compare murder sentencing across US, UK, and India*
-- *What laws should a tourist know before visiting Japan?*
+1. **Retrieve.** Hybrid dense + lexical search over an indexed corpus that includes Malcolm Shaw's *International Law*, the UN Charter, ICCPR, ICESCR, the Constitution of India, and a curated case-law catalog.
+2. **Synthesize.** Persona-tuned prompt + Claude Sonnet 4.5 (Emergent universal key) draft a `[S#]`-grounded answer.
+3. **Verify.** Citation grading + repair pass; if retrieval is sparse, **Gemini 2.5 Flash** automatically fills in as the always-on knowledge fallback (transparently labelled).
 
-## How it Works
+## Try it
 
-1. **Query Analysis** — classifies intent, extracts entities and ISO codes
-2. **Hybrid Retrieval** — hard-filtered vector search across 20+ legal collections with a 40s deadline
-3. **Multi-Model Council** — 2–3 LLMs draft in parallel, then source critic + legal-risk critic review
-4. **Citation Verification** — eyecite reporter matching + CourtListener API + retrieval cross-reference
-5. **Judge Synthesis** — final authoritative answer removing any fabricated or unsupported claims
-
-## Tips
-
-- Upload a PDF to add it to your personal corpus (replaces nothing — additive only)
-- Reply `SHORT` or `LONG` to adjust answer length after asking
+- *I'm an Indian citizen stopped by traffic police in Russia. What are my rights?* — Tourist mode
+- *Brief Tinoco Arbitration on state recognition.* — Law Student mode
+- *Compare extraterritorial jurisdiction doctrine in the US, EU and India.* — Researcher mode
+- *Explain jus cogens like I'm five.* — Layman mode
 
 ---
 

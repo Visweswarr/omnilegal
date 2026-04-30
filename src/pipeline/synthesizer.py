@@ -430,17 +430,19 @@ def synthesize(state: PipelineStateDict) -> PipelineStateDict:
     # Attach [S#] labels so the LLM can cite them
     labeled = _label_sources(generation_sources)
 
-    # Attempt provider-backed generation first (Groq -> Ollama).
-    mode = str(state.get("mode") or "research")
+    # Resolve the persona (mode). Falls back to tourist_practical if not set.
+    from src.services.answer_modes import parse_mode
+    answer_mode = parse_mode(state.get("answer_mode") or state.get("mode") or "tourist_practical")
+    mode = answer_mode.value
     draft = ""
     provider = ""
     try:
         from src.pipeline.llm import LLMUnavailable, complete
         from src.pipeline.prompts import build_synthesis_message, system_for
 
-        system = system_for(mode)
-        user = build_synthesis_message(query, labeled, answer_style)
-        draft, provider = complete(system, user, temperature=0.12)
+        system = system_for(answer_mode)
+        user = build_synthesis_message(query, labeled, answer_mode)
+        draft, provider = complete(system, user, temperature=0.18)
     except Exception as exc:  # noqa: BLE001
         print(f"Warning: LLM synthesis failed ({type(exc).__name__}: {exc}); using template fallback.")
 
@@ -455,4 +457,5 @@ def synthesize(state: PipelineStateDict) -> PipelineStateDict:
         "draft": draft,
         "conflicts": [],
         "provider": provider,
+        "answer_mode": mode,
     }

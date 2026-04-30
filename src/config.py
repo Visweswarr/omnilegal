@@ -5,12 +5,14 @@ from src.env import load_environment
 
 load_environment()
 
-# Paths
-ROOT_DIR = Path(__file__).parent.parent.parent  # NLP Legal Summarizer/
-OMNILEGAL_DIR = ROOT_DIR / "omnilegal"
+# Paths — OmniLegal lives directly inside this repo (no nested "omnilegal/" folder).
+# Previously this pointed at the parent of /app, breaking every PDF ingestion.
+ROOT_DIR = Path(__file__).resolve().parent.parent  # /app
+OMNILEGAL_DIR = ROOT_DIR  # /app
 
 DATA_DIR = OMNILEGAL_DIR / "data"
 CORPUS_DIR = DATA_DIR / "corpus"
+PDFS_DIR = DATA_DIR / "pdfs"
 VECTOR_DB_DIR = DATA_DIR / "vector_db"
 QDRANT_STORAGE_DIR = DATA_DIR / "qdrant_storage"
 QDRANT_EMBEDDED_DIR = DATA_DIR / "qdrant_embedded"
@@ -23,14 +25,15 @@ os.makedirs(VECTOR_DB_DIR, exist_ok=True)
 os.makedirs(QDRANT_EMBEDDED_DIR, exist_ok=True)
 os.makedirs(REMOTE_SOURCES_DIR, exist_ok=True)
 os.makedirs(LOCAL_REFERENCES_DIR, exist_ok=True)
+os.makedirs(PDFS_DIR, exist_ok=True)
 
-# Source documents
+# Source documents — packaged inside data/pdfs/. Users can drop additional PDFs here.
 CORPUS_FILES = {
-    "indian_constitution": ROOT_DIR / "Indian Constitutition.pdf",
-    "un_charter": ROOT_DIR / "uncharter.pdf",
-    "iccpr": ROOT_DIR / "ccpr.pdf",
-    "icescr": ROOT_DIR / "cescr.pdf",
-    "malcolm_shaw": ROOT_DIR / "International Law (Malcolm N. Shaw).pdf",
+    "indian_constitution": PDFS_DIR / "Indian Constitutition.pdf",
+    "un_charter": PDFS_DIR / "uncharter.pdf",
+    "iccpr": PDFS_DIR / "ccpr.pdf",
+    "icescr": PDFS_DIR / "cescr.pdf",
+    "malcolm_shaw": PDFS_DIR / "International Law (Malcolm N. Shaw).pdf",
 }
 CASE_LAW_JSONL = ROOT_DIR / "case_with_all_sources_with_companion_cases_tag.jsonl"
 
@@ -156,7 +159,14 @@ EMBED_MODEL = os.getenv("EMBED_MODEL", "BAAI/bge-m3")
 RERANKER = os.getenv("RERANKER", "BAAI/bge-reranker-v2-m3")
 EMBEDDING_MODEL = EMBED_MODEL
 RERANKER_MODEL = RERANKER
-EMBEDDING_DIM = 1024
+EMBEDDING_DIM = int(os.getenv("OMNILEGAL_EMBEDDING_DIM", "1024"))
+
+# Lightweight embedding fallback. When BGE-m3 cannot load (no GPU / no weights cached
+# / heavy-model toggle off), the vector store can use FastEmbed's BGE-small-en-v1.5
+# which ships with qdrant-client[fastembed] and runs on CPU in seconds.
+OMNILEGAL_EMBED_PROVIDER = os.getenv("OMNILEGAL_EMBED_PROVIDER", "auto").lower()  # auto | flagembedding | fastembed
+FASTEMBED_MODEL = os.getenv("FASTEMBED_MODEL", "BAAI/bge-small-en-v1.5")
+FASTEMBED_DIM = int(os.getenv("FASTEMBED_DIM", "384"))
 
 # Classification / NER models
 CLASSIFIER_MODEL = "MoritzLaurer/deberta-v3-large-zeroshot-v2.0-c"
@@ -166,6 +176,12 @@ GLINER_MODEL = "urchade/gliner_multi-v2.1"
 NLI_MODEL = os.getenv("NLI_MODEL", "vectara/hallucination_evaluation_model")
 
 # LLM
+# Emergent universal LLM key (free for the user via Emergent platform). Used as primary
+# generator when no Groq key is provided. Maps to Anthropic Claude Sonnet 4.5 by default.
+EMERGENT_LLM_KEY = os.getenv("EMERGENT_LLM_KEY", "")
+EMERGENT_LLM_PROVIDER = os.getenv("EMERGENT_LLM_PROVIDER", "anthropic").strip().lower()
+EMERGENT_LLM_MODEL = os.getenv("EMERGENT_LLM_MODEL", "claude-haiku-4-5-20251001").strip()
+
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
 ANTHROPIC_MODEL = os.getenv("ANTHROPIC_MODEL", "claude-3-5-sonnet-latest")

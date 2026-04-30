@@ -16,7 +16,7 @@ sys.path.append(str(Path(__file__).parent.parent.parent))
 
 from src.config import (
     ALL_COLLECTIONS,
-    EMBEDDING_DIM,
+    EMBEDDING_DIM as _CFG_EMBEDDING_DIM,
     EMBEDDING_MODEL,
     OMNILEGAL_QDRANT_EMBEDDED_PATH,
     OMNILEGAL_VECTOR_BACKEND,
@@ -24,6 +24,16 @@ from src.config import (
     VECTOR_DB_DIR,
 )
 from src.services.authority import annotate_authority_tier
+
+
+def _embedding_dim() -> int:
+    """Resolve the embedding dimension from current config (allows runtime override)."""
+    from src import config as _cfg  # noqa: WPS433
+    return int(getattr(_cfg, "EMBEDDING_DIM", _CFG_EMBEDDING_DIM) or _CFG_EMBEDDING_DIM)
+
+
+# Backwards-compat alias so existing references still resolve.
+EMBEDDING_DIM = _CFG_EMBEDDING_DIM
 
 logger = logging.getLogger(__name__)
 
@@ -198,7 +208,7 @@ class QdrantVectorStore(BaseVectorStore):
                 return
         self.client.create_collection(
             collection_name=name,
-            vectors_config={"dense": VectorParams(size=EMBEDDING_DIM, distance=Distance.COSINE)},
+            vectors_config={"dense": VectorParams(size=_embedding_dim(), distance=Distance.COSINE)},
             sparse_vectors_config={"sparse": SparseVectorParams(index=SparseIndexParams(on_disk=False))},
         )
         print(f"Created Qdrant collection: {name}")
@@ -404,29 +414,31 @@ class SQLiteVectorStore(BaseVectorStore):
         return docs
 
     def hybrid_search(self, query: str, dense_vec: list[float], sparse_weights: dict[int, float], collection: str, k: int) -> list[dict[str, Any]]:
-        import torch
-        query_tensor = torch.tensor(dense_vec, dtype=torch.float32)
+        import numpy as np  # noqa: WPS433
+        query_arr = np.asarray(dense_vec, dtype=np.float32)
+        q_norm = float(np.linalg.norm(query_arr)) or 1.0
         hits = []
         with sqlite3.connect(self.db_path) as conn:
             rows = conn.execute("SELECT text, metadata_json, dense_vec_json FROM documents WHERE collection = ?", (collection,)).fetchall()
             if not rows: return []
-            
+
             texts, metas, vectors = [], [], []
             for text, meta_json, vec_json in rows:
                 texts.append(text)
                 metas.append(json.loads(meta_json))
                 vectors.append(json.loads(vec_json))
-            
-            doc_tensors = torch.tensor(vectors, dtype=torch.float32)
-            # Compute cosine similarity
-            if doc_tensors.dim() == 2 and doc_tensors.size(0) > 0:
-                scores = torch.nn.functional.cosine_similarity(query_tensor.unsqueeze(0), doc_tensors, dim=1).tolist()
-                for i, score in enumerate(scores):
+
+            doc_arr = np.asarray(vectors, dtype=np.float32)
+            if doc_arr.size and doc_arr.ndim == 2 and doc_arr.shape[1] == query_arr.shape[0]:
+                doc_norms = np.linalg.norm(doc_arr, axis=1)
+                doc_norms[doc_norms == 0] = 1.0
+                scores = (doc_arr @ query_arr) / (doc_norms * q_norm)
+                for i, score in enumerate(scores.tolist()):
                     meta = metas[i]
                     meta.pop("index_text", None)
                     text = meta.pop("raw_text", "") or meta.pop("text", "") or texts[i]
                     hits.append({"text": text, "score": float(score), "metadata": meta})
-                    
+
         hits.sort(key=lambda x: x["score"], reverse=True)
         return hits[:k]
 
@@ -493,10 +505,25 @@ def preferred_torch_devices() -> list[str] | None:
 
 
 def get_embed_model():
+    """Return an embedding model that exposes BGE-m3-style ``encode(...)``.
+
+    Resolution order:
+      1. ``OMNILEGAL_EMBED_PROVIDER=flagembedding`` → BGE-m3 via FlagEmbedding (heavy, dense+sparse).
+      2. ``OMNILEGAL_EMBED_PROVIDER=fastembed`` → FastEmbed BGE-small (light, dense only).
+      3. ``auto`` (default): try FlagEmbedding, fall back to FastEmbed if it fails to load.
+    """
     global _embed_model
-    if _embed_model is None:
+    if _embed_model is not None:
+        return _embed_model
+
+    from src.config import OMNILEGAL_EMBED_PROVIDER
+
+    provider = (OMNILEGAL_EMBED_PROVIDER or "auto").lower()
+
+    def _load_flag_embedding():
         _ensure_transformers_flagembedding_compat()
-        from FlagEmbedding import BGEM3FlagModel
+        from FlagEmbedding import BGEM3FlagModel  # noqa: WPS433
+
         devices = preferred_torch_devices()
         batch_size = int(os.getenv("OMNILEGAL_EMBED_BATCH_SIZE", "8" if devices else "32"))
         logger.info(
@@ -505,13 +532,64 @@ def get_embed_model():
             devices or "cpu",
             batch_size,
         )
-        _embed_model = BGEM3FlagModel(
+        return BGEM3FlagModel(
             EMBEDDING_MODEL,
             use_fp16=bool(devices),
             devices=devices,
             batch_size=batch_size,
         )
-    return _embed_model
+
+    def _load_fastembed():
+        from src.config import EMBEDDING_DIM, FASTEMBED_DIM, FASTEMBED_MODEL  # noqa: WPS433
+        # FastEmbed runs CPU, ships the model on first call (~130MB for BGE-small).
+        from fastembed import TextEmbedding  # noqa: WPS433
+
+        logger.info("Loading FastEmbed model %s for dense embeddings", FASTEMBED_MODEL)
+        model = TextEmbedding(model_name=FASTEMBED_MODEL)
+
+        class _FastEmbedAdapter:
+            def __init__(self, _inner):
+                self._inner = _inner
+
+            def encode(self, texts, return_dense=True, return_sparse=False, return_colbert_vecs=False, **_kwargs):
+                import numpy as np  # noqa: WPS433
+
+                vectors = list(self._inner.embed(list(texts)))
+                array = np.array(vectors, dtype=np.float32)
+                output = {"dense_vecs": array}
+                if return_sparse:
+                    # Provide an empty sparse map so callers that expect it don't crash.
+                    output["lexical_weights"] = [{} for _ in texts]
+                return output
+
+        # Push the configured embedding dim back so the vector store creates collections of the right size.
+        if EMBEDDING_DIM != FASTEMBED_DIM:
+            try:
+                from src import config as _cfg  # noqa: WPS433
+                _cfg.EMBEDDING_DIM = FASTEMBED_DIM  # type: ignore[attr-defined]
+            except Exception:
+                pass
+        return _FastEmbedAdapter(model)
+
+    if provider == "flagembedding":
+        _embed_model = _load_flag_embedding()
+        return _embed_model
+
+    if provider == "fastembed":
+        _embed_model = _load_fastembed()
+        return _embed_model
+
+    # auto
+    try:
+        _embed_model = _load_flag_embedding()
+        return _embed_model
+    except Exception as exc:  # noqa: BLE001
+        logger.warning(
+            "FlagEmbedding unavailable (%s); falling back to FastEmbed for dense embeddings.",
+            exc,
+        )
+        _embed_model = _load_fastembed()
+        return _embed_model
 
 def configured_vector_backend() -> str:
     # Re-read from env to pick up .env changes loaded by dotenv
@@ -607,7 +685,7 @@ def upsert_chunks_lexical_only(collection: str, chunks: list[dict[str, Any]], *,
         return store.upsert_chunks(collection, chunks, batch_size=batch_size)
 
     store.create_collection(collection)
-    zero_dense = [0.0] * EMBEDDING_DIM
+    zero_dense = [0.0] * _embedding_dim()
     total = 0
     for i in range(0, len(chunks), batch_size):
         batch = chunks[i : i + batch_size]
