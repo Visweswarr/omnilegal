@@ -1,0 +1,50 @@
+{
+  "summary": "First end-to-end test of OmniLegal v3 (6-pillar React + FastAPI rebuild). Backend: 9/10 pytest tests PASS in ~26s. Sidecar health, /api/health (all 3 LLMs configured), /api/overview (3,730 chunks across 8 collections, 6 live sources, 3 council models), CORS, /api/forensics/verify, /api/atlas/analyze (6 countries with grounded verdicts incl. 'restricted' / 'illegal' for Russia & US — conflict detected for arbitration), /api/live/search (>=5 hits across 6 sources in <15s), /api/council/debate (3 LLM answers + judge with verdict/agreements/disagreements + passages, ~25s), /api/research/ask (answer + citations + passages + used_model in <30s) all return correct schemas and grounded data. Only failing endpoint: /api/advocacy/generate — INTERMITTENT (~50% failure rate across 3 runs). When LLM JSON parse fails the response drops the 'packet' / 'error' keys to None silently; when it succeeds the packet has all four sections (position_paper, opening_speech, rebuttal_cards, leverage_cards). Frontend: Landing renders the verdict/map/proof headline, the 3,730 counter animates correctly, all 6 pillar tiles + 9 live-registry chips visible. Forensics 'Load sample' + 'Audit citations' produces 6 in-DOM mark elements with verified/partial/hallucinated annotations. Live search produces all 6 source badges (Indian Kanoon, CourtListener, GovInfo, EUR-Lex, HUDOC, UN Treaties). Atlas analyse('arbitration', AI-inferred OFF) renders a colored world map with 210 SVG paths (177 colored), all 6 country pills (India 1.00, US 0.62, UK 0.00, Russia 0.62, Israel 0.95, EU 0.00) and a 'CONFLICT DETECTED' verdict in 14s. Council backend API works in <30s but the UI Convene submit flow could only be confirmed once (a second attempt did not trigger any DOM growth — possibly a wiring issue or text-input specificity). Research page input element is not exposed as standard input[type=text]/textarea, blocking selector-based automation.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "/api/advocacy/generate", "issue": "Intermittent failure (~50% repro): when the underlying Gemini JSON parse fails, the response returns 200 OK but with packet=null AND error=null — both the success and the error fallback paths in src/services/advocacy_service.py:247 are bypassed. Confirmed by running the endpoint twice: run 1 returned only {country,country_key,topic,position,error:None,international_sources,...} with NO packet key; run 2 returned the full 4-section packet. Root cause: _parse_json regex fallback returns a non-None but malformed dict, so the success branch is taken with packet={} on some retries. Recommend (a) tightening _parse_json validation to require all 4 expected keys before returning, (b) adding a retry loop with model fallback (Claude) when packet is incomplete, or (c) at minimum surfacing a clear error string instead of silent None."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "Council page", "issue": "Convene submit flow could not be reliably triggered via the input field on second attempt — body length stayed at 625 chars after fill+click despite 100s wait. The first attempt worked in 2.5s (likely cached). Suspect the React component may require an event other than HTMLInputElement.value-set, or the example-chip path is the only reliable submit path.", "selector": "input[placeholder='Ask a hard legal question…'] + button:has-text('Convene the Council')", "priority": "MEDIUM"},
+      {"component": "Research page", "issue": "Query input element is not detected by `input[type='text']`, `input:not([type])`, or `textarea` selectors despite a visible 'Ask anything…' field in the screenshot. Blocks automated UI testing. Likely a custom input or has a non-standard type attribute. Add data-testid='research-query-input' and similar testids on Council/Research/Atlas/Live/Forensics submit buttons + inputs to make E2E testing robust.", "selector": "[placeholder='Ask anything…']", "priority": "MEDIUM"}
+    ],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Global", "issues": ["No data-testid attributes on any interactive control across 6 pages — every test has to rely on placeholder text or button-text matching, which is brittle. Add data-testid to all primary CTAs (analyze-btn, audit-btn, convene-btn, ask-btn, search-btn) and to the result containers (atlas-map, council-panel-claude/gemini/groq, council-judge-verdict, research-citations-rail, forensics-summary)."]},
+      {"screen": "React Router warnings", "issues": ["Two React Router future-flag warnings in console (v7_startTransition, v7_relativeSplatPath). Cosmetic; opt-in or upgrade router."]}
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_omnilegal_v3.py",
+    "/app/test_reports/pytest/v3_results.xml"
+  ],
+  "action_items": [
+    "Harden /api/advocacy/generate JSON parsing — either retry on incomplete packet or surface a real error message; current behaviour silently returns null on ~50% of calls.",
+    "Add data-testid attributes across all 6 frontend pillars (inputs, primary CTAs, result containers) — currently zero, which breaks robust E2E automation.",
+    "Investigate Council submit path — confirm the Convene button reliably POSTs /api/council/debate when the input is filled programmatically (the chip click path works; the input-fill path was inconsistent on retest).",
+    "Investigate Research input element — selectors `input[type=text]`, `input:not([type])`, `textarea` all returned 0; ensure the field is a real <input>/<textarea> so it is keyboard-accessible and scriptable.",
+    "Optional: silence the two React Router future-flag warnings."
+  ],
+  "critical_code_review_comments": [
+    "src/services/advocacy_service.py:245 — `_parse_json(result.text)` accepts any first {...} regex match. If the model emits a partial JSON (e.g. only opens position_paper and truncates), the regex still returns a dict and the success branch runs with packet={partial}, hiding the real failure mode. Add a schema check before returning: `if not all(k in parsed for k in ('position_paper','opening_speech','rebuttal_cards','leverage_cards')): treat as parse failure`.",
+    "src/api_router_v2.py routes return raw service dicts directly to the client — no Pydantic response models. Means the public API contract has no schema, can drift silently (e.g. advocacy returning packet vs no packet), and Swagger/OpenAPI docs are unreliable. Recommend adding Pydantic response_model to each route.",
+    "Frontend has zero data-testid attributes across all 6 pillar pages — flagged again because it is the single biggest blocker for both this iteration and any future regression suite.",
+    "live_authority_service curated-fallback for HUDOC/EUR-Lex is undocumented in the API response — the /api/live/search response should mark which entries are live vs curated so callers can distinguish. Currently the test could not tell whether the EUR-Lex hits were real or fallback."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_omnilegal_v3.py"
+  ],
+  "success_rate": {
+    "backend": "90% (9/10 pytest endpoints pass; advocacy intermittent at ~50%)",
+    "frontend": "67% (Landing, Forensics, Live, Atlas all fully verified end-to-end; Council backend confirmed but UI submit flow only confirmed once; Research UI not selectable so submit path not verified — backend was verified via pytest)"
+  },
+  "test_credentials": "N/A — no auth in preview",
+  "seed_data_creation": "None — used the pre-ingested 3,730-chunk embedded Qdrant corpus across 8 collections.",
+  "retest_needed": true,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Public URL: https://7d2c6026-d826-4ad4-8b59-62c3c8fe8931.preview.emergentagent.com. Backend FastAPI is direct on :8001 (no Chainlit proxy), routed via /api ingress. The pytest suite at /app/backend/tests/test_omnilegal_v3.py covers all 7 v3 endpoints + sidecar/health/overview/CORS in ~26s; rerun with `pytest /app/backend/tests/test_omnilegal_v3.py -v`. The advocacy test will fail ~50% of the time until the JSON-parse issue is hardened — re-run 2-3x to see the flake. For the frontend: Landing/Forensics/Live/Atlas selectors used here all worked (button-text matching). Atlas needs ~14s polling for the world-map SVG to populate (210 paths, 177 colored when arbitration query succeeds). Council and Research could not be reliably scripted without data-testid; the visible inputs use placeholders 'Ask a hard legal question…' (Council) and 'Ask anything…' (Research) but the underlying element is not a standard input[type=text]. Once data-testid is added, the same Playwright pattern (fill input → click submit → poll body for content growth + provider names) will work. Atlas conflict detection is real: arbitration topic correctly produced India 1.00 / Israel 0.95 (legal) vs US 0.62 / Russia 0.62 (restricted) — corpus matches the Atlas review-request expectations.",
+  "rca of the issue": "Advocacy intermittent null packet: src/services/advocacy_service.py uses _parse_json(text) which is a permissive regex `{.*}` match. When Gemini emits a malformed/partial JSON, the regex returns a truthy dict missing the 4 required sections; the code takes the success branch and returns `packet=<partial dict>` — but the frontend type-checks against the 4 keys and shows nothing. On clean LLM output the same code returns the full packet. Mitigation: validate schema in _parse_json, fall back to Claude if validation fails, or retry once. Confirmed via 3 sequential curls — 1 success, 2 partial, with identical input."
+}

@@ -1,14 +1,13 @@
-"""OmniLegal sidecar on port 8001.
+"""OmniLegal v3 backend — direct FastAPI host on port 8001.
 
-The PRIMARY OmniLegal app is the Chainlit console on port 3000, which now
-mounts ``/api/*`` routes directly on its own FastAPI server (see
-``src.api_router.attach_to_chainlit_app``). Embedded Qdrant is single-process,
-so the production-correct architecture is "one process owns Qdrant".
+The earlier proxy-to-Chainlit dance is gone. The backend now owns the
+embedded Qdrant client, all retrieval, all LLM calls, and serves the
+React shell via the `/api/*` ingress contract.
 
-This sidecar runs in supervisor's ``backend`` slot purely to satisfy the
-Kubernetes ingress contract (``/api/*`` → 8001). It transparently proxies
-every request to ``http://localhost:3000/api/...`` so callers don't need to
-care.
+Routes live in two routers:
+  - ``src.api_router.router``      — health, ingestion, conflict, irac, debug
+  - ``src.api_router_v2.router``   — atlas, forensics, advocacy, live,
+                                     council, research, overview
 """
 from __future__ import annotations
 
@@ -17,100 +16,90 @@ import os
 import sys
 from pathlib import Path
 
-import httpx
-from fastapi import FastAPI, Request
-from fastapi.responses import Response
+from dotenv import load_dotenv
 
 _PROJECT_ROOT = Path(__file__).resolve().parent.parent
 if str(_PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(_PROJECT_ROOT))
 
-from dotenv import load_dotenv  # noqa: E402
-
+# Load .env BEFORE importing any module that reads env vars at import time.
 load_dotenv(_PROJECT_ROOT / ".env", override=False)
 
-log = logging.getLogger("omnilegal.sidecar")
+from fastapi import FastAPI  # noqa: E402
+from fastapi.middleware.cors import CORSMiddleware  # noqa: E402
 
-CHAINLIT_PORT = int(os.environ.get("CHAINLIT_PORT", "3000"))
-CHAINLIT_BASE = f"http://127.0.0.1:{CHAINLIT_PORT}"
-PROXY_TIMEOUT_SECONDS = float(os.environ.get("OMNILEGAL_PROXY_TIMEOUT_SECONDS", "300"))
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+)
+log = logging.getLogger("omnilegal.backend")
 
 app = FastAPI(
-    title="OmniLegal Backend Sidecar",
-    description="Transparent /api/* proxy to the Chainlit console.",
-    version="2.0.0",
+    title="OmniLegal API",
+    description="Verified legal intelligence — Atlas, Forensics, Advocacy, Live, Council, Research.",
+    version="3.0.0",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
 @app.get("/api/__sidecar_health")
-async def sidecar_health() -> dict:
-    return {"status": "ok", "proxies_to": CHAINLIT_BASE}
+async def sidecar_health() -> dict[str, str]:
+    return {"status": "ok", "service": "omnilegal-backend"}
 
 
-_HOP_BY_HOP_HEADERS = {
-    "connection",
-    "content-encoding",
-    "content-length",
-    "transfer-encoding",
-    "upgrade",
-    "host",
-    "keep-alive",
-    "proxy-authenticate",
-    "proxy-authorization",
-    "te",
-    "trailers",
-}
+# Wire routers — failure to import the heavy stack should NOT prevent the
+# backend from booting (we want curl /api/__sidecar_health to keep working).
+try:
+    from src.api_router import router as legacy_router  # noqa: E402
+
+    app.include_router(legacy_router)
+    log.info("Mounted legacy router (health, ingestion, conflict, irac, debug).")
+except Exception as exc:  # noqa: BLE001
+    log.exception("Failed to mount legacy router: %s", exc)
+
+try:
+    from src.api_router_v2 import router as v3_router  # noqa: E402
+
+    app.include_router(v3_router)
+    log.info("Mounted v3 router (atlas, forensics, advocacy, live, council, research, overview).")
+except Exception as exc:  # noqa: BLE001
+    log.exception("Failed to mount v3 router: %s", exc)
 
 
-@app.api_route(
-    "/api/{path:path}",
-    methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-)
-async def proxy_to_chainlit(path: str, request: Request) -> Response:
-    """Forward every /api/* request to Chainlit's mounted router."""
-    method = request.method.upper()
-    qs = request.url.query
-    target = f"{CHAINLIT_BASE}/api/{path}"
-    if qs:
-        target = f"{target}?{qs}"
-
-    body_bytes = await request.body()
-    fwd_headers = {
-        k: v
-        for k, v in request.headers.items()
-        if k.lower() not in _HOP_BY_HOP_HEADERS
+@app.get("/api")
+async def index() -> dict[str, object]:
+    return {
+        "service": "OmniLegal API v3",
+        "tagline": "The Verdict, the Map, the Proof.",
+        "endpoints": {
+            "health":        "/api/health",
+            "overview":      "/api/overview",
+            "atlas":         "POST /api/atlas/analyze",
+            "forensics":     "POST /api/forensics/verify",
+            "advocacy":      "POST /api/advocacy/generate",
+            "live":          "POST /api/live/search",
+            "council":       "POST /api/council/debate",
+            "research":      "POST /api/research/ask",
+            "ingestion":     "GET /api/ingestion/status",
+            "conflict":      "POST /api/conflict/analyze",
+            "irac":          "POST /api/irac/analyze",
+            "debug":         "GET /api/debug/retrieve",
+        },
+        "council_members": [
+            "Claude Sonnet 4.5 (Emergent)",
+            "Gemini 2.5 Flash (Google)",
+            "Llama 3.3 70B (Groq)",
+        ],
+        "live_sources": [
+            "Indian Kanoon", "CourtListener", "GovInfo",
+            "EUR-Lex", "HUDOC (ECHR)", "UN Treaty Index",
+        ],
+        "vector_backend": os.environ.get("OMNILEGAL_VECTOR_BACKEND", "embedded_qdrant"),
     }
-    fwd_headers.setdefault("X-OmniLegal-Forwarded", "true")
-
-    timeout = httpx.Timeout(PROXY_TIMEOUT_SECONDS, connect=15.0)
-    try:
-        async with httpx.AsyncClient(timeout=timeout) as client:
-            upstream = await client.request(
-                method, target, content=body_bytes, headers=fwd_headers,
-            )
-    except httpx.TimeoutException as exc:
-        log.warning("Chainlit upstream timeout: %s", exc)
-        return Response(
-            status_code=504,
-            content=f'{{"detail":"Chainlit upstream timed out: {exc}"}}',
-            media_type="application/json",
-        )
-    except httpx.HTTPError as exc:
-        log.warning("Chainlit upstream error: %s", exc)
-        return Response(
-            status_code=502,
-            content=f'{{"detail":"Chainlit upstream unreachable: {exc}"}}',
-            media_type="application/json",
-        )
-
-    response_headers = {
-        k: v
-        for k, v in upstream.headers.items()
-        if k.lower() not in _HOP_BY_HOP_HEADERS
-    }
-    return Response(
-        content=upstream.content,
-        status_code=upstream.status_code,
-        headers=response_headers,
-        media_type=upstream.headers.get("content-type"),
-    )
