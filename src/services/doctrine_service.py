@@ -20,7 +20,7 @@ log = logging.getLogger("omnilegal.doctrine")
 _TIMELINE_SYSTEM = """You are OmniLegal's Doctrine Historian.
 
 Given a DOCTRINE, JURISDICTION, and a list of CANDIDATE judgments
-(each with year, case name, court, and a snippet of text), produce a
+(each with year, case name, court, and a snippet), produce a
 chronological timeline. For each entry classify the court's posture
 toward the doctrine:
 
@@ -45,9 +45,15 @@ Return STRICT JSON ONLY:
   ]
 }
 
-Skip candidates that are not actually about the doctrine. Sort milestones
-by year ascending. Include 4-12 milestones. NEVER invent case names —
-only use names that appear in the candidates.
+CRITICAL RULES:
+  • Sort milestones by year ascending.
+  • Include 4-12 milestones. Even if the snippets are thin, classify each
+    candidate using the case name, court, and year as signals — DO NOT
+    drop candidates merely because the snippet is short.
+  • Only the "introduced" posture should appear AT MOST ONCE.
+  • If you genuinely cannot tell a candidate's posture, use "applied".
+  • NEVER invent case names — only use names that appear in the candidates.
+  • If candidates list is empty, return milestones: [].
 """
 
 
@@ -70,13 +76,13 @@ def _retrieve_candidates(doctrine: str, jurisdiction: str) -> list[dict[str, Any
     except Exception as exc:
         log.warning("doctrine corpus retrieval failed: %s", exc)
 
-    # Live registries
+    # Live registries — use larger pull to give the LLM enough material
     try:
         from src.services.live_authority_service import search_live
         sources = _registry_sources_for(jurisdiction)
         if sources:
-            live = search_live(doctrine, sources, 5)
-            for hit in (live.get("results") or [])[:15]:
+            live = search_live(doctrine, sources, 8)
+            for hit in (live.get("results") or [])[:25]:
                 candidates.append({
                     "year": _extract_year(hit.get("date") or "") or _extract_year(hit.get("title") or ""),
                     "case": hit.get("title") or "Unknown",
@@ -88,7 +94,9 @@ def _retrieve_candidates(doctrine: str, jurisdiction: str) -> list[dict[str, Any
     except Exception as exc:
         log.warning("doctrine live retrieval failed: %s", exc)
 
-    return candidates[:25]
+    # Drop candidates with no usable signal at all
+    cleaned = [c for c in candidates if (c.get("case") or "").strip()]
+    return cleaned[:30]
 
 
 def _registry_sources_for(jurisdiction: str) -> list[str]:

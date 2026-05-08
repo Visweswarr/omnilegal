@@ -1,144 +1,111 @@
 # OmniLegal v3 — Product Requirements Document
 
 ## Original problem statement
-> *"the issue is everything in this project feels like it can be done in chat
-> gpt with a better prompt I want to make this better I want to make this state
-> of the art how can I do it"*
-
-## Vision / Ideology
-> **ChatGPT gives you prose. OmniLegal gives you a verdict, a map, and proof.**
-
-OmniLegal is positioned as the *trust-layer / oracle* for legal AI — not just
-another chat wrapper. Six single-click expert workflows, every output grounded
-in a 22-collection primary-source corpus, every claim auto-audited against the
-corpus.
+Audit and harden the user-built Tier-2 pillars (Diff, Library, Redteam, Doctrine, Graph,
+Reading, Voice). Fix issues where Indian Kanoon / CourtListener / Data.gov / EUR-Lex were
+giving repetitive answers. Then build genuinely state-of-the-art capabilities that
+ChatGPT (or any general LLM) cannot replicate, using only free APIs + Groq + Gemini +
+Emergent's Claude.
 
 ## Architecture
+- **Backend**: FastAPI on :8001 with 4 routers
+  - `src.api_router`         — health, ingestion, conflict, irac, debug
+  - `src.api_router_v2`      — Atlas, Forensics, Advocacy, Live, Council, Research, Overview
+  - `src.api_router_v3`      — Tier-2: Diff, Reports, Redteam, Doctrine, Graph, Reading, Voice
+  - `src.api_router_v4`      — **State-of-the-art**: Adversarial, Arbitrage, Drift, Sentinel, Stress
+- **Frontend**: React 18 + craco + Tailwind + react-router on :3000.
+- **LLM Waterfall**: 5-stage (Emergent Anthropic → Emergent Google → Direct Gemini Flash →
+  Direct Gemini Lite → Groq Llama). Used by every Tier-2 + SOTA pillar that needs JSON.
+- **Live Registries**: Indian Kanoon, CourtListener (v4), GovInfo, EUR-Lex (real SPARQL),
+  HUDOC (40+ landmark index), UN Treaty Index.
 
-```
-┌──────────────────────────────────────────────────────────┐
-│ React shell at /app/frontend (port 3000)                 │
-│ ├ /              Landing — "The Verdict, the Map, the    │
-│ │                 Proof" hero + animated metrics         │
-│ ├ /atlas         Pillar 01 — Conflict Atlas (world map)  │
-│ ├ /forensics     Pillar 02 — Citation Forensics          │
-│ ├ /advocacy      Pillar 03 — Advocacy Studio (was MUN)   │
-│ ├ /live          Pillar 04 — Live Authority Engine       │
-│ ├ /council       Pillar 05 — Council of Models           │
-│ └ /research      Pillar 06 — Research Console            │
-└────────────────────┬─────────────────────────────────────┘
-                     │  /api/*
-┌────────────────────▼─────────────────────────────────────┐
-│ FastAPI direct host at /app/backend/server.py (port 8001)│
-│ ├ legacy router (/app/src/api_router.py): health,        │
-│ │      ingestion, conflict, irac, debug                  │
-│ └ v3 router (/app/src/api_router_v2.py):                 │
-│        atlas, forensics, advocacy, live, council,        │
-│        research, overview                                │
-└────────────────────┬─────────────────────────────────────┘
-                     │
-              ┌──────┴──────────┬────────────────────────┐
-              │                 │                         │
-   Embedded Qdrant       Live registries           LLM clients
-   (3,730 chunks /        (Indian Kanoon,           (Claude Sonnet 4.5
-    8 collections)         CourtListener,            via Emergent,
-                           GovInfo, EUR-Lex,         Gemini 2.5 Flash
-                           HUDOC, UN Treaties)       direct, Groq Llama
-                                                     3.3 70B)
-```
+## What's been implemented (May 8, 2026)
 
-## Tech stack
-- Backend: FastAPI 0.110+, uvicorn, embedded Qdrant + FastEmbed (BGE-small)
-- Frontend: React 18 + CRA-craco, Tailwind, Framer Motion, react-simple-maps
-- Typography: Newsreader (serif) + Geist (sans) + JetBrains Mono (mono)
-- Design language: Dark onyx + paper-cream + verdict gold/red/green/amber
+### Audit + fixes
+- Backend env file (`/app/.env`) created with the user's full key bundle.
+- Replaced exhausted Emergent key with the friend's account key (`sk-emergent-3Fb5454E7Eb5c492aD`).
+- Installed `qdrant-client` + `fastembed`.
+- **EUR-Lex**: replaced static curated list with REAL SPARQL search against the EU
+  Publications Office endpoint (`publications.europa.eu/webapi/rdf/sparql`).
+- **HUDOC**: expanded curated landmark index from 12 to 40+ cases; keyword scoring now
+  produces variation across queries.
+- **CourtListener**: migrated v3 → v4 endpoint (v3 was deprecated and rate-limited).
+- **Indian Kanoon date filters**: fixed inline `fromdate:DD-MM-YYYY` syntax (was being
+  ignored when sent as URL params).
+- **Graph service**: added live-registry fallback so it always returns nodes when the
+  Qdrant corpus is empty.
+- **Doctrine service**: enriched candidate retrieval (8 live hits, was 5), tightened the
+  LLM prompt so it doesn't drop thin-snippet candidates.
+- **Adversarial service**: added duplicate-index guard.
+- **CourtListener Drift**: 429-rate-limit retry with backoff; throttled to 4 parallel.
 
-## What's been implemented (2026-05-08)
+### NEW state-of-the-art pillars (5)
+1. **Pillar 14 — Adversarial Case Finder** (`POST /api/adversarial/find`):
+   Inverts user's claim, hits live registries with the kill-thesis, ranks results by
+   adversarial damage, returns weaponisable quote per precedent.
+2. **Pillar 15 — Jurisdiction Arbitrage** (`POST /api/arbitrage/scan`):
+   Extracts friction points from a transaction, scans 4-6 jurisdictions in parallel,
+   returns favorability matrix with primary citations.
+3. **Pillar 16 — Authority Drift Tracker** (`POST /api/drift/analyze`):
+   Decade-by-decade citation velocity from Indian Kanoon + CourtListener with date
+   filters; produces strengthening/fading/overruled/emerging/stable verdict.
+4. **Pillar 17 — Compliance Sentinel** (`POST /api/sentinel/scan`):
+   17-rule curated catalogue of pending legal changes (DPDP India, EU AI Act phases,
+   GDPR/Schrems II, MiCA, NIS2, BNS, CPRA, etc.). Pattern matches + LLM disambiguation
+   + clause-specific remediation.
+5. **Pillar 18 — Statute Stress Test** (`POST /api/stress/test`):
+   LLM generates 8-12 boundary hypotheticals, classifies each as covered/borderline/gap,
+   probes Indian Kanoon + CourtListener for cases that may have decided the boundary.
 
-### Backend services (all NEW in this session)
-- `src/services/atlas_service.py` — parallelised per-jurisdiction conflict
-  analysis + AI-inferred fallback for non-grounded countries; honestly
-  downgrades to `no_data` when the LLM analyser is unavailable.
-- `src/services/forensics_service.py` — citation extraction (regex for
-  US/UK/India/treaty patterns), retrieval against the 22-collection corpus,
-  n-gram overlap scoring, per-claim grading
-  (verified/partial/suspicious/hallucinated/not_found).
-- `src/services/advocacy_service.py` — 4-section packet generator
-  (position paper, opening speech, rebuttal cards, leverage cards) with
-  schema-validated output and 5-stage provider fallback (Emergent Anthropic
-  → Emergent Google → Direct Gemini → Direct Gemini Lite → Groq Llama).
-- `src/services/live_authority_service.py` — concurrent calls to six
-  registries (Indian Kanoon, CourtListener, GovInfo, EUR-Lex, HUDOC, UN
-  Treaty index). Curated landmark fallback for HUDOC and EUR-Lex when their
-  public endpoints are unavailable.
-- `src/services/council_service.py` — three frontier LLMs answer the same
-  question in parallel; a Groq-judge synthesises a final verdict with
-  agreements / disagreements / ungrounded-warnings.
+### Frontend
+- 5 new pages: `Adversarial.js`, `Arbitrage.js`, `Drift.js`, `Sentinel.js`, `Stress.js`.
+- NavBar grouped: Flagship · Tier-2 · State-of-the-Art · Library.
+- Landing redesigned with prominent SOTA section ("Five things no chatbot can do").
+- All pages: Save-to-library buttons, sample-loader buttons, primary-source links.
+- Every interactive element has a `data-testid` attribute.
 
-### API router
-- `src/api_router_v2.py` — POST endpoints for atlas / forensics / advocacy /
-  live / council / research; GET /api/overview for landing-page metrics.
+## Verified working end-to-end (curl smoke tests)
+- `/api/__sidecar_health`, `/api/health` — 3 LLMs configured
+- `/api/overview` — 6 live sources, 3 council models
+- `/api/diff/compare` — Claude impact summary works
+- `/api/redteam/analyze` — 5 weak points, 5 counter-args via Claude
+- `/api/doctrine/track` — 8 milestones for "basic structure" via Claude+IK
+- `/api/graph/build` — 15 nodes via live registries when corpus empty
+- `/api/live/search` — 10 hits across 4 registries (HUDOC, IK, EUR-Lex, CL)
+- `/api/sentinel/rules` — 17 rules
+- `/api/sentinel/scan` — 5 confirmed findings on a 6-line policy
+- `/api/adversarial/find` — 8 ranked counter-precedents in <40s
+- `/api/arbitrage/scan` — 5-jurisdiction matrix with hostile/neutral/no_data postures
+- `/api/drift/analyze` — "right to privacy" → 14538 hits, "strengthening" verdict
+- `/api/stress/test` — 12 hypotheticals, 6 drafting flaws on IT Act §66A
 
-### Backend rewrite
-- `backend/server.py` — direct FastAPI host on 8001, no proxy. Mounts both
-  legacy and v3 routers, CORS enabled.
+## Known caveats
+- **Qdrant corpus**: `data/qdrant_embedded/` is empty (no chunks ingested). Graph,
+  Doctrine, and Voice gracefully fall back to live registries instead. Re-running
+  `scripts/demo_quick_ingest.py` would produce ~3,730 grounded chunks.
+- **HUDOC**: their `app/query/results` JSON endpoint is firewalled in 2025-26;
+  curated landmark index is the only viable approach.
+- **CourtListener rate limit**: 5 concurrent requests trigger 429; we throttle to 4
+  with retry+backoff in Drift Tracker.
+- **Voice Coach**: requires Chrome/Edge (uses `webkitSpeechRecognition`).
 
-### Frontend (entirely NEW)
-- `frontend/src/App.js`, `index.js`, `index.css` (Tailwind + grain texture +
-  print stylesheet + custom scrollbar + verdict stamp animation)
-- `frontend/src/components/NavBar.js`, `UI.js`
-- `frontend/src/pages/Landing.js`, `Atlas.js`, `Forensics.js`, `Advocacy.js`,
-  `Live.js`, `Council.js`, `Research.js`
-- `frontend/src/lib/api.js` — typed axios wrappers for every endpoint.
+## Personas
+1. **MUN delegate** — uses Atlas, Advocacy, Live for cross-jurisdiction speeches.
+2. **Litigator** — uses Adversarial, Drift, Stress, Forensics for case prep.
+3. **Compliance officer** — uses Sentinel, Diff, Arbitrage for contract review.
+4. **Law researcher** — uses Research, Council, Doctrine, Graph for academic work.
 
-### Corpus
-- 3,730 chunks across 8 collections re-ingested via
-  `scripts/demo_quick_ingest.py`.
+## Backlog (P1-P2)
+- Re-ingest the 3,730-chunk corpus so corpus-grounded features have material to ground
+  on (instead of relying solely on live registries).
+- Pillar 19 — Counter-Cite Sniper: given a list of cases user wants to cite, find the
+  strongest opposing cases for each.
+- Pillar 20 — Treaty Compliance Audit: scan a domestic statute against ratified UN/
+  regional treaty obligations.
+- Voice Coach: integrate with new Adversarial Finder so live transcript is fact-checked
+  AND adversarially probed.
 
-## Personas (preserved from previous version)
-1. Researcher (default)
-2. Law Student (IRAC)
-3. Tourist (practical)
-4. Layman (plain English)
-5. Conflict Detector (cross-jurisdiction)
-
-## Status of integrations
-- Emergent universal key: **BUDGET EXCEEDED** ($1.014 used / $1.001 max).
-  User must add balance via Profile → Universal Key → Add Balance.
-- Direct Gemini API: rate-limited (free tier).
-- Groq: ✅ working — currently powering Advocacy + Council.
-- Indian Kanoon, CourtListener, GovInfo, UN Treaties: ✅ live.
-- HUDOC, EUR-Lex: curated landmark fallback when public APIs unreachable.
-
-## Backlog / next sessions
-
-### P0 — fix while Emergent budget is replenished
-- Atlas runs in lexical mode → currently shows `no_data` honestly. Once
-  Emergent budget is restored it will go back to the full Claude entailment.
-
-### P1 — Tier-2 pillars
-- Citation Graph Explorer (case-to-case influence graph)
-- Doctrine Time Machine (timeline of doctrinal evolution)
-- Statute Diff Engine (compare two versions of a law)
-- Voice MUN Coach → renamed to **Voice Coach** (live fact-checked dictation)
-- Argument Workbench / Red Team Mode
-
-### P2 — polish
-- Saved reports library + public share links
-- Print stylesheet refinements for Forensics report
-- Citation graph edge weight tuning
-- Streaming responses (SSE) for long-running endpoints
-
-## Key user choices recorded
-- Audience: all (researchers, students, lawyers, debaters, journalists, policy)
-- Frontend: hybrid React shell, existing Chainlit preserved in repo (not
-  served — replaced by React Research console using same backend services).
-- LLMs: Claude Sonnet 4.5 (Emergent) + Gemini 2.5 Flash + Groq Llama 3.3 70B.
-- Don't mention "MUN" anywhere — Pillar 03 is "Advocacy Studio" with
-  "Leverage Cards" (universal terminology).
-
-## Smart-business enhancement (revenue lever)
-The most monetizable angle is **OmniLegal as the trust-layer for other AI
-products** (Forensics-as-a-Service): law firms, EdTech companies and
-journalism platforms could license a `/forensics/verify` API to grade
-LLM-generated content. Pricing: per-verification or per-corpus-licence.
+## Next action items
+- Smoke-test the 5 new SOTA pages in browser.
+- Optionally rebuild the Qdrant corpus.
+- Top up Emergent budget for sustained Claude use.

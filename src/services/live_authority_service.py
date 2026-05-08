@@ -109,7 +109,7 @@ def _courtlistener(query: str, max_items: int = 5) -> list[dict[str, Any]]:
     token = os.environ.get("COURTLISTENER_TOKEN")
     if not token:
         return []
-    url = f"https://www.courtlistener.com/api/rest/v3/search/?{urllib.parse.urlencode({'q': query, 'type': 'o', 'order_by': 'dateFiled desc'})}"
+    url = f"https://www.courtlistener.com/api/rest/v4/search/?{urllib.parse.urlencode({'q': query, 'type': 'o', 'order_by': 'dateFiled desc'})}"
     headers = {"Authorization": f"Token {token}"}
     data = _http_json(url, headers=headers, timeout=12.0)
     if not data:
@@ -177,52 +177,64 @@ def _govinfo(query: str, max_items: int = 5) -> list[dict[str, Any]]:
     return out
 
 
-def _eurlex(query: str, max_items: int = 5) -> list[dict[str, Any]]:
-    """EUR-Lex search via the official ``search-results`` HTML surface.
+_EU_SPARQL_ENDPOINT = "https://publications.europa.eu/webapi/rdf/sparql"
 
-    The SOAP/REST endpoints require formal registration; we use the public
-    ``search-results`` page which always returns deterministic links keyed
-    by query keywords. As a robust fallback we also surface a curated
-    landmark index when the live search returns no hits.
+
+def _eurlex(query: str, max_items: int = 5) -> list[dict[str, Any]]:
+    """EUR-Lex live search via the EU Publications Office public SPARQL endpoint.
+
+    The CELLAR SPARQL endpoint at ``publications.europa.eu/webapi/rdf/sparql``
+    is free and unauthenticated. We run a regex-FILTER query on English
+    titles, sort by date desc, and turn each work URI into a CELEX-keyed
+    EUR-Lex document URL. If SPARQL returns no rows we fall back to the
+    curated landmark index keyed by topic.
     """
     out: list[dict[str, Any]] = []
-    try:
-        url = (
-            "https://eur-lex.europa.eu/search.html?"
-            + urllib.parse.urlencode({
-                "scope": "EURLEX",
-                "text": query,
-                "lang": "en",
-                "type": "quick",
-            })
+    safe_q = re.sub(r"[^A-Za-z0-9 ,.\-_/']", " ", query or "")[:120].strip()
+    if safe_q:
+        sparql = (
+            "PREFIX cdm: <http://publications.europa.eu/ontology/cdm#>\n"
+            "PREFIX lang: <http://publications.europa.eu/resource/authority/language/>\n"
+            "SELECT ?work ?celex ?title ?date WHERE {\n"
+            "  ?work cdm:work_id_document ?celex .\n"
+            "  ?work cdm:work_date_document ?date .\n"
+            "  ?expression cdm:expression_belongs_to_work ?work .\n"
+            "  ?expression cdm:expression_uses_language lang:ENG .\n"
+            "  ?expression cdm:expression_title ?title .\n"
+            f"  FILTER(REGEX(?title, \"{safe_q}\", \"i\"))\n"
+            "} ORDER BY DESC(?date) LIMIT " + str(max(max_items * 3, 10))
         )
-        text = _http_text(url, timeout=10.0)
-        if text:
-            seen = set()
-            # Match anchors that look like document references (CELEX hashes etc.)
-            for match in re.finditer(
-                r'<a[^>]+href="(/legal-content/[^"#]+)"[^>]*>(.+?)</a>',
-                text, flags=re.DOTALL,
-            ):
-                href, anchor = match.group(1), _strip_tags(match.group(2), 240)
-                if not anchor or anchor in seen:
+        try:
+            sp_url = _EU_SPARQL_ENDPOINT + "?" + urllib.parse.urlencode({
+                "query": sparql,
+                "format": "application/sparql-results+json",
+            })
+            data = _http_json(sp_url, timeout=15.0)
+            seen_celex: set[str] = set()
+            for row in (data or {}).get("results", {}).get("bindings", []):
+                celex = (row.get("celex") or {}).get("value") or ""
+                title = (row.get("title") or {}).get("value") or ""
+                date  = (row.get("date") or {}).get("value") or ""
+                # Filter to docs that have a real CELEX number (skip ST/IMMC/CONSIL drafts)
+                if not celex or not re.match(r"^[0-9][0-9A-Z][0-9]{4}", celex):
                     continue
-                seen.add(anchor)
-                full = f"https://eur-lex.europa.eu{href}"
+                if celex in seen_celex:
+                    continue
+                seen_celex.add(celex)
                 out.append({
                     "source": "EUR-Lex",
                     "jurisdiction": "European Union",
-                    "title": anchor,
-                    "snippet": "",
-                    "url": full,
-                    "date": "",
+                    "title": title[:240],
+                    "snippet": f"CELEX {celex}, published {date}.",
+                    "url": f"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:{celex}",
+                    "date": date,
                     "court": "EU",
                     "kind": "statute_or_record",
                 })
                 if len(out) >= max_items:
                     break
-    except Exception as exc:  # noqa: BLE001
-        log.info("EUR-Lex search failed: %s", exc)
+        except Exception as exc:
+            log.info("EUR-Lex SPARQL failed: %s", exc)
 
     if out:
         return out
@@ -274,54 +286,126 @@ def _eurlex(query: str, max_items: int = 5) -> list[dict[str, Any]]:
 
 
 def _hudoc(query: str, max_items: int = 5) -> list[dict[str, Any]]:
-    """European Court of Human Rights (HUDOC) public search.
+    """European Court of Human Rights (HUDOC) keyword-scored landmark index.
 
-    HUDOC's app/query/results endpoint has been intermittently unavailable
-    on the public web; we therefore fall back to a curated index of
-    landmark cases keyed by topical hints. When the live endpoint is
-    reachable, those hits are merged in.
+    HUDOC's public ``app/query/results`` JSON endpoint has been firewalled
+    (returns ``resultcount:0`` for every query as of 2025-26). Until a
+    public alternative materialises we maintain a curated landmark index
+    of the most cited ECHR cases per topic. Keyword-scored so ranking
+    actually depends on the query, not just on which case happens to be
+    first.
     """
     keyword = (query or "").lower()
     landmark_index = [
         ("Klass and Others v. Germany (1978)", "https://hudoc.echr.coe.int/eng?i=001-57510",
-         ["surveillance", "secret", "interception", "phone", "wiretap"]),
+         ["surveillance", "secret", "interception", "phone", "wiretap", "intelligence"]),
         ("Big Brother Watch v. United Kingdom (2021)", "https://hudoc.echr.coe.int/eng?i=001-210077",
-         ["surveillance", "mass", "intelligence", "metadata"]),
+         ["surveillance", "mass", "intelligence", "metadata", "bulk", "snowden"]),
+        ("Roman Zakharov v. Russia (2015)", "https://hudoc.echr.coe.int/eng?i=001-159324",
+         ["surveillance", "russia", "telecom", "interception", "covert"]),
         ("Soering v. United Kingdom (1989)", "https://hudoc.echr.coe.int/eng?i=001-57619",
-         ["death penalty", "extradition", "death row", "torture"]),
+         ["death penalty", "extradition", "death row", "torture", "capital"]),
         ("Al-Saadoon and Mufdhi v. United Kingdom (2010)", "https://hudoc.echr.coe.int/eng?i=001-97575",
-         ["death penalty", "iraq", "extradition"]),
+         ["death penalty", "iraq", "extradition", "transfer"]),
         ("Lautsi v. Italy (2011)", "https://hudoc.echr.coe.int/eng?i=001-104040",
-         ["religion", "religious", "crucifix", "education", "school"]),
+         ["religion", "religious", "crucifix", "education", "school", "secular"]),
         ("Handyside v. United Kingdom (1976)", "https://hudoc.echr.coe.int/eng?i=001-57499",
-         ["expression", "speech", "obscenity", "press"]),
+         ["expression", "speech", "obscenity", "press", "margin of appreciation"]),
+        ("Sunday Times v. United Kingdom (1979)", "https://hudoc.echr.coe.int/eng?i=001-57584",
+         ["expression", "press", "media", "thalidomide", "contempt", "prior restraint"]),
         ("Goodwin v. United Kingdom (1996)", "https://hudoc.echr.coe.int/eng?i=001-57974",
-         ["press", "journalist", "source", "expression"]),
+         ["press", "journalist", "source", "expression", "confidentiality"]),
         ("Hatton v. United Kingdom (2003)", "https://hudoc.echr.coe.int/eng?i=001-61188",
-         ["environment", "noise", "airport"]),
+         ["environment", "noise", "airport", "heathrow", "private life"]),
         ("Vinter and Others v. United Kingdom (2013)", "https://hudoc.echr.coe.int/eng?i=001-122664",
-         ["life", "imprisonment", "whole life", "sentence"]),
+         ["life", "imprisonment", "whole life", "sentence", "parole"]),
         ("Hirst v. United Kingdom (2005)", "https://hudoc.echr.coe.int/eng?i=001-70442",
-         ["voting", "prisoner", "elections"]),
+         ["voting", "prisoner", "elections", "disenfranchisement"]),
         ("S.A.S. v. France (2014)", "https://hudoc.echr.coe.int/eng?i=001-145466",
-         ["religion", "veil", "burka", "niqab", "muslim"]),
+         ["religion", "veil", "burka", "niqab", "muslim", "face covering"]),
         ("M.S.S. v. Belgium and Greece (2011)", "https://hudoc.echr.coe.int/eng?i=001-103050",
-         ["asylum", "refugee", "dublin"]),
+         ["asylum", "refugee", "dublin", "migration"]),
+        ("Hirsi Jamaa v. Italy (2012)", "https://hudoc.echr.coe.int/eng?i=001-109231",
+         ["asylum", "refugee", "non-refoulement", "boat", "migration", "libya"]),
+        ("Tarakhel v. Switzerland (2014)", "https://hudoc.echr.coe.int/eng?i=001-148070",
+         ["asylum", "refugee", "dublin", "family", "italy"]),
+        ("Salduz v. Turkey (2008)", "https://hudoc.echr.coe.int/eng?i=001-89893",
+         ["fair trial", "lawyer", "right to counsel", "interrogation"]),
+        ("Beuze v. Belgium (2018)", "https://hudoc.echr.coe.int/eng?i=001-187802",
+         ["fair trial", "lawyer", "police", "interrogation", "right to counsel"]),
+        ("Dudgeon v. United Kingdom (1981)", "https://hudoc.echr.coe.int/eng?i=001-57473",
+         ["homosexual", "lgbt", "private life", "criminal", "ireland"]),
+        ("Oliari v. Italy (2015)", "https://hudoc.echr.coe.int/eng?i=001-156265",
+         ["lgbt", "same-sex", "marriage", "civil union", "italy"]),
+        ("K.A.B. v. Spain (2012)", "https://hudoc.echr.coe.int/eng?i=001-111758",
+         ["family", "child", "adoption", "deportation"]),
+        ("Christine Goodwin v. United Kingdom (2002)", "https://hudoc.echr.coe.int/eng?i=001-60596",
+         ["transgender", "trans", "gender recognition", "identity"]),
+        ("Hämäläinen v. Finland (2014)", "https://hudoc.echr.coe.int/eng?i=001-145768",
+         ["transgender", "trans", "marriage", "private life"]),
+        ("Vavricka v. Czech Republic (2021)", "https://hudoc.echr.coe.int/eng?i=001-209039",
+         ["vaccine", "vaccination", "compulsory", "health", "child"]),
+        ("Verein Klimaseniorinnen v. Switzerland (2024)", "https://hudoc.echr.coe.int/eng?i=001-233206",
+         ["climate", "environment", "warming", "switzerland"]),
+        ("Ilascu v. Moldova and Russia (2004)", "https://hudoc.echr.coe.int/eng?i=001-61886",
+         ["torture", "detention", "transnistria", "russia", "extraterritorial"]),
+        ("Ireland v. United Kingdom (1978)", "https://hudoc.echr.coe.int/eng?i=001-57506",
+         ["torture", "interrogation", "five techniques", "ireland", "northern ireland"]),
+        ("Selmouni v. France (1999)", "https://hudoc.echr.coe.int/eng?i=001-58287",
+         ["torture", "police", "custody", "ill-treatment"]),
+        ("Aksoy v. Turkey (1996)", "https://hudoc.echr.coe.int/eng?i=001-58003",
+         ["torture", "turkey", "kurd", "police custody"]),
+        ("McCann v. United Kingdom (1995)", "https://hudoc.echr.coe.int/eng?i=001-57943",
+         ["right to life", "police", "shooting", "ira", "gibraltar"]),
+        ("Osman v. United Kingdom (1998)", "https://hudoc.echr.coe.int/eng?i=001-58257",
+         ["right to life", "police", "duty to protect"]),
+        ("Catan v. Moldova and Russia (2012)", "https://hudoc.echr.coe.int/eng?i=001-114082",
+         ["education", "language", "russia", "moldova", "transnistria"]),
+        ("Bayev v. Russia (2017)", "https://hudoc.echr.coe.int/eng?i=001-174422",
+         ["lgbt", "russia", "propaganda", "expression"]),
+        ("Navalny v. Russia (2018)", "https://hudoc.echr.coe.int/eng?i=001-187605",
+         ["russia", "navalny", "assembly", "political", "arbitrary"]),
+        ("Big Brother Watch v. United Kingdom (2018)", "https://hudoc.echr.coe.int/eng?i=001-186048",
+         ["surveillance", "intelligence", "metadata"]),
+        ("Hentrich v. France (1994)", "https://hudoc.echr.coe.int/eng?i=001-57878",
+         ["property", "tax", "preemption", "expropriation"]),
+        ("James v. United Kingdom (1986)", "https://hudoc.echr.coe.int/eng?i=001-57507",
+         ["property", "leasehold", "expropriation"]),
+        ("Lithgow v. United Kingdom (1986)", "https://hudoc.echr.coe.int/eng?i=001-57526",
+         ["property", "nationalisation", "compensation"]),
+        ("Sporrong and Lönnroth v. Sweden (1982)", "https://hudoc.echr.coe.int/eng?i=001-57580",
+         ["property", "expropriation", "permits"]),
+        ("Cengiz v. Turkey (2015)", "https://hudoc.echr.coe.int/eng?i=001-159188",
+         ["expression", "internet", "youtube", "blocking", "turkey"]),
+        ("Ahmet Yıldırım v. Turkey (2012)", "https://hudoc.echr.coe.int/eng?i=001-115705",
+         ["internet", "blocking", "expression", "turkey", "google"]),
+        ("Gillberg v. Sweden (2012)", "https://hudoc.echr.coe.int/eng?i=001-110144",
+         ["data", "research", "academic", "privacy", "freedom of information"]),
     ]
-    hits: list[tuple[int, dict[str, Any]]] = []
+    # Generic keywords add a *small* score, so even a bare query produces something
+    base_words = set(re.findall(r"[a-z]+", keyword)) | {"echr", "human rights"}
+    hits: list[tuple[float, dict[str, Any]]] = []
     for name, url, hints in landmark_index:
-        score = sum(1 for h in hints if h in keyword)
-        if score > 0:
-            hits.append((score, {
-                "source": "HUDOC (ECHR)",
-                "jurisdiction": "European Court of Human Rights",
-                "title": name,
-                "snippet": f"Landmark ECHR case relevant to: {query}",
-                "url": url,
-                "date": "",
-                "court": "European Court of Human Rights",
-                "kind": "case_law",
-            }))
+        score = 0.0
+        for h in hints:
+            if h in keyword:
+                score += 1.0
+        # Token overlap as tie-breaker
+        for tok in re.findall(r"[a-z]+", name.lower()):
+            if tok in base_words and len(tok) > 4:
+                score += 0.3
+        if score <= 0:
+            continue
+        hits.append((score, {
+            "source": "HUDOC (ECHR)",
+            "jurisdiction": "European Court of Human Rights",
+            "title": name,
+            "snippet": f"Landmark ECHR case relevant to: {query}",
+            "url": url,
+            "date": "",
+            "court": "European Court of Human Rights",
+            "kind": "case_law",
+        }))
     hits.sort(key=lambda x: x[0], reverse=True)
     return [h[1] for h in hits[:max_items]]
 

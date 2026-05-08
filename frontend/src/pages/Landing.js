@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Globe, ShieldCheck, FileText, Radio, Users2, BookOpen, ArrowRight, Stamp, Scale, Layers, Zap } from "lucide-react";
+import { Globe, ShieldCheck, FileText, Radio, Users2, BookOpen, ArrowRight, Stamp, Scale, Layers, Zap, Target, Compass, TrendingUp, ShieldAlert, TestTube } from "lucide-react";
 import { fetchOverview } from "../lib/api";
 import { Badge, MonoLabel } from "../components/UI";
 
@@ -26,7 +26,7 @@ const PILLARS = [
   {
     to: "/live", icon: Radio, eyebrow: "Pillar 04",
     title: "Live Authority",
-    blurb: "Real-time queries across Indian Kanoon, CourtListener, GovInfo, EUR-Lex, HUDOC, and the UN Treaty index.",
+    blurb: "Real-time queries across Indian Kanoon, CourtListener, GovInfo, EUR-Lex (SPARQL), HUDOC, and the UN Treaty index.",
     accent: "text-verdict-amber",
   },
   {
@@ -40,6 +40,39 @@ const PILLARS = [
     title: "Research Console",
     blurb: "Five personas — Tourist, Researcher, Law Student, Layman, Conflict Detector. Every claim auto-audited.",
     accent: "text-paper-300",
+  },
+];
+
+const SOTA_PILLARS = [
+  {
+    to: "/adversarial", icon: Target, eyebrow: "Pillar 14",
+    title: "Adversarial Case Finder",
+    blurb: "Paste your argument. We invert it and surface the precedents your opponent will weaponise — ranked by predicted damage. Live primary sources only.",
+    accent: "text-verdict-red",
+  },
+  {
+    to: "/arbitrage", icon: Compass, eyebrow: "Pillar 15",
+    title: "Jurisdiction Arbitrage",
+    blurb: "Describe a transaction. We extract its friction points, scan up to six jurisdictions in parallel, and produce a favorability matrix with primary citations.",
+    accent: "text-verdict-gold",
+  },
+  {
+    to: "/drift", icon: TrendingUp, eyebrow: "Pillar 16",
+    title: "Authority Drift Tracker",
+    blurb: "Pick a doctrine. We hit Indian Kanoon and CourtListener decade-by-decade, count actual citations, and verdict the trajectory: strengthening, fading, overruled.",
+    accent: "text-verdict-green",
+  },
+  {
+    to: "/sentinel", icon: ShieldAlert, eyebrow: "Pillar 17",
+    title: "Compliance Sentinel",
+    blurb: "Paste a contract. We scan against 17+ pending legal changes (DPDP, EU AI Act, GDPR, MiCA, NIS2, BNS, CPRA…) and flag every doomed clause with precise remediation.",
+    accent: "text-verdict-amber",
+  },
+  {
+    to: "/stress", icon: TestTube, eyebrow: "Pillar 18",
+    title: "Statute Stress Test",
+    blurb: "Paste a clause. We generate 8-12 boundary fact patterns, classify each as covered/borderline/gap, and probe registries for cases that decided your hypothetical.",
+    accent: "text-paper-200",
   },
 ];
 
@@ -94,18 +127,25 @@ export default function Landing() {
 
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
-                to="/atlas"
+                to="/adversarial"
                 className="inline-flex items-center gap-2 px-5 py-3 bg-verdict-gold text-ink-900 font-medium hover:bg-verdict-amber transition-colors"
-                data-testid="cta-atlas"
+                data-testid="cta-adversarial"
               >
-                Open the Atlas <ArrowRight className="w-4 h-4" strokeWidth={2} />
+                Try the Adversarial Finder <ArrowRight className="w-4 h-4" strokeWidth={2} />
               </Link>
               <Link
-                to="/forensics"
+                to="/sentinel"
                 className="inline-flex items-center gap-2 px-5 py-3 border border-white/20 text-paper-100 font-medium hover:bg-white/5"
-                data-testid="cta-forensics"
+                data-testid="cta-sentinel"
               >
-                Verify a citation
+                Run the Compliance Sentinel
+              </Link>
+              <Link
+                to="/atlas"
+                className="inline-flex items-center gap-2 px-5 py-3 border border-white/10 text-paper-300 font-medium hover:bg-white/5"
+                data-testid="cta-atlas"
+              >
+                Open the Atlas
               </Link>
             </div>
           </div>

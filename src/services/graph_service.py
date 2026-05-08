@@ -83,7 +83,7 @@ def build_graph(seed_query: str, max_nodes: int = 40) -> dict[str, Any]:
         "jurisdiction": "", "year": None, "weight": 1, "is_seed": True,
     }
 
-    # 2) Retrieve passages
+    # 2) Retrieve passages (corpus first; live registries as fallback or supplement)
     try:
         from src.services.retrieval_qa import retrieve_passages
         passages = retrieve_passages(seed_query, k=12, comparative=True)
@@ -125,6 +125,49 @@ def build_graph(seed_query: str, max_nodes: int = 40) -> dict[str, Any]:
         if len(nodes) >= max_nodes:
             break
 
+    # 3) Live-registry fallback / supplement so the graph always has nodes
+    if len(nodes) < max(8, max_nodes // 4):
+        try:
+            from src.services.live_authority_service import search_live
+            live = search_live(seed_query, ["indian_kanoon", "courtlistener", "hudoc", "eurlex"], 6)
+            for hit in (live.get("results") or []):
+                if len(nodes) >= max_nodes:
+                    break
+                title = (hit.get("title") or "").strip()
+                if not title:
+                    continue
+                src_id = "live::" + _normalise_node(title)
+                if src_id in nodes:
+                    continue
+                jur = hit.get("jurisdiction") or ""
+                year = _extract_year_in(hit.get("date") or "") or _extract_year_in(title)
+                nodes[src_id] = {
+                    "id": src_id, "label": title[:140], "kind": "live_case",
+                    "jurisdiction": jur, "year": year, "weight": 1,
+                    "url": hit.get("url", ""), "live_source": hit.get("source", ""),
+                }
+                ek = (seed_id, src_id, "registry_match")
+                edges_set[ek] += 1
+                inbound[src_id] += 1
+
+                # Extract embedded citations from snippet
+                snippet = hit.get("snippet") or ""
+                for cite_text, cite_kind, sent in _extract_citations_with_context(snippet):
+                    cite_id = f"{cite_kind}::" + _normalise_node(cite_text)
+                    if cite_id == src_id:
+                        continue
+                    if cite_id not in nodes and len(nodes) < max_nodes:
+                        nodes[cite_id] = {
+                            "id": cite_id, "label": cite_text, "kind": cite_kind,
+                            "jurisdiction": jur, "year": _extract_year_in(cite_text),
+                            "weight": 1,
+                        }
+                        ek = (src_id, cite_id, _classify_edge(sent))
+                        edges_set[ek] += 1
+                        inbound[cite_id] += 1
+        except Exception as exc:
+            log.warning("graph live-registry fallback failed: %s", exc)
+
     # Apply weights = inbound count
     for nid, n in nodes.items():
         n["weight"] = max(1, inbound.get(nid, 1))
@@ -142,6 +185,7 @@ def build_graph(seed_query: str, max_nodes: int = 40) -> dict[str, Any]:
             "node_count": len(nodes),
             "edge_count": len(edges),
             "passages_used": len(passages),
+            "live_supplemented": len(passages) == 0 or len(nodes) < 8,
         },
     }
 

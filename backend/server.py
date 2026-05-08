@@ -80,6 +80,14 @@ try:
 except Exception as exc:  # noqa: BLE001
     log.exception("Failed to mount Tier-2 router: %s", exc)
 
+try:
+    from src.api_router_v4 import router as sota_router  # noqa: E402
+
+    app.include_router(sota_router)
+    log.info("Mounted SOTA router (adversarial, arbitrage, drift, sentinel, stress).")
+except Exception as exc:  # noqa: BLE001
+    log.exception("Failed to mount SOTA router: %s", exc)
+
 
 @app.get("/api")
 async def index() -> dict[str, object]:

@@ -67,4 +67,24 @@ export const voiceVerifyChunk  = (text) =>
 export const voiceFinalize     = (transcript) =>
   api.post("/voice/finalize", { transcript }).then(r => r.data);
 
+// ── State-of-the-Art pillars (v4) ───────────────────────────────────────
+
+export const findAdversarial   = (claim) =>
+  api.post("/adversarial/find", { claim }).then(r => r.data);
+
+export const scanArbitrage     = (scenario) =>
+  api.post("/arbitrage/scan", { scenario }).then(r => r.data);
+
+export const analyzeDrift      = (query, registries = null) =>
+  api.post("/drift/analyze", { query, registries }).then(r => r.data);
+
+export const scanSentinel      = (text, max_findings = 24) =>
+  api.post("/sentinel/scan", { text, max_findings }).then(r => r.data);
+
+export const sentinelRules     = () =>
+  api.get("/sentinel/rules").then(r => r.data);
+
+export const stressTest        = (clause) =>
+  api.post("/stress/test", { clause }).then(r => r.data);
+
 export default api;

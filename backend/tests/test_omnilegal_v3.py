@@ -8,7 +8,7 @@ import time
 import pytest
 import requests
 
-BASE_URL = os.environ.get("REACT_APP_BACKEND_URL", "https://7d2c6026-d826-4ad4-8b59-62c3c8fe8931.preview.emergentagent.com").rstrip("/")
+BASE_URL = os.environ.get("REACT_APP_BACKEND_URL", "https://omnilegal-precedent.preview.emergentagent.com").rstrip("/")
 API = f"{BASE_URL}/api"
 
 

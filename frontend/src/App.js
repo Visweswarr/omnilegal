@@ -16,6 +16,11 @@ import Voice from "./pages/Voice";
 import Reading from "./pages/Reading";
 import Library from "./pages/Library";
 import Share from "./pages/Share";
+import Adversarial from "./pages/Adversarial";
+import Arbitrage from "./pages/Arbitrage";
+import Drift from "./pages/Drift";
+import Sentinel from "./pages/Sentinel";
+import Stress from "./pages/Stress";
 
 export default function App() {
   return (
@@ -38,6 +43,12 @@ export default function App() {
           <Route path="/reading"      element={<Reading />} />
           <Route path="/library"      element={<Library />} />
           <Route path="/share/:token" element={<Share />} />
+          {/* State-of-the-Art pillars */}
+          <Route path="/adversarial"  element={<Adversarial />} />
+          <Route path="/arbitrage"    element={<Arbitrage />} />
+          <Route path="/drift"        element={<Drift />} />
+          <Route path="/sentinel"     element={<Sentinel />} />
+          <Route path="/stress"       element={<Stress />} />
         </Routes>
       </main>
       <footer className="border-t border-white/10 py-6 px-6 mt-24 text-xs font-mono uppercase tracking-widest2 text-paper-400 flex flex-wrap items-center justify-between gap-3">
