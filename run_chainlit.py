@@ -43,6 +43,20 @@ def main() -> None:
     # which triggers app construction.
     _patch_language_middleware()
 
+    # Mount OmniLegal /api/* routes on Chainlit's FastAPI app so external
+    # callers (FastAPI sidecar proxy on :8001) and internal Chainlit code
+    # share the same Qdrant client (embedded mode is single-process).
+    try:
+        from src.api_router import attach_to_chainlit_app
+
+        attach_to_chainlit_app()
+    except Exception as exc:  # noqa: BLE001
+        import logging
+
+        logging.getLogger("omnilegal.run_chainlit").exception(
+            "Failed to attach OmniLegal API router: %s", exc
+        )
+
     target = Path(__file__).resolve().parent / "chainlit_app.py"
     # Preserve CLI-like args for run_chainlit
     sys.argv = [

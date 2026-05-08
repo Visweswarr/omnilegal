@@ -1,112 +1,119 @@
 # OmniLegal — Product Requirements Document
 
-_Last updated: Apr 2026_
+_Last updated: 2026-01-08_
 
-## Original problem statement
+## Original problem statement (verbatim)
 
-> "I want OmniLegal to actually interpret the PDFs (Malcolm Shaw etc.) and answer
-> questions across all of them. Three modes: tourist, law student, researcher,
-> layman. Keep Gemini fallback. Don't make a new pipeline — integrate into
-> the existing one. Stay Chainlit + text-only. Reference the case-laws folder
-> for ingestion. It must NOT look like a normal chatbot — this is for a funding
-> presentation."
-
-## Goal
-
-A persona-aware international/comparative legal research console that pulls
-verified excerpts from a 1,878-passage corpus (Malcolm Shaw, UN Charter,
-ICCPR, ICESCR, Constitution of India, curated case-law catalog) and turns
-them into answers tuned to the audience: **Tourist · Law Student ·
-Researcher · Layman**.
-
-## Core requirements
-
-1. Index every bundled PDF (treaties + Indian Constitution + Malcolm Shaw 3,233
-   pages) and the curated `caselaws/*.json` source catalog.
-2. Hybrid retrieval — dense (BGE-m3 or FastEmbed BGE-small) + lexical fallback.
-3. Persona-tuned synthesis with `[S#]` citations.
-4. Free, primary LLM (Claude Haiku 4.5 via Emergent universal key) with Gemini
-   2.5 Flash as the always-on fallback when retrieval is sparse.
-5. Premium editorial UI — Oxford-blue + parchment, serif typography, no
-   chatbot-style chrome.
-6. Chainlit-based, text-only, idempotent ingestion script.
+> I added so many .txt files in law text files folder please add them to the app
+> like it uses all the things and add a feature where it tells about conflict as
+> well like we ask a question about something what it conflicts with a local law
+> of which country but internationally it is avoidable add a conflict feature as
+> well where it tells everything that is conflicted [...] make sure it is state
+> of the art best in everything right now make sure it can answer any question
+> asked from the existing ingestion and the new .txt files and add a conflict
+> detector in law [...] make sure you make the most of existing .env file as well
 
 ## User personas
 
-| Persona | When to use | Voice |
-|---------|-------------|-------|
-| Tourist | Travellers, expats facing on-the-ground rights questions | Plain English, action-oriented |
-| Law Student | Memos, moots, exam prep | Strict IRAC with citations |
-| Researcher | Policy / scholarship / treaty analysis | Doctrinal, comparative, deep |
-| Layman | Anyone curious without legal training | Conversational, jargon-free |
+- **Tourist** — practical rights & local law for travellers (default)
+- **Law Student** — case-law-heavy IRAC answers
+- **Researcher** — academic, footnote-dense
+- **Layman** — plain-English, jargon-free
+- **Conflict Detector** — cross-jurisdiction comparison with VCLT Art. 27 framing (NEW)
 
-## What's been implemented (this session, Apr 30 2026)
+## Architecture
 
-- **Path bug fixed** (`src/config.py`): ROOT_DIR now points at `/app`, PDFs
-  resolve to `data/pdfs/*`, ingestion actually finds Malcolm Shaw et al.
-- **Four-mode persona system**:
-  - `src/schemas.py` — AnswerMode enum (tourist_practical, law_student_case_law,
-    researcher, layman)
-  - `src/services/answer_modes.py` — full ModeSpec for each persona with
-    audience, voice, focus, required sections, target word count
-  - `src/pipeline/prompts.py` — `system_for(mode)` + `build_synthesis_message`
-    are now mode-aware
-- **Lenient citation verifier** (`src/pipeline/citation_verifier.py`) — when an
-  LLM (emergent/groq/ollama) returns a real draft, publish it. Citations are
-  graded as metadata, never used to wipe out a working answer. Fixes the
-  primary user complaint ("not able to answer").
-- **Gemini fallback hardened** (`src/services/gemini_fallback.py`) — when no
-  GEMINI_API_KEY is present, keep the LLM's draft instead of overwriting with
-  the canned tourist template.
-- **LLM chain rebuilt** (`src/pipeline/llm.py`) — Emergent universal key
-  (Claude Haiku 4.5) → Groq → Ollama. Free for the user, no extra config.
-- **Vector store made lighter** (`src/rag/vector_store.py`) — automatic
-  fall-through from BGE-m3 (FlagEmbedding) → FastEmbed BGE-small (~130 MB,
-  CPU-only, no torch). Hybrid_search rewritten to use NumPy instead of torch.
-- **Caselaws JSON ingestion** (`scripts/ingest_caselaws_sources.py`) — every
-  source in `caselaws/*.json` is indexed into COMMENTARY_GLOBAL with
-  source_role=source_catalog so "where can I find ICJ judgments?" works.
-- **Bootstrap CLI** (`scripts/bootstrap_corpus.py`) — one command indexes
-  everything.
-- **Premium UI redesign**:
-  - `chainlit_app.py` rewritten — `cl.ChatProfiles` for persona picker,
-    diagnostic line, sources panel, inline-citation normaliser ([3] → [S3]).
-  - `public/custom.css` — Oxford-blue + parchment editorial theme, Playfair
-    Display + Cormorant Garamond + JetBrains Mono fonts, glassmorphism cards,
-    block-quote source excerpts, `§` watermark.
-  - `.chainlit/config.toml` — points to `public/custom.css`.
-  - `chainlit.md` — landing copy describing the four personas.
-- **Supervisor entry** (`/etc/supervisor/conf.d/supervisord_chainlit.conf`)
-  for Chainlit on port 3000.
-- **Validation** — testing agent confirmed all 14 critical checkpoints pass:
-  4-persona switching, real grounded answers (Tourist 5 sources / 11 s,
-  Law Student IRAC 5 sources / 19 s), Sources panel with page numbers,
-  no escape-code leakage, no JS errors.
+- **Frontend slot (port 3000)**: Chainlit research console (`/app/chainlit_app.py`).
+  Persona picker, slash commands `/conflict`, `/irac`, `/verify`, side-by-side
+  comparison cards, `[S#]` citation pane, citation audit panel.
+- **Backend slot (port 8001)**: thin `httpx` proxy that forwards every `/api/*`
+  request to `http://127.0.0.1:3000/api/*` (`/app/backend/server.py`). The actual
+  REST endpoints are mounted **inside** the Chainlit FastAPI process via
+  `src.api_router.attach_to_chainlit_app()` — this guarantees the embedded
+  Qdrant client is single-process and never lock-contended.
+- **Vector store**: embedded Qdrant at `data/qdrant_embedded/` with FastEmbed
+  (`BAAI/bge-small-en-v1.5`, 384-dim) for dense retrieval.
+- **LLMs**: Emergent universal key → Claude Sonnet 4.5 primary, Gemini 2.5 Flash
+  fallback, Groq Llama-3.3-70B available for ladder fallback.
 
-## Indexed corpus snapshot
+## Core requirements (static)
 
-- INTL_TREATIES: 275 passages (UN Charter, ICCPR, ICESCR)
-- NATIONAL_IN: 241 passages (Constitution of India)
-- SHAW_PRIVATE: 1,267 passages (Malcolm Shaw, *International Law*, 3,233 pp.)
-- COMMENTARY_GLOBAL: 95 entries (curated case-law catalog from `caselaws/*.json`)
+1. Multi-jurisdiction legal RAG over user-supplied corpora.
+2. Persona-driven answer styles with grounded `[S#]` citations.
+3. Cross-jurisdiction **conflict detector** with 4-tier classification
+   (alignment / qualified_alignment / conflict / neutral) and VCLT Art. 27
+   framing.
+4. Per-jurisdiction **IRAC** synthesis with side-by-side comparison table.
+5. **Citation verification** (CRAG-style n-gram overlap) graded
+   high / medium / low / no-claims.
+6. Idempotent ingestion of `Law Text Files/<folder>/*.txt` and PDF authorities.
 
-## Future / backlog (P1 → P2)
+## What's been implemented (2026-01-08)
 
-- P1 — Improve Tourist-mode retrieval relevance for cross-border queries
-  (jurisdiction-aware reranking so "Russia traffic police" filters out unrelated
-  Indian constitutional schedule entries).
-- P1 — Optional GROQ_API_KEY path for local low-cost demos.
-- P2 — Stream tokens as they arrive (currently waits for full Claude response).
-- P2 — Persistent citation graph: hyperlinked [S#] tags scroll the Sources
-  panel into view on click.
-- P2 — Plug in a second LLM (gpt-5.2) when Emergent budget rises.
-- P2 — Multi-PDF upload from the Chainlit composer with on-the-fly ingestion
-  (currently disabled; PDFs must be dropped into `data/pdfs/`).
+- ✅ Ingested **7,876 chunks** from `Law Text Files/` (Indian + International +
+  Israel + Russian + USA) via `scripts/ingest_law_text_files.py`. Folder routing:
+  `Indian Law/ → STATUTES_IN`, `International Law Texts/ → COMMENTARY_GLOBAL`,
+  `Israel Law/ → STATUTES_IL`, `Russian Law/ → STATUTES_RU`, `USA LAW/ → STATUTES_US`.
+- ✅ Ingested PDFs (UN Charter, ICCPR, ICESCR, Indian Constitution, Malcolm
+  Shaw's *International Law*) — total **9,972 chunks across 22 collections**.
+- ✅ New service `src/services/conflict_detection.py` with both
+  pairwise (`analyze_conflict`) and multi-jurisdiction
+  (`analyze_multi_jurisdiction_conflict`) entry points. LLM-based
+  entailment via Claude Sonnet 4.5 (Emergent) → Gemini fallback. Strict
+  JSON contract; `used_model` propagated end-to-end.
+- ✅ New service `src/services/cross_jurisdiction.py` (`comparison_payload`)
+  for IRAC + comparative synthesis + markdown table.
+- ✅ New service `src/services/citation_verification.py` (CRAG-style
+  n-gram audit + flagged-claim renderer).
+- ✅ New service `src/services/emergent_llm.py` — sync wrapper around
+  Emergent `LlmChat` that runs in a fresh thread/event-loop so it works
+  inside async FastAPI/Chainlit handlers.
+- ✅ Chainlit UI rewritten (`chainlit_app.py`) with 5 personas, slash
+  commands `/conflict` `/irac` `/verify`, color-coded labels (🟢🟠🔴🟡),
+  VCLT reminder, and click-friendly Sources panel.
+- ✅ FastAPI sidecar rewritten as a 300s `httpx.AsyncClient` proxy.
+- ✅ `src.api_router.attach_to_chainlit_app()` mounts `/api/health`,
+  `/api/ingestion/status`, `/api/ingestion/run`, `/api/conflict/analyze`,
+  `/api/irac/analyze`, `/api/debug/retrieve` directly on Chainlit's FastAPI
+  app and re-orders routes ahead of Chainlit's catch-all.
 
-## Next action items
+## Test results (iteration_3.json)
 
-1. User should ship the included `.env.example` to local `.env` with their own
-   `GEMINI_API_KEY` for true fallback safety.
-2. Run `python scripts/bootstrap_corpus.py` once after adding new PDFs.
-3. Ship to demo. Use Law Student or Researcher persona for the funding pitch
-   to showcase IRAC reasoning + Malcolm Shaw retrieval.
+| Endpoint / feature | Result |
+|---|---|
+| `GET /api/health` | PASS |
+| `GET /api/ingestion/status` (9,972 points, all required collections >0) | PASS |
+| `GET /api/debug/retrieve?...&collections=STATUTES_IN` | PASS (real arbitration treatise) |
+| `POST /api/conflict/analyze` (death penalty IN/US) | PASS — qualified_alignment 0.78/0.72 |
+| `POST /api/irac/analyze` (anticipatory self-defense US/UK) | PASS |
+| Chainlit UI title + 9,972 banner | PASS |
+| Chainlit `/conflict` slash command full report | PASS |
+| Chainlit Tourist query with [S#] + Sources + Citation audit | PASS |
+| `used_model` propagation in conflict response (initially empty) | FIXED post-iteration_3 |
+
+## Backlog / future ideas
+
+### P1
+- Streaming token-by-token answers in Chainlit (LangGraph already supports
+  it; would need a Chainlit `cl.Message.stream_token` adaptation).
+- Persist conflict reports to MongoDB for repeat queries / public links.
+
+### P2
+- True click-to-jump on `[S#]` markers (Chainlit element refs +
+  scroll-into-view).
+- Heavy reranker (BAAI/bge-reranker-v2-m3) — needs CUDA / >2 GB extra RAM.
+- Audio Q&A via Whisper (already in `.env` budget but UI not wired).
+- Comparative-law watchdog: schedule weekly re-runs of canonical conflict
+  queries and email diffs.
+
+### P3
+- Multilingual answers (Hindi, Hebrew, Russian) — Claude already supports
+  these but UI is English-only.
+
+## Next tasks
+
+1. Wire Chainlit `/verify` to the IRAC report so users can audit
+   cross-jurisdiction synthesis claims as well as Tourist answers.
+2. Add a `/save` slash command that pins the last conflict report for sharing.
+3. Build a public read-only "Conflict Library" mini-page that lists
+   curated cross-jurisdiction conflict reports.

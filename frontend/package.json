@@ -1,0 +1,9 @@
+{
+  "name": "omnilegal-chainlit-launcher",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Wrapper that starts the OmniLegal Chainlit research console on port 3000 (supervisor 'frontend' slot).",
+  "scripts": {
+    "start": "cd /app && exec /root/.venv/bin/python run_chainlit.py"
+  }
+}
