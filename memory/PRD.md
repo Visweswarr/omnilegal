@@ -1,119 +1,144 @@
-# OmniLegal — Product Requirements Document
+# OmniLegal v3 — Product Requirements Document
 
-_Last updated: 2026-01-08_
+## Original problem statement
+> *"the issue is everything in this project feels like it can be done in chat
+> gpt with a better prompt I want to make this better I want to make this state
+> of the art how can I do it"*
 
-## Original problem statement (verbatim)
+## Vision / Ideology
+> **ChatGPT gives you prose. OmniLegal gives you a verdict, a map, and proof.**
 
-> I added so many .txt files in law text files folder please add them to the app
-> like it uses all the things and add a feature where it tells about conflict as
-> well like we ask a question about something what it conflicts with a local law
-> of which country but internationally it is avoidable add a conflict feature as
-> well where it tells everything that is conflicted [...] make sure it is state
-> of the art best in everything right now make sure it can answer any question
-> asked from the existing ingestion and the new .txt files and add a conflict
-> detector in law [...] make sure you make the most of existing .env file as well
-
-## User personas
-
-- **Tourist** — practical rights & local law for travellers (default)
-- **Law Student** — case-law-heavy IRAC answers
-- **Researcher** — academic, footnote-dense
-- **Layman** — plain-English, jargon-free
-- **Conflict Detector** — cross-jurisdiction comparison with VCLT Art. 27 framing (NEW)
+OmniLegal is positioned as the *trust-layer / oracle* for legal AI — not just
+another chat wrapper. Six single-click expert workflows, every output grounded
+in a 22-collection primary-source corpus, every claim auto-audited against the
+corpus.
 
 ## Architecture
 
-- **Frontend slot (port 3000)**: Chainlit research console (`/app/chainlit_app.py`).
-  Persona picker, slash commands `/conflict`, `/irac`, `/verify`, side-by-side
-  comparison cards, `[S#]` citation pane, citation audit panel.
-- **Backend slot (port 8001)**: thin `httpx` proxy that forwards every `/api/*`
-  request to `http://127.0.0.1:3000/api/*` (`/app/backend/server.py`). The actual
-  REST endpoints are mounted **inside** the Chainlit FastAPI process via
-  `src.api_router.attach_to_chainlit_app()` — this guarantees the embedded
-  Qdrant client is single-process and never lock-contended.
-- **Vector store**: embedded Qdrant at `data/qdrant_embedded/` with FastEmbed
-  (`BAAI/bge-small-en-v1.5`, 384-dim) for dense retrieval.
-- **LLMs**: Emergent universal key → Claude Sonnet 4.5 primary, Gemini 2.5 Flash
-  fallback, Groq Llama-3.3-70B available for ladder fallback.
+```
+┌──────────────────────────────────────────────────────────┐
+│ React shell at /app/frontend (port 3000)                 │
+│ ├ /              Landing — "The Verdict, the Map, the    │
+│ │                 Proof" hero + animated metrics         │
+│ ├ /atlas         Pillar 01 — Conflict Atlas (world map)  │
+│ ├ /forensics     Pillar 02 — Citation Forensics          │
+│ ├ /advocacy      Pillar 03 — Advocacy Studio (was MUN)   │
+│ ├ /live          Pillar 04 — Live Authority Engine       │
+│ ├ /council       Pillar 05 — Council of Models           │
+│ └ /research      Pillar 06 — Research Console            │
+└────────────────────┬─────────────────────────────────────┘
+                     │  /api/*
+┌────────────────────▼─────────────────────────────────────┐
+│ FastAPI direct host at /app/backend/server.py (port 8001)│
+│ ├ legacy router (/app/src/api_router.py): health,        │
+│ │      ingestion, conflict, irac, debug                  │
+│ └ v3 router (/app/src/api_router_v2.py):                 │
+│        atlas, forensics, advocacy, live, council,        │
+│        research, overview                                │
+└────────────────────┬─────────────────────────────────────┘
+                     │
+              ┌──────┴──────────┬────────────────────────┐
+              │                 │                         │
+   Embedded Qdrant       Live registries           LLM clients
+   (3,730 chunks /        (Indian Kanoon,           (Claude Sonnet 4.5
+    8 collections)         CourtListener,            via Emergent,
+                           GovInfo, EUR-Lex,         Gemini 2.5 Flash
+                           HUDOC, UN Treaties)       direct, Groq Llama
+                                                     3.3 70B)
+```
 
-## Core requirements (static)
+## Tech stack
+- Backend: FastAPI 0.110+, uvicorn, embedded Qdrant + FastEmbed (BGE-small)
+- Frontend: React 18 + CRA-craco, Tailwind, Framer Motion, react-simple-maps
+- Typography: Newsreader (serif) + Geist (sans) + JetBrains Mono (mono)
+- Design language: Dark onyx + paper-cream + verdict gold/red/green/amber
 
-1. Multi-jurisdiction legal RAG over user-supplied corpora.
-2. Persona-driven answer styles with grounded `[S#]` citations.
-3. Cross-jurisdiction **conflict detector** with 4-tier classification
-   (alignment / qualified_alignment / conflict / neutral) and VCLT Art. 27
-   framing.
-4. Per-jurisdiction **IRAC** synthesis with side-by-side comparison table.
-5. **Citation verification** (CRAG-style n-gram overlap) graded
-   high / medium / low / no-claims.
-6. Idempotent ingestion of `Law Text Files/<folder>/*.txt` and PDF authorities.
+## What's been implemented (2026-05-08)
 
-## What's been implemented (2026-01-08)
+### Backend services (all NEW in this session)
+- `src/services/atlas_service.py` — parallelised per-jurisdiction conflict
+  analysis + AI-inferred fallback for non-grounded countries; honestly
+  downgrades to `no_data` when the LLM analyser is unavailable.
+- `src/services/forensics_service.py` — citation extraction (regex for
+  US/UK/India/treaty patterns), retrieval against the 22-collection corpus,
+  n-gram overlap scoring, per-claim grading
+  (verified/partial/suspicious/hallucinated/not_found).
+- `src/services/advocacy_service.py` — 4-section packet generator
+  (position paper, opening speech, rebuttal cards, leverage cards) with
+  schema-validated output and 5-stage provider fallback (Emergent Anthropic
+  → Emergent Google → Direct Gemini → Direct Gemini Lite → Groq Llama).
+- `src/services/live_authority_service.py` — concurrent calls to six
+  registries (Indian Kanoon, CourtListener, GovInfo, EUR-Lex, HUDOC, UN
+  Treaty index). Curated landmark fallback for HUDOC and EUR-Lex when their
+  public endpoints are unavailable.
+- `src/services/council_service.py` — three frontier LLMs answer the same
+  question in parallel; a Groq-judge synthesises a final verdict with
+  agreements / disagreements / ungrounded-warnings.
 
-- ✅ Ingested **7,876 chunks** from `Law Text Files/` (Indian + International +
-  Israel + Russian + USA) via `scripts/ingest_law_text_files.py`. Folder routing:
-  `Indian Law/ → STATUTES_IN`, `International Law Texts/ → COMMENTARY_GLOBAL`,
-  `Israel Law/ → STATUTES_IL`, `Russian Law/ → STATUTES_RU`, `USA LAW/ → STATUTES_US`.
-- ✅ Ingested PDFs (UN Charter, ICCPR, ICESCR, Indian Constitution, Malcolm
-  Shaw's *International Law*) — total **9,972 chunks across 22 collections**.
-- ✅ New service `src/services/conflict_detection.py` with both
-  pairwise (`analyze_conflict`) and multi-jurisdiction
-  (`analyze_multi_jurisdiction_conflict`) entry points. LLM-based
-  entailment via Claude Sonnet 4.5 (Emergent) → Gemini fallback. Strict
-  JSON contract; `used_model` propagated end-to-end.
-- ✅ New service `src/services/cross_jurisdiction.py` (`comparison_payload`)
-  for IRAC + comparative synthesis + markdown table.
-- ✅ New service `src/services/citation_verification.py` (CRAG-style
-  n-gram audit + flagged-claim renderer).
-- ✅ New service `src/services/emergent_llm.py` — sync wrapper around
-  Emergent `LlmChat` that runs in a fresh thread/event-loop so it works
-  inside async FastAPI/Chainlit handlers.
-- ✅ Chainlit UI rewritten (`chainlit_app.py`) with 5 personas, slash
-  commands `/conflict` `/irac` `/verify`, color-coded labels (🟢🟠🔴🟡),
-  VCLT reminder, and click-friendly Sources panel.
-- ✅ FastAPI sidecar rewritten as a 300s `httpx.AsyncClient` proxy.
-- ✅ `src.api_router.attach_to_chainlit_app()` mounts `/api/health`,
-  `/api/ingestion/status`, `/api/ingestion/run`, `/api/conflict/analyze`,
-  `/api/irac/analyze`, `/api/debug/retrieve` directly on Chainlit's FastAPI
-  app and re-orders routes ahead of Chainlit's catch-all.
+### API router
+- `src/api_router_v2.py` — POST endpoints for atlas / forensics / advocacy /
+  live / council / research; GET /api/overview for landing-page metrics.
 
-## Test results (iteration_3.json)
+### Backend rewrite
+- `backend/server.py` — direct FastAPI host on 8001, no proxy. Mounts both
+  legacy and v3 routers, CORS enabled.
 
-| Endpoint / feature | Result |
-|---|---|
-| `GET /api/health` | PASS |
-| `GET /api/ingestion/status` (9,972 points, all required collections >0) | PASS |
-| `GET /api/debug/retrieve?...&collections=STATUTES_IN` | PASS (real arbitration treatise) |
-| `POST /api/conflict/analyze` (death penalty IN/US) | PASS — qualified_alignment 0.78/0.72 |
-| `POST /api/irac/analyze` (anticipatory self-defense US/UK) | PASS |
-| Chainlit UI title + 9,972 banner | PASS |
-| Chainlit `/conflict` slash command full report | PASS |
-| Chainlit Tourist query with [S#] + Sources + Citation audit | PASS |
-| `used_model` propagation in conflict response (initially empty) | FIXED post-iteration_3 |
+### Frontend (entirely NEW)
+- `frontend/src/App.js`, `index.js`, `index.css` (Tailwind + grain texture +
+  print stylesheet + custom scrollbar + verdict stamp animation)
+- `frontend/src/components/NavBar.js`, `UI.js`
+- `frontend/src/pages/Landing.js`, `Atlas.js`, `Forensics.js`, `Advocacy.js`,
+  `Live.js`, `Council.js`, `Research.js`
+- `frontend/src/lib/api.js` — typed axios wrappers for every endpoint.
 
-## Backlog / future ideas
+### Corpus
+- 3,730 chunks across 8 collections re-ingested via
+  `scripts/demo_quick_ingest.py`.
 
-### P1
-- Streaming token-by-token answers in Chainlit (LangGraph already supports
-  it; would need a Chainlit `cl.Message.stream_token` adaptation).
-- Persist conflict reports to MongoDB for repeat queries / public links.
+## Personas (preserved from previous version)
+1. Researcher (default)
+2. Law Student (IRAC)
+3. Tourist (practical)
+4. Layman (plain English)
+5. Conflict Detector (cross-jurisdiction)
 
-### P2
-- True click-to-jump on `[S#]` markers (Chainlit element refs +
-  scroll-into-view).
-- Heavy reranker (BAAI/bge-reranker-v2-m3) — needs CUDA / >2 GB extra RAM.
-- Audio Q&A via Whisper (already in `.env` budget but UI not wired).
-- Comparative-law watchdog: schedule weekly re-runs of canonical conflict
-  queries and email diffs.
+## Status of integrations
+- Emergent universal key: **BUDGET EXCEEDED** ($1.014 used / $1.001 max).
+  User must add balance via Profile → Universal Key → Add Balance.
+- Direct Gemini API: rate-limited (free tier).
+- Groq: ✅ working — currently powering Advocacy + Council.
+- Indian Kanoon, CourtListener, GovInfo, UN Treaties: ✅ live.
+- HUDOC, EUR-Lex: curated landmark fallback when public APIs unreachable.
 
-### P3
-- Multilingual answers (Hindi, Hebrew, Russian) — Claude already supports
-  these but UI is English-only.
+## Backlog / next sessions
 
-## Next tasks
+### P0 — fix while Emergent budget is replenished
+- Atlas runs in lexical mode → currently shows `no_data` honestly. Once
+  Emergent budget is restored it will go back to the full Claude entailment.
 
-1. Wire Chainlit `/verify` to the IRAC report so users can audit
-   cross-jurisdiction synthesis claims as well as Tourist answers.
-2. Add a `/save` slash command that pins the last conflict report for sharing.
-3. Build a public read-only "Conflict Library" mini-page that lists
-   curated cross-jurisdiction conflict reports.
+### P1 — Tier-2 pillars
+- Citation Graph Explorer (case-to-case influence graph)
+- Doctrine Time Machine (timeline of doctrinal evolution)
+- Statute Diff Engine (compare two versions of a law)
+- Voice MUN Coach → renamed to **Voice Coach** (live fact-checked dictation)
+- Argument Workbench / Red Team Mode
+
+### P2 — polish
+- Saved reports library + public share links
+- Print stylesheet refinements for Forensics report
+- Citation graph edge weight tuning
+- Streaming responses (SSE) for long-running endpoints
+
+## Key user choices recorded
+- Audience: all (researchers, students, lawyers, debaters, journalists, policy)
+- Frontend: hybrid React shell, existing Chainlit preserved in repo (not
+  served — replaced by React Research console using same backend services).
+- LLMs: Claude Sonnet 4.5 (Emergent) + Gemini 2.5 Flash + Groq Llama 3.3 70B.
+- Don't mention "MUN" anywhere — Pillar 03 is "Advocacy Studio" with
+  "Leverage Cards" (universal terminology).
+
+## Smart-business enhancement (revenue lever)
+The most monetizable angle is **OmniLegal as the trust-layer for other AI
+products** (Forensics-as-a-Service): law firms, EdTech companies and
+journalism platforms could license a `/forensics/verify` API to grade
+LLM-generated content. Pricing: per-verification or per-corpus-licence.

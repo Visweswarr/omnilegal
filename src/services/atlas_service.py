@@ -244,6 +244,32 @@ def build_atlas(
             international_text=international_text,
             jurisdiction=_JURISDICTION_LABELS.get(jur_key.lower(), jur_key),
         )
+        # Honesty: if the LLM failed and we only have a lexical guess (no
+        # used_model returned by the analyser), downgrade to ``no_data``
+        # rather than confidently mis-labelling.
+        used_model_raw = str(raw.get("used_model") or "").lower()
+        if used_model_raw in {"", "lexical", "lexical_unavailable", "none"}:
+            return {
+                "jurisdiction_key": jur_key.lower(),
+                "jurisdiction": _JURISDICTION_LABELS.get(jur_key.lower(), jur_key),
+                "label": "neutral",
+                "color": "yellow",
+                "status": "LLM analyser temporarily unavailable",
+                "confidence": 0.0,
+                "explanation": (
+                    "The LLM entailment analyser is currently unavailable (likely a quota / "
+                    "budget cap on the configured provider). We are showing 'no_data' rather "
+                    "than a low-confidence lexical guess. Add balance to your Emergent universal "
+                    "key (Profile → Universal Key → Add Balance) and retry."
+                ),
+                "rationale_spans": [],
+                "vclt_article_27_implicated": False,
+                "international_position": international_summary,
+                "domestic_position": passages[0].content[:600] if passages else "",
+                "domestic_passages": [_passage_to_dict(p) for p in passages],
+                "international_passages": [_passage_to_dict(p) for p in international_passages],
+                "used_model": "lexical_unavailable",
+            }
         label, color = _normalize_label(raw.get("label", ""), raw.get("status", ""))
         return {
             "jurisdiction_key": jur_key.lower(),

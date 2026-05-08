@@ -97,6 +97,29 @@ def _parse_json(text: str) -> dict[str, Any] | None:
         return None
 
 
+_REQUIRED_KEYS = ("position_paper", "opening_speech", "rebuttal_cards", "leverage_cards")
+
+
+def _validate_packet(packet: dict[str, Any] | None) -> bool:
+    if not isinstance(packet, dict):
+        return False
+    if not all(k in packet for k in _REQUIRED_KEYS):
+        return False
+    pp = packet.get("position_paper")
+    if not isinstance(pp, dict) or not pp.get("preamble"):
+        return False
+    ospeech = packet.get("opening_speech")
+    if not isinstance(ospeech, dict) or not (ospeech.get("hook") or ospeech.get("beats")):
+        return False
+    rebuttals = packet.get("rebuttal_cards")
+    if not isinstance(rebuttals, list) or len(rebuttals) == 0:
+        return False
+    leverage = packet.get("leverage_cards")
+    if not isinstance(leverage, list) or len(leverage) == 0:
+        return False
+    return True
+
+
 def _passages_to_text(passages: list[dict[str, Any]]) -> str:
     parts: list[str] = []
     for i, p in enumerate(passages, start=1):
@@ -218,8 +241,6 @@ def generate_advocacy_packet(
     include_conflict: bool = True,
 ) -> dict[str, Any]:
     """Generate the full Advocacy Studio packet."""
-    from src.services.emergent_llm import generate_with_fallback
-
     international = _retrieve_international(topic)
     domestic = _retrieve_for_country(country_key, topic)
     opposite = _opposite_side_evidence(topic, country_key, position)
@@ -236,25 +257,93 @@ def generate_advocacy_packet(
         country_name, country_key, topic, position,
         international, domestic, opposite, conflict_summary,
     )
-    result = generate_with_fallback(
-        system=_PACKET_SYSTEM,
-        prompt=prompt,
-        timeout_seconds=60.0,
-    )
 
-    parsed = _parse_json(result.text) if result.text else None
+    # Try multiple providers; validate the schema; and as final fallback use
+    # Gemini's direct API (separate key, bypasses any Emergent universal-key
+    # budget cap).
+    attempts: list[tuple[str, str]] = []  # (provider, model_id_used)
+    parsed: dict[str, Any] | None = None
+    last_error: str | None = None
+    last_text: str = ""
+
+    def _try_emergent(provider: str, model: str) -> tuple[str, str | None, str | None]:
+        from src.services.emergent_llm import generate_text
+
+        res = generate_text(
+            system=_PACKET_SYSTEM, prompt=prompt,
+            provider=provider, model=model, timeout_seconds=70.0,
+        )
+        return res.text or "", res.error, res.model or model
+
+    def _try_gemini_direct() -> tuple[str, str | None, str]:
+        from src.services.gemini_client import generate_gemini_content
+
+        res = generate_gemini_content(
+            system=_PACKET_SYSTEM, prompt=prompt,
+            temperature=0.25, max_output_tokens=4500,
+        )
+        return res.text or "", res.error, res.model or "gemini-2.5-flash"
+
+    plan = [
+        ("emergent_anthropic", "claude-sonnet-4-5-20250929"),
+        ("emergent_google",    "gemini-2.5-flash"),
+        ("gemini_direct",      "gemini-2.5-flash"),
+        ("gemini_direct_lite", "gemini-2.5-flash-lite"),
+        ("groq_llama",         "llama-3.3-70b-versatile"),
+    ]
+    for provider_tag, model in plan:
+        try:
+            if provider_tag == "emergent_anthropic":
+                text, err, used = _try_emergent("anthropic", model)
+            elif provider_tag == "emergent_google":
+                text, err, used = _try_emergent("google", model)
+            elif provider_tag == "gemini_direct_lite":
+                from src.services.gemini_client import generate_gemini_content as _g
+                res = _g(system=_PACKET_SYSTEM, prompt=prompt,
+                         model="gemini-2.5-flash-lite",
+                         temperature=0.2, max_output_tokens=4500)
+                text, err, used = res.text or "", res.error, "gemini-2.5-flash-lite"
+            elif provider_tag == "groq_llama":
+                from src.services.groq_client import generate_groq_chat
+                res = generate_groq_chat(
+                    messages=[
+                        {"role": "system", "content": _PACKET_SYSTEM},
+                        {"role": "user", "content": prompt},
+                    ],
+                    max_tokens=4000,
+                    temperature=0.2,
+                    response_format={"type": "json_object"},
+                )
+                text, err, used = res.text or "", res.error, res.model or model
+            else:
+                text, err, used = _try_gemini_direct()
+        except Exception as exc:  # noqa: BLE001
+            text, err, used = "", f"{type(exc).__name__}: {exc}", model
+        attempts.append((provider_tag, used))
+        last_text = text
+        last_error = err
+        candidate = _parse_json(text)
+        if _validate_packet(candidate):
+            parsed = candidate
+            break
+
     if not parsed:
         return {
             "country": country_name,
             "country_key": country_key,
             "topic": topic,
             "position": position,
-            "error": result.error or "Advocacy generator returned no usable output.",
+            "error": (
+                "Advocacy generator could not produce a valid 4-section packet "
+                f"after {len(attempts)} attempts. Last error: {last_error or 'malformed JSON output'}."
+            ),
             "international_sources": international,
             "domestic_sources": domestic,
             "opposite_sources": opposite,
             "conflict_summary": conflict_summary,
-            "used_model": f"{result.provider}/{result.model}",
+            "used_model": "/".join(attempts[-1]) if attempts else "unknown",
+            "attempts": [f"{p}/{m}" for (p, m) in attempts],
+            "raw_excerpt": last_text[:600],
         }
 
     # Normalize / safety bound the cards
@@ -275,5 +364,6 @@ def generate_advocacy_packet(
         "domestic_sources": domestic,
         "opposite_sources": opposite,
         "conflict_summary": conflict_summary,
-        "used_model": f"{result.provider}/{result.model}",
+        "used_model": "/".join(attempts[-1]) if attempts else "unknown",
+        "attempts": [f"{p}/{m}" for (p, m) in attempts],
     }
