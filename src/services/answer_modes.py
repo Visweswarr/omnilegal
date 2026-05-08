@@ -138,6 +138,37 @@ MODES: dict[AnswerMode, ModeSpec] = {
         ),
         target_word_count=350,
     ),
+    AnswerMode.conflict_detector: ModeSpec(
+        mode=AnswerMode.conflict_detector,
+        display_name="Conflict Detector",
+        short_label="CONFLICT",
+        icon="\u2696",  # scales
+        tagline="Compare jurisdictions, surface conflicts, apply VCLT Art. 27",
+        audience="A researcher or counsel asking whether domestic and international law agree.",
+        voice=(
+            "Clinical, comparative, jurisdiction-by-jurisdiction. Lead with a verdict "
+            "(alignment / qualified alignment / conflict / silent), then justify with cited spans. "
+            "Always reference VCLT Article 27 when an actual conflict is detected."
+        ),
+        required_sections=[
+            "Verdict",
+            "International Rule",
+            "Per-Jurisdiction Comparison",
+            "Sharpest Disagreement",
+            "VCLT Article 27 Note",
+            "Disclaimer",
+        ],
+        system_focus=(
+            "Treat the question as a cross-jurisdiction conflict question. Retrieve and weigh the "
+            "international position (treaties, ICJ, customary international law), then for each "
+            "domestic jurisdiction in scope (India, US, UK, Russia, Israel) decide whether it "
+            "ALIGNS, QUALIFIES, CONFLICTS WITH, or is SILENT relative to the international rule. "
+            "Surface the single sharpest disagreement, name it, and cite [S#] markers for both sides. "
+            "Refuse to collapse genuine disagreement into agreement; under VCLT Article 27 a state "
+            "cannot invoke its internal law to escape an international obligation."
+        ),
+        target_word_count=850,
+    ),
 }
 
 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="5" time="9.933" timestamp="2026-05-08T18:09:10.061819+00:00" hostname="agent-env-b76f2c97-40e5-4b67-bcd2-eac077eac1a3"><testcase classname="backend.tests.test_omnilegal_v2" name="test_health_ok" time="0.237" /><testcase classname="backend.tests.test_omnilegal_v2" name="test_ingestion_status_corpus_size" time="2.212"><failure message="AssertionError: Subprocess can't access Qdrant while Chainlit is running. Got total_points=0&#10;assert 0 &gt; 7000">backend/tests/test_omnilegal_v2.py:51: in test_ingestion_status_corpus_size
+    assert data["total_points"] &gt; 7000, (
+E   AssertionError: Subprocess can't access Qdrant while Chainlit is running. Got total_points=0
+E   assert 0 &gt; 7000</failure></testcase><testcase classname="backend.tests.test_omnilegal_v2" name="test_debug_retrieve_indian_statutes" time="2.458"><failure message="AssertionError: STATUTES_IN retrieved 0 passages — Qdrant subprocess lock contention&#10;assert 0 &gt;= 1">backend/tests/test_omnilegal_v2.py:72: in test_debug_retrieve_indian_statutes
+    assert data["passage_count"] &gt;= 1, (
+E   AssertionError: STATUTES_IN retrieved 0 passages — Qdrant subprocess lock contention
+E   assert 0 &gt;= 1</failure></testcase><testcase classname="backend.tests.test_omnilegal_v2" name="test_conflict_israel_us" time="2.490"><failure message="AssertionError: All per_jurisdiction entries had domestic_passages=0 — subprocess can't access the corpus while Chainlit holds Qdrant lock&#10;assert False">backend/tests/test_omnilegal_v2.py:95: in test_conflict_israel_us
+    assert has_passages, (
+E   AssertionError: All per_jurisdiction entries had domestic_passages=0 — subprocess can't access the corpus while Chainlit holds Qdrant lock
+E   assert False</failure></testcase><testcase classname="backend.tests.test_omnilegal_v2" name="test_conflict_india_us_structure" time="2.485" /></testsuite></testsuites>

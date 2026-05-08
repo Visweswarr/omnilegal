@@ -1,0 +1,7 @@
+# Backend slot — minimal FastAPI shim that mostly proxies to /app/src.
+# The heavy OmniLegal stack lives in /app/requirements.txt; supervisor uses
+# the shared /root/.venv so we only need to declare the API-layer essentials.
+fastapi>=0.110
+uvicorn>=0.25
+pydantic>=2.0
+python-dotenv>=1.0

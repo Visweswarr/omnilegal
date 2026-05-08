@@ -289,6 +289,7 @@ class AnswerMode(str, Enum):
     law_student_case_law = "law_student_case_law"
     researcher = "researcher"
     layman = "layman"
+    conflict_detector = "conflict_detector"
 
 
 class CitationGrade(BaseModel):
