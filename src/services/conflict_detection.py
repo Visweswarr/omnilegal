@@ -539,6 +539,14 @@ def analyze_multi_jurisdiction_conflict(
         })
         overall_status_counts[label] = overall_status_counts.get(label, 0) + 1
 
+    # Surface the LLM model id at the top level so headless callers can audit
+    used_models = sorted({
+        str(entry.get("used_model"))
+        for entry in per_jurisdiction
+        if entry.get("used_model")
+    })
+    top_used_model = used_models[0] if used_models else "lexical"
+
     # Build a high-level verdict
     if overall_status_counts.get("conflict", 0) > 0:
         verdict = "conflict_detected"
@@ -570,4 +578,6 @@ def analyze_multi_jurisdiction_conflict(
         "verdict_human": verdict_human,
         "vclt_article_27_note": _VCLT_NOTE,
         "label_counts": overall_status_counts,
+        "used_model": top_used_model,
+        "used_models": used_models,
     }
