@@ -99,7 +99,7 @@ def _build_plan(scenario: str) -> dict[str, Any]:
     }
 
 
-def _scan_jurisdiction(jur_key: str, scenario: str, friction_queries: list[str], per_q: int = 3) -> dict[str, Any]:
+def _scan_jurisdiction(jur_key: str, scenario: str, friction_queries: list[str], per_q: int = 2) -> dict[str, Any]:
     from src.services.live_authority_service import search_live
     cat = _JUR_CATALOG.get(jur_key, {})
     sources = cat.get("sources") or []
@@ -108,7 +108,8 @@ def _scan_jurisdiction(jur_key: str, scenario: str, friction_queries: list[str],
 
     seen: set[str] = set()
     hits: list[dict[str, Any]] = []
-    for q in friction_queries:
+    # Limit to first 2 friction queries per jurisdiction to keep wall-clock under 60s
+    for q in friction_queries[:2]:
         if not q or len(q.strip()) < 3:
             continue
         try:
@@ -123,7 +124,7 @@ def _scan_jurisdiction(jur_key: str, scenario: str, friction_queries: list[str],
                 continue
             seen.add(k)
             hits.append(h)
-    return {"hits": hits[:10], "name": cat.get("name") or jur_key}
+    return {"hits": hits[:8], "name": cat.get("name") or jur_key}
 
 
 def _verdict_for_jurisdiction(scenario: str, position: str, jur_key: str, jur_name: str,

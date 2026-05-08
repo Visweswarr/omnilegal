@@ -39,6 +39,12 @@ log = logging.getLogger("omnilegal.live_authority")
 _DEFAULT_TIMEOUT = 12.0
 _USER_AGENT = "OmniLegal/3.0 (+https://omnilegal.local)"
 
+# CourtListener rate-limits aggressively (~5 RPS). Use a process-wide
+# semaphore so concurrent calls from arbitrage / drift / live search don't
+# all stampede the API and trigger 429s.
+import threading as _threading
+_CL_SEMAPHORE = _threading.BoundedSemaphore(value=2)
+
 
 def _http_json(url: str, headers: dict[str, str] | None = None, timeout: float = _DEFAULT_TIMEOUT) -> dict | list | None:
     req = urllib.request.Request(url, headers={"User-Agent": _USER_AGENT, "Accept": "application/json", **(headers or {})})
@@ -111,7 +117,15 @@ def _courtlistener(query: str, max_items: int = 5) -> list[dict[str, Any]]:
         return []
     url = f"https://www.courtlistener.com/api/rest/v4/search/?{urllib.parse.urlencode({'q': query, 'type': 'o', 'order_by': 'dateFiled desc'})}"
     headers = {"Authorization": f"Token {token}"}
-    data = _http_json(url, headers=headers, timeout=12.0)
+    # Bounded concurrency to avoid 429 cascades during multi-jurisdiction scans.
+    acquired = _CL_SEMAPHORE.acquire(timeout=8.0)
+    if not acquired:
+        log.info("CL semaphore timeout for query=%r", query[:60])
+        return []
+    try:
+        data = _http_json(url, headers=headers, timeout=8.0)
+    finally:
+        _CL_SEMAPHORE.release()
     if not data:
         return []
     results = data.get("results") if isinstance(data, dict) else []
@@ -205,11 +219,12 @@ def _eurlex(query: str, max_items: int = 5) -> list[dict[str, Any]]:
             "} ORDER BY DESC(?date) LIMIT " + str(max(max_items * 3, 10))
         )
         try:
-            sp_url = _EU_SPARQL_ENDPOINT + "?" + urllib.parse.urlencode({
-                "query": sparql,
-                "format": "application/sparql-results+json",
-            })
-            data = _http_json(sp_url, timeout=15.0)
+            sp_url = _EU_SPARQL_ENDPOINT + "?" + urllib.parse.urlencode({"query": sparql})
+            data = _http_json(
+                sp_url,
+                headers={"Accept": "application/sparql-results+json"},
+                timeout=10.0,
+            )
             seen_celex: set[str] = set()
             for row in (data or {}).get("results", {}).get("bindings", []):
                 celex = (row.get("celex") or {}).get("value") or ""

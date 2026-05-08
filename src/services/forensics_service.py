@@ -40,6 +40,17 @@ _CITATION_PATTERNS: list[tuple[str, re.Pattern[str]]] = [
 
 _SENTENCE_SPLIT = re.compile(r"(?<=[.!?])\s+(?=[A-Z\"\u201C\u2018\(\[])")
 
+# Legal abbreviations that contain a period and must NOT be treated as a
+# sentence boundary. The string ``v.`` in particular shows up in literally
+# every case citation. We replace each with a sentinel before splitting and
+# restore it afterwards.
+_LEGAL_ABBREVIATIONS = [
+    "v.", "vs.", "Inc.", "Ltd.", "Co.", "Corp.", "Bros.", "Cir.", "Fed.",
+    "U.S.", "U.S.C.", "U.K.", "Art.", "Sec.", "No.", "St.", "Ct.", "App.",
+    "Ass'n", "Mr.", "Mrs.", "Ms.", "Dr.", "Prof.", "Hon.", "Jr.", "Sr.",
+]
+_ABBR_SENTINEL = {abbr: f"<<<ABBR{i}>>>" for i, abbr in enumerate(_LEGAL_ABBREVIATIONS)}
+
 
 def _tokenize(text: str) -> set[str]:
     return {tok for tok in re.findall(r"[a-z0-9]+", (text or "").lower()) if len(tok) > 3}
@@ -56,7 +67,14 @@ def _split_sentences(text: str) -> list[tuple[int, int, str]]:
     out: list[tuple[int, int, str]] = []
     cursor = 0
     cleaned = text.replace("\r", "")
-    for chunk in _SENTENCE_SPLIT.split(cleaned):
+    # Pre-mask legal abbreviations so periods inside them don't trigger splits.
+    masked = cleaned
+    for abbr, sentinel in _ABBR_SENTINEL.items():
+        masked = masked.replace(abbr, sentinel)
+    for chunk in _SENTENCE_SPLIT.split(masked):
+        # Restore abbreviations
+        for abbr, sentinel in _ABBR_SENTINEL.items():
+            chunk = chunk.replace(sentinel, abbr)
         chunk = chunk.strip()
         if not chunk:
             continue

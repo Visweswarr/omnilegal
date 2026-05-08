@@ -165,6 +165,7 @@ def diff_statutes(
         "diff_chunks": chunks,
         "metrics": metrics,
         "impact": impact,
+        "used_model": (impact or {}).get("used_model", "deterministic"),
         "counts": {
             "unchanged": sum(1 for c in chunks if c["kind"] == "unchanged"),
             "added":     sum(1 for c in chunks if c["kind"] == "added"),

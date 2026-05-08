@@ -1,0 +1,38 @@
+{
+  "summary": "Re-tested OmniLegal v5 backend after main agent applied 5 fixes from iteration_4. Suite of 10 tests (5 fix-verifications + 5 regressions) — ALL 10 PASSED in ~184s. FIX1 (arbitrage <60s): PASS — completed in 28.7s, returned 5 jurisdictions. FIX2 (diff used_model top-level): PASS — `used_model='emergent_anthropic:claude-sonnet-4-5-20250929'` present at top level. FIX3 (voice extracts 'Roe v. Wade' claim): PASS — claims=2 (named_case 'In Roe v. Wade' + indian_section 'Section 124A'), splitter no longer breaks on legal abbreviations. FIX4 (EUR-Lex 406 fix): PARTIAL — the 406 Unacceptable error has been eliminated (no 406 entries in backend logs after the fix was deployed; Accept moved to HTTP header, format query param removed) HOWEVER the actual SPARQL query still returns 0 rows for all queries tried (artificial intelligence, merger control concentration, directive) because the FILTER(REGEX(?title,...)) clause is too strict; the response for 'artificial intelligence' is the curated fallback 'AI Act (Regulation 2024/1689)' (snippet starts with 'Landmark EU instrument relevant to:' — fallback signature, no date). FIX5 (live/search 4 sources >=6 hits): PASS — total=8 (eurlex:1 ik:3 cl:3 hudoc:1) in 2.8s; CourtListener returned 3 hits with no 429 cascade. REGRESSIONS: adversarial (counter=4, candidates=18), drift (verdict=stable, total_hits=56809), sentinel (confirmed=7, risk=1.0), stress (hyp=12), doctrine (milestones=8) — all PASS.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "/api/live/search (eurlex)", "issue": "EUR-Lex SPARQL 406 fix is verified (no 406 errors after deployment) BUT the SPARQL query design still returns 0 rows for almost every query because `FILTER(REGEX(?title, \"<query>\", \"i\"))` requires the entire query string to appear verbatim in the title. Multi-word queries like 'artificial intelligence' or 'data protection' rarely match titles exactly. Result: every EUR-Lex response is still the curated fallback (snippet 'Landmark EU instrument relevant to: <query>', empty date). Suggested fixes: (a) split query into individual tokens and AND them with multiple REGEX filters, (b) use cdm:work_eurovoc_concept matching, (c) drop title regex and rely on full-text search via the Cellar fulltext API, or (d) keep curated fallback but add a metric so callers know when SPARQL produced 0 vs N rows."}
+    ]
+  },
+  "frontend_issues": {"ui_bugs": [], "integration_issues": [], "design_issues": []},
+  "test_report_links": [
+    "/app/backend/tests/test_omnilegal_v5_fixes.py",
+    "/app/test_reports/pytest/v5_fixes_results.xml"
+  ],
+  "action_items": [
+    "Optional: improve EUR-Lex SPARQL query design so it returns real Cellar rows instead of always falling back to curated landmarks (regex on title is currently too restrictive — see minor issue). The 406 bug itself is fixed; this is a query-quality follow-up.",
+    "All 5 critical/high-priority fixes from iteration_4 are confirmed working — main agent can mark those issues closed."
+  ],
+  "critical_code_review_comments": [
+    "src/services/live_authority_service.py:_eurlex — Accept header is now correctly passed (line 225). 406 eliminated. But the FILTER(REGEX(?title, \"<full query>\", \"i\")) literally requires the entire query string to appear in the document title; for multi-word queries this matches almost nothing. Service silently falls back to a curated 8-entry hint list, so 'EUR-Lex live SPARQL' is mostly cosmetic. Either split into AND-of-tokens or use Cellar fulltext.",
+    "src/services/forensics_service.py:_split_sentences — legal-abbreviation pre-mask works (Roe v. Wade extracted correctly). Consider extending the abbreviation list with 'Co.', 'Corp.', 'Ass'n.', 'Reg.', 'Sec.' for completeness.",
+    "src/services/diff_service.py — used_model now correctly threaded to top level. Good fix.",
+    "src/services/arbitrage_service.py — friction_queries[:2] + Semaphore(2) on CL brought total elapsed from 70-120s down to 28.7s. Excellent fix. Consider lifting friction_queries[:2] back to [:3] now that CL no longer 429s."
+  ],
+  "updated_files": ["/app/backend/tests/test_omnilegal_v5_fixes.py"],
+  "success_rate": {"backend": "100% (10/10)", "frontend": "skipped (backend-only review)"},
+  "test_credentials": "N/A — no auth in preview",
+  "seed_data_creation": "None — Qdrant corpus empty as expected.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "All 5 iteration_4 fixes verified working. Run: pytest /app/backend/tests/test_omnilegal_v5_fixes.py -v --tb=short -s --junitxml=/app/test_reports/pytest/v5_fixes_results.xml. Suite takes ~3 min. The only remaining nuance: EUR-Lex 'real SPARQL' is technically reachable (no 406) but returns 0 rows for most queries because of strict FILTER(REGEX) on title — service still falls back to 8-entry curated landmark list. Test detects this via snippet pattern 'Landmark EU instrument relevant to:' (curated) vs 'CELEX <id>, published <date>.' (real SPARQL). Arbitrage now finishes ~25-40s (was 70-120s). All other endpoints unchanged from iteration_4.",
+  "rca of the issue": {
+    "fix1_arbitrage": "Verified: friction_queries[:2] + per-q=2 + Semaphore(2) on CourtListener + 8s HTTP timeouts brought arbitrage/scan from 70-120s to 28.7s, well under the 60s ingress limit.",
+    "fix2_diff_used_model": "Verified: top-level keys now include 'used_model' alongside left_label/right_label/diff_chunks/metrics/impact/counts. Value reflects the actual model used in waterfall ('emergent_anthropic:claude-sonnet-4-5-20250929').",
+    "fix3_voice_splitter": "Verified: pre-masking 'v.', 'vs.', 'Inc.' etc. before period-split lets the citation regex match 'Roe v. Wade' across what was previously a sentence boundary. Voice now returns 2 claims for the test sentence (was 0).",
+    "fix4_eurlex_406": "Partially verified: backend logs show ZERO 406 Unacceptable errors after the deployment (last 406 was at 21:53; tests ran at 22:01+). Accept is now an HTTP header. However the SPARQL query design (FILTER(REGEX(?title, \"<full query>\", \"i\"))) is too strict — almost every query returns 0 rows so the service falls back to a curated 8-entry landmark list. End-user perception is unchanged for unusual queries. Recommend AND-of-token regex or Cellar fulltext as a follow-up.",
+    "fix5_live_search_no_429": "Verified: 4-source live search returned 8 hits (cl=3, ik=3, hudoc=1, eurlex=1) in 2.8s with no CL 429 errors logged."
+  }
+}
