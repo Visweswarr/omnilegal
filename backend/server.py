@@ -72,6 +72,14 @@ try:
 except Exception as exc:  # noqa: BLE001
     log.exception("Failed to mount v3 router: %s", exc)
 
+try:
+    from src.api_router_v3 import router as tier2_router  # noqa: E402
+
+    app.include_router(tier2_router)
+    log.info("Mounted Tier-2 router (diff, reports, redteam, doctrine, graph, reading, voice).")
+except Exception as exc:  # noqa: BLE001
+    log.exception("Failed to mount Tier-2 router: %s", exc)
+
 
 @app.get("/api")
 async def index() -> dict[str, object]:

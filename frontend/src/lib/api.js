@@ -34,4 +34,37 @@ export const askResearch       = (query, persona = "researcher", k = 6) =>
 export const debugRetrieve     = (query, collections = "", k = 6) =>
   api.get(`/debug/retrieve`, { params: { query, collections, k } }).then(r => r.data);
 
+// ── Tier-2 pillars ──────────────────────────────────────────────────────
+
+export const compareDiff       = (left, right, leftLabel = "Left", rightLabel = "Right") =>
+  api.post("/diff/compare", { left, right, left_label: leftLabel, right_label: rightLabel }).then(r => r.data);
+
+export const saveReport        = (kind, title, payload) =>
+  api.post("/reports", { kind, title, payload }).then(r => r.data);
+export const listReports       = (kind = "") =>
+  api.get("/reports", { params: kind ? { kind } : {} }).then(r => r.data);
+export const getReport         = (id) =>
+  api.get(`/reports/${id}`).then(r => r.data);
+export const deleteReport      = (id) =>
+  api.delete(`/reports/${id}`).then(r => r.data);
+export const getShare          = (token) =>
+  api.get(`/share/${token}`).then(r => r.data);
+
+export const analyzeRedteam    = (text, mode = "argument") =>
+  api.post("/redteam/analyze", { text, mode }).then(r => r.data);
+
+export const trackDoctrine     = (doctrine, jurisdiction = "Comparative") =>
+  api.post("/doctrine/track", { doctrine, jurisdiction }).then(r => r.data);
+
+export const buildGraph        = (seed, maxNodes = 40) =>
+  api.post("/graph/build", { seed, max_nodes: maxNodes }).then(r => r.data);
+
+export const annotateReading   = (text) =>
+  api.post("/reading/annotate", { text }).then(r => r.data);
+
+export const voiceVerifyChunk  = (text) =>
+  api.post("/voice/verify_chunk", { text }).then(r => r.data);
+export const voiceFinalize     = (transcript) =>
+  api.post("/voice/finalize", { transcript }).then(r => r.data);
+
 export default api;

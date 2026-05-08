@@ -1,14 +1,24 @@
 import React, { useState } from "react";
 import { NavLink, Link, useLocation } from "react-router-dom";
-import { Globe, ShieldCheck, FileText, Radio, Users2, BookOpen, Scale, Menu, X } from "lucide-react";
+import {
+  Globe, ShieldCheck, FileText, Radio, Users2, BookOpen, Scale, Menu, X,
+  GitCompare, Library, Swords, History, Network, Mic, Highlighter,
+} from "lucide-react";
 
 const NAV = [
-  { to: "/atlas",     label: "Atlas",     icon: Globe       },
-  { to: "/forensics", label: "Forensics", icon: ShieldCheck },
-  { to: "/advocacy",  label: "Advocacy",  icon: FileText    },
-  { to: "/live",      label: "Live",      icon: Radio       },
-  { to: "/council",   label: "Council",   icon: Users2      },
-  { to: "/research",  label: "Research",  icon: BookOpen    },
+  { to: "/atlas",        label: "Atlas",        icon: Globe       },
+  { to: "/forensics",    label: "Forensics",    icon: ShieldCheck },
+  { to: "/advocacy",     label: "Advocacy",     icon: FileText    },
+  { to: "/live",         label: "Live",         icon: Radio       },
+  { to: "/council",      label: "Council",      icon: Users2      },
+  { to: "/research",     label: "Research",     icon: BookOpen    },
+  { to: "/diff",         label: "Diff",         icon: GitCompare  },
+  { to: "/redteam",      label: "Red Team",     icon: Swords      },
+  { to: "/time-machine", label: "Doctrine",     icon: History     },
+  { to: "/graph",        label: "Graph",        icon: Network     },
+  { to: "/voice",        label: "Voice",        icon: Mic         },
+  { to: "/reading",      label: "Reading",      icon: Highlighter },
+  { to: "/library",      label: "Library",      icon: Library     },
 ];
 
 export default function NavBar() {

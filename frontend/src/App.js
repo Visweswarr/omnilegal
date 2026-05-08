@@ -8,6 +8,14 @@ import Advocacy from "./pages/Advocacy";
 import Live from "./pages/Live";
 import Council from "./pages/Council";
 import Research from "./pages/Research";
+import Diff from "./pages/Diff";
+import Redteam from "./pages/Redteam";
+import TimeMachine from "./pages/TimeMachine";
+import Graph from "./pages/Graph";
+import Voice from "./pages/Voice";
+import Reading from "./pages/Reading";
+import Library from "./pages/Library";
+import Share from "./pages/Share";
 
 export default function App() {
   return (
@@ -15,13 +23,21 @@ export default function App() {
       <NavBar />
       <main className="pt-16 relative z-10">
         <Routes>
-          <Route path="/"          element={<Landing />} />
-          <Route path="/atlas"     element={<Atlas />} />
-          <Route path="/forensics" element={<Forensics />} />
-          <Route path="/advocacy"  element={<Advocacy />} />
-          <Route path="/live"      element={<Live />} />
-          <Route path="/council"   element={<Council />} />
-          <Route path="/research"  element={<Research />} />
+          <Route path="/"             element={<Landing />} />
+          <Route path="/atlas"        element={<Atlas />} />
+          <Route path="/forensics"    element={<Forensics />} />
+          <Route path="/advocacy"     element={<Advocacy />} />
+          <Route path="/live"         element={<Live />} />
+          <Route path="/council"      element={<Council />} />
+          <Route path="/research"     element={<Research />} />
+          <Route path="/diff"         element={<Diff />} />
+          <Route path="/redteam"      element={<Redteam />} />
+          <Route path="/time-machine" element={<TimeMachine />} />
+          <Route path="/graph"        element={<Graph />} />
+          <Route path="/voice"        element={<Voice />} />
+          <Route path="/reading"      element={<Reading />} />
+          <Route path="/library"      element={<Library />} />
+          <Route path="/share/:token" element={<Share />} />
         </Routes>
       </main>
       <footer className="border-t border-white/10 py-6 px-6 mt-24 text-xs font-mono uppercase tracking-widest2 text-paper-400 flex flex-wrap items-center justify-between gap-3">
