@@ -1,0 +1,24 @@
+{
+  "tiers": [
+    "S"
+  ],
+  "catalogs": [
+    "tier_s_doctrinal.json"
+  ],
+  "duration_s": 301.4,
+  "results": {
+    "tier_s_doctrinal.json": {
+      "elapsed_s": 301.2,
+      "sources": 10,
+      "chunks": 615,
+      "upserted_by_collection": {
+        "COMMENTARY_GLOBAL": 582,
+        "CASE_LAW_GLOBAL": 41
+      }
+    },
+    "_citation_graph": {
+      "documents": 0,
+      "edges": 0
+    }
+  }
+}

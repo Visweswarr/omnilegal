@@ -68,6 +68,17 @@ def _build_registry() -> dict[str, Callable[..., tuple[list[dict[str, Any]], lis
     from src.services.adapters.doaj import fetch as doaj_fetch
     from src.services.adapters.arxiv_legal import fetch as arxiv_legal_fetch
     from src.services.adapters.tn_ogd import fetch as tn_ogd_fetch
+    # New high-density adapters (Constitute, OHCHR, Refworld, CLOUT, HCCH, Italaw,
+    # Indian tribunals, doctrinal canon, India HC AWS)
+    from src.services.adapters.constitute_project import fetch as constitute_fetch
+    from src.services.adapters.ohchr_juris import fetch as ohchr_juris_fetch
+    from src.services.adapters.refworld import fetch as refworld_fetch
+    from src.services.adapters.uncitral_clout import fetch as uncitral_clout_fetch
+    from src.services.adapters.hcch import fetch as hcch_fetch
+    from src.services.adapters.italaw import fetch as italaw_fetch
+    from src.services.adapters.indian_tribunals import fetch as indian_tribunals_fetch
+    from src.services.adapters.doctrinal_canon import fetch as doctrinal_canon_fetch
+    from src.services.adapters.india_aws_hc import fetch as india_hc_fetch
 
     return {
         # United States
@@ -123,6 +134,16 @@ def _build_registry() -> dict[str, Callable[..., tuple[list[dict[str, Any]], lis
         "arxiv_legal_api": arxiv_legal_fetch,
         # India — Tamil Nadu OGD
         "tn_ogd_ckan": tn_ogd_fetch,
+        # New high-density adapters
+        "constitute_project": constitute_fetch,
+        "ohchr_juris": ohchr_juris_fetch,
+        "refworld": refworld_fetch,
+        "uncitral_clout": uncitral_clout_fetch,
+        "hcch": hcch_fetch,
+        "italaw": italaw_fetch,
+        "indian_tribunals": indian_tribunals_fetch,
+        "doctrinal_canon": doctrinal_canon_fetch,
+        "india_aws_hc": india_hc_fetch,
     }
 
 
@@ -160,5 +181,8 @@ def has_adapter(label: str) -> bool:
         "doaj_api", "arxiv_legal_api",
         # India — Tamil Nadu OGD
         "tn_ogd_ckan",
+        # New high-density adapters
+        "constitute_project", "ohchr_juris", "refworld", "uncitral_clout",
+        "hcch", "italaw", "indian_tribunals", "doctrinal_canon", "india_aws_hc",
     }
     return label in known

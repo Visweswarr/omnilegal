@@ -1,130 +1,370 @@
-# OmniLegal Source Registry
-# Defines required and optional source roles per recognised topic.
-# The source_gate pipeline node reads this to enforce availability
-# before any retrieval or generation begins.
+# OmniLegal Source Registry — Topic-driven required/optional source mappings.
 #
-# role values: treaty, case_law, local_statute, local_case,
-#              commentary, official_guidance
-# source_pattern: substring matched against source_name or citation
-#                 in the Qdrant collection metadata
-# collection: the Qdrant collection where the source lives
+# For every topic the source_gate node enforces the presence of REQUIRED
+# authorities before retrieval is allowed to proceed. Optional sources enrich
+# but don't block. Source-pattern matches against `source_name` OR `citation`
+# in the chunk metadata.
+#
+# Conventions:
+#   role  = treaty | case_law | local_statute | local_case | commentary |
+#           constitutional | tribunal_order | treatise | official_guidance
+#   source_pattern is a regex (case-insensitive) tested against source_name|citation.
 
 topics:
+
+  # =========================================================
+  # International law — public, doctrinal, treaty
+  # =========================================================
   diplomatic_immunity:
     required:
-      - role: treaty
-        source_pattern: "Vienna Convention on Diplomatic Relations"
-        collection: INTL_TREATIES
-        description: "VCDR 1961 — diplomatic agent inviolability and immunity"
-      - role: case_law
-        source_pattern: "Arrest Warrant|Tehran|Diplomatic and Consular Staff"
-        collection: CASE_LAW_GLOBAL
-        description: "ICJ diplomatic immunity case law — Tehran Hostages or Arrest Warrant"
+      - {role: treaty,    source_pattern: "Vienna Convention on Diplomatic Relations|VCDR", collection: INTL_TREATIES}
+      - {role: case_law,  source_pattern: "Tehran|Diplomatic and Consular Staff|Arrest Warrant", collection: CASE_LAW_GLOBAL}
     optional:
-      - role: commentary
-        source_pattern: "Shaw"
-        collection: COMMENTARY_GLOBAL
-        description: "Malcolm Shaw, International Law"
+      - {role: commentary, source_pattern: "Shaw|Oppenheim", collection: COMMENTARY_GLOBAL}
 
+  consular_relations:
+    required:
+      - {role: treaty,   source_pattern: "Vienna Convention on Consular Relations|VCCR", collection: INTL_TREATIES}
+      - {role: case_law, source_pattern: "Avena|LaGrand", collection: CASE_LAW_GLOBAL}
+
+  state_responsibility:
+    required:
+      - {role: treaty,   source_pattern: "Articles on Responsibility of States|ARSIWA", collection: INTL_TREATIES}
+      - {role: case_law, source_pattern: "Chorzów|Gabčíkovo", collection: CASE_LAW_GLOBAL}
+
+  use_of_force_jus_ad_bellum:
+    required:
+      - {role: treaty,   source_pattern: "UN Charter Article 2\\(4\\)|Article 51", collection: INTL_TREATIES}
+      - {role: case_law, source_pattern: "Nicaragua|Oil Platforms|Wall|Armed Activities", collection: CASE_LAW_GLOBAL}
+
+  ihl_jus_in_bello:
+    required:
+      - {role: treaty,   source_pattern: "Geneva Convention|Additional Protocol I|II", collection: INTL_TREATIES}
+      - {role: case_law, source_pattern: "Tadić|Furundžija|Wall", collection: CASE_LAW_GLOBAL}
+    optional:
+      - {role: commentary, source_pattern: "ICRC", collection: COMMENTARY_GLOBAL}
+
+  international_criminal_law:
+    required:
+      - {role: treaty,   source_pattern: "Rome Statute", collection: INTL_TREATIES}
+      - {role: case_law, source_pattern: "Lubanga|Tadić|Akayesu", collection: CASE_LAW_GLOBAL}
+
+  human_rights_general:
+    required:
+      - {role: treaty,   source_pattern: "ICCPR|International Covenant on Civil and Political", collection: INTL_TREATIES}
+      - {role: case_law, source_pattern: "OHCHR|Treaty Body|Human Rights Committee", collection: CASE_LAW_GLOBAL}
+
+  refugee_asylum:
+    required:
+      - {role: treaty,   source_pattern: "1951 Refugee Convention|1967 Protocol", collection: INTL_TREATIES}
+      - {role: commentary, source_pattern: "Refworld|UNHCR", collection: COMMENTARY_GLOBAL}
+
+  treaty_interpretation:
+    required:
+      - {role: treaty, source_pattern: "Vienna Convention on the Law of Treaties|VCLT", collection: INTL_TREATIES}
+    optional:
+      - {role: commentary, source_pattern: "Shaw|Oppenheim", collection: COMMENTARY_GLOBAL}
+
+  law_of_the_sea:
+    required:
+      - {role: treaty,   source_pattern: "UNCLOS|United Nations Convention on the Law of the Sea", collection: INTL_TREATIES}
+      - {role: case_law, source_pattern: "ITLOS|South China Sea|Chagos", collection: CASE_LAW_GLOBAL}
+
+  investment_arbitration:
+    required:
+      - {role: treaty,   source_pattern: "ICSID Convention|Bilateral Investment Treaty", collection: INTL_TREATIES}
+      - {role: case_law, source_pattern: "Italaw|ICSID|UNCITRAL Award", collection: CASE_LAW_GLOBAL}
+
+  private_international_law:
+    required:
+      - {role: treaty, source_pattern: "Hague Convention|HCCH", collection: INTL_TREATIES}
+
+  international_commercial_law_uncitral:
+    required:
+      - {role: treaty,   source_pattern: "CISG|UNCITRAL", collection: INTL_TREATIES}
+      - {role: case_law, source_pattern: "CLOUT|UNCITRAL", collection: CASE_LAW_GLOBAL}
+
+  environmental_law_intl:
+    required:
+      - {role: treaty,   source_pattern: "UNFCCC|Paris Agreement|CBD|Ramsar|CITES", collection: INTL_TREATIES}
+    optional:
+      - {role: commentary, source_pattern: "ECOLEX|InforMEA", collection: COMMENTARY_GLOBAL}
+
+  trade_wto:
+    required:
+      - {role: treaty,   source_pattern: "GATT|WTO Agreement|TRIPS", collection: INTL_TREATIES}
+      - {role: case_law, source_pattern: "WTO Appellate Body|DS\\d+", collection: CASE_LAW_GLOBAL}
+
+  jus_cogens:
+    required:
+      - {role: treaty,   source_pattern: "VCLT Article 53|jus cogens", collection: INTL_TREATIES}
+    optional:
+      - {role: commentary, source_pattern: "Shaw|Brownlie", collection: COMMENTARY_GLOBAL}
+
+  # =========================================================
+  # India
+  # =========================================================
+  india_constitutional_fundamental_rights:
+    required:
+      - {role: constitutional, source_pattern: "Constitution of India.*Article (14|19|21|25|32)", collection: NATIONAL_IN}
+      - {role: case_law,       source_pattern: "Kesavananda|Maneka Gandhi|Puttaswamy|Navtej Johar", collection: CASE_LAW_IN}
+
+  india_criminal_law_bns:
+    required:
+      - {role: local_statute, source_pattern: "Bharatiya Nyaya Sanhita|BNS|IPC", collection: STATUTES_IN}
+      - {role: local_case,    source_pattern: "Supreme Court of India.*criminal", collection: CASE_LAW_IN}
+
+  india_criminal_procedure_bnss:
+    required:
+      - {role: local_statute, source_pattern: "Bharatiya Nagarik Suraksha Sanhita|BNSS|CrPC", collection: STATUTES_IN}
+
+  india_evidence_bsa:
+    required:
+      - {role: local_statute, source_pattern: "Bharatiya Sakshya Adhiniyam|BSA|Evidence Act", collection: STATUTES_IN}
+
+  india_motor_vehicles:
+    required:
+      - {role: local_statute, source_pattern: "Motor Vehicles Act", collection: STATUTES_IN}
+
+  india_contract_law:
+    required:
+      - {role: local_statute, source_pattern: "Indian Contract Act 1872", collection: STATUTES_IN}
+
+  india_company_law_ibc:
+    required:
+      - {role: local_statute, source_pattern: "Companies Act 2013|Insolvency and Bankruptcy Code|IBC", collection: STATUTES_IN}
+    optional:
+      - {role: tribunal_order, source_pattern: "NCLAT|NCLT", collection: CASE_LAW_IN}
+
+  india_tax_direct:
+    required:
+      - {role: local_statute, source_pattern: "Income-tax Act|Income Tax Act 1961", collection: STATUTES_IN}
+    optional:
+      - {role: tribunal_order, source_pattern: "ITAT", collection: CASE_LAW_IN}
+
+  india_tax_indirect_gst:
+    required:
+      - {role: local_statute, source_pattern: "Central Goods and Services Tax|CGST|GST", collection: STATUTES_IN}
+    optional:
+      - {role: tribunal_order, source_pattern: "CESTAT", collection: CASE_LAW_IN}
+
+  india_competition_law:
+    required:
+      - {role: local_statute, source_pattern: "Competition Act 2002", collection: STATUTES_IN}
+    optional:
+      - {role: tribunal_order, source_pattern: "CCI", collection: CASE_LAW_IN}
+
+  india_environmental_law:
+    required:
+      - {role: local_statute, source_pattern: "Environment \\(Protection\\) Act|Air Act|Water Act|NGT Act", collection: STATUTES_IN}
+    optional:
+      - {role: tribunal_order, source_pattern: "NGT|Green Tribunal", collection: CASE_LAW_IN}
+
+  india_labour_law:
+    required:
+      - {role: local_statute, source_pattern: "Industrial Disputes Act|Code on Wages|Code on Social Security", collection: STATUTES_IN}
+
+  india_personal_law:
+    required:
+      - {role: local_statute, source_pattern: "Hindu Marriage Act|Special Marriage Act|Muslim Personal Law", collection: STATUTES_IN}
+
+  india_consumer_protection:
+    required:
+      - {role: local_statute, source_pattern: "Consumer Protection Act 2019", collection: STATUTES_IN}
+
+  india_information_technology:
+    required:
+      - {role: local_statute, source_pattern: "Information Technology Act 2000|DPDPA|Digital Personal Data Protection", collection: STATUTES_IN}
+
+  # =========================================================
+  # United States
+  # =========================================================
+  us_constitutional:
+    required:
+      - {role: constitutional, source_pattern: "Constitution of the United States|U\\.S\\. Const", collection: NATIONAL_US}
+      - {role: case_law,       source_pattern: "Marbury|Brown v\\. Board|Roe v\\. Wade|Dobbs|Bostock", collection: CASE_LAW_US}
+
+  us_first_amendment:
+    required:
+      - {role: constitutional, source_pattern: "First Amendment", collection: NATIONAL_US}
+      - {role: case_law,       source_pattern: "New York Times v\\. Sullivan|Citizens United", collection: CASE_LAW_US}
+
+  us_federal_criminal:
+    required:
+      - {role: local_statute, source_pattern: "18 U\\.S\\.C", collection: STATUTES_US}
+
+  us_civil_rights:
+    required:
+      - {role: local_statute, source_pattern: "Civil Rights Act|42 U\\.S\\.C", collection: STATUTES_US}
+
+  us_securities:
+    required:
+      - {role: local_statute, source_pattern: "Securities Act of 1933|Exchange Act 1934|Dodd-Frank", collection: STATUTES_US}
+
+  us_antitrust:
+    required:
+      - {role: local_statute, source_pattern: "Sherman Act|Clayton Act|FTC Act", collection: STATUTES_US}
+
+  us_administrative:
+    required:
+      - {role: local_statute, source_pattern: "Administrative Procedure Act|APA|5 U\\.S\\.C", collection: STATUTES_US}
+
+  us_immigration:
+    required:
+      - {role: local_statute, source_pattern: "Immigration and Nationality Act|INA|8 U\\.S\\.C", collection: STATUTES_US}
+
+  # =========================================================
+  # United Kingdom
+  # =========================================================
+  uk_constitutional:
+    required:
+      - {role: local_statute, source_pattern: "Magna Carta|Bill of Rights 1689|Human Rights Act 1998", collection: STATUTES_UK}
+      - {role: case_law,      source_pattern: "Entick v Carrington|Miller", collection: CASE_LAW_UK}
+
+  uk_human_rights:
+    required:
+      - {role: local_statute, source_pattern: "Human Rights Act 1998", collection: STATUTES_UK}
+
+  uk_contract:
+    required:
+      - {role: case_law, source_pattern: "Carlill|Hadley v Baxendale|Donoghue", collection: CASE_LAW_UK}
+
+  uk_criminal:
+    required:
+      - {role: local_statute, source_pattern: "Sentencing Act 2020|Theft Act 1968|Offences against the Person Act 1861", collection: STATUTES_UK}
+
+  # =========================================================
+  # European Union
+  # =========================================================
+  eu_general:
+    required:
+      - {role: treaty, source_pattern: "TEU|TFEU|Treaty on European Union|Treaty on the Functioning", collection: STATUTES_EU}
+
+  eu_charter:
+    required:
+      - {role: constitutional, source_pattern: "Charter of Fundamental Rights of the EU", collection: STATUTES_EU}
+
+  eu_data_protection:
+    required:
+      - {role: local_statute, source_pattern: "GDPR|Regulation \\(EU\\) 2016/679", collection: STATUTES_EU}
+
+  echr_jurisprudence:
+    required:
+      - {role: treaty,   source_pattern: "European Convention on Human Rights|ECHR", collection: INTL_TREATIES}
+      - {role: case_law, source_pattern: "ECtHR|Strasbourg|HUDOC", collection: CASE_LAW_EU}
+
+  # =========================================================
+  # Russia
+  # =========================================================
+  russia_constitutional:
+    required:
+      - {role: constitutional, source_pattern: "Constitution of the Russian Federation", collection: NATIONAL_RU}
+
+  russia_criminal:
+    required:
+      - {role: local_statute, source_pattern: "Criminal Code of the Russian Federation|Уголовный кодекс", collection: STATUTES_RU}
+
+  russia_road_traffic:
+    required:
+      - {role: local_statute, source_pattern: "196-FZ|Federal Law on Road Traffic Safety", collection: STATUTES_RU}
+
+  # =========================================================
+  # Israel
+  # =========================================================
+  israel_basic_laws:
+    required:
+      - {role: constitutional, source_pattern: "Basic Law:|Knesset Basic Law", collection: NATIONAL_IL}
+
+  israel_criminal:
+    required:
+      - {role: local_statute, source_pattern: "Penal Law 5737-1977|Israeli Penal Law", collection: STATUTES_IL}
+
+  # =========================================================
+  # France / Germany / Spain (civil law)
+  # =========================================================
+  france_civil_code:
+    required:
+      - {role: local_statute, source_pattern: "Code civil|French Civil Code", collection: STATUTES_EU}
+
+  germany_basic_law:
+    required:
+      - {role: constitutional, source_pattern: "Grundgesetz|German Basic Law", collection: STATUTES_EU}
+
+  germany_civil_code:
+    required:
+      - {role: local_statute, source_pattern: "BGB|Bürgerliches Gesetzbuch|German Civil Code", collection: STATUTES_EU}
+
+  spain_civil_code:
+    required:
+      - {role: local_statute, source_pattern: "Código Civil|Spanish Civil Code", collection: STATUTES_EU}
+
+  # =========================================================
+  # Comparative / cross-cutting
+  # =========================================================
+  comparative_constitutional:
+    required:
+      - {role: constitutional, source_pattern: "Constitute|Constitution of", collection: NATIONAL_IN}
+    optional:
+      - {role: commentary, source_pattern: "Comparative Constitutions Project", collection: COMMENTARY_GLOBAL}
+
+  doctrinal_foundations:
+    required:
+      - {role: treatise, source_pattern: "Blackstone|Coke|Story|Federalist|Pollock|Maine|Holdsworth|Bentham|Austin|Salmond|Grotius|Vattel|Oppenheim|Justinian", collection: COMMENTARY_GLOBAL}
+
+  named_case:
+    required:
+      - {role: case_law, source_pattern: ".+", collection: CASE_LAW_GLOBAL}
+    optional:
+      - {role: commentary, source_pattern: "Shaw|Oppenheim", collection: COMMENTARY_GLOBAL}
+
+  # =========================================================
+  # Existing legacy topics — preserved for backward compat
+  # =========================================================
   driving_india_russia:
     required:
-      - role: treaty
-        source_pattern: "Convention on Road Traffic"
-        collection: INTL_TREATIES
-        description: "Vienna Convention on Road Traffic 1968 Art 41"
-      - role: local_statute
-        source_pattern: "Motor Vehicles Act"
-        collection: STATUTES_IN
-        description: "Motor Vehicles Act 1988 India"
-      - role: local_statute
-        source_pattern: "196-FZ"
-        collection: STATUTES_RU
-        description: "Federal Law No. 196-FZ on Road Safety Russia"
+      - {role: treaty,        source_pattern: "Convention on Road Traffic", collection: INTL_TREATIES}
+      - {role: local_statute, source_pattern: "Motor Vehicles Act",         collection: STATUTES_IN}
+      - {role: local_statute, source_pattern: "196-FZ",                     collection: STATUTES_RU}
     optional:
-      - role: local_statute
-        source_pattern: "KoAP"
-        collection: STATUTES_RU
-        description: "Code of Administrative Offences of Russia Art 12.7"
+      - {role: local_statute, source_pattern: "KoAP",                       collection: STATUTES_RU}
 
   bns_69:
     required:
-      - role: local_statute
-        source_pattern: "Bharatiya Nyaya Sanhita Section 69|Sexual intercourse by employing"
-        collection: STATUTES_IN
-        description: "BNS Section 69 — sexual intercourse by deceitful means"
+      - {role: local_statute, source_pattern: "Bharatiya Nyaya Sanhita Section 69|Sexual intercourse by employing", collection: STATUTES_IN}
     optional:
-      - role: local_case
-        source_pattern: ""
-        collection: CASE_LAW_IN
-        description: "Indian case law on BNS 69 or predecessor IPC 376"
+      - {role: local_case,    source_pattern: "",                            collection: CASE_LAW_IN}
 
   murder_sentencing:
     required:
-      - role: local_statute
-        source_pattern: "Bharatiya Nyaya Sanhita Section 103|Bharatiya Nyaya Sanhita, 2023, section 103"
-        collection: STATUTES_IN
-        description: "BNS Section 103 — punishment for murder (India)"
-      - role: local_statute
-        source_pattern: "Sentencing Act 2020"
-        collection: STATUTES_UK
-        description: "Sentencing Act 2020 Schedule 21 — murder (England & Wales)"
-      - role: local_statute
-        source_pattern: "18 U.S.C"
-        collection: STATUTES_US
-        description: "18 USC 1111 — murder (US federal)"
+      - {role: local_statute, source_pattern: "Bharatiya Nyaya Sanhita Section 103|section 103", collection: STATUTES_IN}
+      - {role: local_statute, source_pattern: "Sentencing Act 2020",                              collection: STATUTES_UK}
+      - {role: local_statute, source_pattern: "18 U\\.S\\.C",                                     collection: STATUTES_US}
     optional: []
 
   tinoco:
     required:
-      - role: case_law
-        source_pattern: "Tinoco"
-        collection: CASE_LAW_GLOBAL
-        description: "Tinoco Arbitration (Great Britain v Costa Rica, 1923)"
+      - {role: case_law, source_pattern: "Tinoco", collection: CASE_LAW_GLOBAL}
     optional:
-      - role: commentary
-        source_pattern: "Shaw"
-        collection: COMMENTARY_GLOBAL
-        description: "Malcolm Shaw, International Law"
+      - {role: commentary, source_pattern: "Shaw", collection: COMMENTARY_GLOBAL}
 
   wall:
     required:
-      - role: case_law
-        source_pattern: "Wall|Occupied Palestinian|Legal Consequences of the Construction"
-        collection: CASE_LAW_GLOBAL
-        description: "Wall Advisory Opinion (ICJ 2004)"
-      - role: treaty
-        source_pattern: "Fourth Geneva Convention"
-        collection: INTL_TREATIES
-        description: "Fourth Geneva Convention — IHL"
+      - {role: case_law, source_pattern: "Wall|Occupied Palestinian|Legal Consequences of the Construction", collection: CASE_LAW_GLOBAL}
+      - {role: treaty,   source_pattern: "Fourth Geneva Convention",                                          collection: INTL_TREATIES}
     optional:
-      - role: commentary
-        source_pattern: "Shaw"
-        collection: COMMENTARY_GLOBAL
-        description: "Malcolm Shaw, International Law"
+      - {role: commentary, source_pattern: "Shaw", collection: COMMENTARY_GLOBAL}
 
   travel_india_russia:
     required:
-      - role: official_guidance
-        source_pattern: "Dos and Don.?ts for Foreign Travel|MEA travel advisory"
-        collection: NATIONAL_IN
-        description: "India e-Visa portal or MEA travel advisory"
-      - role: official_guidance
-        source_pattern: "unified e-visa|evisa.kdmid|Ministry of Foreign Affairs of Russia"
-        collection: NATIONAL_RU
-        description: "Russia unified e-Visa portal"
+      - {role: official_guidance, source_pattern: "Dos and Don.?ts for Foreign Travel|MEA travel advisory", collection: NATIONAL_IN}
+      - {role: official_guidance, source_pattern: "unified e-visa|evisa.kdmid|Ministry of Foreign Affairs of Russia", collection: NATIONAL_RU}
     optional:
-      - role: treaty
-        source_pattern: "Consular Relations"
-        collection: INTL_TREATIES
-        description: "VCCR Art 36 — consular access if detention arises"
+      - {role: treaty, source_pattern: "Consular Relations", collection: INTL_TREATIES}
 
-# Fallback for unrecognised topics: international sources only
+# Fallback for unrecognised topics: at least one international or national source
 default:
   required: []
   optional:
-    - role: treaty
-      source_pattern: ""
-      collection: INTL_TREATIES
-    - role: commentary
-      source_pattern: ""
-      collection: COMMENTARY_GLOBAL
+    - {role: treaty,     source_pattern: "", collection: INTL_TREATIES}
+    - {role: commentary, source_pattern: "", collection: COMMENTARY_GLOBAL}
+    - {role: case_law,   source_pattern: "", collection: CASE_LAW_GLOBAL}

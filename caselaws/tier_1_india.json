@@ -1,0 +1,76 @@
+{
+  "jurisdiction": "India High-Density",
+  "_note": "Replaces fragile Indian Kanoon scraping with AWS Open Data SC + 25 HCs (CC-BY-4.0). Adds tribunals + India Code.",
+  "sources": [
+    {
+      "name": "Indian Supreme Court (AWS Open Data, CC-BY-4.0)",
+      "url": "https://registry.opendata.aws/indian-supreme-court-judgments/  https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/",
+      "type": "official open data (S3)",
+      "coverage": "Indian Supreme Court judgments 1950–present, ~88,000 cases.",
+      "access": "Anonymous S3 (no auth) via aws s3 sync --no-sign-request",
+      "format": "PDF + JSON metadata",
+      "license": "CC BY 4.0",
+      "recommended_for": ["NATIONAL_IN", "CASE_LAW_IN"]
+    },
+    {
+      "name": "Indian High Courts (AWS Open Data, 25 HCs, CC-BY-4.0)",
+      "url": "https://registry.opendata.aws/indian-high-court-judgments/  https://indian-high-court-judgments.s3.ap-south-1.amazonaws.com/",
+      "type": "official open data (S3)",
+      "coverage": "All 25 Indian High Courts; tens of millions of judgments. Sample by authority.",
+      "access": "Anonymous S3 (no auth)",
+      "format": "PDF + JSON metadata",
+      "license": "CC BY 4.0",
+      "recommended_for": ["NATIONAL_IN", "CASE_LAW_IN"]
+    },
+    {
+      "name": "Indian Tribunals consolidated (ITAT, CESTAT, NCLAT, NGT, CAT, TDSAT, SAT, IBBI, AFT, DRT, CCI)",
+      "url": "https://itat.gov.in/judicial/tribunalorders ; https://cestat.gov.in/ ; https://nclat.nic.in/judgement-data ; https://greentribunal.gov.in/judgments ; https://cgat.gov.in/ ; https://tdsat.gov.in/ ; https://sat.gov.in/ ; https://ibbi.gov.in/en/orders ; https://aftdelhi.nic.in/ ; https://drt.gov.in/ ; https://www.cci.gov.in/antitrust/orders",
+      "type": "Indian tribunal portals",
+      "coverage": "Income Tax, Indirect Tax, Company/IBC, Environment, Service Law, Telecom, Securities, Insolvency, Defence, Banking, Competition.",
+      "access": "Public web; polite rate-limit (1–2 req/s)",
+      "format": "HTML + PDF",
+      "license": "Public domain (Indian government works under §52(1)(q))",
+      "recommended_for": ["NATIONAL_IN", "CASE_LAW_IN"]
+    },
+    {
+      "name": "India Code (DSpace) — Central + State Acts",
+      "url": "https://www.indiacode.nic.in/",
+      "type": "official",
+      "coverage": "All enforced central + state Acts, rules, notifications, ordinances.",
+      "access": "DSpace handle URLs; OAI-PMH",
+      "format": "PDF + HTML metadata",
+      "license": "Public domain (Indian govt works)",
+      "recommended_for": ["NATIONAL_IN", "STATUTES_IN"]
+    },
+    {
+      "name": "PRS Legislative Research (CC BY 4.0)",
+      "url": "https://prsindia.org/",
+      "type": "academic / NGO",
+      "coverage": "Bills (central + state), Acts, policy briefs, budget analyses, committee reports.",
+      "access": "Open web; CC BY 4.0",
+      "format": "HTML + PDF",
+      "license": "CC BY 4.0",
+      "recommended_for": ["NATIONAL_IN", "COMMENTARY"]
+    },
+    {
+      "name": "Indian Kanoon API (rate-limited, landmark cases)",
+      "url": "https://api.indiankanoon.org",
+      "type": "aggregator API",
+      "coverage": "SC + 24 HC + tribunals; use for landmark cases the AWS bucket misses.",
+      "access": "Bearer token (INDIAN_KANOON_API_KEY); rate-limited per ToS",
+      "format": "JSON",
+      "license": "Indian Kanoon API ToS (attribution mandatory; ~₹500 dev credit)",
+      "recommended_for": ["NATIONAL_IN", "CASE_LAW_IN"]
+    },
+    {
+      "name": "TN OGD Portal (Tamil Nadu CKAN)",
+      "url": "https://data.tn.gov.in/",
+      "type": "open government data (CKAN)",
+      "coverage": "Tamil Nadu open data — judicial statistics, legal-aid metrics, vernacular Tamil gazettes.",
+      "access": "CKAN API; no auth",
+      "format": "JSON + CSV",
+      "license": "NDSAP / OGL-India",
+      "recommended_for": ["NATIONAL_IN"]
+    }
+  ]
+}

@@ -1,35 +1,41 @@
 {
-  "created_at": "2026-05-10T17:17:14.230234+00:00",
+  "created_at": "2026-05-10T17:04:03.708948+00:00",
   "catalog": "/app/caselaws/tier_s_doctrinal.json",
   "mode": "licensed",
   "download_requested": true,
   "ingest_requested": true,
   "resume": true,
-  "reset_checkpoint": true,
+  "reset_checkpoint": false,
   "adapter_filter": [],
   "full_source": false,
   "target_collection_group": "all",
   "quality_gate": "standard",
-  "quality_rejected_count": 2,
+  "quality_rejected_count": 0,
   "update_mode": "overwrite_same_source_version",
-  "dedupe": "off",
-  "dedupe_skipped_count": 0,
-  "duplicate_sources": {},
+  "dedupe": "strict",
+  "dedupe_skipped_count": 3,
+  "duplicate_sources": {
+    "2743637a8db6ce888390c8ea39b33b13ebbb4421d580fed870799c1c6f1ef5c2": [
+      "UN Treaty Collection (UNTS)",
+      "UN Treaty Collection (UNTS)",
+      "UN Treaty Collection (UNTS)"
+    ]
+  },
   "importance_ranking": true,
   "lexical_only": false,
   "budget_gb": 1.0,
-  "budget_used_bytes": 2386360,
+  "budget_used_bytes": 136118,
   "source_count": 10,
   "catalog_chunks": 10,
-  "remote_chunks": 613,
+  "remote_chunks": 1,
   "checkpoint_path": "/app/data/remote_sources/checkpoints/ingest_checkpoint.json",
   "checkpoint_entries_before": 0,
   "checkpoint_entries_after": 1,
   "skipped_from_checkpoint": 0,
   "rehydrated_chunk_count": 0,
   "upserted_by_collection": {
-    "COMMENTARY_GLOBAL": 582,
-    "CASE_LAW_GLOBAL": 41
+    "COMMENTARY_GLOBAL": 5,
+    "CASE_LAW_GLOBAL": 6
   },
   "audit_summary": {
     "total_sources": 10,
@@ -52,13 +58,12 @@
       "collection": "COMMENTARY_GLOBAL",
       "events": [
         {
-          "status": "completed",
-          "source": "Constitute Project",
-          "constitutions": 3,
-          "chunks": 202
+          "status": "adapter_error",
+          "adapter": "constitute_project",
+          "reason": "IndentationError: unexpected indent (doctrinal_canon.py, line 151)"
         }
       ],
-      "chunks": 202
+      "chunks": 0
     },
     {
       "source_id": "tier-s-doctrinal-0-1-tier-s-doctrinal-foundation-doctrinal-canon-internet-archive-public-domain",
@@ -67,23 +72,12 @@
       "collection": "COMMENTARY_GLOBAL",
       "events": [
         {
-          "item": "commentariesonla00sharuoft",
-          "status": "error",
-          "reason": "HTTPError: HTTP Error 503: Service Unavailable"
-        },
-        {
-          "item": "ancientlawitscon01main",
-          "status": "error",
-          "reason": "HTTPError: HTTP Error 503: Service Unavailable"
-        },
-        {
-          "status": "completed",
-          "source": "Doctrinal canon",
-          "items": 1,
-          "chunks": 172
+          "status": "adapter_error",
+          "adapter": "doctrinal_canon",
+          "reason": "IndentationError: unexpected indent (doctrinal_canon.py, line 151)"
         }
       ],
-      "chunks": 172
+      "chunks": 0
     },
     {
       "source_id": "tier-s-doctrinal-0-2-tier-s-doctrinal-foundation-ohchr-juris-un-treaty-body-jurisprudence",
@@ -92,10 +86,9 @@
       "collection": "CASE_LAW_GLOBAL",
       "events": [
         {
-          "status": "completed",
-          "source": "OHCHR JURIS",
-          "items": 0,
-          "chunks": 0
+          "status": "adapter_error",
+          "adapter": "ohchr_juris",
+          "reason": "IndentationError: unexpected indent (doctrinal_canon.py, line 151)"
         }
       ],
       "chunks": 0
@@ -107,12 +100,12 @@
       "collection": "CASE_LAW_GLOBAL",
       "events": [
         {
-          "source": "ICRC IHL Databases",
-          "status": "completed",
-          "chunks": 12
+          "status": "adapter_error",
+          "adapter": "icrc_ihl",
+          "reason": "IndentationError: unexpected indent (doctrinal_canon.py, line 151)"
         }
       ],
-      "chunks": 12
+      "chunks": 0
     },
     {
       "source_id": "tier-s-doctrinal-0-4-tier-s-doctrinal-foundation-uncitral-clout-case-law-on-uncitral-texts",
@@ -121,10 +114,9 @@
       "collection": "CASE_LAW_GLOBAL",
       "events": [
         {
-          "status": "completed",
-          "source": "UNCITRAL CLOUT",
-          "items": 0,
-          "chunks": 0
+          "status": "adapter_error",
+          "adapter": "uncitral_clout",
+          "reason": "IndentationError: unexpected indent (doctrinal_canon.py, line 151)"
         }
       ],
       "chunks": 0
@@ -136,60 +128,9 @@
       "collection": "CASE_LAW_GLOBAL",
       "events": [
         {
-          "seed": "non-refoulement",
-          "status": "error",
-          "reason": "HTTP Error 403: Forbidden"
-        },
-        {
-          "seed": "well-founded fear",
-          "status": "error",
-          "reason": "HTTP Error 403: Forbidden"
-        },
-        {
-          "seed": "internal flight alternative",
-          "status": "error",
-          "reason": "HTTP Error 403: Forbidden"
-        },
-        {
-          "seed": "particular social group",
-          "status": "error",
-          "reason": "HTTP Error 403: Forbidden"
-        },
-        {
-          "seed": "country of origin information",
-          "status": "error",
-          "reason": "HTTP Error 403: Forbidden"
-        },
-        {
-          "seed": "credibility assessment",
-          "status": "error",
-          "reason": "HTTP Error 403: Forbidden"
-        },
-        {
-          "seed": "exclusion clause",
-          "status": "error",
-          "reason": "HTTP Error 403: Forbidden"
-        },
-        {
-          "seed": "stateless",
-          "status": "error",
-          "reason": "HTTP Error 403: Forbidden"
-        },
-        {
-          "seed": "asylum procedure",
-          "status": "error",
-          "reason": "HTTP Error 403: Forbidden"
-        },
-        {
-          "seed": "best interests of the child",
-          "status": "error",
-          "reason": "HTTP Error 403: Forbidden"
-        },
-        {
-          "status": "completed",
-          "source": "Refworld",
-          "items": 0,
-          "chunks": 0
+          "status": "adapter_error",
+          "adapter": "refworld",
+          "reason": "IndentationError: unexpected indent (doctrinal_canon.py, line 151)"
         }
       ],
       "chunks": 0
@@ -201,13 +142,12 @@
       "collection": "CASE_LAW_GLOBAL",
       "events": [
         {
-          "status": "completed",
-          "source": "HCCH",
-          "items": 3,
-          "chunks": 16
+          "status": "adapter_error",
+          "adapter": "hcch",
+          "reason": "IndentationError: unexpected indent (doctrinal_canon.py, line 151)"
         }
       ],
-      "chunks": 16
+      "chunks": 0
     },
     {
       "source_id": "tier-s-doctrinal-0-7-tier-s-doctrinal-foundation-italaw-investment-treaty-arbitration-awards",
@@ -216,13 +156,12 @@
       "collection": "CASE_LAW_GLOBAL",
       "events": [
         {
-          "status": "completed",
-          "source": "Italaw",
-          "items": 3,
-          "chunks": 7
+          "status": "adapter_error",
+          "adapter": "italaw",
+          "reason": "IndentationError: unexpected indent (doctrinal_canon.py, line 151)"
         }
       ],
-      "chunks": 7
+      "chunks": 0
     },
     {
       "source_id": "tier-s-doctrinal-0-8-tier-s-doctrinal-foundation-un-treaty-collection-unts",
@@ -235,8 +174,8 @@
           "status": "downloaded",
           "download_key": "de3911fac80500fae1013c96f016092f3bfb470abba70123543ba4f63a5bdead",
           "bytes": 136118,
-          "sha256": "b3229de3d68bc0a719babaf4d71ff13ea6e455f21c9a3d07c029049b26986a75",
-          "raw_path": "/app/data/remote_sources/raw/tier-s-doctrinal-0-8-tier-s-doctrinal-foundation-un-treaty-collection-unts/b3229de3d68bc0a719ba.html",
+          "sha256": "dd51cf3723b8304c431d67c2bf883a9d1c0e76ab52bac7dff9620158c1da98b3",
+          "raw_path": "/app/data/remote_sources/raw/tier-s-doctrinal-0-8-tier-s-doctrinal-foundation-un-treaty-collection-unts/dd51cf3723b8304c431d.html",
           "chunks": 4
         }
       ],
@@ -249,13 +188,12 @@
       "collection": "COMMENTARY_GLOBAL",
       "events": [
         {
-          "status": "completed",
-          "source": "Constitute Project",
-          "constitutions": 3,
-          "chunks": 202
+          "status": "adapter_error",
+          "adapter": "constitute_project",
+          "reason": "IndentationError: unexpected indent (doctrinal_canon.py, line 151)"
         }
       ],
-      "chunks": 202
+      "chunks": 0
     }
   ]
 }

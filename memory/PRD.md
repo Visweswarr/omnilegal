@@ -1,111 +1,91 @@
-# OmniLegal v3 — Product Requirements Document
+# OmniLegal — PRD
 
-## Original problem statement
-Audit and harden the user-built Tier-2 pillars (Diff, Library, Redteam, Doctrine, Graph,
-Reading, Voice). Fix issues where Indian Kanoon / CourtListener / Data.gov / EUR-Lex were
-giving repetitive answers. Then build genuinely state-of-the-art capabilities that
-ChatGPT (or any general LLM) cannot replicate, using only free APIs + Groq + Gemini +
-Emergent's Claude.
+## Original problem
+> "the database is currently shit ... I want to improve the sources properly like really properly ... please make the knowledge state of the art ... I want YOU to determine the optimal corpus strategy."
 
-## Architecture
-- **Backend**: FastAPI on :8001 with 4 routers
-  - `src.api_router`         — health, ingestion, conflict, irac, debug
-  - `src.api_router_v2`      — Atlas, Forensics, Advocacy, Live, Council, Research, Overview
-  - `src.api_router_v3`      — Tier-2: Diff, Reports, Redteam, Doctrine, Graph, Reading, Voice
-  - `src.api_router_v4`      — **State-of-the-art**: Adversarial, Arbitrage, Drift, Sentinel, Stress
-- **Frontend**: React 18 + craco + Tailwind + react-router on :3000.
-- **LLM Waterfall**: 5-stage (Emergent Anthropic → Emergent Google → Direct Gemini Flash →
-  Direct Gemini Lite → Groq Llama). Used by every Tier-2 + SOTA pillar that needs JSON.
-- **Live Registries**: Indian Kanoon, CourtListener (v4), GovInfo, EUR-Lex (real SPARQL),
-  HUDOC (40+ landmark index), UN Treaty Index.
+User attached two research docs and shared a `.env` listing all integration keys
+they hold. The corpus had ~219 records total across all jurisdictions, so even
+correct retrieval pipelines were producing weak answers.
 
-## What's been implemented (May 8, 2026)
+## Architecture (Jan 2026)
 
-### Audit + fixes
-- Backend env file (`/app/.env`) created with the user's full key bundle.
-- Replaced exhausted Emergent key with the friend's account key (`sk-emergent-3Fb5454E7Eb5c492aD`).
-- Installed `qdrant-client` + `fastembed`.
-- **EUR-Lex**: replaced static curated list with REAL SPARQL search against the EU
-  Publications Office endpoint (`publications.europa.eu/webapi/rdf/sparql`).
-- **HUDOC**: expanded curated landmark index from 12 to 40+ cases; keyword scoring now
-  produces variation across queries.
-- **CourtListener**: migrated v3 → v4 endpoint (v3 was deprecated and rate-limited).
-- **Indian Kanoon date filters**: fixed inline `fromdate:DD-MM-YYYY` syntax (was being
-  ignored when sent as URL params).
-- **Graph service**: added live-registry fallback so it always returns nodes when the
-  Qdrant corpus is empty.
-- **Doctrine service**: enriched candidate retrieval (8 live hits, was 5), tightened the
-  LLM prompt so it doesn't drop thin-snippet candidates.
-- **Adversarial service**: added duplicate-index guard.
-- **CourtListener Drift**: 429-rate-limit retry with backoff; throttled to 4 parallel.
+* **Stack:** Chainlit UI on port 3000; LangGraph reasoning core; Qdrant
+  (embedded mode at `/app/data/qdrant_embedded`); FastEmbed `bge-small-en-v1.5`
+  for retrieval (384-d). Optional `bge-m3` (1024-d) is wired but not pre-loaded.
+* **Citation graph:** Kuzu embedded DB at `/app/data/citation_graph/kuzu.db`
+  built via Eyecite + Indian/EU regex parsers. Edge-only storage = ~100 bytes per
+  edge so the graph stays small even at scale.
+* **Storage discipline:** `/app` is only 8 GB free; Bronze (raw) goes to
+  `/opt/omnilegal_cache`, models to `/opt/cache/huggingface`. Gold (chunks +
+  metadata) lives on `/app/data/`.
 
-### NEW state-of-the-art pillars (5)
-1. **Pillar 14 — Adversarial Case Finder** (`POST /api/adversarial/find`):
-   Inverts user's claim, hits live registries with the kill-thesis, ranks results by
-   adversarial damage, returns weaponisable quote per precedent.
-2. **Pillar 15 — Jurisdiction Arbitrage** (`POST /api/arbitrage/scan`):
-   Extracts friction points from a transaction, scans 4-6 jurisdictions in parallel,
-   returns favorability matrix with primary citations.
-3. **Pillar 16 — Authority Drift Tracker** (`POST /api/drift/analyze`):
-   Decade-by-decade citation velocity from Indian Kanoon + CourtListener with date
-   filters; produces strengthening/fading/overruled/emerging/stable verdict.
-4. **Pillar 17 — Compliance Sentinel** (`POST /api/sentinel/scan`):
-   17-rule curated catalogue of pending legal changes (DPDP India, EU AI Act phases,
-   GDPR/Schrems II, MiCA, NIS2, BNS, CPRA, etc.). Pattern matches + LLM disambiguation
-   + clause-specific remediation.
-5. **Pillar 18 — Statute Stress Test** (`POST /api/stress/test`):
-   LLM generates 8-12 boundary hypotheticals, classifies each as covered/borderline/gap,
-   probes Indian Kanoon + CourtListener for cases that may have decided the boundary.
+## Corpus tiers (tier-based catalog)
 
-### Frontend
-- 5 new pages: `Adversarial.js`, `Arbitrage.js`, `Drift.js`, `Sentinel.js`, `Stress.js`.
-- NavBar grouped: Flagship · Tier-2 · State-of-the-Art · Library.
-- Landing redesigned with prominent SOTA section ("Five things no chatbot can do").
-- All pages: Save-to-library buttons, sample-loader buttons, primary-source links.
-- Every interactive element has a `data-testid` attribute.
+| Tier | Catalog file | Sources | Decision basis |
+|---|---|---|---|
+| **S — Doctrinal** | `caselaws/tier_s_doctrinal.json` | Constitute Project, Doctrinal Canon (Blackstone, Story, Federalist, Maine, Pollock, Salmond, Bentham, Austin, Grotius, Vattel, Oppenheim, Justinian, Wigmore), OHCHR JURIS, ICRC IHL, UNCITRAL CLOUT, Refworld, HCCH, Italaw, UN Treaty Collection, Comparative Constitutions Project | Highest reasoning-density per GB. Public domain + open access. |
+| **1 — Primary law** | `caselaws/tier_1_india.json` (+ legacy national/intl) | AWS Indian SC + 25 HCs (CC-BY-4.0), India Code, Indian Tribunals consolidated (ITAT/CESTAT/NCLAT/NGT/CAT/TDSAT/SAT/IBBI/AFT/DRT/CCI), PRS, Indian Kanoon API rate-limited, EUR-Lex CELLAR, GovInfo, CourtListener, legislation.gov.uk, Légifrance | Authoritative statutes + landmark cases per jurisdiction. |
+| **2 — HF datasets** | `caselaws/tier_2_hf_datasets.json` | IL-TUR, ILDC, HLDC, LexGLUE, Multi-EURLEX, Pile-of-Law (bva subset), MultiLegalPile (commercial subset), ECtHR-cases, LegalBench, CaseHold, MILDSum, IL-PCR, NyayaAnumana, CUAD, RusLawOD | Curated, pre-cleaned, high-signal. |
+| **DEFERRED** | (none) | Full Pile-of-Law (256 GB), full MultiLegalPile (689 GB), full OpenAlex/HathiTrust snapshots, BAILII bulk, CanLII (litigation risk), SudAct, all commercial DBs | Won't fit on this disk; use API-based on-demand retrieval if needed. |
 
-## Verified working end-to-end (curl smoke tests)
-- `/api/__sidecar_health`, `/api/health` — 3 LLMs configured
-- `/api/overview` — 6 live sources, 3 council models
-- `/api/diff/compare` — Claude impact summary works
-- `/api/redteam/analyze` — 5 weak points, 5 counter-args via Claude
-- `/api/doctrine/track` — 8 milestones for "basic structure" via Claude+IK
-- `/api/graph/build` — 15 nodes via live registries when corpus empty
-- `/api/live/search` — 10 hits across 4 registries (HUDOC, IK, EUR-Lex, CL)
-- `/api/sentinel/rules` — 17 rules
-- `/api/sentinel/scan` — 5 confirmed findings on a 6-line policy
-- `/api/adversarial/find` — 8 ranked counter-precedents in <40s
-- `/api/arbitrage/scan` — 5-jurisdiction matrix with hostile/neutral/no_data postures
-- `/api/drift/analyze` — "right to privacy" → 14538 hits, "strengthening" verdict
-- `/api/stress/test` — 12 hypotheticals, 6 drafting flaws on IT Act §66A
+## What was built / changed
 
-## Known caveats
-- **Qdrant corpus**: `data/qdrant_embedded/` is empty (no chunks ingested). Graph,
-  Doctrine, and Voice gracefully fall back to live registries instead. Re-running
-  `scripts/demo_quick_ingest.py` would produce ~3,730 grounded chunks.
-- **HUDOC**: their `app/query/results` JSON endpoint is firewalled in 2025-26;
-  curated landmark index is the only viable approach.
-- **CourtListener rate limit**: 5 concurrent requests trigger 429; we throttle to 4
-  with retry+backoff in Drift Tracker.
-- **Voice Coach**: requires Chrome/Edge (uses `webkitSpeechRecognition`).
+### Code
+- **9 new high-density adapters** in `src/services/adapters/`:
+  `constitute_project.py`, `ohchr_juris.py`, `refworld.py`,
+  `uncitral_clout.py`, `hcch.py`, `italaw.py`, `indian_tribunals.py`,
+  `doctrinal_canon.py`, `india_aws_hc.py`.
+- **Citation graph** at `src/services/citation_graph.py` (Kuzu + Eyecite +
+  Indian/EU regex). Stores `Document` + `CITES` edges; sub-millisecond
+  precedent traversal. Currently 171 docs, 271 edges from a small Tier-S seed.
+- **Master orchestrator** at `scripts/run_master_ingest.py` — tiered, budget-aware,
+  resumable. `python -m scripts.run_master_ingest --tier all --max-items 50`.
+- **Adapter dispatch** `adapter_for_record()` in `remote_sources.py` extended
+  to route the new sources by URL/keyword patterns.
+- **Source registry** `configs/source_registry.yaml` rewritten from 7 hardcoded
+  topics → ~80 topics covering international law, India, US, UK, EU, Russia,
+  Israel, France/Germany/Spain, comparative, doctrinal foundations.
 
-## Personas
-1. **MUN delegate** — uses Atlas, Advocacy, Live for cross-jurisdiction speeches.
-2. **Litigator** — uses Adversarial, Drift, Stress, Forensics for case prep.
-3. **Compliance officer** — uses Sentinel, Diff, Arbitrage for contract review.
-4. **Law researcher** — uses Research, Council, Doctrine, Graph for academic work.
+### Configuration
+- `.env` populated from user's spec + Légifrance keys (PISTE_API_KEY,
+  PISTE_CLIENT_ID). Permission flags set for academic research use.
+- Storage paths pointed at `/opt` (88 GB) for Bronze + models cache.
+- `OMNILEGAL_REMOTE_BUDGET_GB=4.0`,
+  `OMNILEGAL_REMOTE_MAX_ITEMS_PER_SOURCE=200` — tight but sane defaults.
 
-## Backlog (P1-P2)
-- Re-ingest the 3,730-chunk corpus so corpus-grounded features have material to ground
-  on (instead of relying solely on live registries).
-- Pillar 19 — Counter-Cite Sniper: given a list of cases user wants to cite, find the
-  strongest opposing cases for each.
-- Pillar 20 — Treaty Compliance Audit: scan a domestic statute against ratified UN/
-  regional treaty obligations.
-- Voice Coach: integrate with new Adversarial Finder so live transcript is fact-checked
-  AND adversarially probed.
+### Validated end-to-end
+- Live ingestion run on Tier-S with `--max-items 3`: **615 chunks produced from
+  10 sources in ~5 minutes**; **623 points in Qdrant** (582 COMMENTARY_GLOBAL +
+  41 CASE_LAW_GLOBAL).
+- Retrieval test against new corpus returns substantive matches:
+  Blackstone for "law of property", Italaw for "ICSID arbitration",
+  Brazil/Israel constitutions for separation-of-powers, etc.
+- Citation graph built from existing corpus: **171 documents / 271 edges**.
+- All new adapters lint clean (ruff).
+- Existing Chainlit app + LangGraph imports unbroken.
 
-## Next action items
-- Smoke-test the 5 new SOTA pages in browser.
-- Optionally rebuild the Qdrant corpus.
-- Top up Emergent budget for sustained Claude use.
+## Backlog (priority order)
+
+* **P0 — Run full Tier-S/1/2 ingestion** (~5 GB total, ~3–6 hours):
+  `python -m scripts.run_master_ingest --tier all --max-items 80 --budget-gb 4.0`.
+  Will populate Qdrant with ~25–50 K chunks for production-grade coverage.
+* **P1 — Switch retrieval to bge-m3 (1024-d)** for Tier-S/1 high-value chunks.
+  Two-tier embedding: bge-m3 for primary law + doctrinal canon (~10 K chunks),
+  bge-small for the bulk Tier-2 corpus.
+* **P1 — Live Qdrant** (Docker container) once `--budget-gb` exceeds 4 — embedded
+  mode warns about slowdown beyond ~100 K points.
+* **P2 — Add SPLADE sparse vectors** for hybrid retrieval (improves recall on
+  rare legal terms).
+* **P2 — JS-rendered scrapers** for Refworld, OHCHR JURIS, UNCITRAL CLOUT
+  (currently return 0 chunks — the public pages are JS-heavy). Use Playwright
+  or target their underlying APIs.
+* **P2 — AWS Indian HC bulk** — fetch verified bucket prefix; current adapter
+  tries 4 prefix patterns but the actual bucket layout may need adjustment.
+* **P3 — Akoma Ntoso normaliser** for Silver layer (canonical XML for cross-
+  jurisdiction reasoning).
+* **P3 — Kuzu graph queries exposed in retrieval** — let the answer node do
+  precedent traversal ("what cases cite this?").
+
+## Next session
+Run the full ingestion with `--tier all --max-items 80` and verify answer
+quality on real queries from each jurisdiction.

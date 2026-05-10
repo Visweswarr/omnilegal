@@ -1,0 +1,106 @@
+{
+  "jurisdiction": "Tier-S Doctrinal Foundation",
+  "_note": "Anchor canon — public-domain doctrinal & primary law. Highest reasoning-density per GB.",
+  "sources": [
+    {
+      "name": "Constitute Project (200+ constitutions, structured)",
+      "url": "https://www.constituteproject.org/service/constitutions",
+      "type": "open data API",
+      "coverage": "Every world constitution, machine-tagged by topic; covers OmniLegal core jurisdictions and 180+ others.",
+      "access": "Open JSON API at constituteproject.org/service/; no key required",
+      "format": "JSON",
+      "license": "Constitute Project terms — academic re-use, attribution required",
+      "recommended_for": ["NATIONAL_IN", "NATIONAL_US", "NATIONAL_UK", "NATIONAL_EU", "NATIONAL_RU", "NATIONAL_IL", "INTL_TREATIES"]
+    },
+    {
+      "name": "Doctrinal Canon (Internet Archive public domain)",
+      "url": "https://archive.org/download/",
+      "type": "doctrinal canon (treatises, public-domain editions)",
+      "coverage": "Blackstone, Coke, Story, Pollock & Maitland, Maine, Bentham, Austin, Salmond, Holdsworth, Grotius, Vattel, Oppenheim, Justinian Institutes/Digest, Wigmore, Cooley, Federalist Papers.",
+      "access": "Direct HTTP to /<id>/<id>_djvu.txt — no auth",
+      "format": "Plain text (OCR'd)",
+      "license": "Public domain (pre-1928 imprints)",
+      "recommended_for": ["COMMENTARY", "COMMENTARY_GLOBAL", "SHAW_PRIVATE"]
+    },
+    {
+      "name": "OHCHR JURIS (UN Treaty Body Jurisprudence)",
+      "url": "https://juris.ohchr.org/",
+      "type": "international human rights case law",
+      "coverage": "Decisions from UN Treaty Bodies (HRC, CESCR, CERD, CEDAW, CAT, CRC, CRPD, CMW) — irreplaceable for human-rights reasoning.",
+      "access": "Public web search; no auth",
+      "format": "HTML",
+      "license": "OHCHR open access — UN re-use",
+      "recommended_for": ["INTL_TREATIES", "CASE_LAW_GLOBAL", "COMMENTARY_GLOBAL"]
+    },
+    {
+      "name": "ICRC IHL Customary Rules + Treaty Database",
+      "url": "https://ihl-databases.icrc.org/en/",
+      "type": "international humanitarian law",
+      "coverage": "Customary IHL rules, Geneva Conventions + Additional Protocols, national IHL implementations.",
+      "access": "Public; ICRC permission flag in env (ICRC_PERMISSION_CONFIRMED)",
+      "format": "HTML",
+      "license": "ICRC open access (academic). Set ICRC_PERMISSION_CONFIRMED=1 once you read their ToS.",
+      "recommended_for": ["INTL_TREATIES", "CASE_LAW_GLOBAL", "COMMENTARY_GLOBAL"]
+    },
+    {
+      "name": "UNCITRAL CLOUT (Case Law on UNCITRAL Texts)",
+      "url": "https://uncitral.un.org/en/case_law",
+      "type": "international commercial law case law",
+      "coverage": "National court decisions applying CISG, UNCITRAL Model Laws on arbitration / e-commerce / insolvency / secured transactions.",
+      "access": "Open web; no auth",
+      "format": "HTML abstracts + linked PDFs",
+      "license": "UNCITRAL open access — UN re-use",
+      "recommended_for": ["INTL_TREATIES", "CASE_LAW_GLOBAL", "COMMENTARY_GLOBAL"]
+    },
+    {
+      "name": "Refworld (UNHCR Global Law and Policy Database)",
+      "url": "https://www.refworld.org",
+      "type": "refugee + asylum law",
+      "coverage": "Country-of-origin information, asylum jurisprudence, position papers, legal-policy guidance.",
+      "access": "Open web; no auth",
+      "format": "HTML",
+      "license": "Refworld open access — UNHCR re-use",
+      "recommended_for": ["INTL_TREATIES", "COMMENTARY_GLOBAL", "CASE_LAW_GLOBAL"]
+    },
+    {
+      "name": "HCCH (Hague Conference on Private International Law)",
+      "url": "https://www.hcch.net/en/instruments/conventions",
+      "type": "private international law treaties",
+      "coverage": "All Hague Conventions full text + status tables (apostille, child abduction, choice of court, etc.).",
+      "access": "Open web; no auth",
+      "format": "HTML",
+      "license": "HCCH open access",
+      "recommended_for": ["INTL_TREATIES", "COMMENTARY_GLOBAL"]
+    },
+    {
+      "name": "Italaw (investment-treaty arbitration awards)",
+      "url": "https://www.italaw.com/",
+      "type": "international arbitration",
+      "coverage": "ICSID, UNCITRAL, ICC, PCA, SCC investor-state awards — core source for investment law.",
+      "access": "Open web; no auth",
+      "format": "HTML + linked PDFs",
+      "license": "Italaw — academic use, attribution required",
+      "recommended_for": ["INTL_TREATIES", "CASE_LAW_GLOBAL", "COMMENTARY_GLOBAL"]
+    },
+    {
+      "name": "UN Treaty Collection (UNTS)",
+      "url": "https://treaties.un.org/Pages/Treaties.aspx?id=4&subid=A&clang=_en",
+      "type": "international",
+      "coverage": "All multilateral and bilateral treaties deposited with the UN Secretary-General; status, parties, reservations.",
+      "access": "Open; no auth",
+      "format": "HTML + PDF",
+      "license": "UN re-use",
+      "recommended_for": ["INTL_TREATIES"]
+    },
+    {
+      "name": "Comparative Constitutions Project",
+      "url": "https://comparativeconstitutionsproject.org/download-data/",
+      "type": "constitutional comparative dataset",
+      "coverage": "Structured features of every constitution + historical changes; complements Constitute.",
+      "access": "Open download (CSV)",
+      "format": "CSV",
+      "license": "CC license (verify per dataset)",
+      "recommended_for": ["COMMENTARY_GLOBAL"]
+    }
+  ]
+}

@@ -433,6 +433,33 @@ def _env_present(name: str) -> bool:
 def adapter_for_record(record: SourceRecord) -> str:
     text = _combined_text(record)
     name = record.name.strip().lower()
+    # New high-density adapters — most specific patterns first
+    if "constituteproject.org" in text or "constitute project" in text or "comparativeconstitutionsproject" in text:
+        return "constitute_project"
+    if "juris.ohchr.org" in text or "ohchr juris" in text or "uhri.ohchr.org" in text or "treaty body jurisprudence" in text:
+        return "ohchr_juris"
+    if "refworld.org" in text or "unhcr legal" in text or "refworld" in name:
+        return "refworld"
+    if "uncitral.un.org" in text or "uncitral clout" in text or "case law on uncitral texts" in text:
+        return "uncitral_clout"
+    if "hcch.net" in text or "hague conference" in text or "hcch convention" in text:
+        return "hcch"
+    if "italaw.com" in text or "italaw" in name:
+        return "italaw"
+    if any(t in text for t in (
+        "itat.gov.in", "cestat.gov.in", "nclat.nic.in", "greentribunal.gov.in",
+        "cgat.gov.in", "tdsat.gov.in", "sat.gov.in", "ibbi.gov.in",
+        "aftdelhi.nic.in", "drt.gov.in", "cci.gov.in", "indian tribunal", "income tax appellate tribunal",
+    )):
+        return "indian_tribunals"
+    if "doctrinal canon" in text or "blackstone" in text or "internet archive" in text or "liberty fund" in text or "yale avalon" in text or "public-domain treatise" in text:
+        return "doctrinal_canon"
+    if (
+        ("indian-high-court-judgments" in text or "indian high court" in text or "high court of" in text)
+        and ("s3" in text or "aws" in text or "open data" in text)
+    ):
+        return "india_aws_hc"
+    # Existing legacy patterns
     if "cd-icj" in text or "corpus of decisions: icj" in text or "10.5281/zenodo.3826444" in text or "zenodo.3826444" in text:
         return "cd_icj"
     if "un digital library" in text or "digitallibrary.un.org" in text:
@@ -470,6 +497,38 @@ def adapter_for_record(record: SourceRecord) -> str:
         return "eurlex_cellar"
     if "legislation.gov.uk" in text:
         return "uk_legislation_api"
+    if "indiankanoon" in text or "indian kanoon" in text:
+        return "indian_kanoon_api"
+    if "indiacode.nic.in" in text or "india code" in name:
+        return "india_code_api"
+    if "icrc ihl" in text or "ihl-databases.icrc.org" in text:
+        return "icrc_ihl"
+    if "wipolex" in text or "wipo lex" in text:
+        return "wipolex"
+    if "ilo.org/dyn/natlex" in text or "natlex" in text:
+        return "ilo_natlex"
+    if "fao" in text and "faolex" in text:
+        return "faolex"
+    if "legifrance.gouv.fr" in text or "piste.gouv.fr" in text or "judilibre" in text:
+        return "legifrance_piste"
+    if "boe.es" in text or "boletín oficial del estado" in text:
+        return "boe_open_data"
+    if "gesetze-im-internet.de" in text or "openjur.de" in text or "openlegaldata.io" in text:
+        return "de_open_legal_data"
+    if "wetten.overheid.nl" in text:
+        return "nl_wetten_overheid"
+    if "openalex" in text:
+        return "openalex_api"
+    if "core.ac.uk" in text or "core api" in text:
+        return "core_api"
+    if "semanticscholar.org" in text or "semantic scholar" in text:
+        return "semantic_scholar_api"
+    if "doaj.org" in text:
+        return "doaj_api"
+    if "arxiv.org" in text:
+        return "arxiv_legal_api"
+    if "data.tn.gov.in" in text or "tn ogd" in text or "tamil nadu open data" in text:
+        return "tn_ogd_ckan"
     if "s3" in text or "aws open data" in text:
         return "open_data_http"
     return "http"

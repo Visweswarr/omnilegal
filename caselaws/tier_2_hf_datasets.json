@@ -1,0 +1,146 @@
+{
+  "jurisdiction": "Tier-2 Curated NLP Datasets",
+  "_note": "High signal-to-noise pre-cleaned legal-NLP datasets on Hugging Face. Use sampled streams.",
+  "sources": [
+    {
+      "name": "IL-TUR (Indian Legal Text Understanding) — huggingface.co/datasets/Exploration-Lab/IL-TUR",
+      "url": "https://huggingface.co/datasets/Exploration-Lab/IL-TUR",
+      "type": "HF datasets",
+      "coverage": "Indian legal benchmarks — rhetorical roles, NER, summarization, prediction.",
+      "access": "HF token (HF_TOKEN)",
+      "format": "JSON",
+      "license": "Research-permissive",
+      "recommended_for": ["CASE_LAW_IN", "NATIONAL_IN"]
+    },
+    {
+      "name": "ILDC (Indian Legal Documents Corpus) — huggingface.co/datasets/Exploration-Lab/ILDC",
+      "url": "https://huggingface.co/datasets/Exploration-Lab/ILDC",
+      "type": "HF datasets",
+      "coverage": "Indian Supreme Court judgments + outcome predictions (CJPE).",
+      "access": "HF token",
+      "format": "JSON",
+      "license": "Research-permissive",
+      "recommended_for": ["CASE_LAW_IN"]
+    },
+    {
+      "name": "HLDC (Hindi Legal Documents Corpus) — huggingface.co/datasets/L3Cube-Pune/HLDC",
+      "url": "https://huggingface.co/datasets/L3Cube-Pune/HLDC",
+      "type": "HF datasets",
+      "coverage": "Hindi-language Indian bail orders.",
+      "access": "HF token",
+      "format": "JSON",
+      "license": "Research-permissive",
+      "recommended_for": ["CASE_LAW_IN", "NATIONAL_IN"]
+    },
+    {
+      "name": "LexGLUE — huggingface.co/datasets/coastalcph/lex_glue",
+      "url": "https://huggingface.co/datasets/coastalcph/lex_glue",
+      "type": "HF datasets",
+      "coverage": "EU + US legal benchmarks (ECtHR, SCOTUS, ScotusOA, EUR-Lex, LEDGAR, Unfair-ToS, Case-Hold).",
+      "access": "HF token",
+      "format": "JSON",
+      "license": "Various permissive (verify per subset)",
+      "recommended_for": ["CASE_LAW_GLOBAL", "STATUTES_EU", "CASE_LAW_US"]
+    },
+    {
+      "name": "Multi-EURLEX — huggingface.co/datasets/coastalcph/multi_eurlex",
+      "url": "https://huggingface.co/datasets/coastalcph/multi_eurlex",
+      "type": "HF datasets",
+      "coverage": "EU directives & regulations in 23 languages with EuroVoc tags.",
+      "access": "HF token",
+      "format": "JSON",
+      "license": "EU re-use",
+      "recommended_for": ["STATUTES_EU"]
+    },
+    {
+      "name": "MultiLegalPile (Commercial-safe subset)",
+      "url": "https://huggingface.co/datasets/joelniklaus/MultiLegalPile_Wikipedia_Filtered",
+      "type": "HF datasets",
+      "coverage": "Multilingual legal corpora (filtered, smaller, commercial-safe variant).",
+      "access": "HF token",
+      "format": "JSON",
+      "license": "Mixed (use *_Commercial subsets only)",
+      "recommended_for": ["CASE_LAW_GLOBAL", "STATUTES_EU"]
+    },
+    {
+      "name": "Pile-of-Law (bva_opinions subset)",
+      "url": "https://huggingface.co/datasets/pile-of-law/pile-of-law",
+      "type": "HF datasets",
+      "coverage": "US Board of Veterans' Appeals — best signal subset for US administrative law.",
+      "access": "HF token",
+      "format": "JSON",
+      "license": "Mixed (bva_opinions is permissive)",
+      "recommended_for": ["CASE_LAW_US"]
+    },
+    {
+      "name": "ECtHR Cases (Chalkidis) — huggingface.co/datasets/coastalcph/ecthr_cases",
+      "url": "https://huggingface.co/datasets/coastalcph/ecthr_cases",
+      "type": "HF datasets",
+      "coverage": "ECtHR judgments with violation labels.",
+      "access": "HF token",
+      "format": "JSON",
+      "license": "ECtHR open access",
+      "recommended_for": ["CASE_LAW_EU"]
+    },
+    {
+      "name": "LegalBench (Stanford) — huggingface.co/datasets/nguha/legalbench",
+      "url": "https://huggingface.co/datasets/nguha/legalbench",
+      "type": "HF datasets",
+      "coverage": "162 legal-reasoning tasks (eval gold).",
+      "access": "HF token",
+      "format": "JSON",
+      "license": "Research-permissive",
+      "recommended_for": ["CASE_LAW_US", "COMMENTARY_GLOBAL"]
+    },
+    {
+      "name": "CaseHold — huggingface.co/datasets/casehold/casehold",
+      "url": "https://huggingface.co/datasets/casehold/casehold",
+      "type": "HF datasets",
+      "coverage": "US holding generation from precedent.",
+      "access": "HF token",
+      "format": "JSON",
+      "license": "Research-permissive",
+      "recommended_for": ["CASE_LAW_US"]
+    },
+    {
+      "name": "MILDSum — huggingface.co/datasets/Exploration-Lab/MILDSum",
+      "url": "https://huggingface.co/datasets/Exploration-Lab/MILDSum",
+      "type": "HF datasets",
+      "coverage": "Multi-lingual Indian legal summarization (English + Hindi).",
+      "access": "HF token",
+      "format": "JSON",
+      "license": "Research-permissive",
+      "recommended_for": ["CASE_LAW_IN"]
+    },
+    {
+      "name": "IL-PCR / NyayaAnumana / PredEx — IIT Kgp",
+      "url": "https://huggingface.co/datasets/Exploration-Lab/IL-PCR",
+      "type": "HF datasets",
+      "coverage": "Indian prediction & precedent retrieval.",
+      "access": "HF token",
+      "format": "JSON",
+      "license": "Research-permissive",
+      "recommended_for": ["CASE_LAW_IN"]
+    },
+    {
+      "name": "CUAD (Contract Understanding Atticus Dataset)",
+      "url": "https://huggingface.co/datasets/theatticusproject/cuad-qa",
+      "type": "HF datasets",
+      "coverage": "Contract clause QA — commercial law layer.",
+      "access": "HF token",
+      "format": "JSON",
+      "license": "CC BY 4.0",
+      "recommended_for": ["COMMENTARY_GLOBAL", "STATUTES_US"]
+    },
+    {
+      "name": "RusLawOD (Russian legal acts)",
+      "url": "https://huggingface.co/datasets/irlspbru/RusLawOD",
+      "type": "HF datasets",
+      "coverage": "304k Russian legal acts (1991–2025) CoNLL-U annotated.",
+      "access": "HF token",
+      "format": "JSON",
+      "license": "Research-permissive",
+      "recommended_for": ["NATIONAL_RU", "STATUTES_RU"]
+    }
+  ]
+}
