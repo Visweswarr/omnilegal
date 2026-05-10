@@ -222,79 +222,25 @@ def _retrieve_passages_for_jur(query: str, jur_key: str) -> list[Any]:
         return []
 
 
-def _is_relevant(passage_text: str, query: str) -> bool:
-    """Quick keyword check — returns False for obviously off-topic passages."""
-    if not passage_text:
-        return False
-    # Extract significant tokens from query (4+ chars)
-    import re
-    query_tokens = set(re.findall(r"[a-z]{4,}", query.lower()))
-    passage_lower = passage_text.lower()
-    # If at least 1 query token appears in passage → keep it
-    return any(t in passage_lower for t in query_tokens)
+def _is_relevant(content: str, query: str) -> bool:
+    """Returns True if content contains concept-specific tokens from the query.
 
-
-def _passages_to_text(passages: list[Any], query: str = "") -> str:
-    """Format retrieved passages, filtering irrelevant ones first."""
-    import re
-
-    # Extract concept-specific tokens from query, skip stopwords
-    _STOPWORDS = {
-        "what", "that", "with", "from", "this", "have", "been", "were", "they",
-        "their", "when", "where", "which", "about", "under", "how", "does",
-        "jurisdiction", "jurisdictions", "legal", "case", "court", "courts",
-        "domestic", "international", "compare", "comparing", "treat", "treated",
-        "law", "laws", "rule", "rules", "right", "rights",
+    Strips common generic legal terms so relevance is based on the actual concept,
+    not words like "jurisdiction" or "treated" that appear in every legal passage.
+    """
+    _GENERIC = {
+        "what", "that", "with", "from", "this", "have", "been", "were",
+        "they", "their", "when", "where", "which", "about", "under", "how",
+        "does", "legal", "court", "courts", "domestic", "international",
+        "compare", "comparing", "treat", "treated", "treatment", "between",
+        "across", "also", "each", "law", "laws", "rule", "rules", "right",
+        "rights", "such", "would", "could", "should", "these", "those",
+        "more", "less", "make", "many", "jurisdiction", "jurisdictions",
     }
-    if query:
-        query_tokens = {
-            t for t in re.findall(r"[a-z]{4,}", query.lower())
-            if t not in _STOPWORDS
-        }
-    else:
-        query_tokens = set()
-
-    relevant, irrelevant = [], []
-    for p in passages:
-        content = getattr(p, "content", "") or str(p)
-        if not query_tokens:
-            relevant.append(p)
-        elif any(t in content.lower() for t in query_tokens):
-            relevant.append(p)
-        else:
-            irrelevant.append(p)
-
-    # Use only relevant passages for the prompt
-    to_use = relevant
-
-    parts = []
-    for i, p in enumerate(to_use, 1):
-        try:
-            src = p.citation.source_name
-            jur = getattr(p.citation, "jurisdiction", "")
-            content = p.content[:800]
-        except AttributeError:
-            src = "Unknown"
-            jur = ""
-            content = str(p)[:800]
-        jur_tag = f" [{jur}]" if jur else ""
-        parts.append(f"[S{i}] {src}{jur_tag}:\n{content}")
-
-    result = "\n\n".join(parts)[:6000]
-
-    # Explicit instruction when corpus retrieval found nothing relevant
-    if not to_use:
-        result = (
-            "CORPUS NOTE: No relevant passages were found in the local corpus for this query. "
-            "You MUST use your authoritative legal knowledge for this jurisdiction to complete the IRAC."
-        )
-    elif len(to_use) == 1 and irrelevant:
-        result += (
-            "\n\nCORPUS NOTE: Only one on-topic passage was retrieved. "
-            "Supplement with your general legal knowledge as needed."
-        )
-
-    return result
+    tokens = {t for t in re.findall(r"[a-z]{4,}", query.lower()) if t not in _GENERIC}
+    if not tokens:
+        return True  # No specific tokens — accept all passages
+    return any(t in content.lower() for t in tokens)
 
 
 # ── Parallel IRAC orchestration ───────────────────────────────────────────
@@ -315,6 +261,28 @@ def _run_one_irac(
         p for p in passages
         if _is_relevant(getattr(p, "content", "") or "", query)
     ]
+
+    # ── Query expansion fallback (Pillar 19 v2) ───────────────────────────
+    # When domestic corpus has no on-topic hits, fetch from the global corpus
+    # (CASE_LAW_GLOBAL + INTL_TREATIES) so abstract concepts like "erga omnes"
+    # or "jus cogens" get real corpus citations (Barcelona Traction, etc.).
+    if not relevant_passages and jur_key not in ("international", "intl"):
+        try:
+            from src.services.conflict_detection import _retrieve_international
+            global_passages = _retrieve_international(query)
+            expanded = [
+                p for p in global_passages
+                if _is_relevant(getattr(p, "content", "") or "", query)
+            ]
+            if expanded:
+                log.info(
+                    "comparative: query expansion for %s → %d global passages",
+                    jur_key, len(expanded),
+                )
+                relevant_passages = expanded[:3]
+        except Exception as exc:
+            log.debug("query expansion failed for %s: %s", jur_key, exc)
+    # ───────────────────────────────────────────────────────────────────────
     if relevant_passages:
         parts = []
         for i, p in enumerate(relevant_passages[:5], 1):
@@ -364,21 +332,11 @@ def _run_one_irac(
 
 
 def _is_relevant(content: str, query: str) -> bool:
-    """Returns True if content contains concept-specific tokens from query."""
-    import re
-    _STOPWORDS = {
-        "what", "that", "with", "from", "this", "have", "been", "were",
-        "they", "their", "when", "where", "which", "about", "under", "how",
-        "does", "jurisdiction", "jurisdictions", "legal", "case", "court",
-        "courts", "domestic", "international", "compare", "comparing",
-        "treat", "treated", "treatment", "between", "across", "also", "each",
-        "law", "laws", "rule", "rules", "right", "rights", "such", "would",
-        "could", "should", "these", "those", "more", "less", "make", "many",
-        "erga", "omnes",  # these are the query terms - DON'T filter them
-    }
-    # Actually: extract ALL meaningful tokens from query, then check passage
-    # We want: "if passage is about the concept" not "if passage contains query words"
-    # Better approach: use query tokens that are NOT generic legal terminology
+    """Returns True if content contains concept-specific tokens from the query.
+
+    Strips common generic legal terms so relevance is based on the actual concept,
+    not words like "jurisdiction" or "treated" that appear in every legal passage.
+    """
     _GENERIC = {
         "what", "that", "with", "from", "this", "have", "been", "were",
         "they", "their", "when", "where", "which", "about", "under", "how",
@@ -390,11 +348,11 @@ def _is_relevant(content: str, query: str) -> bool:
     }
     tokens = {t for t in re.findall(r"[a-z]{4,}", query.lower()) if t not in _GENERIC}
     if not tokens:
-        return True  # No specific tokens — accept all
+        return True  # No specific tokens — accept all passages
     return any(t in content.lower() for t in tokens)
 
 
-# ── Top-level entry point ─────────────────────────────────────────────────
+# ── Parallel IRAC orchestration ───────────────────────────────────────────
 
 
 def run_comparative(
@@ -449,27 +407,43 @@ def run_comparative(
                     "has_source_data": False,
                 }
 
-    # ── Step 3: Cross-jurisdiction synthesis ──────────────────────────────
-    log.info("comparative: running synthesis over %d IRAC blocks", len(irac_blocks))
+    # ── Step 3: Cross-jurisdiction synthesis + heat map (concurrent) ─────
+    log.info("comparative: running synthesis + heat map over %d IRAC blocks", len(irac_blocks))
     intl_block = next(
         (b for b in irac_blocks if "international" in b.get("jurisdiction", "").lower()),
         None,
     )
     intl_summary = (intl_block or {}).get("rule") or (intl_block or {}).get("issue") or ""
-    domestic_blocks = [b for b in irac_blocks if b is not intl_block]
+
+    synthesis: dict[str, Any] = {}
+    comparison_table = ""
+    heat_map: dict[str, Any] = {}
 
     try:
         from src.services.cross_jurisdiction import (
             cross_jurisdiction_synthesis,
+            generate_heat_map,
             markdown_comparison_table,
         )
-        synthesis = cross_jurisdiction_synthesis(
-            international_summary=intl_summary or query,
-            irac_blocks=irac_blocks,
-        )
-        comparison_table = markdown_comparison_table(irac_blocks)
+
+        def _run_synthesis() -> dict[str, Any]:
+            return cross_jurisdiction_synthesis(
+                international_summary=intl_summary or query,
+                irac_blocks=irac_blocks,
+            )
+
+        def _run_heat_map() -> dict[str, Any]:
+            return generate_heat_map(query, irac_blocks)
+
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            f_synth = pool.submit(_run_synthesis)
+            f_heat  = pool.submit(_run_heat_map)
+            synthesis      = f_synth.result()
+            heat_map       = f_heat.result()
+            comparison_table = markdown_comparison_table(irac_blocks)
+
     except Exception as exc:
-        log.error("synthesis/table generation failed: %s", exc)
+        log.error("synthesis/heat_map generation failed: %s", exc)
         synthesis = {
             "international_rule_summary": intl_summary,
             "agreements": [],
@@ -478,7 +452,6 @@ def run_comparative(
             "vclt_article_27_warning": "",
             "error": str(exc),
         }
-        comparison_table = ""
 
     # ── Step 4: Graph stats for UI ────────────────────────────────────────
     graph_stats: dict[str, Any] = {}
@@ -493,6 +466,7 @@ def run_comparative(
         "jurisdictions_requested": jur_keys,
         "irac_blocks": irac_blocks,
         "synthesis": synthesis,
+        "heat_map": heat_map,
         "comparison_table_markdown": comparison_table,
         "cross_citations": cross_citations,
         "graph_stats": graph_stats,

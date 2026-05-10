@@ -223,6 +223,85 @@ def cross_jurisdiction_synthesis(
     return parsed
 
 
+_HEAT_MAP_SYSTEM = """You are OmniLegal's legal recognition classifier.
+
+Given IRAC analyses for multiple jurisdictions on a specific legal concept,
+extract a structured heat map.
+
+Rules:
+- Dimensions must be SHORT (2-4 words each) — pick exactly 4-5 most relevant to THIS query
+- Use the SAME dimension keys in both "dimensions" array and every jurisdiction's "cells"
+- Every jurisdiction must have a value for every dimension
+- Values: "full" | "partial" | "none" | "indeterminate"
+  • full = clearly recognized, established, or fully compliant
+  • partial = qualified, limited, emerging, or conditioned recognition
+  • none = explicitly rejected, absent, or squarely inapplicable
+  • indeterminate = no clear position yet (use sparingly)
+- Prefer "partial" over "indeterminate" when there is meaningful evidence either way
+- summary_verdict: ONE crisp sentence summarising the cross-jurisdiction picture
+
+Return STRICT JSON only:
+{
+  "dimensions": ["<dim1>", "<dim2>", "<dim3>", "<dim4>"],
+  "cells": {
+    "<Jurisdiction Name>": {
+      "<dim1>": "full|partial|none|indeterminate",
+      "<dim2>": "full|partial|none|indeterminate",
+      "<dim3>": "full|partial|none|indeterminate",
+      "<dim4>": "full|partial|none|indeterminate"
+    }
+  },
+  "summary_verdict": "<one precise sentence>"
+}
+"""
+
+
+def generate_heat_map(
+    query: str,
+    irac_blocks: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Classify each jurisdiction × dimension into full/partial/none/indeterminate."""
+    if not irac_blocks:
+        return {"dimensions": [], "cells": {}, "summary_verdict": ""}
+
+    try:
+        from src.services.emergent_llm import generate_with_fallback
+    except Exception as exc:
+        log.warning("heat_map: LLM unavailable: %s", exc)
+        return {"dimensions": [], "cells": {}, "summary_verdict": "", "error": str(exc)}
+
+    # Feed compact IRAC summaries only (conclusion + key_authorities) to keep prompt small
+    compact = []
+    for b in irac_blocks:
+        compact.append({
+            "jurisdiction": b.get("jurisdiction", ""),
+            "rule": (b.get("rule") or "")[:400],
+            "conclusion": b.get("conclusion", ""),
+            "key_authorities": (b.get("key_authorities") or [])[:4],
+        })
+
+    user_prompt = (
+        f"Legal query: {query}\n\n"
+        f"IRAC summaries per jurisdiction:\n"
+        f"{json.dumps(compact, ensure_ascii=False, indent=2)}\n\n"
+        "Return JSON only."
+    )
+    result = generate_with_fallback(
+        system=_HEAT_MAP_SYSTEM,
+        prompt=user_prompt,
+        timeout_seconds=25.0,
+    )
+    parsed = _parse_json(result.text) if result.text else None
+    if not parsed:
+        return {
+            "dimensions": [],
+            "cells": {},
+            "summary_verdict": "",
+            "error": result.error or "heat_map returned non-JSON",
+        }
+    return parsed
+
+
 def markdown_comparison_table(
     irac_blocks: list[dict[str, Any]],
 ) -> str:
