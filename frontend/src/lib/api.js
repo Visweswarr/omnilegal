@@ -87,4 +87,12 @@ export const sentinelRules     = () =>
 export const stressTest        = (clause) =>
   api.post("/stress/test", { clause }).then(r => r.data);
 
+// ── Comparative IRAC (Pillar 19) ─────────────────────────────────────────
+
+export const compareJurisdictions = (query, jurisdictions = null) =>
+  api.post("/compare/analyze", { query, jurisdictions }).then(r => r.data);
+
+export const getCompareJurisdictions = () =>
+  api.get("/compare/jurisdictions").then(r => r.data);
+
 export default api;

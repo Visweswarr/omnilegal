@@ -88,6 +88,14 @@ try:
 except Exception as exc:  # noqa: BLE001
     log.exception("Failed to mount SOTA router: %s", exc)
 
+try:
+    from src.api_router_v5 import router as comparative_router  # noqa: E402
+
+    app.include_router(comparative_router)
+    log.info("Mounted Comparative router (compare/analyze, compare/jurisdictions).")
+except Exception as exc:  # noqa: BLE001
+    log.exception("Failed to mount Comparative router: %s", exc)
+
 
 @app.get("/api")
 async def index() -> dict[str, object]:
@@ -107,6 +115,7 @@ async def index() -> dict[str, object]:
             "conflict":      "POST /api/conflict/analyze",
             "irac":          "POST /api/irac/analyze",
             "debug":         "GET /api/debug/retrieve",
+            "compare":       "POST /api/compare/analyze",
         },
         "council_members": [
             "Claude Sonnet 4.5 (Emergent)",

@@ -3,7 +3,7 @@ import { NavLink, Link, useLocation } from "react-router-dom";
 import {
   Globe, ShieldCheck, FileText, Radio, Users2, BookOpen, Scale, Menu, X,
   GitCompare, Library, Swords, History, Network, Mic, Highlighter,
-  Compass, TrendingUp, ShieldAlert, TestTube, Target,
+  Compass, TrendingUp, ShieldAlert, TestTube, Target, Layers,
 } from "lucide-react";
 
 // Group 1 — original 6 flagship pillars
@@ -33,6 +33,7 @@ const NAV_SOTA = [
   { to: "/drift",        label: "Drift",        icon: TrendingUp  },
   { to: "/sentinel",     label: "Sentinel",     icon: ShieldAlert },
   { to: "/stress",       label: "Stress",       icon: TestTube    },
+  { to: "/comparative",  label: "Comparative",  icon: Layers      },
 ];
 
 const NAV_LIBRARY = [

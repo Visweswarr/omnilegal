@@ -111,5 +111,257 @@
         }
       ]
     }
+  },
+  {
+    "id": "b91ebe5b1bfb4bf8a45cada2f57896c7",
+    "kind": "atlas",
+    "title": "Comparative — Compare the right to privacy under constitutional law",
+    "owner": null,
+    "created_at": 1778439431,
+    "share_token": "ysy8fwgVaQwadYggJy-j6g",
+    "payload": {
+      "query": "Compare the right to privacy under constitutional law",
+      "jurisdictions_requested": [
+        "india",
+        "us",
+        "uk"
+      ],
+      "irac_blocks": [
+        {
+          "issue": "Whether and to what extent the right to privacy is recognized and protected as a fundamental right under the Indian Constitution.",
+          "rule": "In K.S. Puttaswamy v Union of India (2017) 10 SCC 1, a nine-judge Constitution Bench unanimously held that the right to privacy is a fundamental right protected under Articles 14, 19, and 21 of the Constitution of India. Privacy encompasses informational privacy, the privacy of choice, and bodily integrity. Any interference with privacy must satisfy the tests of legality, legitimate aim, proportionality, and procedural safeguards. This landmark decision overruled prior precedents (M.P. Sharma v Satish Chandra (1954) and Kharak Singh v State of UP (1963)) that had denied privacy the status of a fundamental right.",
+          "application": "The constitutional framework established in Puttaswamy forms the foundation for privacy protection in India across multiple domains. The right to privacy is not absolute but is subject to reasonable restrictions that must meet rigorous judicial tests including legality, legitimate governmental aim, proportionality, and adequate procedural safeguards. This framework has been subsequently applied in cases like Navtej Singh Johar v Union of India (2018), where privacy protections extended to consensual sexual conduct between adults as protected under Article 21. The Information Technology Act 2000 and related privacy developments must be read consistently with these constitutional privacy guarantees, ensuring that state action and data protection measures comply with the proportionality and procedural safeguards established in Puttaswamy.",
+          "conclusion": "Lawful. The right to privacy is firmly established as a fundamental right under Articles 14, 19, and 21 of the Indian Constitution, subject to reasonable restrictions that meet tests of legality, legitimate aim, proportionality, and procedural safeguards.",
+          "conditions_if_any": "Any restriction on privacy must satisfy: (1) legality (authorized by law), (2) legitimate governmental aim, (3) proportionality (restriction proportionate to the aim), and (4) procedural safeguards against arbitrary state action.",
+          "confidence": 0.95,
+          "key_authorities": [
+            "K.S. Puttaswamy v Union of India (2017) 10 SCC 1",
+            "Navtej Singh Johar v Union of India (2018)"
+          ],
+          "jurisdiction": "India",
+          "used_model": "anthropic/claude-sonnet-4-5-20250929",
+          "passages": [
+            {
+              "source_name": "Information Technology Act 2000",
+              "marker": "[C1]",
+              "jurisdiction": "india",
+              "excerpt": "Title: Information Technology Act 2000\nCitation: Information Technology Act, 2000\nJurisdiction: india\nSource URL: https://www.meity.gov.in/\n\nThe IT Act governs electronic records, digital signatures, cyber offences, intermediary liability, blocking powers, and adjudication. It is"
+            },
+            {
+              "source_name": "Justice K.S. Puttaswamy v Union of India",
+              "marker": "[C2]",
+              "jurisdiction": "india",
+              "excerpt": "Title: Justice K.S. Puttaswamy v Union of India\nCitation: (2017) 10 SCC 1\nJurisdiction: india\nSource URL: https://main.sci.gov.in/\n\nA nine-judge bench recognized privacy as a fundamental right under the Constitution. Puttaswamy is central to dignity, autonomy, informational priva"
+            },
+            {
+              "source_name": "Unknown",
+              "marker": "[C3]",
+              "jurisdiction": "in",
+              "excerpt": "K.S. PUTTASWAMY v UNION OF INDIA (2017). COURT: Supreme Court of India. A nine-judge Constitution Bench unanimously held that the RIGHT TO PRIVACY is a fundamental right protected under Articles 14, 19, and 21 of the Constitution. The Court overruled M.P. Sharma v Satish Chandra "
+            },
+            {
+              "source_name": "Unknown",
+              "marker": "[C4]",
+              "jurisdiction": "in",
+              "excerpt": "NAVTEJ SINGH JOHAR v UNION OF INDIA (2018). COURT: Supreme Court of India. FACTS: Navtej Singh Johar and others challenged Section 377 of the Indian Penal Code, which criminalized consensual sexual acts 'against the order of nature,' as violating the fundamental rights guaranteed"
+            }
+          ],
+          "has_source_data": true
+        },
+        {
+          "issue": "Whether the Constitution recognizes a right to privacy that extends to personal decisions such as the decision to terminate a pregnancy.",
+          "rule": "Under Roe v. Wade (1973), the Supreme Court held that the right to privacy is grounded in the Due Process Clause of the Fourteenth Amendment. This constitutional right to privacy extends to a woman's decision to have an abortion, though it is not absolute and must be balanced against legitimate state interests. The Court established that this privacy right is fundamental but subject to different levels of state regulation depending on the stage of pregnancy.",
+          "application": "The constitutional right to privacy in the United States, as established in Roe v. Wade, demonstrates that privacy is recognized as a fundamental right derived from the Fourteenth Amendment's Due Process Clause. This right encompasses intimate personal decisions, including reproductive choices. However, the right is balanced against competing state interests, meaning privacy protections are not unlimited but are subject to a framework that weighs individual autonomy against governmental interests in regulation.",
+          "conclusion": "Lawful - The Constitution recognizes a right to privacy under the Fourteenth Amendment that protects certain personal decisions, though this right may be subject to regulation when balanced against compelling state interests.",
+          "conditions_if_any": "The scope and application of privacy rights may vary depending on the specific context, the stage or timing of the decision (as illustrated by the trimester framework), and whether the state can demonstrate sufficiently compelling interests to justify regulation.",
+          "confidence": 0.75,
+          "key_authorities": [
+            "Roe v. Wade (1973)",
+            "Fourteenth Amendment Due Process Clause"
+          ],
+          "jurisdiction": "United States",
+          "used_model": "anthropic/claude-sonnet-4-5-20250929",
+          "passages": [
+            {
+              "source_name": "Unknown",
+              "marker": "[C1]",
+              "jurisdiction": "us",
+              "excerpt": "ROE v WADE (1973). COURT: Supreme Court of the United States. FACTS: Jane Roe challenged a Texas law that criminalized abortion except to save the life of the mother. LEGAL ISSUES: Whether the Constitution recognizes a woman's right to terminate her pregnancy. HOLDING: Justice Bl"
+            }
+          ],
+          "has_source_data": true
+        },
+        {
+          "issue": "Whether the United Kingdom recognizes a constitutional right to privacy and, if so, what its sources and scope are.",
+          "rule": "The UK does not have a single written constitution but protects privacy through a combination of common law principles and statute. The foundational common law principle from Entick v Carrington [S2] establishes that executive officials require legal authority for intrusions into private property and affairs, embodying early privacy protections through property rights and limits on executive power. Statutory protection is primarily provided by the Data Protection Act 2018 [S1], which supplements UK GDPR and establishes comprehensive rules for data processing, data subject rights, and enforcement mechanisms applicable to both public and private entities.",
+          "application": "In the UK constitutional framework, privacy rights are protected but not enshrined in a single constitutional document. The common law rule from Entick v Carrington [S2] requires state actors to demonstrate legal authority before interfering with individuals' privacy or property, establishing the principle of legality as a privacy safeguard. The Data Protection Act 2018 [S1] operationalizes modern privacy protection by regulating how personal data is processed, granting individuals enforceable rights against both government and private actors. Together, these authorities create a two-tier system: common law protections against unlawful state intrusion and comprehensive statutory data privacy rights.",
+          "conclusion": "Lawful - The UK recognizes robust privacy rights through common law precedent requiring legal authority for state intrusions and comprehensive statutory protections under data protection legislation, though these derive from multiple sources rather than a single constitutional guarantee.",
+          "conditions_if_any": "",
+          "confidence": 0.75,
+          "key_authorities": [
+            "Entick v Carrington",
+            "Data Protection Act 2018"
+          ],
+          "jurisdiction": "United Kingdom",
+          "used_model": "anthropic/claude-sonnet-4-5-20250929",
+          "passages": [
+            {
+              "source_name": "Data Protection Act 2018",
+              "marker": "[C1]",
+              "jurisdiction": "uk",
+              "excerpt": "Title: Data Protection Act 2018\nCitation: Data Protection Act 2018\nJurisdiction: uk\nSource URL: https://www.legislation.gov.uk/ukpga/2018/12/contents\n\nThe Data Protection Act 2018 supplements UK data protection rules and implements law-enforcement and intelligence-processing regi"
+            },
+            {
+              "source_name": "Entick v Carrington",
+              "marker": "[C2]",
+              "jurisdiction": "uk",
+              "excerpt": "Title: Entick v Carrington\nCitation: (1765) 19 St Tr 1029\nJurisdiction: uk\nSource URL: https://www.bailii.org/\n\nThe court held that executive officials needed legal authority for searches and seizures and could not rely on general state necessity. Entick is a foundational UK auth"
+            }
+          ],
+          "has_source_data": true
+        }
+      ],
+      "synthesis": {
+        "international_rule_summary": "The right to privacy is increasingly recognized as a fundamental or protected right across major constitutional systems, though its source, scope, and limitations vary significantly by jurisdiction. The strongest formulation emerges from constitutional systems that explicitly ground privacy in constitutional text (India: Articles 14, 19, 21; US: Fourteenth Amendment Due Process; UK: statutory and common law). All examined jurisdictions require that restrictions on privacy satisfy tests of legality (lawful basis), legitimate aim, and some form of proportionality, though the strictness of scrutiny differs. Privacy encompasses multiple dimensions: informational privacy, bodily autonomy, decisional privacy, and protection against arbitrary state action.",
+        "agreements": [
+          "India, United States, and United Kingdom all recognize privacy as a protected right requiring legal authorization for state interference (India: Puttaswamy requiring legality test; US: Fourteenth Amendment Due Process; UK: Entick v Carrington requiring legal authority)",
+          "All three jurisdictions acknowledge privacy is not absolute and may be subject to restrictions when balanced against legitimate state interests",
+          "All jurisdictions require some form of proportionality analysis when privacy is restricted (India: explicit proportionality test in Puttaswamy; US: balancing against compelling state interests in Roe; UK: common law reasonableness and GDPR proportionality)",
+          "Common recognition that privacy extends to informational privacy and protection of personal data (India: Puttaswamy includes informational privacy; UK: Data Protection Act 2018; US: implied in various privacy doctrines)"
+        ],
+        "disagreements": [
+          "SHARPEST DISAGREEMENT - Constitutional status and grounding: India treats privacy as an explicit fundamental right under three constitutional articles (14, 19, 21) subject to strict judicial review; the United States derives privacy implicitly from the Fourteenth Amendment Due Process Clause with variable levels of scrutiny depending on context; the United Kingdom has no written constitution and relies on statutory law (Data Protection Act 2018) combined with common law precedent rather than constitutional entrenchment",
+          "CONFLICTS in scope of decisional privacy: India extends constitutional privacy protection to consensual sexual conduct between adults (Navtej Singh Johar); the US previously extended privacy to abortion decisions under Roe v. Wade (though this was subsequently overruled in Dobbs, which is not reflected in the provided IRAC); UK materials do not address constitutional protection for intimate personal decisions beyond data privacy",
+          "Level of constitutional entrenchment: India's privacy rights require constitutional amendment to alter and are subject to rigorous judicial review; US privacy rights depend on Supreme Court interpretation of the Fourteenth Amendment and can shift with Court composition; UK privacy protections are statutory and can be modified by ordinary legislation"
+        ],
+        "gaps": [
+          "No European Union or European Court of Human Rights perspective provided, despite Article 8 ECHR being a major international baseline for privacy rights",
+          "No civil law jurisdiction perspectives (e.g., Germany's constitutional right to informational self-determination, France's constitutional privacy protections)",
+          "Limited depth on US constitutional privacy law post-Dobbs v. Jackson (2022), which overruled Roe v. Wade and significantly altered the US privacy landscape",
+          "No analysis of privacy in the context of surveillance, national security exceptions, or emergency powers across jurisdictions",
+          "Thin coverage of private actor obligations vs. state obligations (UK addresses both through DPA 2018; India and US materials focus primarily on state action)"
+        ],
+        "vclt_article_27_warning": "Not applicable. The analysis concerns domestic constitutional law across three jurisdictions. No international treaty obligations are at issue, and VCLT Article 27 (which prohibits states from invoking domestic law to justify non-performance of treaty obligations) is irrelevant to this comparative constitutional analysis. The disagreements identified reflect legitimate differences in constitutional structure and legal tradition rather than conflicts with binding international obligations.",
+        "used_model": "anthropic/claude-sonnet-4-5-20250929"
+      },
+      "comparison_table_markdown": "| Jurisdiction | Rule (1-line) | Application | Conclusion | Confidence |\n|---|---|---|---|---|\n| India | In K.S. Puttaswamy v Union of India (2017) 10 SCC 1, a nine-judge Constitution Bench unanimously held that the right to privacy is a fundame… | The constitutional framework established in Puttaswamy forms the foundation for privacy protection in India across multiple domains. The rig… | Lawful. The right to privacy is firmly established as a fundamental right under … | 0.95 |\n| United States | Under Roe v. Wade (1973), the Supreme Court held that the right to privacy is grounded in the Due Process Clause of the Fourteenth Amendment… | The constitutional right to privacy in the United States, as established in Roe v. Wade, demonstrates that privacy is recognized as a fundam… | Lawful - The Constitution recognizes a right to privacy under the Fourteenth Ame… | 0.75 |\n| United Kingdom | The UK does not have a single written constitution but protects privacy through a combination of common law principles and statute. The foun… | In the UK constitutional framework, privacy rights are protected but not enshrined in a single constitutional document. The common law rule … | Lawful - The UK recognizes robust privacy rights through common law precedent re… | 0.75 |",
+      "cross_citations": [
+        {
+          "cited_source": "(1973) 4 SCC 225",
+          "cited_jurisdiction": "",
+          "citing_jurisdictions": [
+            "india"
+          ],
+          "citation_strings": [
+            "(1973) 4 SCC 225"
+          ],
+          "edge_count": 1,
+          "cross_jurisdiction": false
+        },
+        {
+          "cited_source": "(1978) 1 SCC 248",
+          "cited_jurisdiction": "",
+          "citing_jurisdictions": [
+            "india"
+          ],
+          "citation_strings": [
+            "(1978) 1 SCC 248"
+          ],
+          "edge_count": 1,
+          "cross_jurisdiction": false
+        },
+        {
+          "cited_source": "(1980) 3 SCC 625",
+          "cited_jurisdiction": "",
+          "citing_jurisdictions": [
+            "india"
+          ],
+          "citation_strings": [
+            "(1980) 3 SCC 625"
+          ],
+          "edge_count": 1,
+          "cross_jurisdiction": false
+        },
+        {
+          "cited_source": "(1994) 3 SCC 1",
+          "cited_jurisdiction": "",
+          "citing_jurisdictions": [
+            "india"
+          ],
+          "citation_strings": [
+            "(1994) 3 SCC 1"
+          ],
+          "edge_count": 1,
+          "cross_jurisdiction": false
+        },
+        {
+          "cited_source": "(2017) 10 SCC 1",
+          "cited_jurisdiction": "",
+          "citing_jurisdictions": [
+            "india"
+          ],
+          "citation_strings": [
+            "(2017) 10 SCC 1"
+          ],
+          "edge_count": 1,
+          "cross_jurisdiction": false
+        },
+        {
+          "cited_source": "(2018) 10 SCC 1",
+          "cited_jurisdiction": "",
+          "citing_jurisdictions": [
+            "india"
+          ],
+          "citation_strings": [
+            "(2018) 10 SCC 1"
+          ],
+          "edge_count": 1,
+          "cross_jurisdiction": false
+        },
+        {
+          "cited_source": "(1997) 1 SCC 416",
+          "cited_jurisdiction": "",
+          "citing_jurisdictions": [
+            "india"
+          ],
+          "citation_strings": [
+            "(1997) 1 SCC 416"
+          ],
+          "edge_count": 1,
+          "cross_jurisdiction": false
+        },
+        {
+          "cited_source": "(1994) 4 SCC 260",
+          "cited_jurisdiction": "",
+          "citing_jurisdictions": [
+            "india"
+          ],
+          "citation_strings": [
+            "(1994) 4 SCC 260"
+          ],
+          "edge_count": 1,
+          "cross_jurisdiction": false
+        },
+        {
+          "cited_source": "(2014) 8 SCC 273",
+          "cited_jurisdiction": "",
+          "citing_jurisdictions": [
+            "india"
+          ],
+          "citation_strings": [
+            "(2014) 8 SCC 273"
+          ],
+          "edge_count": 1,
+          "cross_jurisdiction": false
+        }
+      ],
+      "graph_stats": {
+        "documents": 248,
+        "edges": 9
+      },
+      "used_models": [
+        "anthropic/claude-sonnet-4-5-20250929"
+      ]
+    }
   }
 ]
