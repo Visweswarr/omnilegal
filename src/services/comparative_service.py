@@ -331,27 +331,6 @@ def _run_one_irac(
     return block
 
 
-def _is_relevant(content: str, query: str) -> bool:
-    """Returns True if content contains concept-specific tokens from the query.
-
-    Strips common generic legal terms so relevance is based on the actual concept,
-    not words like "jurisdiction" or "treated" that appear in every legal passage.
-    """
-    _GENERIC = {
-        "what", "that", "with", "from", "this", "have", "been", "were",
-        "they", "their", "when", "where", "which", "about", "under", "how",
-        "does", "legal", "court", "courts", "domestic", "international",
-        "compare", "comparing", "treat", "treated", "treatment", "between",
-        "across", "also", "each", "law", "laws", "rule", "rules", "right",
-        "rights", "such", "would", "could", "should", "these", "those",
-        "more", "less", "make", "many", "jurisdiction", "jurisdictions",
-    }
-    tokens = {t for t in re.findall(r"[a-z]{4,}", query.lower()) if t not in _GENERIC}
-    if not tokens:
-        return True  # No specific tokens — accept all passages
-    return any(t in content.lower() for t in tokens)
-
-
 # ── Parallel IRAC orchestration ───────────────────────────────────────────
 
 

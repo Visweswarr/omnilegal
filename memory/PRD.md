@@ -101,14 +101,12 @@ Citation graph: Kuzu graph with CITES edges.
 ### Pillar 18b — Stress (SOTA)
 - Stress-test legal arguments
 
-### Pillar 19 — Comparative (NEW — 2026-05-10, improved 2026-05-10)
-- `POST /api/compare/analyze` — parallel IRAC per jurisdiction + Kuzu cross-citations
-- `GET /api/compare/jurisdictions` — supported jurisdictions catalogue
-- Supported: India, US, UK, EU, International
-- **Smart relevance filter**: strips irrelevant corpus passages so LLM uses authoritative general legal knowledge when corpus is sparse for abstract concepts (erga omnes, jus cogens, etc.)
-- **Knowledge-mode IRAC**: when no relevant corpus passages found, sends clean knowledge-mode prompt — LLM cites Barcelona Traction, Filartiga, Pinochet, Vishaka, etc. from training
-- LLM marks non-corpus sources as `[general knowledge]` — transparent provenance
-- Frontend: `/comparative` page with jurisdiction selector, IRAC grid, synthesis, cross-citation panel
+### Pillar 19 — Comparative v2 (2026-05-10)
+- `POST /api/compare/analyze` now returns `heat_map` field alongside irac_blocks + synthesis
+- **Jurisdictional Heat Map**: `generate_heat_map()` in `cross_jurisdiction.py` — LLM extracts 4-5 query-specific dimensions and classifies each jurisdiction as full/partial/none/indeterminate
+- **Query Expansion**: `_run_one_irac()` falls back to CASE_LAW_GLOBAL when domestic corpus has no relevant passages — abstract concepts (erga omnes, jus cogens) now get Barcelona Traction [S2], Wall Opinion [S1] etc. as real corpus citations
+- **Frontend HeatMap component**: colour-coded matrix (green=full, amber=partial, red=none, gray=?), flags, short jurisdiction names, summary verdict, "Brief" print button with clean print CSS
+- Duplicate `_is_relevant` function cleaned up
 
 ---
 
