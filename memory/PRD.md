@@ -101,15 +101,14 @@ Citation graph: Kuzu graph with CITES edges.
 ### Pillar 18b — Stress (SOTA)
 - Stress-test legal arguments
 
-### Pillar 19 — Comparative (NEW — 2026-05-10)
+### Pillar 19 — Comparative (NEW — 2026-05-10, improved 2026-05-10)
 - `POST /api/compare/analyze` — parallel IRAC per jurisdiction + Kuzu cross-citations
 - `GET /api/compare/jurisdictions` — supported jurisdictions catalogue
 - Supported: India, US, UK, EU, International
+- **Smart relevance filter**: strips irrelevant corpus passages so LLM uses authoritative general legal knowledge when corpus is sparse for abstract concepts (erga omnes, jus cogens, etc.)
+- **Knowledge-mode IRAC**: when no relevant corpus passages found, sends clean knowledge-mode prompt — LLM cites Barcelona Traction, Filartiga, Pinochet, Vishaka, etc. from training
+- LLM marks non-corpus sources as `[general knowledge]` — transparent provenance
 - Frontend: `/comparative` page with jurisdiction selector, IRAC grid, synthesis, cross-citation panel
-- Kuzu graph traversal wired into the answer node via `comparative_service.py`
-- Concurrent IRAC generation (ThreadPoolExecutor, up to 4 parallel threads)
-- Cross-jurisdiction synthesis (LLM) with agreements/disagreements/gaps
-- Markdown comparison table toggle
 
 ---
 

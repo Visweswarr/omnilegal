@@ -203,7 +203,11 @@ def _build_cross_citation_note(
 
 
 def _retrieve_passages_for_jur(query: str, jur_key: str) -> list[Any]:
-    """Retrieve Qdrant passages scoped to one jurisdiction."""
+    """Retrieve Qdrant passages scoped to one jurisdiction.
+
+    For domestic jurisdictions: only domestic collections (so the LLM reasons
+    about domestic law). International corpus goes to the International block only.
+    """
     try:
         from src.services.conflict_detection import (
             _retrieve_for_jurisdiction,
@@ -211,24 +215,86 @@ def _retrieve_passages_for_jur(query: str, jur_key: str) -> list[Any]:
         )
         if jur_key in ("international", "intl"):
             return _retrieve_international(query)
+        # Domestic only — no international mix-in
         return _retrieve_for_jurisdiction(query, jur_key)
     except Exception as exc:
         log.warning("Passage retrieval failed for %s: %s", jur_key, exc)
         return []
 
 
-def _passages_to_text(passages: list[Any]) -> str:
-    """Format retrieved passages into a single string for the IRAC prompt."""
+def _is_relevant(passage_text: str, query: str) -> bool:
+    """Quick keyword check — returns False for obviously off-topic passages."""
+    if not passage_text:
+        return False
+    # Extract significant tokens from query (4+ chars)
+    import re
+    query_tokens = set(re.findall(r"[a-z]{4,}", query.lower()))
+    passage_lower = passage_text.lower()
+    # If at least 1 query token appears in passage → keep it
+    return any(t in passage_lower for t in query_tokens)
+
+
+def _passages_to_text(passages: list[Any], query: str = "") -> str:
+    """Format retrieved passages, filtering irrelevant ones first."""
+    import re
+
+    # Extract concept-specific tokens from query, skip stopwords
+    _STOPWORDS = {
+        "what", "that", "with", "from", "this", "have", "been", "were", "they",
+        "their", "when", "where", "which", "about", "under", "how", "does",
+        "jurisdiction", "jurisdictions", "legal", "case", "court", "courts",
+        "domestic", "international", "compare", "comparing", "treat", "treated",
+        "law", "laws", "rule", "rules", "right", "rights",
+    }
+    if query:
+        query_tokens = {
+            t for t in re.findall(r"[a-z]{4,}", query.lower())
+            if t not in _STOPWORDS
+        }
+    else:
+        query_tokens = set()
+
+    relevant, irrelevant = [], []
+    for p in passages:
+        content = getattr(p, "content", "") or str(p)
+        if not query_tokens:
+            relevant.append(p)
+        elif any(t in content.lower() for t in query_tokens):
+            relevant.append(p)
+        else:
+            irrelevant.append(p)
+
+    # Use only relevant passages for the prompt
+    to_use = relevant
+
     parts = []
-    for i, p in enumerate(passages, 1):
+    for i, p in enumerate(to_use, 1):
         try:
             src = p.citation.source_name
+            jur = getattr(p.citation, "jurisdiction", "")
             content = p.content[:800]
         except AttributeError:
             src = "Unknown"
+            jur = ""
             content = str(p)[:800]
-        parts.append(f"[S{i}] {src}:\n{content}")
-    return "\n\n".join(parts)[:6000]
+        jur_tag = f" [{jur}]" if jur else ""
+        parts.append(f"[S{i}] {src}{jur_tag}:\n{content}")
+
+    result = "\n\n".join(parts)[:6000]
+
+    # Explicit instruction when corpus retrieval found nothing relevant
+    if not to_use:
+        result = (
+            "CORPUS NOTE: No relevant passages were found in the local corpus for this query. "
+            "You MUST use your authoritative legal knowledge for this jurisdiction to complete the IRAC."
+        )
+    elif len(to_use) == 1 and irrelevant:
+        result += (
+            "\n\nCORPUS NOTE: Only one on-topic passage was retrieved. "
+            "Supplement with your general legal knowledge as needed."
+        )
+
+    return result
 
 
 # ── Parallel IRAC orchestration ───────────────────────────────────────────
@@ -243,11 +309,28 @@ def _run_one_irac(
     jur_label = JURISDICTION_LABELS.get(jur_key.lower(), jur_key.capitalize())
 
     passages = _retrieve_passages_for_jur(query, jur_key)
-    passages_text = _passages_to_text(passages)
 
-    cross_note = _build_cross_citation_note(jur_key, cross_citations)
-    if cross_note:
-        passages_text = cross_note + "\n\n---\n\n" + passages_text
+    # ── Relevance filter — build passages_text ONLY from on-topic passages ──
+    relevant_passages = [
+        p for p in passages
+        if _is_relevant(getattr(p, "content", "") or "", query)
+    ]
+    if relevant_passages:
+        parts = []
+        for i, p in enumerate(relevant_passages[:5], 1):
+            src = getattr(getattr(p, "citation", None), "source_name", "Unknown")
+            jur = getattr(getattr(p, "citation", None), "jurisdiction", "")
+            content = getattr(p, "content", "")[:800]
+            jur_tag = f" [{jur}]" if jur else ""
+            parts.append(f"[S{i}] {src}{jur_tag}:\n{content}")
+        # Add cross-citation context note at the top
+        cross_note = _build_cross_citation_note(jur_key, cross_citations)
+        prefix = (cross_note + "\n\n---\n\n") if cross_note else ""
+        passages_text = prefix + "\n\n".join(parts)[:6000]
+    else:
+        # Nothing relevant — pass empty string so per_jurisdiction_irac uses knowledge mode
+        passages_text = ""
+    # ───────────────────────────────────────────────────────────────────────
 
     try:
         from src.services.cross_jurisdiction import per_jurisdiction_irac
@@ -266,19 +349,49 @@ def _run_one_irac(
             "error": str(exc),
         }
 
-    # Attach passage metadata for the UI
+    # Attach only relevant passage metadata for the UI
     block["passages"] = [
         {
             "source_name": getattr(getattr(p, "citation", None), "source_name", "Unknown"),
             "marker":      getattr(getattr(p, "citation", None), "marker",      f"[S{i+1}]"),
             "jurisdiction": getattr(getattr(p, "citation", None), "jurisdiction", ""),
-            "excerpt":     (getattr(p, "content", "")[:280]
-                           if hasattr(p, "content") else ""),
+            "excerpt":     (getattr(p, "content", "")[:280] if hasattr(p, "content") else ""),
         }
-        for i, p in enumerate(passages[:4])
+        for i, p in enumerate(relevant_passages[:4])
     ]
-    block["has_source_data"] = bool(passages)
+    block["has_source_data"] = bool(relevant_passages)
     return block
+
+
+def _is_relevant(content: str, query: str) -> bool:
+    """Returns True if content contains concept-specific tokens from query."""
+    import re
+    _STOPWORDS = {
+        "what", "that", "with", "from", "this", "have", "been", "were",
+        "they", "their", "when", "where", "which", "about", "under", "how",
+        "does", "jurisdiction", "jurisdictions", "legal", "case", "court",
+        "courts", "domestic", "international", "compare", "comparing",
+        "treat", "treated", "treatment", "between", "across", "also", "each",
+        "law", "laws", "rule", "rules", "right", "rights", "such", "would",
+        "could", "should", "these", "those", "more", "less", "make", "many",
+        "erga", "omnes",  # these are the query terms - DON'T filter them
+    }
+    # Actually: extract ALL meaningful tokens from query, then check passage
+    # We want: "if passage is about the concept" not "if passage contains query words"
+    # Better approach: use query tokens that are NOT generic legal terminology
+    _GENERIC = {
+        "what", "that", "with", "from", "this", "have", "been", "were",
+        "they", "their", "when", "where", "which", "about", "under", "how",
+        "does", "legal", "court", "courts", "domestic", "international",
+        "compare", "comparing", "treat", "treated", "treatment", "between",
+        "across", "also", "each", "law", "laws", "rule", "rules", "right",
+        "rights", "such", "would", "could", "should", "these", "those",
+        "more", "less", "make", "many", "jurisdiction", "jurisdictions",
+    }
+    tokens = {t for t in re.findall(r"[a-z]{4,}", query.lower()) if t not in _GENERIC}
+    if not tokens:
+        return True  # No specific tokens — accept all
+    return any(t in content.lower() for t in tokens)
 
 
 # ── Top-level entry point ─────────────────────────────────────────────────

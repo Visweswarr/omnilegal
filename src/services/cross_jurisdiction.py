@@ -26,19 +26,37 @@ log = logging.getLogger("omnilegal.cross_jurisdiction")
 
 
 _IRAC_SYSTEM = """You are OmniLegal's per-jurisdiction IRAC synthesizer.
-Given retrieved passages from one jurisdiction and a research question, write
-a tight IRAC analysis. Cite the retrieved sources by their [S#] markers if
-they are present in the passages; never invent citations.
 
-Return STRICT JSON only with schema:
+Your job: produce a substantive IRAC analysis for a specific jurisdiction.
+
+SOURCE RULES:
+1. Retrieved passages tagged [S#] — cite them when on-point.
+2. Your authoritative legal knowledge — USE IT FREELY to fill any gaps.
+
+MANDATORY BEHAVIOR:
+- NEVER output "indeterminate" simply because retrieved passages are off-topic.
+- When retrieved passages don't cover the legal concept asked about, IGNORE those
+  passages completely and answer from your own legal knowledge of that jurisdiction.
+- If the concept is genuinely unaddressed in a jurisdiction, say so clearly with
+  your BEST ESTIMATE of how that jurisdiction would likely approach it.
+- Always provide substantive content in every field: issue, rule, application.
+- For "rule": always state the actual legal rule, citing cases/statutes you know
+  (e.g. "Barcelona Traction [general knowledge]", "42 U.S.C. §1983 [general knowledge]").
+- For "conclusion": be definitive — use: recognized | not_recognized | partially_recognized |
+  lawful | unlawful | qualified | conflict_with_intl_law | indeterminate_genuinely.
+  Use "indeterminate_genuinely" ONLY when the jurisdiction has truly no position.
+
+Mark any authority from your training (not from the retrieved passages) as [general knowledge].
+
+Return STRICT JSON only:
 {
-  "issue": "<one sentence: the precise legal issue this jurisdiction faces>",
-  "rule": "<2-4 sentences: the controlling rule(s) drawn from the passages>",
-  "application": "<2-5 sentences: how the rule applies to the question>",
-  "conclusion": "<one sentence: lawful | unlawful | indeterminate | lawful_if_conditions, plus rationale>",
-  "conditions_if_any": "<conditions that would change the conclusion, or empty>",
+  "issue": "<one precise sentence: what this jurisdiction must resolve>",
+  "rule": "<2-4 sentences: the actual controlling rule, citing cases/statutes you know>",
+  "application": "<2-5 sentences: how the rule concretely applies to the question>",
+  "conclusion": "<one sentence: definitive verdict + brief rationale>",
+  "conditions_if_any": "<conditions/caveats, or empty string>",
   "confidence": <float 0..1>,
-  "key_authorities": ["<source name 1>", "<source name 2>"]
+  "key_authorities": ["<case or statute 1>", "<case or statute 2>"]
 }
 """
 
@@ -88,17 +106,6 @@ def per_jurisdiction_irac(
     jurisdiction: str,
     passages_text: str,
 ) -> dict[str, Any]:
-    if not passages_text.strip():
-        return {
-            "jurisdiction": jurisdiction,
-            "issue": "No retrieved authority for this jurisdiction.",
-            "rule": "",
-            "application": "",
-            "conclusion": "indeterminate — no source",
-            "conditions_if_any": "",
-            "confidence": 0.0,
-            "key_authorities": [],
-        }
     try:
         from src.services.emergent_llm import generate_with_fallback
     except Exception as exc:
@@ -115,16 +122,38 @@ def per_jurisdiction_irac(
             "error": str(exc),
         }
 
-    user_prompt = (
-        f"Jurisdiction: {jurisdiction}\n\n"
-        f"Research question:\n\"\"\"{query}\"\"\"\n\n"
-        f"Retrieved passages:\n\"\"\"{_safe_truncate(passages_text)}\"\"\"\n\n"
-        "Return JSON only."
+    # When passages are missing or clearly flagged as corpus-miss, omit them from prompt
+    has_no_relevant = (
+        not passages_text.strip()
+        or passages_text.strip().startswith("CORPUS NOTE:")
+        or len(passages_text.strip()) < 120
     )
+
+    if has_no_relevant:
+        user_prompt = (
+            f"Jurisdiction: {jurisdiction}\n\n"
+            f"Research question:\n\"\"\"{query}\"\"\"\n\n"
+            "No relevant passages were found in the local corpus for this jurisdiction.\n"
+            "Write the complete IRAC entirely from your authoritative legal knowledge "
+            f"of {jurisdiction}. Cite real cases, statutes, or treaties you know "
+            "(mark them as [general knowledge]). Do NOT say 'indeterminate' — give "
+            "a substantive answer based on your knowledge.\n\n"
+            "Return JSON only."
+        )
+    else:
+        user_prompt = (
+            f"Jurisdiction: {jurisdiction}\n\n"
+            f"Research question:\n\"\"\"{query}\"\"\"\n\n"
+            f"Retrieved passages:\n\"\"\"{_safe_truncate(passages_text)}\"\"\"\n\n"
+            "Cite relevant passages by [S#]. For any aspect not covered by the "
+            "retrieved passages, use your authoritative legal knowledge and mark "
+            "those sources as [general knowledge]. Give a substantive conclusion.\n\n"
+            "Return JSON only."
+        )
     result = generate_with_fallback(
         system=_IRAC_SYSTEM,
         prompt=user_prompt,
-        timeout_seconds=float(os.getenv("OMNILEGAL_IRAC_TIMEOUT_SECONDS", "30")),
+        timeout_seconds=float(os.getenv("OMNILEGAL_IRAC_TIMEOUT_SECONDS", "40")),
     )
     parsed = _parse_json(result.text) if result.text else None
     if not parsed:
