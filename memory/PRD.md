@@ -108,6 +108,13 @@ Citation graph: Kuzu graph with CITES edges.
 - **Frontend HeatMap component**: colour-coded matrix (green=full, amber=partial, red=none, gray=?), flags, short jurisdiction names, summary verdict, "Brief" print button with clean print CSS
 - Duplicate `_is_relevant` function cleaned up
 
+### Pillar 20 — Longitudinal Heat Maps (2026-05-10)
+- `POST /api/compare/longitudinal` — parallel IRAC + heat-map for every jurisdiction × time-period combination
+- `GET /api/compare/period-presets` — returns the 3 built-in presets (century / postwar / modern)
+- `longitudinal_service.py`: year-filtered passage retrieval, period-constrained IRAC prompt ("Analyse position AS IT EXISTED during {period}"), per-period heat map, automatic trend deltas (`up`/`down`/`stable`) between consecutive periods
+- Frontend route `/longitudinal` + NavBar entry (Clock icon) — period cards as mini heat maps, click-to-explore IRAC accordion, evolution trend summary panel
+- Backend smoke test: 4 periods × 2 jurisdictions returns ≈37KB JSON with full heat maps and trends
+
 ---
 
 ## API Routes Summary
@@ -118,7 +125,7 @@ Citation graph: Kuzu graph with CITES edges.
 | v2        | /api    | graph/build, graph/query                    |
 | v3        | /api    | irac/analyze, debug/retrieve                |
 | v4        | /api    | adversarial, arbitrage, drift, sentinel, stress |
-| v5 (NEW)  | /api    | compare/analyze, compare/jurisdictions      |
+| v5 (NEW)  | /api    | compare/analyze, compare/jurisdictions, compare/longitudinal, compare/period-presets |
 
 ---
 
@@ -153,7 +160,11 @@ Citation graph: Kuzu graph with CITES edges.
 
 ## Next Tasks
 
-1. Run `pip install qdrant-client` and restart backend to enable embedded Qdrant
-2. Ingest full Italaw/ICRC/UN Treaties corpus via the ingestion pipeline
-3. Add more CITES edges by running regex citation extraction over all documents
-4. Add streaming SSE to the compare endpoint for real-time IRAC display
+1. Locally ingest the three new corpus files via `python scripts/seed_qdrant.py`:
+   - `/app/data/corpus/intl_treaties/icrc_ihl_corpus.jsonl`
+   - `/app/data/corpus/intl_treaties/un_treaties_full.jsonl`
+   - `/app/data/corpus/case_law_global/ihl_case_law.jsonl`
+2. Rebuild Kuzu citation graph after ingestion (more cross-citation edges)
+3. Add streaming SSE to compare/longitudinal endpoints for real-time period reveal
+4. PDF export of Longitudinal timeline reports
+

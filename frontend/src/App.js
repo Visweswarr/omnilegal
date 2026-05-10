@@ -22,6 +22,7 @@ import Drift from "./pages/Drift";
 import Sentinel from "./pages/Sentinel";
 import Stress from "./pages/Stress";
 import Comparative from "./pages/Comparative";
+import Longitudinal from "./pages/Longitudinal";
 
 export default function App() {
   return (
@@ -51,6 +52,7 @@ export default function App() {
           <Route path="/sentinel"     element={<Sentinel />} />
           <Route path="/stress"       element={<Stress />} />
           <Route path="/comparative"  element={<Comparative />} />
+          <Route path="/longitudinal" element={<Longitudinal />} />
         </Routes>
       </main>
       <footer className="border-t border-white/10 py-6 px-6 mt-24 text-xs font-mono uppercase tracking-widest2 text-paper-400 flex flex-wrap items-center justify-between gap-3">

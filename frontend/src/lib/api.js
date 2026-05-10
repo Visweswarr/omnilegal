@@ -95,4 +95,12 @@ export const compareJurisdictions = (query, jurisdictions = null) =>
 export const getCompareJurisdictions = () =>
   api.get("/compare/jurisdictions").then(r => r.data);
 
+// ── Longitudinal Heat Maps (Pillar 20) ───────────────────────────────────
+
+export const runLongitudinal = (query, jurisdictions = null, periods = null, preset = null) =>
+  api.post("/compare/longitudinal", { query, jurisdictions, periods, preset }).then(r => r.data);
+
+export const getPeriodPresets = () =>
+  api.get("/compare/period-presets").then(r => r.data);
+
 export default api;
