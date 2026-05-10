@@ -290,7 +290,7 @@ def build_atlas(
 
     overall_status_counts = {"alignment": 0, "qualified_alignment": 0, "conflict": 0, "neutral": 0}
     per_jurisdiction: list[dict[str, Any]] = []
-    with concurrent.futures.ThreadPoolExecutor(max_workers=min(6, len(grounded_keys))) as pool:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
         futures = {pool.submit(_per_jur, key): key for key in grounded_keys}
         for fut in concurrent.futures.as_completed(futures, timeout=120):
             try:
@@ -366,7 +366,7 @@ def build_atlas(
         label_counts[verdict_label] = label_counts.get(verdict_label, 0) + 1
 
     if include_ai_inferred and AI_INFERRED_JURISDICTIONS:
-        with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
             futures = {
                 pool.submit(_infer_country, topic, jur["name"], international_summary): jur
                 for jur in AI_INFERRED_JURISDICTIONS

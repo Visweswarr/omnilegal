@@ -100,8 +100,8 @@ def _generate_with_google_genai(
     temperature: float,
     max_output_tokens: int,
 ) -> str:
-    from google import genai
-    from google.genai import types
+    from google import genai  # type: ignore[import-not-found]
+    from google.genai import types  # type: ignore[import-not-found]
 
     client = genai.Client(api_key=GEMINI_API_KEY)
     response = client.models.generate_content(
@@ -124,7 +124,7 @@ def _generate_with_legacy_sdk(
     temperature: float,
     max_output_tokens: int,
 ) -> str:
-    import google.generativeai as genai
+    import google.generativeai as genai  # type: ignore[import-not-found]
 
     genai.configure(api_key=GEMINI_API_KEY)
     legacy_model = genai.GenerativeModel(
@@ -214,5 +214,22 @@ def generate_gemini_content(
                 errors.append(f"{candidate}: {_compact_exception(exc)}")
             else:
                 errors.append(f"{candidate}: legacy SDK failed ({type(exc).__name__}: {_compact_exception(exc)})")
+
+    try:
+        from src.services.groq_client import generate_groq_chat
+
+        groq = generate_groq_chat(
+            messages=[
+                {"role": "system", "content": system},
+                {"role": "user", "content": prompt},
+            ],
+            max_tokens=max_output_tokens,
+            temperature=temperature,
+        )
+        if groq.text:
+            return GeminiGeneration(text=groq.text, model=f"groq:{groq.model}")
+        errors.append(f"groq_fallback: {groq.error or 'empty'}")
+    except Exception as exc:
+        errors.append(f"groq_fallback: {type(exc).__name__}: {exc}")
 
     return GeminiGeneration(text="", model=model or GEMINI_REFINER_MODEL, error="; ".join(errors))

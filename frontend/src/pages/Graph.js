@@ -16,7 +16,8 @@ const KIND_COLOR = {
 };
 
 const EDGE_COLOR = {
-  retrieved:    "#3F3F46",
+  anchored_in:  "#3F3F46",
+  loose_mention:"#27272A",
   cites:        "#71717A",
   follows:      "#22C55E",
   overrules:    "#EF4444",
@@ -109,7 +110,32 @@ export default function Graph() {
 
       {data && !data.error && (
         <>
-          <div className="mt-8 grid md:grid-cols-[1fr_320px] gap-4">
+          {data.seed_resolved ? (
+            <div className="mt-6 border border-verdict-gold/40 bg-verdict-gold/5 px-4 py-3 text-sm">
+              <span className="font-mono text-[10px] uppercase tracking-widest2 text-verdict-gold">Resolved as</span>
+              <div className="mt-1 font-serif text-paper-100">{data.seed_display}</div>
+              {data.seed_citation && (
+                <div className="text-xs font-mono text-paper-400 mt-1">{data.seed_citation}</div>
+              )}
+            </div>
+          ) : (
+            <div className="mt-6 border border-white/10 bg-ink-800/40 px-4 py-3 text-sm text-paper-400">
+              <span className="font-mono text-[10px] uppercase tracking-widest2 text-paper-300">Loose mode</span>
+              <span className="ml-2">No canonical case matched — graph shows whatever the retriever returned for "{data.seed}". Edges are <em>loose mentions</em>, not real citations.</span>
+            </div>
+          )}
+          {data.resolution === "matched_no_anchors" && (
+            <div className="mt-3 border border-amber-500/40 bg-amber-500/5 px-4 py-3 text-sm text-amber-200">
+              Resolved to <strong>{data.seed_canonical}</strong> but no passage in the local corpus actually mentions it. Nothing real to graph — try a different seed or ingest the source.
+            </div>
+          )}
+          {data.stats?.cap_hit && (
+            <div className="mt-3 border border-amber-500/40 bg-amber-500/5 px-4 py-3 text-xs font-mono text-amber-200">
+              ⚠ Node cap hit at {data.stats.max_nodes} — graph is truncated.
+            </div>
+          )}
+
+          <div className="mt-6 grid md:grid-cols-[1fr_320px] gap-4">
             <div className="border border-white/10 bg-ink-800/40 relative" style={{ height: 600 }}>
               <svg viewBox="0 0 900 560" className="w-full h-full">
                 {(data.edges || []).map((e, i) => {
@@ -162,10 +188,11 @@ export default function Graph() {
 
               <div className="mt-6">
                 <MonoLabel>Stats</MonoLabel>
-                <ul className="text-xs font-mono text-paper-300">
-                  <li>Nodes: {data.stats?.node_count}</li>
+                <ul className="text-xs font-mono text-paper-300 space-y-0.5">
+                  <li>Nodes: {data.stats?.node_count}{data.stats?.cap_hit ? ` (cap ${data.stats?.max_nodes})` : ""}</li>
                   <li>Edges: {data.stats?.edge_count}</li>
-                  <li>Passages used: {data.stats?.passages_used}</li>
+                  <li>Anchor passages: {data.stats?.anchor_passages} / {data.stats?.passages_total}</li>
+                  <li>Resolution: {data.resolution || (data.seed_resolved ? "matched" : "loose")}</li>
                 </ul>
               </div>
 

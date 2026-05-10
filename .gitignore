@@ -19,3 +19,13 @@ data/evals/results/
 
 *.sqlite
 *.db
+
+# Node
+frontend/node_modules/
+
+# Logs
+*.log
+
+# Data
+data/remote_sources/raw/
+data/remote_sources/checkpoints/

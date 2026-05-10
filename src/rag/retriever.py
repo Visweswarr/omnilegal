@@ -131,6 +131,40 @@ _JURISDICTION_ALIASES = {
 }
 
 _NOISE_SOURCE_NAMES = {"nato", "unctad", "african court", "isds"}
+_ANCHOR_STOP_TERMS = {
+    "about",
+    "act",
+    "article",
+    "articles",
+    "case",
+    "cases",
+    "constitution",
+    "constitutional",
+    "court",
+    "courts",
+    "domestic",
+    "does",
+    "fundamental",
+    "india",
+    "indian",
+    "international",
+    "jurisdiction",
+    "law",
+    "laws",
+    "legal",
+    "right",
+    "rights",
+    "section",
+    "source",
+    "state",
+    "states",
+    "supreme",
+    "tell",
+    "treaty",
+    "under",
+    "union",
+    "what",
+}
 
 
 def _is_source_discovery_query(query: str) -> bool:
@@ -236,6 +270,46 @@ def _candidate_allowed_for_query(query: str, candidate: dict[str, Any], allowed_
     return effective_jurisdiction in allowed if effective_jurisdiction else True
 
 
+def _query_anchor_terms(query: str) -> list[str]:
+    anchors: list[str] = []
+    seen: set[str] = set()
+    for token in re.findall(r"[a-z0-9]+", query.lower()):
+        if len(token) <= 2 or token in _ANCHOR_STOP_TERMS:
+            continue
+        if token not in seen:
+            seen.add(token)
+            anchors.append(token)
+    return anchors[:8]
+
+
+def _candidate_anchor_hits(anchors: list[str], candidate: dict[str, Any]) -> int:
+    metadata = candidate.get("metadata") or {}
+    haystack = " ".join(
+        str(part or "")
+        for part in [
+            metadata.get("source_name"),
+            metadata.get("citation"),
+            metadata.get("doc_type"),
+            metadata.get("collection"),
+            candidate.get("text"),
+        ]
+    ).lower()
+    return sum(1 for term in anchors if term in haystack)
+
+
+def _filter_by_anchor_terms(query: str, candidates: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    anchors = _query_anchor_terms(query)
+    if not anchors or len(candidates) <= 1:
+        return candidates
+    scored = [(candidate, _candidate_anchor_hits(anchors, candidate)) for candidate in candidates]
+    max_hits = max((hits for _, hits in scored), default=0)
+    if max_hits >= 2:
+        anchored = [candidate for candidate, hits in scored if hits >= 2]
+    else:
+        anchored = [candidate for candidate, hits in scored if hits > 0]
+    return anchored or candidates
+
+
 def _diversify_by_collection(
     candidates: list[dict[str, Any]],
     *,
@@ -295,12 +369,32 @@ _NAMED_CASE_PATTERNS = [
     re.compile(r"\b[A-Z][A-Za-z\s]{2,40}(?:Arbitration|Award|Affair)\b"),
     re.compile(r"\b[A-Z][A-Za-z]+\s+v\.?\s+[A-Z][A-Za-z]+\b"),
     re.compile(
+        r"\b(?:[A-Z](?:\.[A-Z])?\.?\s*)?[A-Z][A-Za-z.'-]+"
+        r"(?:\s+[A-Z][A-Za-z.'-]+){0,4}\s+(?:case|Case)\b"
+    ),
+    re.compile(
         r"\b(?:Tinoco|Alabama Claims|Island of Palmas|Clipperton Island|Trail Smelter"
         r"|Corfu Channel|Nicaragua|Oil Platforms|Caroline|Lotus|Barcelona Traction"
         r"|Nottebohm|Chorzow Factory|DRC v\. Uganda)\b",
         re.IGNORECASE,
     ),
 ]
+
+_COUNTRY_REFERENCE_PATTERNS = {
+    "india": [
+        re.compile(
+            r"\b(?:"
+            r"maneka\s+gandhi|"
+            r"(?:justice\s+)?k\.?\s*s\.?\s+puttaswamy|puttaswamy|"
+            r"kesavananda(?:\s+bharati)?|vishaka|"
+            r"navtej(?:\s+singh\s+johar)?|shreya\s+singhal|"
+            r"a\.?\s*k\.?\s+gopalan|minerva\s+mills|"
+            r"information\s+technology\s+act|it\s+act|section\s+66a"
+            r")\b",
+            re.IGNORECASE,
+        ),
+    ],
+}
 
 
 def _query_names_a_case(query: str) -> bool:
@@ -317,6 +411,9 @@ def _route_labels_from_query(query: str) -> list[str]:
         else:
             matched = re.search(rf"\b{re.escape(label)}\b", lowered)
         if matched:
+            labels.append(label)
+    for label, patterns in _COUNTRY_REFERENCE_PATTERNS.items():
+        if label not in labels and any(pattern.search(query) for pattern in patterns):
             labels.append(label)
     if _is_source_discovery_query(query):
         labels.append("source_catalog")
@@ -701,6 +798,15 @@ def _article_references(text: str) -> list[str]:
     return refs[:4]
 
 
+def _same_source_metadata(left: dict[str, Any], right: dict[str, Any]) -> bool:
+    for key in ("source_name", "citation", "source_url", "title"):
+        left_value = str(left.get(key) or "").strip().lower()
+        right_value = str(right.get(key) or "").strip().lower()
+        if left_value and right_value and left_value == right_value:
+            return True
+    return False
+
+
 def expand_linked_passages(passages: list[dict[str, Any]], *, max_results: int) -> list[dict[str, Any]]:
     """Parent, footnote-sibling, and article cross-reference expansion."""
     expanded: list[dict[str, Any]] = []
@@ -740,9 +846,12 @@ def expand_linked_passages(passages: list[dict[str, Any]], *, max_results: int) 
                     break
 
         for article in _article_references(passage.get("text", "")):
-            for linked in _scroll_payload_matches(collection, "article_number", article, limit=1):
+            for linked in _scroll_payload_matches(collection, "article_number", article, limit=4):
+                linked_metadata = linked.setdefault("metadata", {})
+                if not isinstance(linked_metadata, dict) or not _same_source_metadata(meta, linked_metadata):
+                    continue
                 linked["score"] = min(float(passage.get("score", 0.0)), 0.2)
-                linked["metadata"]["expansion_reason"] = "article_cross_reference"
+                linked_metadata["expansion_reason"] = "article_cross_reference"
                 add(linked)
                 if len(expanded) >= max_results:
                     break
@@ -768,7 +877,10 @@ def _fallback_rerank_score(query: str, candidate: dict[str, Any]) -> float:
         if len(token) > 2 and token not in {"tell", "about", "what", "case", "law", "legal"}
     ]
     lexical_hits = sum(1 for term in terms if term in haystack)
-    score = float(candidate.get("score", 0.0)) + (0.25 * lexical_hits)
+    # Dense cosine score is in [0, 1]. Lexical bonuses must stay sub-dominant
+    # so a bag-of-words match on common stems ("fundamental", "right") cannot
+    # outrank a true semantic hit. Cap total lexical contribution at ~0.2.
+    score = float(candidate.get("score", 0.0)) + min(0.05 * lexical_hits, 0.2)
     collection = str(metadata.get("collection", "")).upper()
     if "case" in query.lower() and (
         str(metadata.get("doc_type", "")).lower() == "case_law"
@@ -786,8 +898,6 @@ def _fallback_rerank_score(query: str, candidate: dict[str, Any]) -> float:
         score += 1.5
     if str(metadata.get("doc_type", "")).lower() == "source_catalog":
         score += 2.0 if _is_source_discovery_query(query) else -1.5
-    if len(terms) >= 2 and all(term in haystack for term in terms[:2]):
-        score += 1.0
     return score
 
 
@@ -812,6 +922,25 @@ def route_to_collections(issue_labels: list[str]) -> list[str]:
             if col not in seen_country_collections:
                 seen_country_collections.add(col)
                 country_collections.append(col)
+
+    if country_collections and "named_case" in normalized_labels:
+        # A named case with an explicit/inferred country should search that
+        # country's law first. Expanding generic CASE_LAW first makes unrelated
+        # global cases win the final collection-diversity pass.
+        country_case_law = [col for col in country_collections if col in CASE_LAW_COLLECTIONS]
+        country_non_case_law = [col for col in country_collections if col not in set(country_case_law)]
+        result = country_case_law + country_non_case_law
+        seen_named_country = set(result)
+        for col in (
+            COLLECTION_CASE_LAW_GLOBAL,
+            COLLECTION_SHAW_PRIVATE,
+            COLLECTION_COMMENTARY,
+            COLLECTION_INTL_TREATIES,
+        ):
+            if col not in seen_named_country:
+                seen_named_country.add(col)
+                result.append(col)
+        return result
 
     if country_collections and "named_case" not in normalized_labels:
         # Intent-first fallback for legacy callers: once a country is present,
@@ -909,7 +1038,7 @@ def multi_collection_retrieve(
     if not results_per_col:
         return []
 
-    merged = _rrf_merge(results_per_col)
+    merged = _filter_by_anchor_terms(query, _rrf_merge(results_per_col))
     ranked = rerank(query, merged, top_n=min(len(merged), max(k * 20, k)))
     ranked = _diversify_by_collection(ranked, limit=k, preferred_order=collections)
     expanded = expand_linked_passages(ranked, max_results=max(k * 3, k))
@@ -963,8 +1092,10 @@ def search_documents(
     **_kwargs: Any,
 ) -> list[dict[str, Any]]:
     issue_labels = ([jurisdiction] if jurisdiction else []) + _route_labels_from_query(query)
+    explicit_collections = collections is not None
     target_cols = expand_collection_aliases(collections or route_to_collections(issue_labels) or ALL_COLLECTIONS)
-    target_cols = _drop_domestic_case_law_without_country(target_cols, issue_labels)
+    if not explicit_collections:
+        target_cols = _drop_domestic_case_law_without_country(target_cols, issue_labels)
     allowed_countries = _country_constraints(issue_labels)
     existing = _existing_collections()
     if existing:
@@ -992,7 +1123,7 @@ def search_documents(
             print(f"Warning: search failed for {col}: {exc}")
     if not results_per_col:
         return []
-    merged = _rrf_merge(results_per_col)
+    merged = _filter_by_anchor_terms(query, _rrf_merge(results_per_col))
     ranked = rerank(query, merged, top_n=min(len(merged), max(k * 20, k)))
     ranked = _diversify_by_collection(ranked, limit=k, preferred_order=target_cols)
     expanded = expand_linked_passages(ranked, max_results=max(k * 3, k))

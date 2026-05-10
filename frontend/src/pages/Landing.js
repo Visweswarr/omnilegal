@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Globe, ShieldCheck, FileText, Radio, Users2, BookOpen, ArrowRight, Stamp, Scale, Layers, Zap, Target, Compass, TrendingUp, ShieldAlert, TestTube } from "lucide-react";
+import { Globe, ShieldCheck, FileText, Radio, Users2, BookOpen, ArrowRight, Stamp, Scale, Layers, Zap, Target, Compass, TrendingUp, ShieldAlert, TestTube, Network, History, GitCompare, Mic, Highlighter, Library, Swords } from "lucide-react";
 import { fetchOverview } from "../lib/api";
 import { Badge, MonoLabel } from "../components/UI";
 
@@ -43,35 +43,81 @@ const PILLARS = [
   },
 ];
 
+const TIER2_PILLARS = [
+  {
+    to: "/graph", icon: Network, eyebrow: "Pillar 07",
+    title: "Graph Authority",
+    blurb: "Visualize the citation network. Every case is a node; every citation an edge. Find the most influential precedents instantly.",
+    accent: "text-verdict-gold",
+  },
+  {
+    to: "/time-machine", icon: History, eyebrow: "Pillar 08",
+    title: "Doctrine History",
+    blurb: "Track how a specific legal doctrine evolved over decades. See where it was born, where it peaked, and if it's currently in decline.",
+    accent: "text-verdict-green",
+  },
+  {
+    to: "/diff", icon: GitCompare, eyebrow: "Pillar 09",
+    title: "Statute Diff",
+    blurb: "Compare two versions of a statute. We highlight the semantic shifts, not just word changes, so you see the actual impact.",
+    accent: "text-paper-200",
+  },
+  {
+    to: "/voice", icon: Mic, eyebrow: "Pillar 10",
+    title: "Voice of Reason",
+    blurb: "Convert legal complexity into clear, spoken-word summaries. Perfect for quick briefings or accessibility requirements.",
+    accent: "text-verdict-amber",
+  },
+  {
+    to: "/redteam", icon: Swords, eyebrow: "Pillar 11",
+    title: "Red Team Audit",
+    blurb: "We attack your position with the most aggressive counter-arguments found in our corpus. Know your weaknesses before the court does.",
+    accent: "text-paper-100",
+  },
+  {
+    to: "/reading", icon: Highlighter, eyebrow: "Pillar 12",
+    title: "Guided Reading",
+    blurb: "Our AI highlights the most critical passages in a 100-page judgment, explaining the nuance of every highlighted sentence.",
+    accent: "text-paper-300",
+  },
+];
+
+const LIBRARY_PILLAR = {
+  to: "/library", icon: Library, eyebrow: "Pillar 13",
+  title: "The Great Library",
+  blurb: "Access the entire grounded corpus of 7,979 chunks. Search by collection, date, or jurisdiction with full citation transparency.",
+  accent: "text-verdict-gold",
+};
+
 const SOTA_PILLARS = [
   {
     to: "/adversarial", icon: Target, eyebrow: "Pillar 14",
     title: "Adversarial Case Finder",
-    blurb: "Paste your argument. We invert it and surface the precedents your opponent will weaponise — ranked by predicted damage. Live primary sources only.",
+    blurb: "Paste your argument. We invert it and surface the precedents your opponent will weaponise — ranked by predicted damage.",
     accent: "text-verdict-red",
   },
   {
     to: "/arbitrage", icon: Compass, eyebrow: "Pillar 15",
     title: "Jurisdiction Arbitrage",
-    blurb: "Describe a transaction. We extract its friction points, scan up to six jurisdictions in parallel, and produce a favorability matrix with primary citations.",
+    blurb: "Describe a transaction. We extract its friction points and scan up to six jurisdictions in parallel for the best fit.",
     accent: "text-verdict-gold",
   },
   {
     to: "/drift", icon: TrendingUp, eyebrow: "Pillar 16",
     title: "Authority Drift Tracker",
-    blurb: "Pick a doctrine. We hit Indian Kanoon and CourtListener decade-by-decade, count actual citations, and verdict the trajectory: strengthening, fading, overruled.",
+    blurb: "Pick a doctrine. We count actual citations decade-by-decade and verdict the trajectory: strengthening or fading.",
     accent: "text-verdict-green",
   },
   {
     to: "/sentinel", icon: ShieldAlert, eyebrow: "Pillar 17",
     title: "Compliance Sentinel",
-    blurb: "Paste a contract. We scan against 17+ pending legal changes (DPDP, EU AI Act, GDPR, MiCA, NIS2, BNS, CPRA…) and flag every doomed clause with precise remediation.",
+    blurb: "Paste a contract. We scan against 17+ pending legal changes (DPDP, EU AI Act, GDPR) and flag every doomed clause.",
     accent: "text-verdict-amber",
   },
   {
     to: "/stress", icon: TestTube, eyebrow: "Pillar 18",
     title: "Statute Stress Test",
-    blurb: "Paste a clause. We generate 8-12 boundary fact patterns, classify each as covered/borderline/gap, and probe registries for cases that decided your hypothetical.",
+    blurb: "Paste a clause. We generate 8-12 boundary fact patterns and probe registries for cases that decided your hypothetical.",
     accent: "text-paper-200",
   },
 ];
@@ -169,23 +215,33 @@ export default function Landing() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10 border border-white/10">
             {PILLARS.map(p => (
-              <Link
-                key={p.to}
-                to={p.to}
-                className="group bg-ink-900 hover:bg-ink-800 transition-colors p-7 flex flex-col gap-3 min-h-[210px]"
-                data-testid={`pillar-${p.title.toLowerCase().replace(/\s/g, "-")}`}
-              >
-                <div className="flex items-center justify-between">
-                  <p.icon className={`w-5 h-5 ${p.accent}`} strokeWidth={1.5} />
-                  <span className="text-[10px] font-mono uppercase tracking-widest2 text-paper-400">{p.eyebrow}</span>
-                </div>
-                <h3 className="font-serif text-2xl tracking-tight text-paper-100">{p.title}</h3>
-                <p className="text-sm text-paper-400 leading-relaxed">{p.blurb}</p>
-                <span className="mt-auto inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest2 text-paper-300 group-hover:text-verdict-gold transition-colors">
-                  Open <ArrowRight className="w-3 h-3" strokeWidth={2} />
-                </span>
-              </Link>
+              <PillarCard key={p.to} p={p} />
             ))}
+          </div>
+
+          <div className="mt-20">
+            <MonoLabel>Expansion · Tier-2 Capability</MonoLabel>
+            <h2 className="font-sans text-2xl md:text-3xl tracking-tight font-medium text-paper-100 mb-10">
+              Deep-tissue legal analysis.
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10 border border-white/10">
+              {TIER2_PILLARS.map(p => (
+                <PillarCard key={p.to} p={p} />
+              ))}
+              <PillarCard p={LIBRARY_PILLAR} />
+            </div>
+          </div>
+
+          <div className="mt-20">
+            <MonoLabel>The Cutting Edge · State of the Art</MonoLabel>
+            <h2 className="font-sans text-2xl md:text-3xl tracking-tight font-medium text-paper-100 mb-10">
+              Proactive Intelligence.
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10 border border-white/10">
+              {SOTA_PILLARS.map(p => (
+                <PillarCard key={p.to} p={p} />
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -242,6 +298,26 @@ const REGISTRIES = [
   "FAOLEX",
   "WIPO Lex",
 ];
+
+function PillarCard({ p }) {
+  return (
+    <Link
+      to={p.to}
+      className="group bg-ink-900 hover:bg-ink-800 transition-colors p-7 flex flex-col gap-3 min-h-[210px]"
+      data-testid={`pillar-${p.title.toLowerCase().replace(/\s/g, "-")}`}
+    >
+      <div className="flex items-center justify-between">
+        <p.icon className={`w-5 h-5 ${p.accent}`} strokeWidth={1.5} />
+        <span className="text-[10px] font-mono uppercase tracking-widest2 text-paper-400">{p.eyebrow}</span>
+      </div>
+      <h3 className="font-serif text-2xl tracking-tight text-paper-100">{p.title}</h3>
+      <p className="text-sm text-paper-400 leading-relaxed">{p.blurb}</p>
+      <span className="mt-auto inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest2 text-paper-300 group-hover:text-verdict-gold transition-colors">
+        Open <ArrowRight className="w-3 h-3" strokeWidth={2} />
+      </span>
+    </Link>
+  );
+}
 
 function Metric({ value, label }) {
   return (

@@ -81,6 +81,8 @@ COLLECTION_STATUTES_RU = "STATUTES_RU"
 COLLECTION_STATUTES_IL = "STATUTES_IL"
 
 COLLECTION_COMMENTARY_GLOBAL = "COMMENTARY_GLOBAL"
+COLLECTION_SCHOLARLY_WORKS = "SCHOLARLY_WORKS"
+COLLECTION_LEGAL_NLP_PAPERS = "LEGAL_NLP_PAPERS"
 
 CASE_LAW_COLLECTIONS = [
     COLLECTION_CASE_LAW_GLOBAL,
@@ -101,7 +103,9 @@ STATUTE_COLLECTIONS = [
     COLLECTION_STATUTES_IL,
 ]
 
-GRANULAR_COLLECTIONS = CASE_LAW_COLLECTIONS + STATUTE_COLLECTIONS + [COLLECTION_COMMENTARY_GLOBAL]
+SCHOLARLY_COLLECTIONS = [COLLECTION_SCHOLARLY_WORKS, COLLECTION_LEGAL_NLP_PAPERS]
+
+GRANULAR_COLLECTIONS = CASE_LAW_COLLECTIONS + STATUTE_COLLECTIONS + [COLLECTION_COMMENTARY_GLOBAL] + SCHOLARLY_COLLECTIONS
 
 COLLECTION_ALIAS_MAP: dict[str, list[str]] = {
     COLLECTION_CASE_LAW: CASE_LAW_COLLECTIONS,
@@ -263,6 +267,7 @@ HF_INFERENCE_MODEL = os.getenv(
     "",
 ).strip()
 DATAGOV_API_KEY = os.getenv("DATAGOV_API_KEY", "")
+CORE_API_KEY = os.getenv("CORE_API_KEY", "")
 COURTLISTENER_TOKEN = os.getenv("COURTLISTENER_TOKEN", "")
 GOVINFO_API_KEY = os.getenv("GOVINFO_API_KEY", "") or DATAGOV_API_KEY
 CONGRESS_API_KEY = os.getenv("CONGRESS_API_KEY", "") or DATAGOV_API_KEY
@@ -507,9 +512,11 @@ COLLECTION_PROFILES: dict[str, list[str]] = {
 # Phased remote ingestion: adapter labels grouped by build phase
 INGESTION_PHASES: dict[int, list[str]] = {
     1: ["courtlistener_api", "cd_icj", "govinfo_api"],
-    2: ["eurlex_cellar", "un_digital_library", "oai_pmh"],
+    2: ["eurlex_cellar", "un_digital_library", "oai_pmh", "hudoc_api", "un_treaty_collection"],
     3: ["uk_legislation_api", "uk_find_caselaw", "indian_kanoon_api", "india_aws_sc", "open_data_http"],
     4: ["ruslawod", "git_or_hf", "israel_versa"],
+    5: ["pile_of_law_hf", "multi_legal_pile_hf", "openalex_api", "core_api",
+        "semantic_scholar_api", "doaj_api", "arxiv_legal_api", "tn_ogd_ckan"],
 }
 
 # Friendly aliases for the five P0 bulk-ingestion sources. Used by
@@ -523,4 +530,16 @@ SOURCE_ALIASES: dict[str, str] = {
     "uk_legislation": "uk_legislation_api",
     "indian-kanoon": "indian_kanoon_api",
     "indian_kanoon": "indian_kanoon_api",
+    "hudoc": "hudoc_api",
+    "un_treaties": "un_treaty_collection",
+    "pile_of_law": "pile_of_law_hf",
+    "multi_legal_pile": "multi_legal_pile_hf",
+    "openalex": "openalex_api",
+    "core": "core_api",
+    "semantic_scholar": "semantic_scholar_api",
+    "doaj": "doaj_api",
+    "arxiv_legal": "arxiv_legal_api",
+    "arxiv": "arxiv_legal_api",
+    "tn_ogd": "tn_ogd_ckan",
+    "caselaw_access_project": "courtlistener_api",
 }

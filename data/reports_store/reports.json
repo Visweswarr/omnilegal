@@ -20,5 +20,96 @@
     "payload": {
       "summary": "x"
     }
+  },
+  {
+    "id": "220169d349ae483ebe5d2ae9145b66dd",
+    "kind": "doctrine",
+    "title": "margin of appreciation (ECHR)",
+    "owner": null,
+    "created_at": 1778286954,
+    "share_token": "upQy6YgvLD970-oFbNRVuA",
+    "payload": {
+      "doctrine": "margin of appreciation",
+      "jurisdiction": "ECHR",
+      "inception_case": "Handyside v. United Kingdom",
+      "current_status": "The margin of appreciation doctrine remains a crucial principle in the European Court of Human Rights, allowing for flexibility in the application of the European Convention on Human Rights.",
+      "summary": "The margin of appreciation doctrine has been a cornerstone of the European Court of Human Rights, enabling the court to balance individual rights with national interests. The doctrine was first introduced in the Handyside v. United Kingdom case in 1976. Since then, it has been expanded and applied in various cases, allowing for a nuanced approach to human rights protection. The doctrine has been subject to ongoing development, with the court continually refining its application to ensure that it strikes an appropriate balance between individual rights and national interests.",
+      "milestones": [
+        {
+          "year": 1928,
+          "case": "Island of Palmas",
+          "court": "international",
+          "posture": "applied",
+          "summary": "The Island of Palmas case, an early example of international arbitration, demonstrated the importance of considering national interests and sovereignty in the application of international law. While not directly related to the ECHR, this case highlighted the need for a balanced approach to human rights protection, which is a key aspect of the margin of appreciation doctrine.",
+          "citation": "corpus"
+        },
+        {
+          "year": 1976,
+          "case": "Handyside v. United Kingdom",
+          "court": "European Court of Human Rights",
+          "posture": "introduced",
+          "summary": "The Handyside v. United Kingdom case marked the introduction of the margin of appreciation doctrine, which has since become a fundamental principle in the European Court of Human Rights. This doctrine allows the court to consider the specific circumstances of each case and balance individual rights with national interests.",
+          "citation": "HUDOC (ECHR)"
+        },
+        {
+          "year": 1976,
+          "case": "Malcolm Shaw - International Law",
+          "court": "international",
+          "posture": "applied",
+          "summary": "The Malcolm Shaw - International Law case referenced the European Court of Human Rights and the margin of appreciation doctrine, demonstrating its growing influence in international law. Although the case did not directly involve the ECHR, it highlighted the doctrine's potential for application in various contexts.",
+          "citation": "corpus"
+        },
+        {
+          "year": 2003,
+          "case": "Oil Platforms",
+          "court": "international",
+          "posture": "applied",
+          "summary": "The Oil Platforms case, while not directly related to the ECHR, demonstrated the international community's recognition of the importance of balancing individual rights with national interests. This case highlighted the need for a nuanced approach to human rights protection, which is a key aspect of the margin of appreciation doctrine.",
+          "citation": "corpus"
+        },
+        {
+          "year": 2004,
+          "case": "Wall Advisory Opinion",
+          "court": "international",
+          "posture": "applied",
+          "summary": "The Wall Advisory Opinion case, although not directly related to the ECHR, showcased the international community's consideration of human rights and national interests. This case demonstrated the potential for the margin of appreciation doctrine to be applied in various contexts, including international disputes.",
+          "citation": "corpus"
+        }
+      ],
+      "candidates_seen": 11,
+      "used_model": "groq_llama:llama-3.3-70b-versatile",
+      "provider_attempts": [
+        {
+          "provider": "emergent_anthropic",
+          "model": "claude-sonnet-4-5-20250929",
+          "ok": false,
+          "error": "ModuleNotFoundError: No module named 'emergentintegrations'"
+        },
+        {
+          "provider": "emergent_google",
+          "model": "gemini-2.5-flash",
+          "ok": false,
+          "error": "ModuleNotFoundError: No module named 'emergentintegrations'"
+        },
+        {
+          "provider": "gemini_direct",
+          "model": "gemini-2.5-flash",
+          "ok": false,
+          "error": "gemini-2.5-flash: skipped after recent quota/rate limit; retry in about 10s; gemini-2.5-flash-lite: skipped after recent quota/rate limit; retry in about 10s"
+        },
+        {
+          "provider": "gemini_direct_lite",
+          "model": "gemini-2.5-flash-lite",
+          "ok": false,
+          "error": "gemini-2.5-flash-lite: skipped after recent quota/rate limit; retry in about 10s; gemini-2.5-flash: skipped after recent quota/rate limit; retry in about 10s"
+        },
+        {
+          "provider": "groq_llama",
+          "model": "llama-3.3-70b-versatile",
+          "ok": true,
+          "error": ""
+        }
+      ]
+    }
   }
 ]

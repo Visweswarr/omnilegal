@@ -47,7 +47,7 @@ async def _async_call(
     model: str,
     session_id: str,
 ) -> str:
-    from emergentintegrations.llm.chat import LlmChat, UserMessage  # local import
+    from emergentintegrations.llm.chat import LlmChat, UserMessage  # type: ignore[import-not-found]
 
     chat = LlmChat(
         api_key=EMERGENT_LLM_KEY,
@@ -56,6 +56,43 @@ async def _async_call(
     ).with_model(provider, model)
     response = await chat.send_message(UserMessage(text=prompt))
     return str(response or "").strip()
+
+
+def _groq_last_resort(
+    *,
+    system: str,
+    prompt: str,
+    timeout_seconds: float,
+    primary_provider: str,
+    primary_model: str,
+    elapsed_seconds: float,
+    primary_error: str,
+) -> "EmergentGeneration":
+    """Final Groq fallback used when the primary path returns empty text."""
+    try:
+        from src.services.groq_client import generate_groq_chat
+
+        groq = generate_groq_chat(
+            messages=[
+                {"role": "system", "content": system},
+                {"role": "user", "content": prompt},
+            ],
+            max_tokens=4096,
+            temperature=0.15,
+            timeout=timeout_seconds,
+        )
+        if groq.text:
+            return EmergentGeneration(
+                text=groq.text, model=groq.model, provider="groq",
+                elapsed_seconds=elapsed_seconds, error=primary_error,
+            )
+        combined = "; ".join(e for e in [primary_error, groq.error] if e)
+    except Exception as exc:
+        combined = f"{primary_error}; groq_fallback raised: {type(exc).__name__}: {exc}"
+    return EmergentGeneration(
+        text="", model=primary_model, provider=primary_provider,
+        elapsed_seconds=elapsed_seconds, error=combined or primary_error,
+    )
 
 
 def generate_text(
@@ -73,19 +110,18 @@ def generate_text(
     loop — we always run the async LlmChat call inside a fresh thread so we
     never touch the caller's event loop.
 
-    On any failure (no key, transport error, timeout) returns
-    ``EmergentGeneration(text="")`` with a populated ``error`` field so the
-    caller can decide whether to fall back to Gemini.
+    On any failure (no key, transport error, timeout) we automatically try
+    Groq as a last-resort fallback before returning an empty result.
     """
     target_provider = (provider or EMERGENT_LLM_PROVIDER or "anthropic").strip().lower()
     target_model = (model or EMERGENT_LLM_MODEL or "claude-sonnet-4-5-20250929").strip()
     sid = session_id or f"omnilegal-{uuid.uuid4().hex[:8]}"
 
     if not _have_key():
-        return EmergentGeneration(
-            text="", model=target_model, provider=target_provider,
-            elapsed_seconds=0.0,
-            error="EMERGENT_LLM_KEY is not set",
+        return _groq_last_resort(
+            system=system, prompt=prompt, timeout_seconds=timeout_seconds,
+            primary_provider=target_provider, primary_model=target_model,
+            elapsed_seconds=0.0, primary_error="EMERGENT_LLM_KEY is not set",
         )
 
     started = time.time()
@@ -116,35 +152,31 @@ def generate_text(
 
     import concurrent.futures
 
+    primary_error = ""
+    text = ""
     try:
         with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
             future = pool.submit(_runner)
             text = future.result(timeout=timeout_seconds + 5.0)
-        return EmergentGeneration(
-            text=text or "",
-            model=target_model,
-            provider=target_provider,
-            elapsed_seconds=round(time.time() - started, 2),
-        )
     except concurrent.futures.TimeoutError:
-        return EmergentGeneration(
-            text="", model=target_model, provider=target_provider,
-            elapsed_seconds=round(time.time() - started, 2),
-            error=f"Emergent LLM timed out after {timeout_seconds}s",
-        )
+        primary_error = f"Emergent LLM timed out after {timeout_seconds}s"
     except asyncio.TimeoutError:
-        return EmergentGeneration(
-            text="", model=target_model, provider=target_provider,
-            elapsed_seconds=round(time.time() - started, 2),
-            error=f"Emergent LLM async timed out after {timeout_seconds}s",
-        )
+        primary_error = f"Emergent LLM async timed out after {timeout_seconds}s"
     except Exception as exc:  # noqa: BLE001
         log.warning("Emergent LLM call failed: %s: %s", type(exc).__name__, exc)
+        primary_error = f"{type(exc).__name__}: {exc}"
+
+    elapsed = round(time.time() - started, 2)
+    if text:
         return EmergentGeneration(
-            text="", model=target_model, provider=target_provider,
-            elapsed_seconds=round(time.time() - started, 2),
-            error=f"{type(exc).__name__}: {exc}",
+            text=text, model=target_model, provider=target_provider,
+            elapsed_seconds=elapsed,
         )
+    return _groq_last_resort(
+        system=system, prompt=prompt, timeout_seconds=timeout_seconds,
+        primary_provider=target_provider, primary_model=target_model,
+        elapsed_seconds=elapsed, primary_error=primary_error,
+    )
 
 
 def generate_with_fallback(
@@ -169,6 +201,8 @@ def generate_with_fallback(
     if primary.text or not gemini_fallback:
         return primary
 
+    gem_error = ""
+    gem_model = ""
     try:
         from src.services.gemini_client import generate_gemini_content
 
@@ -178,6 +212,8 @@ def generate_with_fallback(
             temperature=0.15,
             max_output_tokens=4096,
         )
+        gem_model = gem.model
+        gem_error = gem.error
         if gem.text:
             return EmergentGeneration(
                 text=gem.text,
@@ -186,18 +222,46 @@ def generate_with_fallback(
                 elapsed_seconds=primary.elapsed_seconds,
                 error=primary.error,
             )
-        return EmergentGeneration(
-            text="",
-            model=gem.model,
-            provider="gemini",
-            elapsed_seconds=primary.elapsed_seconds,
-            error=primary.error or gem.error or "both Emergent and Gemini returned empty text",
-        )
     except Exception as exc:  # noqa: BLE001
-        return EmergentGeneration(
-            text="",
-            model=primary.model,
-            provider=primary.provider,
-            elapsed_seconds=primary.elapsed_seconds,
-            error=f"{primary.error}; gemini_fallback failed: {type(exc).__name__}: {exc}",
-        )
+        gem_error = f"gemini_fallback raised: {type(exc).__name__}: {exc}"
+
+    groq_error = ""
+    try:
+        from src.services.groq_client import generate_groq_chat
+
+        for attempt in range(2):
+            groq = generate_groq_chat(
+                messages=[
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": prompt},
+                ],
+                max_tokens=4096,
+                temperature=0.15,
+                timeout=timeout_seconds,
+            )
+            if groq.text:
+                return EmergentGeneration(
+                    text=groq.text,
+                    model=groq.model,
+                    provider="groq",
+                    elapsed_seconds=primary.elapsed_seconds,
+                    error=primary.error or gem_error,
+                )
+            groq_error = groq.error or "groq returned empty text"
+            if attempt == 0 and "rate limit" in groq_error.lower():
+                time.sleep(2.0)
+                continue
+            break
+    except Exception as exc:  # noqa: BLE001
+        groq_error = f"groq_fallback raised: {type(exc).__name__}: {exc}"
+
+    combined = "; ".join(
+        e for e in [primary.error, gem_error, groq_error] if e
+    ) or "all providers returned empty text"
+    return EmergentGeneration(
+        text="",
+        model=gem_model or primary.model,
+        provider="groq",
+        elapsed_seconds=primary.elapsed_seconds,
+        error=combined,
+    )

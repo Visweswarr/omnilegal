@@ -1,13 +1,18 @@
 landmarks:
   # ── ICJ / PCIJ cases ────────────────────────────────────────────────────
   - canonical_name: "Corfu Channel"
+    aliases: ["Corfu Channel Case", "United Kingdom v. Albania", "UK v Albania",
+              "UK v. Albania", "Albania v. United Kingdom", "Albania v UK",
+              "Albania v. UK", "Albania vs UK", "Albania vs. UK"]
     court: "ICJ"
     year: 1949
     tags: ["state_responsibility", "use_of_force_jus_ad_bellum", "evidence"]
     landmark_boost: 1.0
 
   - canonical_name: "Nicaragua v. United States"
-    aliases: ["Nicaragua", "Military and Paramilitary Activities"]
+    aliases: ["Nicaragua", "Military and Paramilitary Activities",
+              "Nicaragua v US", "Nicaragua v. US", "Nicaragua vs US",
+              "US v Nicaragua", "United States v Nicaragua"]
     court: "ICJ"
     year: 1986
     tags: ["use_of_force_jus_ad_bellum", "customary_international_law", "state_responsibility"]
@@ -20,7 +25,8 @@ landmarks:
     landmark_boost: 1.0
 
   - canonical_name: "Armed Activities on the Territory of the Congo"
-    aliases: ["DRC v. Uganda"]
+    aliases: ["DRC v. Uganda", "Congo v. Uganda", "Congo v Uganda",
+              "Uganda v Congo", "Congo vs Uganda"]
     court: "ICJ"
     year: 2005
     tags: ["use_of_force_jus_ad_bellum", "occupation", "state_responsibility"]

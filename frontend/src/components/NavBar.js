@@ -16,14 +16,14 @@ const NAV_ORIGINAL = [
   { to: "/research",     label: "Research",     icon: BookOpen    },
 ];
 
-// Group 2 — Tier-2 pillars
+// Group 2 — Tier-2 pillars (07–12, ordered by pillar number)
 const NAV_TIER2 = [
-  { to: "/diff",         label: "Diff",         icon: GitCompare  },
-  { to: "/redteam",      label: "Red Team",     icon: Swords      },
-  { to: "/time-machine", label: "Doctrine",     icon: History     },
-  { to: "/graph",        label: "Graph",        icon: Network     },
-  { to: "/voice",        label: "Voice",        icon: Mic         },
-  { to: "/reading",      label: "Reading",      icon: Highlighter },
+  { to: "/graph",        label: "Graph",        icon: Network     },   // Pillar 07
+  { to: "/time-machine", label: "Doctrine",     icon: History     },   // Pillar 08
+  { to: "/diff",         label: "Diff",         icon: GitCompare  },   // Pillar 09
+  { to: "/voice",        label: "Voice",        icon: Mic         },   // Pillar 10
+  { to: "/redteam",      label: "Red Team",     icon: Swords      },   // Pillar 11
+  { to: "/reading",      label: "Reading",      icon: Highlighter },   // Pillar 12
 ];
 
 // Group 3 — State-of-the-Art (post-ChatGPT)
@@ -39,7 +39,7 @@ const NAV_LIBRARY = [
   { to: "/library",      label: "Library",      icon: Library     },
 ];
 
-const ALL_NAV = [...NAV_ORIGINAL, ...NAV_TIER2, ...NAV_SOTA, ...NAV_LIBRARY];
+const ALL_NAV = [...NAV_ORIGINAL, ...NAV_TIER2, ...NAV_LIBRARY, ...NAV_SOTA];
 
 export default function NavBar() {
   const [open, setOpen] = useState(false);
@@ -100,8 +100,8 @@ export default function NavBar() {
         <div className="xl:hidden border-t border-white/10 bg-ink-900 max-h-[80vh] overflow-y-auto">
           <Group title="Flagship" items={NAV_ORIGINAL} setOpen={setOpen} />
           <Group title="Tier-2"   items={NAV_TIER2}    setOpen={setOpen} />
-          <Group title="State of the Art" items={NAV_SOTA} setOpen={setOpen} />
           <Group title="Library"  items={NAV_LIBRARY}  setOpen={setOpen} />
+          <Group title="State of the Art" items={NAV_SOTA} setOpen={setOpen} />
         </div>
       )}
     </header>
