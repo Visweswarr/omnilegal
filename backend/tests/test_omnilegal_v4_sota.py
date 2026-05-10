@@ -13,7 +13,7 @@ import requests
 
 BASE_URL = os.environ.get(
     "REACT_APP_BACKEND_URL",
-    "https://omnilegal-precedent.preview.emergentagent.com",
+    "https://rag-source-refined.preview.emergentagent.com",
 ).rstrip("/")
 API = f"{BASE_URL}/api"
 

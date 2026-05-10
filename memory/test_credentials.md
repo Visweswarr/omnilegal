@@ -8,7 +8,7 @@ GovInfo, Data.gov, HuggingFace).  The frontend has no login.
 
 For testing, simply navigate to:
 
-  https://omnilegal-precedent.preview.emergentagent.com/
+  https://rag-source-refined.preview.emergentagent.com/
 
 and use any of the 6 pillars (Atlas, Forensics, Advocacy, Live, Council,
 Research). No credentials needed.
