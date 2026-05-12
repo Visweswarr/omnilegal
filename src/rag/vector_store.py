@@ -311,7 +311,7 @@ class QdrantVectorStore(BaseVectorStore):
                 with_payload=True,
                 with_vectors=False,
             )
-        except Exception as exc:
+        except Exception:
             return []
         hits = []
         for point in points:

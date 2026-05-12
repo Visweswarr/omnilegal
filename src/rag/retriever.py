@@ -61,7 +61,6 @@ try:
 except Exception:  # pragma: no cover - optional dependency on degraded installs
     QdrantClient = None  # type: ignore[assignment]
 from src.rag.vector_store import get_store, get_embed_model, preferred_torch_devices
-from src.services.embedding_cache import EmbeddingCache
 from src.config import OMNILEGAL_RETRIEVAL_DEADLINE_SECONDS
 
 _reranker = None

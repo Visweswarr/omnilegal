@@ -23,6 +23,7 @@ module.exports = {
           200: "#dcd6c8",
           300: "#bdb59f",
           400: "#928a72",
+          500: "#6b6454",
         },
         verdict: {
           gold:    "#D97706",

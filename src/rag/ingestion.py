@@ -20,7 +20,6 @@ from typing import Any
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
 from src.config import (
-    ANTHROPIC_API_KEY,
     CASE_LAW_JSONL,
     CHUNK_OVERLAP,
     COLLECTION_CASE_LAW,
@@ -39,8 +38,6 @@ from src.config import (
     COLLECTION_SHAW,
     CORPUS_DIR,
     CORPUS_FILES,
-    GROQ_API_KEY,
-    GROQ_MODEL,
 )
 
 from src.rag.contextual_retrieval import generate_document_context
@@ -391,7 +388,7 @@ def _chunk_shaw_page_texts(
             raw_text,
             doc_context=doc_context,
             metadata_lines=[
-                f"Source: Malcolm Shaw - International Law",
+                "Source: Malcolm Shaw - International Law",
                 f"Page range: {page_range}",
                 f"Heading: {heading}",
                 "Corpus: private licensed commentary",

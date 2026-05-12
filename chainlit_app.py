@@ -25,7 +25,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import chainlit as cl  # noqa: E402
 
 from src.config import LEGAL_RESEARCH_DISCLAIMER  # noqa: E402
-from src.pipeline.graph import compiled_graph  # noqa: E402
 from src.schemas import AnswerMode  # noqa: E402
 from src.services.answer_modes import all_mode_specs, get_mode_spec, parse_mode  # noqa: E402
 from src.services.citation_verification import (  # noqa: E402
@@ -116,6 +115,8 @@ def _normalise_inline_citations(text: str) -> str:
 
 
 def _run_graph(query: str, mode: AnswerMode) -> dict[str, Any]:
+    from src.pipeline.graph import compiled_graph
+
     state = compiled_graph.invoke(
         {
             "raw_input": query,

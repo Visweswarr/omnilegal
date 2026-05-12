@@ -1,0 +1,21 @@
+{
+  "venvPath": ".",
+  "venv": ".venv",
+  "pythonVersion": "3.12",
+  "include": ["src", "scripts", "backend", "pipeline_v2"],
+  "exclude": [
+    "**/__pycache__",
+    "**/.venv",
+    "**/node_modules",
+    "data",
+    "Law Text Files",
+    "caselaws",
+    "reports",
+    "test_reports",
+    "logs"
+  ],
+  "reportMissingImports": "none",
+  "reportMissingModuleSource": "none",
+  "reportGeneralTypeIssues": "none",
+  "typeCheckingMode": "off"
+}

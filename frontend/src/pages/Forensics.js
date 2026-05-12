@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { ShieldCheck, Stamp, AlertTriangle, FileSearch, Copy } from "lucide-react";
+import { ShieldCheck, Stamp, AlertTriangle, FileSearch } from "lucide-react";
 import { verifyForensics } from "../lib/api";
 import { Spinner, ErrorBlock, Badge, MonoLabel } from "../components/UI";
 

@@ -67,7 +67,7 @@ export default function Live() {
       </h1>
       <p className="mt-4 text-paper-300 max-w-2xl">
         ChatGPT's knowledge is frozen. OmniLegal goes live — concurrent queries against Indian Kanoon,
-        CourtListener, GovInfo, EUR-Lex, HUDOC, and the UN Treaty Index. Time-stamped, dated, dated.
+        CourtListener, GovInfo, EUR-Lex, HUDOC, and the UN Treaty Index. Time-stamped and dated.
       </p>
 
       <div className="mt-8 grid grid-cols-1 md:grid-cols-[1fr_auto] gap-3">
