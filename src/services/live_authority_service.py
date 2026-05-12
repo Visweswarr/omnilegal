@@ -1,11 +1,12 @@
 """OmniLegal Live Authority Engine.
 
-Concurrent live queries against six free / token-based legal data APIs:
+Concurrent live queries against free / token-based legal data APIs:
 
   • Indian Kanoon       (token from .env)
   • CourtListener      (token from .env)
   • GovInfo            (key from .env)
   • EUR-Lex (CELLAR)   (no key, public)
+  • Legifrance PISTE   (credentials from .env)
   • HUDOC (ECHR)       (no key, public)
   • UN Treaty Series   (no key, public)
 
@@ -192,6 +193,42 @@ def _govinfo(query: str, max_items: int = 5) -> list[dict[str, Any]]:
 
 
 _EU_SPARQL_ENDPOINT = "https://publications.europa.eu/webapi/rdf/sparql"
+_QUERY_STOPWORDS = {
+    "about", "against", "after", "before", "case", "cases", "court", "does", "from",
+    "have", "into", "legal", "law", "laws", "rule", "rules", "the", "their", "there",
+    "this", "under", "what", "when", "where", "with",
+}
+_CELEX_RE = re.compile(r"\b[1-9]\d{4}[A-Z]\d{4,}[A-Z0-9()]*\b", re.I)
+
+
+def _sparql_literal(value: str) -> str:
+    return value.replace("\\", "\\\\").replace('"', '\\"')
+
+
+def _query_terms(query: str, *, max_terms: int = 4) -> list[str]:
+    terms: list[str] = []
+    for token in re.findall(r"[A-Za-z][A-Za-z0-9-]{2,}", query.lower()):
+        if token in _QUERY_STOPWORDS:
+            continue
+        if token not in terms:
+            terms.append(token)
+        if len(terms) >= max_terms:
+            break
+    return terms
+
+
+def _eurlex_filter(query: str) -> str:
+    celex = _CELEX_RE.search(query or "")
+    if celex:
+        return f'  FILTER(STR(?celex) = "{_sparql_literal(celex.group(0).upper())}")\n'
+    terms = _query_terms(query)
+    if not terms:
+        safe_q = re.sub(r"[^A-Za-z0-9 ,.\-_/']", " ", query or "")[:80].strip().lower()
+        terms = [safe_q] if safe_q else []
+    if not terms:
+        return ""
+    clauses = [f'CONTAINS(LCASE(STR(?title)), "{_sparql_literal(term)}")' for term in terms]
+    return "  FILTER(" + " && ".join(clauses) + ")\n"
 
 
 def _eurlex(query: str, max_items: int = 5) -> list[dict[str, Any]]:
@@ -204,8 +241,8 @@ def _eurlex(query: str, max_items: int = 5) -> list[dict[str, Any]]:
     curated landmark index keyed by topic.
     """
     out: list[dict[str, Any]] = []
-    safe_q = re.sub(r"[^A-Za-z0-9 ,.\-_/']", " ", query or "")[:120].strip()
-    if safe_q:
+    filter_clause = _eurlex_filter(query)
+    if filter_clause:
         sparql = (
             "PREFIX cdm: <http://publications.europa.eu/ontology/cdm#>\n"
             "PREFIX lang: <http://publications.europa.eu/resource/authority/language/>\n"
@@ -215,7 +252,7 @@ def _eurlex(query: str, max_items: int = 5) -> list[dict[str, Any]]:
             "  ?expression cdm:expression_belongs_to_work ?work .\n"
             "  ?expression cdm:expression_uses_language lang:ENG .\n"
             "  ?expression cdm:expression_title ?title .\n"
-            f"  FILTER(REGEX(?title, \"{safe_q}\", \"i\"))\n"
+            f"{filter_clause}"
             "} ORDER BY DESC(?date) LIMIT " + str(max(max_items * 3, 10))
         )
         try:
@@ -257,47 +294,88 @@ def _eurlex(query: str, max_items: int = 5) -> list[dict[str, Any]]:
     # Curated fallback — landmark EU instruments + courts of justice judgments
     keyword = query.lower()
     landmark = [
-        ("Charter of Fundamental Rights of the EU",
-         "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:12012P/TXT",
-         ["fundamental rights", "human rights", "charter"]),
-        ("GDPR (Regulation 2016/679)",
-         "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679",
-         ["data", "privacy", "personal data", "gdpr"]),
-        ("Digital Services Act (Regulation 2022/2065)",
-         "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32022R2065",
-         ["platform", "online", "content moderation", "dsa", "digital services"]),
-        ("Digital Markets Act (Regulation 2022/1925)",
-         "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32022R1925",
-         ["competition", "monopoly", "gatekeeper", "dma"]),
-        ("AI Act (Regulation 2024/1689)",
-         "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689",
-         ["ai", "artificial intelligence", "automated decision"]),
-        ("Treaty on European Union (TEU)",
-         "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:12016M/TXT",
-         ["treaty", "membership", "withdrawal", "subsidiarity"]),
-        ("Treaty on the Functioning of the EU (TFEU)",
-         "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:12016E/TXT",
-         ["competition", "internal market", "free movement"]),
-        ("Schrems II (CJEU C-311/18)",
-         "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:62018CJ0311",
-         ["data transfer", "privacy shield", "schrems"]),
+        ("Charter of Fundamental Rights of the EU", "12012P/TXT", "", ["fundamental rights", "human rights", "charter"]),
+        ("GDPR (Regulation 2016/679)", "32016R0679", "2016-04-27", ["data", "privacy", "personal data", "gdpr"]),
+        ("Digital Services Act (Regulation 2022/2065)", "32022R2065", "2022-10-19", ["platform", "online", "content moderation", "dsa", "digital services"]),
+        ("Digital Markets Act (Regulation 2022/1925)", "32022R1925", "2022-09-14", ["competition", "monopoly", "gatekeeper", "dma"]),
+        ("AI Act (Regulation 2024/1689)", "32024R1689", "2024-06-13", ["ai", "artificial intelligence", "automated decision"]),
+        ("Treaty on European Union (TEU)", "12016M/TXT", "", ["treaty", "membership", "withdrawal", "subsidiarity"]),
+        ("Treaty on the Functioning of the EU (TFEU)", "12016E/TXT", "", ["competition", "internal market", "free movement"]),
+        ("Consumer Rights Directive (Directive 2011/83/EU)", "32011L0083", "2011-10-25", ["consumer", "consumer protection", "distance selling", "withdrawal"]),
+        ("Unfair Commercial Practices Directive (Directive 2005/29/EC)", "32005L0029", "2005-05-11", ["consumer", "protection", "commercial practices", "misleading"]),
+        ("Consumer Protection Cooperation Regulation (Regulation 2017/2394)", "32017R2394", "2017-12-12", ["consumer", "protection", "enforcement", "cooperation"]),
+        ("General Product Safety Regulation (Regulation 2023/988)", "32023R0988", "2023-05-10", ["consumer", "product safety", "safety"]),
+        ("Schrems II (CJEU C-311/18)", "62018CJ0311", "2020-07-16", ["data transfer", "privacy shield", "schrems"]),
+        ("Google Spain (CJEU C-131/12)", "62012CJ0131", "2014-05-13", ["data", "right to be forgotten", "search engine"]),
+        ("Van Gend en Loos (CJEU 26/62)", "61962CJ0026", "1963-02-05", ["direct effect", "treaty", "european union"]),
+        ("Costa v ENEL (CJEU 6/64)", "61964CJ0006", "1964-07-15", ["supremacy", "primacy", "european union"]),
     ]
     hits = []
-    for name, link, hints in landmark:
+    query_terms = set(_query_terms(query, max_terms=12))
+    for name, celex, date, hints in landmark:
         score = sum(1 for h in hints if h in keyword)
+        title_terms = set(_query_terms(name, max_terms=12))
+        score += sum(1 for term in query_terms if term in title_terms) * 0.4
         if score > 0:
             hits.append((score, {
                 "source": "EUR-Lex",
                 "jurisdiction": "European Union",
                 "title": name,
-                "snippet": f"Landmark EU instrument relevant to: {query}",
-                "url": link,
-                "date": "",
+                "snippet": f"CELEX {celex}. Landmark EU authority relevant to: {query}",
+                "url": f"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:{celex}",
+                "date": date,
                 "court": "EU",
                 "kind": "statute_or_record",
             }))
     hits.sort(key=lambda x: x[0], reverse=True)
     return [h[1] for h in hits[:max_items]]
+
+
+def _legifrance(query: str, max_items: int = 5) -> list[dict[str, Any]]:
+    """Legifrance live search. Returns no results until PISTE credentials exist."""
+    if not (
+        os.environ.get("PISTE_API_KEY")
+        and os.environ.get("PISTE_CLIENT_ID")
+        and os.environ.get("PISTE_CLIENT_SECRET")
+    ):
+        return []
+    try:
+        from src.services.adapters.legifrance import (
+            _article_identity,
+            _article_text,
+            _consult_article,
+            _get_token,
+            _search_legifrance,
+            _source_url,
+        )
+
+        token = _get_token()
+        rows = _search_legifrance(token, query, page_size=max_items)
+    except Exception as exc:
+        log.info("Legifrance failed: %s", exc)
+        return []
+
+    out: list[dict[str, Any]] = []
+    for item in rows[:max_items]:
+        ident = _article_identity(item)
+        title = ident["title"] or "Legifrance result"
+        snippet = ""
+        try:
+            article = _consult_article(token, item)
+            snippet = _strip_tags(_article_text(article, fallback_title=title), 360)
+        except Exception:
+            snippet = ""
+        out.append({
+            "source": "Legifrance",
+            "jurisdiction": "France",
+            "title": _strip_tags(title, 240),
+            "snippet": snippet or f"Official Legifrance result for: {query}",
+            "url": _source_url(item),
+            "date": "",
+            "court": "France",
+            "kind": "statute_or_record",
+        })
+    return out
 
 
 def _hudoc(query: str, max_items: int = 5) -> list[dict[str, Any]]:
@@ -477,6 +555,7 @@ _REGISTRY = {
     "courtlistener": _courtlistener,
     "govinfo":       _govinfo,
     "eurlex":        _eurlex,
+    "legifrance":    _legifrance,
     "hudoc":         _hudoc,
     "un_treaties":   _un_treaties,
 }

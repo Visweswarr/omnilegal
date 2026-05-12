@@ -512,7 +512,7 @@ COLLECTION_PROFILES: dict[str, list[str]] = {
 # Phased remote ingestion: adapter labels grouped by build phase
 INGESTION_PHASES: dict[int, list[str]] = {
     1: ["courtlistener_api", "cd_icj", "govinfo_api"],
-    2: ["eurlex_cellar", "un_digital_library", "oai_pmh", "hudoc_api", "un_treaty_collection"],
+    2: ["eurlex_cellar", "legifrance_piste", "un_digital_library", "oai_pmh", "hudoc_api", "un_treaty_collection"],
     3: ["uk_legislation_api", "uk_find_caselaw", "indian_kanoon_api", "india_aws_sc", "open_data_http"],
     4: ["ruslawod", "git_or_hf", "israel_versa"],
     5: ["pile_of_law_hf", "multi_legal_pile_hf", "openalex_api", "core_api",
@@ -526,6 +526,8 @@ SOURCE_ALIASES: dict[str, str] = {
     "courtlistener": "courtlistener_api",
     "govinfo": "govinfo_api",
     "eurlex": "eurlex_cellar",
+    "legifrance": "legifrance_piste",
+    "piste": "legifrance_piste",
     "uk-legislation": "uk_legislation_api",
     "uk_legislation": "uk_legislation_api",
     "indian-kanoon": "indian_kanoon_api",

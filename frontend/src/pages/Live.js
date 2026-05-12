@@ -8,6 +8,7 @@ const SOURCES = [
   { key: "courtlistener", label: "CourtListener",  juris: "United States" },
   { key: "govinfo",       label: "GovInfo",         juris: "United States" },
   { key: "eurlex",        label: "EUR-Lex",         juris: "European Union" },
+  { key: "legifrance",    label: "Legifrance",      juris: "France" },
   { key: "hudoc",         label: "HUDOC",           juris: "ECHR" },
   { key: "un_treaties",   label: "UN Treaty Index", juris: "International" },
 ];
@@ -63,11 +64,11 @@ export default function Live() {
         <Badge tone="amber">Pillar 04 · Live Authority Engine</Badge>
       </div>
       <h1 className="font-serif text-4xl md:text-5xl tracking-tight text-paper-100 leading-tight">
-        Real-time queries.<br className="hidden md:block" /> <span className="text-verdict-gold">Six</span> primary registries.
+        Real-time queries.<br className="hidden md:block" /> <span className="text-verdict-gold">Official</span> primary registries.
       </h1>
       <p className="mt-4 text-paper-300 max-w-2xl">
         ChatGPT's knowledge is frozen. OmniLegal goes live — concurrent queries against Indian Kanoon,
-        CourtListener, GovInfo, EUR-Lex, HUDOC, and the UN Treaty Index. Time-stamped and dated.
+        CourtListener, GovInfo, EUR-Lex, Legifrance, HUDOC, and the UN Treaty Index. Time-stamped and dated.
       </p>
 
       <div className="mt-8 grid grid-cols-1 md:grid-cols-[1fr_auto] gap-3">
@@ -121,7 +122,7 @@ export default function Live() {
         ))}
       </div>
 
-      {busy && <div className="mt-6"><Spinner label="Hitting six registries in parallel…" /></div>}
+      {busy && <div className="mt-6"><Spinner label="Hitting registries in parallel…" /></div>}
       {error && <div className="mt-6"><ErrorBlock error={error} /></div>}
 
       {data && (

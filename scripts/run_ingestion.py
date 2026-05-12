@@ -230,7 +230,7 @@ Examples:
     parser.add_argument("--audit-only", action="store_true", help="Run source audit only")
     parser.add_argument("--status", action="store_true", help="Show ingestion status")
     parser.add_argument("--list-sources", action="store_true", help="List adapter labels and friendly aliases")
-    parser.add_argument("--phase", type=int, choices=[1, 2, 3, 4], help="Run specific phase (1-4)")
+    parser.add_argument("--phase", type=int, choices=sorted(INGESTION_PHASES), help="Run specific ingestion phase")
     parser.add_argument(
         "--source",
         action="append",
@@ -238,7 +238,7 @@ Examples:
         metavar="NAME",
         help=(
             "Run a single adapter. Accepts friendly aliases (courtlistener, govinfo, "
-            "eurlex, uk-legislation, indian-kanoon) or raw adapter labels. Repeatable."
+            "eurlex, legifrance, uk-legislation, indian-kanoon) or raw adapter labels. Repeatable."
         ),
     )
     parser.add_argument("--all", action="store_true", help="Run all phases")

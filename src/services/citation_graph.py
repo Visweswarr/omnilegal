@@ -14,13 +14,17 @@ import re
 from pathlib import Path
 from typing import Any, Iterable
 
-import kuzu
+try:  # Kuzu is an optional graph acceleration path; Longitudinal must still run without it.
+    import kuzu  # type: ignore
+except Exception:  # pragma: no cover - exercised on machines without the native package
+    kuzu = None  # type: ignore
 
 from src.config import DATA_DIR
 
 GRAPH_DIR = DATA_DIR / "citation_graph"
 GRAPH_DIR.mkdir(parents=True, exist_ok=True)
 DB_PATH = GRAPH_DIR / "kuzu.db"
+_KUZU_MISSING_REASON = "kuzu is not installed; citation graph features are disabled"
 
 
 # ── Citation parsers ───────────────────────────────────────
@@ -120,6 +124,8 @@ def _ensure_schema(conn: kuzu.Connection) -> None:
 
 
 def get_db() -> tuple[kuzu.Database, kuzu.Connection]:
+    if kuzu is None:
+        raise RuntimeError(_KUZU_MISSING_REASON)
     db = kuzu.Database(str(DB_PATH))
     conn = kuzu.Connection(db)
     _ensure_schema(conn)
@@ -162,10 +168,18 @@ def upsert_citation(
     )
 
 
-def build_from_chunks(chunks: Iterable[dict[str, Any]]) -> dict[str, int]:
+def build_from_chunks(chunks: Iterable[dict[str, Any]]) -> dict[str, Any]:
     """Walk an iterable of corpus chunks (dict with 'text' + 'metadata')
     and populate the citation graph.
     Returns counters."""
+    if kuzu is None:
+        return {
+            "documents": 0,
+            "edges": 0,
+            "skipped": 0,
+            "available": False,
+            "reason": _KUZU_MISSING_REASON,
+        }
     db, conn = get_db()
     docs_seen = 0
     edges = 0
@@ -191,20 +205,25 @@ def build_from_chunks(chunks: Iterable[dict[str, Any]]) -> dict[str, int]:
             except Exception:
                 # ignore individual edge failures so we don't lose the rest
                 continue
-    return {"documents": docs_seen, "edges": edges, "skipped": skipped}
+    return {"documents": docs_seen, "edges": edges, "skipped": skipped, "available": True}
 
 
-def graph_stats() -> dict[str, int]:
+def graph_stats() -> dict[str, Any]:
     """Quick stats — useful for ingestion summary."""
+    if kuzu is None:
+        return {"documents": 0, "edges": 0, "available": False, "reason": _KUZU_MISSING_REASON}
     db, conn = get_db()
     n = conn.execute("MATCH (d:Document) RETURN count(d)").get_next()[0]
     e = conn.execute("MATCH ()-[r:CITES]->() RETURN count(r)").get_next()[0]
-    return {"documents": int(n), "edges": int(e)}
+    return {"documents": int(n), "edges": int(e), "available": True}
 
 
 def export_jsonl(out: Path) -> Path:
     """Export the graph to JSONL (for backups / external tools)."""
     out.parent.mkdir(parents=True, exist_ok=True)
+    if kuzu is None:
+        out.write_text("", encoding="utf-8")
+        return out
     db, conn = get_db()
     rows = conn.execute("MATCH (a)-[r:CITES]->(b) RETURN a.canonical_doc_id, b.canonical_doc_id, r.citation_string")
     with out.open("w", encoding="utf-8") as fh:

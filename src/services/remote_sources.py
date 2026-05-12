@@ -57,6 +57,9 @@ from src.config import (
     OMNILEGAL_DIR,
     OMNILEGAL_REMOTE_MAX_ITEMS_PER_SOURCE,
     OMNILEGAL_REMOTE_MIN_FREE_GB,
+    PISTE_API_KEY,
+    PISTE_CLIENT_ID,
+    PISTE_CLIENT_SECRET,
     REMOTE_LICENSE_GATES,
     REMOTE_SOURCES_DIR,
     ROOT_DIR,
@@ -149,6 +152,8 @@ _COLLECTION_BY_JURISDICTION = {
     "united kingdom": COLLECTION_NATIONAL_UK,
     "eu": COLLECTION_NATIONAL_EU,
     "european union": COLLECTION_NATIONAL_EU,
+    "fr": COLLECTION_NATIONAL_EU,
+    "france": COLLECTION_NATIONAL_EU,
     "in": COLLECTION_NATIONAL_IN,
     "india": COLLECTION_NATIONAL_IN,
     "russia": COLLECTION_NATIONAL_RU,
@@ -168,6 +173,8 @@ _CASE_COLLECTION_BY_JURISDICTION = {
     "united kingdom": COLLECTION_CASE_LAW_UK,
     "eu": COLLECTION_CASE_LAW_EU,
     "european union": COLLECTION_CASE_LAW_EU,
+    "fr": COLLECTION_CASE_LAW_EU,
+    "france": COLLECTION_CASE_LAW_EU,
     "in": COLLECTION_CASE_LAW_IN,
     "india": COLLECTION_CASE_LAW_IN,
     "russia": COLLECTION_CASE_LAW_RU,
@@ -182,6 +189,8 @@ _STATUTE_COLLECTION_BY_JURISDICTION = {
     "united kingdom": COLLECTION_STATUTES_UK,
     "eu": COLLECTION_STATUTES_EU,
     "european union": COLLECTION_STATUTES_EU,
+    "fr": COLLECTION_STATUTES_EU,
+    "france": COLLECTION_STATUTES_EU,
     "in": COLLECTION_STATUTES_IN,
     "india": COLLECTION_STATUTES_IN,
     "russia": COLLECTION_STATUTES_RU,
@@ -193,6 +202,8 @@ _RECOMMENDED_COLLECTION_ALIASES = {
     "NATIONAL_US": COLLECTION_NATIONAL_US,
     "NATIONAL_UK": COLLECTION_NATIONAL_UK,
     "NATIONAL_EU": COLLECTION_NATIONAL_EU,
+    "STATUTES_EU": COLLECTION_STATUTES_EU,
+    "CASE_LAW_EU": COLLECTION_CASE_LAW_EU,
     "NATIONAL_IN": COLLECTION_NATIONAL_IN,
     "RUSSIA": COLLECTION_NATIONAL_RU,
     "NATIONAL_RU": COLLECTION_NATIONAL_RU,
@@ -208,6 +219,8 @@ _JURISDICTION_LANGUAGE: dict[str, str] = {
     "russian federation": "ru",
     "israel": "he",
     "european union": "mul",
+    "fr": "fr",
+    "france": "fr",
     "international bodies": "mul",
     "huggingface training/benchmark datasets": "mul",
     "india": "en",
@@ -252,6 +265,12 @@ _CREDENTIAL_GATES = [
     ("sec edgar", "SEC_USER_AGENT"),
     ("huggingface", "HF_TOKEN"),
     ("hugging face", "HF_TOKEN"),
+    ("legifrance", "PISTE_API_KEY"),
+    ("legifrance", "PISTE_CLIENT_ID"),
+    ("legifrance", "PISTE_CLIENT_SECRET"),
+    ("piste.gouv.fr", "PISTE_API_KEY"),
+    ("piste.gouv.fr", "PISTE_CLIENT_ID"),
+    ("piste.gouv.fr", "PISTE_CLIENT_SECRET"),
 ]
 
 _ENV_VALUES = {
@@ -261,6 +280,9 @@ _ENV_VALUES = {
     "INDIAN_KANOON_API_TOKEN": INDIAN_KANOON_API_TOKEN,
     "SEC_USER_AGENT": SEC_USER_AGENT,
     "HF_TOKEN": HF_TOKEN,
+    "PISTE_API_KEY": PISTE_API_KEY,
+    "PISTE_CLIENT_ID": PISTE_CLIENT_ID,
+    "PISTE_CLIENT_SECRET": PISTE_CLIENT_SECRET,
     **REMOTE_LICENSE_GATES,
 }
 
@@ -584,7 +606,7 @@ def plan_for_record(record: SourceRecord, *, mode: str = "licensed") -> SourcePl
                 urls=urls,
             )
 
-    credential_envs = [env for needle, env in _CREDENTIAL_GATES if needle in text]
+    credential_envs = list(dict.fromkeys(env for needle, env in _CREDENTIAL_GATES if needle in text))
     missing_credentials = [env for env in credential_envs if not _env_present(env)]
     if missing_credentials:
         return SourcePlan(

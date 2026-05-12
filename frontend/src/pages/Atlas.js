@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { Globe, MapPin, ShieldAlert, X, ChevronRight, Stamp } from "lucide-react";
 import { analyzeAtlas } from "../lib/api";
+import { NUM_TO_A3 } from "../lib/isoNumericToA3";
 import { Spinner, ErrorBlock, Badge, MonoLabel } from "../components/UI";
 
 // Public-domain world TopoJSON
@@ -14,16 +15,17 @@ const COLOR_BY_VERDICT = {
   no_data:    { fill: "#171717", border: "#2a2a2a" },
 };
 
-// Map ISO numeric → ISO_A3 (lightweight subset; the geo features carry numeric ids)
-// We rely on rsm geographies' `id` (ISO numeric). Match using a JSON map.
-const NUM_TO_A3 = {
-  "356": "IND", "840": "USA", "826": "GBR", "643": "RUS", "376": "ISR",
-  "276": "DEU", "250": "FRA", "156": "CHN", "392": "JPN", "076": "BRA", "036": "AUS",
-  "124": "CAN", "710": "ZAF", "566": "NGA", "484": "MEX", "682": "SAU", "784": "ARE",
-  "702": "SGP", "410": "KOR", "364": "IRN", "792": "TUR", "360": "IDN", "586": "PAK",
-};
-
 const EU_MEMBERS_A3 = [
+  "AUT","BEL","BGR","HRV","CYP","CZE","DNK","EST","FIN","FRA","DEU","GRC","HUN",
+  "IRL","ITA","LVA","LTU","LUX","MLT","NLD","POL","PRT","ROU","SVK","SVN","ESP","SWE"
+];
+
+const EXAMPLES = [
+  "Death penalty for drug trafficking",
+  "Encryption export controls",
+  "Hate speech laws online",
+  "Same-sex marriage recognition",
+  "Strict abortion bans",
   "AUT","BEL","BGR","HRV","CYP","CZE","DNK","EST","FIN","FRA","DEU","GRC","HUN",
   "IRL","ITA","LVA","LTU","LUX","MLT","NLD","POL","PRT","ROU","SVK","SVN","ESP","SWE"
 ];
@@ -41,7 +43,6 @@ const EXAMPLES = [
 
 export default function Atlas() {
   const [topic, setTopic] = useState("");
-  const [includeAi, setIncludeAi] = useState(true);
   const [busy, setBusy] = useState(false);
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
@@ -60,11 +61,19 @@ export default function Atlas() {
     return m;
   }, [data]);
 
+  const byName = useMemo(() => {
+    const m = {};
+    (data?.countries || []).forEach(c => {
+      if (c.name) m[String(c.name).toLowerCase()] = c;
+    });
+    return m;
+  }, [data]);
+
   const submit = async () => {
     if (!topic.trim()) return;
     setBusy(true); setError(null); setData(null); setActive(null);
     try {
-      const res = await analyzeAtlas(topic.trim(), includeAi);
+      const res = await analyzeAtlas(topic.trim(), true);
       setData(res);
     } catch (e) {
       setError(e?.response?.data?.detail || e?.message || "Atlas failed");
@@ -81,12 +90,11 @@ export default function Atlas() {
         Color the world<br className="hidden md:block" /> by what's <span className="text-verdict-gold">legal</span>.
       </h1>
       <p className="mt-4 text-paper-300 max-w-2xl">
-        Type any legal topic. We retrieve grounded primary sources for India, US, UK, Russia, Israel, and the EU,
-        run a real cross-jurisdiction conflict analysis, and color every other country with AI-inferred fallback
-        — clearly tagged so you can tell the two apart.
+        Type any legal topic. We retrieve grounded primary sources for India, US, UK, Russia, Israel, the EU,
+        and France through live Legifrance when credentials are present, then color additional countries with clearly tagged inference.
       </p>
 
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-[1fr_auto_auto] gap-3">
+      <div className="mt-8 grid grid-cols-1 md:grid-cols-[1fr_auto] gap-3">
         <input
           className="bg-ink-800 border border-white/10 px-4 py-3 text-paper-100 placeholder:text-paper-400 font-sans focus:border-verdict-gold"
           placeholder="e.g. death penalty for drug trafficking"
@@ -95,16 +103,6 @@ export default function Atlas() {
           onKeyDown={e => e.key === "Enter" && submit()}
           data-testid="atlas-topic-input"
         />
-        <label className="border border-white/10 px-3 py-3 flex items-center gap-2 text-xs font-mono uppercase tracking-widest2 text-paper-300 cursor-pointer">
-          <input
-            type="checkbox"
-            checked={includeAi}
-            onChange={e => setIncludeAi(e.target.checked)}
-            data-testid="atlas-ai-toggle"
-            className="accent-verdict-gold"
-          />
-          AI-inferred fallback
-        </label>
         <button
           onClick={submit}
           disabled={busy}
@@ -119,14 +117,14 @@ export default function Atlas() {
       <div className="mt-3 flex flex-wrap gap-2">
         <span className="text-[10px] font-mono uppercase tracking-widest2 text-paper-400 mr-2 self-center">Examples</span>
         {EXAMPLES.map(ex => (
-          <button
-            key={ex}
-            onClick={() => setTopic(ex)}
-            className="text-xs font-mono text-paper-300 border border-white/10 px-2 py-1 hover:border-verdict-gold hover:text-paper-100"
-            data-testid={`atlas-example-${ex.replace(/\s/g, "-").toLowerCase()}`}
-          >
-            {ex}
-          </button>
+           <button
+             key={ex}
+             onClick={() => setTopic(ex)}
+             className="text-xs font-mono text-paper-300 border border-white/10 px-2 py-1 hover:border-verdict-gold hover:text-paper-100"
+             data-testid={`atlas-example-${ex.replace(/\s/g, "-").toLowerCase()}`}
+           >
+             {ex}
+           </button>
         ))}
       </div>
 
@@ -163,7 +161,8 @@ export default function Atlas() {
                   {({ geographies }) =>
                     geographies.map(geo => {
                       const a3 = NUM_TO_A3[String(geo.id).padStart(3, "0")];
-                      const country = a3 ? byA3[a3] : null;
+                      const geoName = String(geo.properties?.name || "").toLowerCase();
+                      const country = (a3 ? byA3[a3] : null) || byName[geoName] || null;
                       const color = COLOR_BY_VERDICT[country?.verdict] || COLOR_BY_VERDICT.no_data;
                       return (
                         <Geography
@@ -180,7 +179,7 @@ export default function Atlas() {
                           onMouseEnter={() => setHovered(country || null)}
                           onMouseLeave={() => setHovered(null)}
                           onClick={() => country && setActive(country)}
-                          data-testid={a3 ? `atlas-country-${a3}` : undefined}
+                          data-testid={(a3 || country?.iso_a3) ? `atlas-country-${a3 || country.iso_a3}` : undefined}
                         />
                       );
                     })
@@ -217,8 +216,10 @@ export default function Atlas() {
                       c.verdict === "illegal"    ? "bg-verdict-red"   : "bg-paper-400"
                     }`} />
                     <span className="text-paper-100 font-medium">{c.name}</span>
-                    {!c.data_grounded && (
-                      <span className="text-[9px] font-mono uppercase tracking-widest2 text-paper-400 border border-white/10 px-1">AI</span>
+                    {evidenceLabel(c.evidence_level) && (
+                      <span className="text-[9px] font-mono uppercase tracking-widest2 text-paper-400 border border-white/10 px-1">
+                        {evidenceLabel(c.evidence_level)}
+                      </span>
                     )}
                   </div>
                   <div className="flex items-center gap-2 text-xs text-paper-400">
@@ -241,8 +242,8 @@ export default function Atlas() {
                 <div className="mt-6">
                   <MonoLabel>How to read this map</MonoLabel>
                   <ul className="text-sm text-paper-400 leading-relaxed space-y-2">
-                    <li><span className="text-verdict-green">●</span> Grounded — built on retrieved primary sources from the local corpus.</li>
-                    <li><span className="text-paper-300">AI</span> tag — country has no local corpus; the verdict comes from frontier-LLM inference. Use cautiously.</li>
+                    <li><span className="text-verdict-green">●</span> Local — built on retrieved primary sources from the local corpus.</li>
+                    <li>Live and HF tags mark official API or dataset-backed reference material; AI marks inference without retrieved primary authority.</li>
                     <li>Confidence column shows the model's stated certainty (0–1).</li>
                   </ul>
                 </div>
@@ -259,9 +260,7 @@ export default function Atlas() {
                 </div>
                 <h3 className="font-serif text-3xl text-paper-100 leading-tight">{active.name}</h3>
                 <div className="mt-2 flex flex-wrap items-center gap-2">
-                  {active.data_grounded
-                    ? <Badge tone="green">Data-grounded</Badge>
-                    : <Badge tone="amber">AI-inferred</Badge>}
+                  <Badge tone={evidenceTone(active.evidence_level)}>{evidenceText(active.evidence_level)}</Badge>
                   {active.vclt_27 && <Badge tone="red">VCLT Art. 27</Badge>}
                 </div>
 
@@ -319,7 +318,7 @@ export default function Atlas() {
                   </div>
                 )}
 
-                {!active.data_grounded && (
+                {active.evidence_level === "ai_inferred" && (
                   <div className="mt-4 border border-verdict-amber/40 bg-verdict-amber/10 p-3 text-xs text-paper-200">
                     <ShieldAlert className="w-3 h-3 inline-block mr-1 text-verdict-amber" />
                     AI-inferred verdict — not backed by a retrieved primary source. Verify with the Live Authority engine before citing.
@@ -338,6 +337,28 @@ function tone(v) {
   if (v === "legal") return "green";
   if (v === "restricted") return "amber";
   if (v === "illegal") return "red";
+  return "gray";
+}
+
+function evidenceLabel(level) {
+  if (level === "local_corpus") return "LOCAL";
+  if (level === "live_authority") return "LIVE";
+  if (level === "hf_reference") return "HF";
+  if (level === "ai_inferred") return "AI";
+  return "";
+}
+
+function evidenceText(level) {
+  if (level === "local_corpus") return "Local corpus";
+  if (level === "live_authority") return "Live authority";
+  if (level === "hf_reference") return "HF reference";
+  if (level === "ai_inferred") return "AI-inferred";
+  return "No data";
+}
+
+function evidenceTone(level) {
+  if (level === "local_corpus" || level === "live_authority") return "green";
+  if (level === "hf_reference" || level === "ai_inferred") return "amber";
   return "gray";
 }
 

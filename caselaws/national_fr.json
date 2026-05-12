@@ -1,0 +1,15 @@
+{
+  "jurisdiction": "France",
+  "sources": [
+    {
+      "name": "Legifrance PISTE API",
+      "url": "https://api.piste.gouv.fr/dila/legifrance/lf-engine-app/search https://api.piste.gouv.fr/dila/legifrance/consult/getArticle",
+      "type": "official legislation API",
+      "coverage": "French codes and statutes through Legifrance, including Code civil, Code penal, Code du travail, Code de la consommation, and Code de procedure penale.",
+      "access": "Requires PISTE OAuth2 client credentials and API key.",
+      "format": "JSON",
+      "license": "Open License Etalab / Legifrance API terms",
+      "recommended_for": ["STATUTES_EU", "NATIONAL_EU"]
+    }
+  ]
+}

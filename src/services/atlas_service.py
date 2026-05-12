@@ -56,19 +56,34 @@ GROUNDED_JURISDICTIONS = [
 ]
 
 
+LIVE_AUTHORITY_JURISDICTIONS = [
+    {"key": "france", "iso_a3": "FRA", "name": "France", "source_key": "legifrance"},
+]
+
+
 # Jurisdictions where we have NO local corpus but the user might still want
 # an answer. We mark these clearly as "ai_inferred" and surface that to the
 # UI so it's never confused with grounded data.
 AI_INFERRED_JURISDICTIONS = [
     {"key": "germany",  "iso_a3": "DEU", "name": "Germany"},
-    {"key": "france",   "iso_a3": "FRA", "name": "France"},
+    {"key": "spain",    "iso_a3": "ESP", "name": "Spain"},
+    {"key": "italy",    "iso_a3": "ITA", "name": "Italy"},
+    {"key": "netherlands","iso_a3": "NLD", "name": "Netherlands"},
+    {"key": "sweden",   "iso_a3": "SWE", "name": "Sweden"},
+    {"key": "switzerland","iso_a3": "CHE", "name": "Switzerland"},
     {"key": "china",    "iso_a3": "CHN", "name": "China"},
     {"key": "japan",    "iso_a3": "JPN", "name": "Japan"},
     {"key": "brazil",   "iso_a3": "BRA", "name": "Brazil"},
+    {"key": "argentina","iso_a3": "ARG", "name": "Argentina"},
+    {"key": "chile",    "iso_a3": "CHL", "name": "Chile"},
+    {"key": "colombia", "iso_a3": "COL", "name": "Colombia"},
     {"key": "australia","iso_a3": "AUS", "name": "Australia"},
+    {"key": "new_zealand","iso_a3": "NZL", "name": "New Zealand"},
     {"key": "canada",   "iso_a3": "CAN", "name": "Canada"},
     {"key": "south_africa","iso_a3": "ZAF", "name": "South Africa"},
     {"key": "nigeria",  "iso_a3": "NGA", "name": "Nigeria"},
+    {"key": "kenya",    "iso_a3": "KEN", "name": "Kenya"},
+    {"key": "ghana",    "iso_a3": "GHA", "name": "Ghana"},
     {"key": "mexico",   "iso_a3": "MEX", "name": "Mexico"},
     {"key": "saudi_arabia","iso_a3": "SAU", "name": "Saudi Arabia"},
     {"key": "uae",      "iso_a3": "ARE", "name": "United Arab Emirates"},
@@ -77,6 +92,10 @@ AI_INFERRED_JURISDICTIONS = [
     {"key": "iran",     "iso_a3": "IRN", "name": "Iran"},
     {"key": "turkey",   "iso_a3": "TUR", "name": "Turkey"},
     {"key": "indonesia","iso_a3": "IDN", "name": "Indonesia"},
+    {"key": "malaysia", "iso_a3": "MYS", "name": "Malaysia"},
+    {"key": "philippines","iso_a3": "PHL", "name": "Philippines"},
+    {"key": "thailand", "iso_a3": "THA", "name": "Thailand"},
+    {"key": "vietnam",  "iso_a3": "VNM", "name": "Vietnam"},
     {"key": "pakistan", "iso_a3": "PAK", "name": "Pakistan"},
 ]
 
@@ -94,6 +113,15 @@ _LABEL_TO_VERDICT = {
 
 def _verdict_from_label(label: str) -> tuple[str, str]:
     return _LABEL_TO_VERDICT.get(label, ("no_data", "gray"))
+
+
+def _evidence_level_from_sources(sources: list[dict[str, Any]]) -> str:
+    if not sources:
+        return "no_data"
+    source_blob = " ".join(str(src.get("source_name") or "") for src in sources).lower()
+    if "huggingface" in source_blob or "hugging face" in source_blob or "multilegalpile" in source_blob:
+        return "hf_reference"
+    return "local_corpus"
 
 
 # ── AI-inferred fallback for non-grounded countries ────────────────────────
@@ -288,6 +316,98 @@ def build_atlas(
             "international_passages": [_passage_to_dict(p) for p in international_passages],
         }
 
+    def _live_passage_to_dict(hit: dict[str, Any], idx: int) -> dict[str, Any]:
+        return {
+            "source_name": str(hit.get("source") or "Live authority"),
+            "marker": f"[L{idx + 1}]",
+            "page": None,
+            "excerpt": str(hit.get("snippet") or hit.get("title") or "")[:700],
+            "url": str(hit.get("url") or ""),
+            "date": str(hit.get("date") or ""),
+            "court": str(hit.get("court") or ""),
+            "jurisdiction": str(hit.get("jurisdiction") or ""),
+        }
+
+    def _per_live_jur(jur: dict[str, str]) -> dict[str, Any]:
+        try:
+            from src.services.live_authority_service import search_live
+
+            result = search_live(topic, [jur["source_key"]], max_items=4)
+            hits = list(result.get("results") or [])
+        except Exception as exc:
+            log.info("live authority failed for %s: %s", jur["name"], exc)
+            hits = []
+
+        live_sources = [_live_passage_to_dict(hit, idx) for idx, hit in enumerate(hits)]
+        domestic_text = "\n\n".join(
+            f"{hit.get('source')}: {hit.get('title')}\n{hit.get('snippet')}\n{hit.get('url')}"
+            for hit in hits
+        )[:6000]
+        if not domestic_text or not international_text:
+            return {
+                "jurisdiction_key": jur["key"],
+                "jurisdiction": jur["name"],
+                "label": "neutral",
+                "color": "yellow",
+                "status": "No live authority retrieved" if not domestic_text else "No international counterpart retrieved",
+                "confidence": 0.0,
+                "explanation": (
+                    f"No live {jur['name']} authority matched the query. Add the required API keys "
+                    "or ingest this jurisdiction's official sources."
+                ) if not domestic_text else "No international authority could be retrieved.",
+                "rationale_spans": [],
+                "vclt_article_27_implicated": False,
+                "international_position": international_summary,
+                "domestic_position": "",
+                "domestic_passages": live_sources,
+                "international_passages": [_passage_to_dict(p) for p in international_passages],
+                "used_model": "live_authority",
+                "evidence_level": "live_authority" if live_sources else "no_data",
+            }
+
+        raw = _run_entailment_analysis(
+            domestic_text=domestic_text,
+            international_text=international_text,
+            jurisdiction=jur["name"],
+        )
+        used_model_raw = str(raw.get("used_model") or "").lower()
+        if used_model_raw in {"", "lexical", "lexical_unavailable", "none"}:
+            return {
+                "jurisdiction_key": jur["key"],
+                "jurisdiction": jur["name"],
+                "label": "neutral",
+                "color": "yellow",
+                "status": "LLM analyser temporarily unavailable",
+                "confidence": 0.0,
+                "explanation": "Live authority was retrieved, but the entailment analyser is unavailable.",
+                "rationale_spans": [],
+                "vclt_article_27_implicated": False,
+                "international_position": international_summary,
+                "domestic_position": domestic_text[:600],
+                "domestic_passages": live_sources,
+                "international_passages": [_passage_to_dict(p) for p in international_passages],
+                "used_model": "lexical_unavailable",
+                "evidence_level": "live_authority",
+            }
+        label, color = _normalize_label(raw.get("label", ""), raw.get("status", ""))
+        return {
+            "jurisdiction_key": jur["key"],
+            "jurisdiction": jur["name"],
+            "label": label,
+            "color": color,
+            "status": raw.get("status") or label.replace("_", " ").title(),
+            "confidence": float(raw.get("confidence", 0.0)),
+            "explanation": raw.get("explanation", ""),
+            "rationale_spans": raw.get("rationale_spans") or _extract_rationale_spans(international_text, domestic_text),
+            "vclt_article_27_implicated": bool(raw.get("vclt_article_27_implicated", False)),
+            "international_position": raw.get("international_position", "") or international_summary,
+            "domestic_position": raw.get("domestic_position", "") or domestic_text[:600],
+            "used_model": raw.get("used_model", "live_authority"),
+            "domestic_passages": live_sources,
+            "international_passages": [_passage_to_dict(p) for p in international_passages],
+            "evidence_level": "live_authority",
+        }
+
     overall_status_counts = {"alignment": 0, "qualified_alignment": 0, "conflict": 0, "neutral": 0}
     per_jurisdiction: list[dict[str, Any]] = []
     with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
@@ -308,6 +428,7 @@ def build_atlas(
 
     used_models = sorted({str(e.get("used_model")) for e in per_jurisdiction if e.get("used_model")})
     top_used_model = used_models[0] if used_models else "lexical"
+    live_entries = [_per_live_jur(jur) for jur in LIVE_AUTHORITY_JURISDICTIONS]
 
     if overall_status_counts.get("conflict", 0) > 0:
         verdict = "conflict_detected"
@@ -329,9 +450,18 @@ def build_atlas(
         )
 
     countries: list[dict[str, Any]] = []
-    label_counts = {"legal": 0, "restricted": 0, "illegal": 0, "no_data": 0,
-                    "ai_inferred_legal": 0, "ai_inferred_restricted": 0,
-                    "ai_inferred_illegal": 0}
+    label_counts = {
+        "legal": 0,
+        "restricted": 0,
+        "illegal": 0,
+        "no_data": 0,
+        "live_authority_legal": 0,
+        "live_authority_restricted": 0,
+        "live_authority_illegal": 0,
+        "ai_inferred_legal": 0,
+        "ai_inferred_restricted": 0,
+        "ai_inferred_illegal": 0,
+    }
 
     by_jur_key = {entry["jurisdiction_key"]: entry for entry in per_jurisdiction}
 
@@ -345,6 +475,8 @@ def build_atlas(
         }:
             verdict_label, color = "no_data", "gray"
             explanation = entry.get("explanation") or "No grounded authority retrieved."
+        sources = entry.get("domestic_passages", [])
+        evidence_level = _evidence_level_from_sources(sources)
         countries.append({
             "iso_a3": jur["iso_a3"],
             "name": jur["name"],
@@ -358,12 +490,42 @@ def build_atlas(
             "international_position": entry.get("international_position", "") or international_summary,
             "domestic_position": entry.get("domestic_position", ""),
             "vclt_27": bool(entry.get("vclt_article_27_implicated", False)),
-            "sources": entry.get("domestic_passages", []),
+            "sources": sources,
             "international_sources": entry.get("international_passages", []),
-            "data_grounded": True,
+            "data_grounded": bool(sources),
+            "evidence_level": evidence_level,
             "used_model": entry.get("used_model", "lexical"),
         })
         label_counts[verdict_label] = label_counts.get(verdict_label, 0) + 1
+
+    for jur, entry in zip(LIVE_AUTHORITY_JURISDICTIONS, live_entries):
+        verdict_label, color = _verdict_from_label(entry.get("label", "neutral"))
+        if entry.get("status") in {"No live authority retrieved", "No international counterpart retrieved"}:
+            verdict_label, color = "no_data", "gray"
+        sources = entry.get("domestic_passages", [])
+        countries.append({
+            "iso_a3": jur["iso_a3"],
+            "name": jur["name"],
+            "jurisdiction_key": jur["key"],
+            "verdict": verdict_label,
+            "color": color,
+            "confidence": float(entry.get("confidence", 0.0) or 0.0),
+            "headline": entry.get("status") or verdict_label.title(),
+            "explanation": entry.get("explanation") or "No live authority available.",
+            "rationale_spans": entry.get("rationale_spans", []),
+            "international_position": entry.get("international_position", "") or international_summary,
+            "domestic_position": entry.get("domestic_position", ""),
+            "vclt_27": bool(entry.get("vclt_article_27_implicated", False)),
+            "sources": sources,
+            "international_sources": entry.get("international_passages", []),
+            "data_grounded": bool(sources),
+            "evidence_level": entry.get("evidence_level") or ("live_authority" if sources else "no_data"),
+            "used_model": entry.get("used_model", "live_authority"),
+        })
+        label_counts[verdict_label] = label_counts.get(verdict_label, 0) + 1
+        if verdict_label != "no_data" and sources:
+            live_key = f"live_authority_{verdict_label}"
+            label_counts[live_key] = label_counts.get(live_key, 0) + 1
 
     if include_ai_inferred and AI_INFERRED_JURISDICTIONS:
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
@@ -401,6 +563,7 @@ def build_atlas(
                 "sources": [],
                 "international_sources": [],
                 "data_grounded": False,
+                "evidence_level": "ai_inferred" if verdict_label != "no_data" else "no_data",
                 "used_model": inferred.get("used_model", ""),
             })
             if verdict_label != "no_data":
@@ -420,5 +583,6 @@ def build_atlas(
         "label_counts": label_counts,
         "used_model": top_used_model,
         "grounded_country_count": len(GROUNDED_JURISDICTIONS),
+        "live_authority_country_count": len(LIVE_AUTHORITY_JURISDICTIONS),
         "ai_inferred_country_count": len(AI_INFERRED_JURISDICTIONS) if include_ai_inferred else 0,
     }

@@ -18,7 +18,12 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from src.config import OMNILEGAL_REMOTE_FULL_SOURCE_ITEM_CAP, OMNILEGAL_REMOTE_MAX_ITEMS_PER_SOURCE
+from src.config import (
+    COLLECTION_CASE_LAW_EU,
+    COLLECTION_STATUTES_EU,
+    OMNILEGAL_REMOTE_FULL_SOURCE_ITEM_CAP,
+    OMNILEGAL_REMOTE_MAX_ITEMS_PER_SOURCE,
+)
 
 _SPARQL_ENDPOINT = "https://publications.europa.eu/webapi/rdf/sparql"
 
@@ -59,6 +64,24 @@ WHERE {{
 ORDER BY DESC(?date)
 LIMIT {limit}
 """
+
+_SEED_DOCUMENTS = [
+    {"kind": "statute", "title": "Treaty on European Union", "celex": "12016M/TXT", "date": "2016-06-07"},
+    {"kind": "statute", "title": "Treaty on the Functioning of the European Union", "celex": "12016E/TXT", "date": "2016-06-07"},
+    {"kind": "statute", "title": "Charter of Fundamental Rights of the European Union", "celex": "12012P/TXT", "date": "2012-10-26"},
+    {"kind": "statute", "title": "General Data Protection Regulation", "celex": "32016R0679", "date": "2016-04-27"},
+    {"kind": "statute", "title": "Digital Services Act", "celex": "32022R2065", "date": "2022-10-19"},
+    {"kind": "statute", "title": "Digital Markets Act", "celex": "32022R1925", "date": "2022-09-14"},
+    {"kind": "statute", "title": "Artificial Intelligence Act", "celex": "32024R1689", "date": "2024-06-13"},
+    {"kind": "statute", "title": "Consumer Rights Directive", "celex": "32011L0083", "date": "2011-10-25"},
+    {"kind": "statute", "title": "Unfair Commercial Practices Directive", "celex": "32005L0029", "date": "2005-05-11"},
+    {"kind": "statute", "title": "Consumer Protection Cooperation Regulation", "celex": "32017R2394", "date": "2017-12-12"},
+    {"kind": "statute", "title": "General Product Safety Regulation", "celex": "32023R0988", "date": "2023-05-10"},
+    {"kind": "case_law", "title": "Van Gend en Loos", "celex": "61962CJ0026", "date": "1963-02-05", "ecli": "ECLI:EU:C:1963:1"},
+    {"kind": "case_law", "title": "Costa v ENEL", "celex": "61964CJ0006", "date": "1964-07-15", "ecli": "ECLI:EU:C:1964:66"},
+    {"kind": "case_law", "title": "Google Spain", "celex": "62012CJ0131", "date": "2014-05-13", "ecli": "ECLI:EU:C:2014:317"},
+    {"kind": "case_law", "title": "Schrems II", "celex": "62018CJ0311", "date": "2020-07-16", "ecli": "ECLI:EU:C:2020:559"},
+]
 
 
 def _sparql_query(query: str) -> list[dict[str, Any]]:
@@ -103,6 +126,75 @@ def _binding_value(binding: dict[str, Any], key: str) -> str:
     return (binding.get(key) or {}).get("value", "")
 
 
+def _eurlex_url(celex: str) -> str:
+    return f"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:{celex}"
+
+
+def _year_from_date(date: str) -> int | None:
+    year_match = re.search(r"(19|20)\d{2}", date or "")
+    return int(year_match.group(0)) if year_match else None
+
+
+def _add_document_chunks(
+    *,
+    record: Any,
+    plan: Any,
+    budget: Any,
+    chunks: list[dict[str, Any]],
+    title: str,
+    date: str,
+    identifier: str,
+    doc_type: str,
+    url: str,
+    text: str,
+    ecli: str = "",
+) -> bool:
+    if not text:
+        label = "CJEU Case" if doc_type == "case_law" else "EUR-Lex Legislation"
+        text = f"{label}: {title}\nCELEX: {identifier}\nDate: {date}\nURI: {url}"
+
+    text_bytes = len(text.encode("utf-8", errors="ignore"))
+    if not budget.can_store(text_bytes):
+        return False
+    budget.reserve(text_bytes)
+
+    checksum = hashlib.sha256(text.encode("utf-8", errors="ignore")).hexdigest()
+    from src.services.remote_sources import chunk_remote_text
+    doc_chunks = chunk_remote_text(
+        record,
+        plan,
+        text,
+        url=url,
+        checksum=checksum,
+        download_key=f"eurlex:{identifier or checksum[:16]}",
+    )
+    year = _year_from_date(date)
+    for chunk in doc_chunks:
+        meta = {
+            "doc_type": doc_type,
+            "source_name": f"{'CJEU' if doc_type == 'case_law' else 'EUR-Lex'}: {title}",
+            "jurisdiction": "eu",
+            "year": year,
+            "date": date,
+            "celex_id": identifier,
+            "citation": ecli or identifier or title,
+            "license_note": "CC BY 4.0 / CC0 1.0 (EUR-Lex reuse framework)",
+            "language": "en",
+            "collection": COLLECTION_CASE_LAW_EU if doc_type == "case_law" else COLLECTION_STATUTES_EU,
+            "source_role": "case_law" if doc_type == "case_law" else "local_statute",
+            "authority_tier": "case_law" if doc_type == "case_law" else "primary_authority",
+            "canonical_doc_id": f"eurlex:{re.sub(r'[^A-Za-z0-9_.:-]+', '_', identifier or checksum[:16])}",
+            "source_fingerprint": identifier or checksum[:16],
+            "source_version": date or "undated",
+            "version_date": date or "undated",
+        }
+        if ecli:
+            meta["ecli"] = ecli
+        chunk["metadata"].update(meta)
+    chunks.extend(doc_chunks)
+    return True
+
+
 def fetch(
     record: Any,
     plan: Any,
@@ -128,6 +220,36 @@ def fetch(
     chunks: list[dict[str, Any]] = []
     events: list[dict[str, Any]] = []
     items_total = 0
+    seen_doc_keys: set[str] = set()
+
+    # Seed landmark instruments and cases first so the EU KB is useful even
+    # when live SPARQL returns sparse or recently skewed results.
+    for doc in _SEED_DOCUMENTS[:effective_max]:
+        celex = str(doc.get("celex") or "")
+        if not celex or celex in seen_doc_keys:
+            continue
+        url = _eurlex_url(celex)
+        text = _cellar_content(url)
+        ok = _add_document_chunks(
+            record=record,
+            plan=plan,
+            budget=budget,
+            chunks=chunks,
+            title=str(doc.get("title") or celex),
+            date=str(doc.get("date") or ""),
+            identifier=celex,
+            doc_type=str(doc.get("kind") or "statute"),
+            url=url,
+            text=text,
+            ecli=str(doc.get("ecli") or ""),
+        )
+        if not ok:
+            events.append({"query": "seed_documents", "status": "budget_exhausted"})
+            break
+        seen_doc_keys.add(celex)
+        items_total += 1
+        time.sleep(0.15)
+    events.append({"query": "seed_documents", "results": len(seen_doc_keys)})
 
     # Fetch legislation
     try:
@@ -148,44 +270,26 @@ def fetch(
 
         if not work_uri or not title:
             continue
+        if celex and celex in seen_doc_keys:
+            continue
 
         text = _cellar_content(work_uri)
-        if not text:
-            # Use the metadata as a minimal record
-            text = f"EUR-Lex Legislation: {title}\nCELEX: {celex}\nDate: {date}\nURI: {work_uri}"
-
-        text_bytes = len(text.encode("utf-8"))
-        if not budget.can_store(text_bytes):
+        ok = _add_document_chunks(
+            record=record,
+            plan=plan,
+            budget=budget,
+            chunks=chunks,
+            title=title,
+            date=date,
+            identifier=celex,
+            doc_type="statute",
+            url=work_uri,
+            text=text,
+        )
+        if not ok:
             events.append({"status": "budget_exhausted"})
             break
-        budget.reserve(text_bytes)
-
-        checksum = hashlib.sha256(text.encode("utf-8")).hexdigest()
-        year_match = re.search(r"(19|20)\d{2}", date)
-        year = int(year_match.group(0)) if year_match else None
-
-        from src.services.remote_sources import chunk_remote_text
-        doc_chunks = chunk_remote_text(
-            record, plan, text,
-            url=work_uri,
-            checksum=checksum,
-            download_key=f"eurlex:{celex or checksum[:16]}",
-        )
-
-        for chunk in doc_chunks:
-            chunk["metadata"].update({
-                "doc_type": "statute",
-                "source_name": f"EUR-Lex: {title}",
-                "jurisdiction": "eu",
-                "year": year,
-                "date": date,
-                "celex_id": celex,
-                "citation": celex or title,
-                "license_note": "CC BY 4.0 / CC0 1.0 (EUR-Lex reuse framework)",
-                "language": "en",
-            })
-
-        chunks.extend(doc_chunks)
+        seen_doc_keys.add(celex or work_uri)
         items_total += 1
         time.sleep(0.3)
 
@@ -208,42 +312,27 @@ def fetch(
 
         if not work_uri or not title:
             continue
+        doc_key = ecli or work_uri
+        if doc_key in seen_doc_keys:
+            continue
 
         text = _cellar_content(work_uri)
-        if not text:
-            text = f"CJEU Case: {title}\nECLI: {ecli}\nDate: {date}\nURI: {work_uri}"
-
-        text_bytes = len(text.encode("utf-8"))
-        if not budget.can_store(text_bytes):
-            break
-        budget.reserve(text_bytes)
-
-        checksum = hashlib.sha256(text.encode("utf-8")).hexdigest()
-        year_match = re.search(r"(19|20)\d{2}", date)
-        year = int(year_match.group(0)) if year_match else None
-
-        from src.services.remote_sources import chunk_remote_text
-        doc_chunks = chunk_remote_text(
-            record, plan, text,
+        ok = _add_document_chunks(
+            record=record,
+            plan=plan,
+            budget=budget,
+            chunks=chunks,
+            title=title,
+            date=date,
+            identifier=ecli or work_uri,
+            doc_type="case_law",
             url=work_uri,
-            checksum=checksum,
-            download_key=f"cjeu:{ecli or checksum[:16]}",
+            text=text,
+            ecli=ecli,
         )
-
-        for chunk in doc_chunks:
-            chunk["metadata"].update({
-                "doc_type": "case_law",
-                "source_name": f"CJEU: {title}",
-                "jurisdiction": "eu",
-                "year": year,
-                "date": date,
-                "ecli": ecli,
-                "citation": ecli or title,
-                "license_note": "Public domain (EU court decisions)",
-                "language": "en",
-            })
-
-        chunks.extend(doc_chunks)
+        if not ok:
+            break
+        seen_doc_keys.add(doc_key)
         items_total += 1
         time.sleep(0.3)
 
