@@ -131,26 +131,36 @@ _JURISDICTION_ALIASES = {
 
 _NOISE_SOURCE_NAMES = {"nato", "unctad", "african court", "isds"}
 _ANCHOR_STOP_TERMS = {
+    "all",
     "about",
     "act",
     "article",
     "articles",
     "case",
     "cases",
+    "countries",
+    "country",
     "constitution",
     "constitutional",
     "court",
     "courts",
     "domestic",
     "does",
+    "each",
+    "every",
     "fundamental",
+    "have",
     "india",
     "indian",
     "international",
     "jurisdiction",
+    "jurisdictions",
     "law",
     "laws",
     "legal",
+    "many",
+    "obligation",
+    "obligations",
     "right",
     "rights",
     "section",
@@ -160,10 +170,71 @@ _ANCHOR_STOP_TERMS = {
     "supreme",
     "tell",
     "treaty",
+    "their",
     "under",
     "union",
     "what",
 }
+
+_COMPARATIVE_ALL_COLLECTIONS = [
+    COLLECTION_INTL_TREATIES,
+    COLLECTION_CASE_LAW_GLOBAL,
+    COLLECTION_SHAW_PRIVATE,
+    COLLECTION_COMMENTARY,
+    COLLECTION_COMMENTARY_GLOBAL,
+    COLLECTION_STATUTES_US,
+    COLLECTION_STATUTES_UK,
+    COLLECTION_STATUTES_EU,
+    COLLECTION_STATUTES_IN,
+    COLLECTION_STATUTES_RU,
+    COLLECTION_STATUTES_IL,
+    COLLECTION_CASE_LAW_US,
+    COLLECTION_CASE_LAW_UK,
+    COLLECTION_CASE_LAW_EU,
+    COLLECTION_CASE_LAW_IN,
+    COLLECTION_CASE_LAW_RU,
+    COLLECTION_CASE_LAW_IL,
+]
+
+_COMPARATIVE_ALL_RE = re.compile(
+    r"\b(?:all|each|every)\s+(?:country|countries|state|states|jurisdiction|jurisdictions|nation|nations)\b"
+    r"|\bacross\s+(?:countries|states|jurisdictions|nations)\b"
+    r"|\b(?:country|countries|domestic|national)\s+laws?\b",
+    re.IGNORECASE,
+)
+
+_LEGAL_CONCEPT_PATTERNS: list[tuple[str, re.Pattern[str]]] = [
+    ("erga_omnes_jus_cogens", re.compile(r"\berga\s+omnes\b|\bjus\s+cogens\b|\bperemptory\s+norms?\b|\bnon-derogable\b", re.IGNORECASE)),
+    ("state_responsibility", re.compile(r"\bstate responsibility\b|\binternationally wrongful act\b|\bILC Articles\b", re.IGNORECASE)),
+    ("human_rights", re.compile(r"\bhuman rights?\b|\bfundamental rights?\b|\bcivil liberties\b", re.IGNORECASE)),
+    ("treaty_interpretation", re.compile(r"\btreaty interpretation\b|\bVCLT\b|\bVienna Convention on the Law of Treaties\b", re.IGNORECASE)),
+]
+
+_QUERY_EXPANSIONS: list[tuple[re.Pattern[str], list[str]]] = [
+    (
+        re.compile(r"\berga\s+omnes\b|\bcommunity\s+obligations?\b", re.IGNORECASE),
+        [
+            "obligations erga omnes Barcelona Traction Wall Advisory Opinion",
+            "owed to the international community as a whole all states legal interest",
+            "ILC Articles on State Responsibility Article 48 serious breach non-recognition non-assistance cooperation",
+            "aggression genocide slavery racial discrimination self-determination basic rights of the human person",
+        ],
+    ),
+    (
+        re.compile(r"\bjus\s+cogens\b|\bperemptory\s+norms?\b", re.IGNORECASE),
+        [
+            "jus cogens peremptory norm non-derogable VCLT Article 53 Article 64",
+            "genocide slavery torture aggression apartheid self-determination serious breach",
+        ],
+    ),
+    (
+        re.compile(r"\bstate responsibility\b|\binternationally wrongful act\b", re.IGNORECASE),
+        [
+            "ILC Articles on Responsibility of States internationally wrongful act attribution breach reparation",
+            "Article 40 Article 41 Article 48 invocation responsibility erga omnes",
+        ],
+    ),
+]
 
 
 def _is_source_discovery_query(query: str) -> bool:
@@ -175,6 +246,74 @@ def _is_source_discovery_query(query: str) -> bool:
             "ingested", "download", "license", "coverage", "api", "where can",
         ]
     )
+
+
+def _query_requests_all_jurisdictions(query: str) -> bool:
+    return bool(_COMPARATIVE_ALL_RE.search(query or ""))
+
+
+def _legal_issue_labels_from_query(query: str) -> list[str]:
+    labels: list[str] = []
+    seen: set[str] = set()
+    for label, pattern in _LEGAL_CONCEPT_PATTERNS:
+        if pattern.search(query or "") and label not in seen:
+            seen.add(label)
+            labels.append(label)
+    if _query_requests_all_jurisdictions(query) and "comparative_all_jurisdictions" not in seen:
+        labels.append("comparative_all_jurisdictions")
+    return labels
+
+
+def _query_expansion_phrases(query: str) -> list[str]:
+    phrases: list[str] = []
+    seen: set[str] = set()
+    for pattern, candidates in _QUERY_EXPANSIONS:
+        if not pattern.search(query or ""):
+            continue
+        for phrase in candidates:
+            compact = " ".join(phrase.split()).strip()
+            key = compact.lower()
+            if compact and key not in seen:
+                seen.add(key)
+                phrases.append(compact)
+    return phrases
+
+
+def _expanded_query_variants(query: str) -> list[str]:
+    base = normalize_query_text(query)
+    variants: list[str] = [base] if base else []
+    expansions = _query_expansion_phrases(base)
+    if expansions:
+        variants.append(normalize_query_text(f"{base} {' '.join(expansions[:2])}"))
+        variants.append(normalize_query_text(" ".join(expansions)))
+    if _query_requests_all_jurisdictions(base):
+        variants.append(
+            normalize_query_text(
+                f"{base} domestic implementation constitutional rights statutes case law treaty obligations"
+            )
+        )
+
+    unique: list[str] = []
+    seen: set[str] = set()
+    for variant in variants:
+        key = variant.lower()
+        if variant and key not in seen:
+            seen.add(key)
+            unique.append(variant)
+    return unique[:4]
+
+
+def _expanded_query_terms(query: str) -> list[str]:
+    terms: list[str] = []
+    seen: set[str] = set()
+    for text in [query, *_query_expansion_phrases(query)]:
+        for token in re.findall(r"[a-z0-9]+", text.lower()):
+            if len(token) <= 2 or token in _ANCHOR_STOP_TERMS:
+                continue
+            if token not in seen:
+                seen.add(token)
+                terms.append(token)
+    return terms
 
 
 def _normalize_jurisdiction(value: Any) -> str:
@@ -272,13 +411,13 @@ def _candidate_allowed_for_query(query: str, candidate: dict[str, Any], allowed_
 def _query_anchor_terms(query: str) -> list[str]:
     anchors: list[str] = []
     seen: set[str] = set()
-    for token in re.findall(r"[a-z0-9]+", query.lower()):
+    for token in _expanded_query_terms(query):
         if len(token) <= 2 or token in _ANCHOR_STOP_TERMS:
             continue
         if token not in seen:
             seen.add(token)
             anchors.append(token)
-    return anchors[:8]
+    return anchors[:14]
 
 
 def _candidate_anchor_hits(anchors: list[str], candidate: dict[str, Any]) -> int:
@@ -296,7 +435,56 @@ def _candidate_anchor_hits(anchors: list[str], candidate: dict[str, Any]) -> int
     return sum(1 for term in anchors if term in haystack)
 
 
+def _candidate_haystack(candidate: dict[str, Any]) -> str:
+    metadata = candidate.get("metadata") or {}
+    return " ".join(
+        str(part or "")
+        for part in [
+            metadata.get("source_name"),
+            metadata.get("citation"),
+            metadata.get("title"),
+            metadata.get("case_name"),
+            metadata.get("doc_type"),
+            metadata.get("collection"),
+            candidate.get("text"),
+        ]
+    ).lower()
+
+
+def _filter_by_legal_concept(query: str, candidates: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    labels = set(_legal_issue_labels_from_query(query))
+    if "erga_omnes_jus_cogens" not in labels:
+        return candidates
+
+    strong_patterns = [
+        "erga omnes",
+        "barcelona traction",
+        "wall advisory",
+        "international community as a whole",
+        "legal interest in their protection",
+        "jus cogens",
+        "peremptory norm",
+        "non-derogable",
+        "non-recognition",
+        "non-assistance",
+        "genocide",
+        "slavery",
+        "torture",
+        "aggression",
+        "apartheid",
+        "racial discrimination",
+        "self-determination",
+    ]
+    filtered = [
+        candidate
+        for candidate in candidates
+        if any(pattern in _candidate_haystack(candidate) for pattern in strong_patterns)
+    ]
+    return filtered or candidates
+
+
 def _filter_by_anchor_terms(query: str, candidates: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    candidates = _filter_by_legal_concept(query, candidates)
     anchors = _query_anchor_terms(query)
     if not anchors or len(candidates) <= 1:
         return candidates
@@ -421,6 +609,9 @@ def _route_labels_from_query(query: str) -> list[str]:
     # SHAW_PRIVATE regardless of what issue labels are inferred.
     if _query_names_a_case(query):
         labels.append("named_case")
+    for label in _legal_issue_labels_from_query(query):
+        if label not in labels:
+            labels.append(label)
     return labels
 
 
@@ -643,7 +834,7 @@ def _lexical_qdrant_search(query: str, collection: str, *, k: int = RETRIEVAL_TO
         return []
 
     query_terms = {
-        token for token in re.findall(r"[a-z0-9]+", query.lower())
+        token for token in _expanded_query_terms(query)
         if len(token) > 2 and token not in {"the", "and", "for", "about", "tell", "what", "how", "does"}
     }
     try:
@@ -651,6 +842,112 @@ def _lexical_qdrant_search(query: str, collection: str, *, k: int = RETRIEVAL_TO
     except Exception as exc:
         print(f"Warning: lexical fallback failed for {collection}: {exc}")
         return []
+
+
+def _search_collection_with_variants(query: str, collection: str, *, k: int) -> list[dict[str, Any]]:
+    variants = _expanded_query_variants(query)
+    if not variants:
+        return []
+
+    hits: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    per_variant_k = max(k, min(RETRIEVAL_TOP_K_CANDIDATES, k * 2))
+    for index, variant in enumerate(variants):
+        for hit in hybrid_search(variant, collection, k=per_variant_k):
+            text = str(hit.get("text") or "")
+            key = text[:160]
+            if not key or key in seen:
+                continue
+            seen.add(key)
+            metadata = hit.setdefault("metadata", {})
+            if isinstance(metadata, dict):
+                metadata.setdefault("collection", collection)
+                if index:
+                    metadata.setdefault("query_expansion", variant)
+            hits.append(hit)
+    return hits[: max(k * 3, k)]
+
+
+def _merge_local_corpus_hits(
+    query: str,
+    collections: list[str],
+    results_per_col: dict[str, list[dict[str, Any]]],
+    allowed_countries: set[str],
+    *,
+    k: int,
+) -> None:
+    try:
+        from src.rag.local_corpus_search import search_local_corpus
+
+        local_hits = search_local_corpus(
+            query,
+            collections=collections,
+            k=max(k * 6, RETRIEVAL_TOP_K_CANDIDATES),
+        )
+    except Exception as exc:
+        print(f"Warning: local corpus fallback failed: {exc}")
+        return
+
+    if not local_hits:
+        return
+
+    existing_keys = {
+        str(hit.get("text") or "")[:160]
+        for hits in results_per_col.values()
+        for hit in hits
+    }
+    for hit in local_hits:
+        metadata = hit.setdefault("metadata", {})
+        if not isinstance(metadata, dict):
+            continue
+        collection = str(metadata.get("collection") or "LOCAL_CORPUS").upper()
+        if not _candidate_allowed_for_query(query, hit, allowed_countries):
+            continue
+        key = str(hit.get("text") or "")[:160]
+        if not key or key in existing_keys:
+            continue
+        existing_keys.add(key)
+        metadata.setdefault("collection", collection)
+        hit["collection_weight"] = max(float(hit.get("collection_weight", 1.0)), 1.05)
+        results_per_col.setdefault(collection, []).append(hit)
+
+
+def _post_expand_filter(
+    query: str,
+    candidates: list[dict[str, Any]],
+    allowed_countries: set[str],
+) -> list[dict[str, Any]]:
+    filtered = [
+        candidate
+        for candidate in candidates
+        if _candidate_allowed_for_query(query, candidate, allowed_countries)
+    ]
+    return _filter_by_anchor_terms(query, filtered)
+
+
+def _prefer_local_corpus_first(query: str, issue_labels: list[str]) -> bool:
+    labels = {str(label or "").lower() for label in issue_labels}
+    return "erga_omnes_jus_cogens" in labels or bool(
+        re.search(r"\berga\s+omnes\b|\bjus\s+cogens\b|\bperemptory\s+norms?\b", query, re.IGNORECASE)
+    )
+
+
+def _finalize_results(
+    query: str,
+    collections: list[str],
+    results_per_col: dict[str, list[dict[str, Any]]],
+    allowed_countries: set[str],
+    *,
+    k: int,
+) -> list[dict[str, Any]]:
+    if not results_per_col:
+        return []
+    merged = _filter_by_anchor_terms(query, _rrf_merge(results_per_col))
+    ranked = rerank(query, merged, top_n=min(len(merged), max(k * 20, k)))
+    ranked = _diversify_by_collection(ranked, limit=k, preferred_order=collections)
+    expanded = expand_linked_passages(ranked, max_results=max(k * 3, k))
+    expanded = _post_expand_filter(query, expanded, allowed_countries)
+    return _diversify_by_collection(expanded, limit=k, preferred_order=collections)
 
 
 _SEED_CASES: list[dict[str, Any]] | None = None
@@ -686,7 +983,7 @@ def seed_case_search(query: str, *, top_k: int = 5) -> list[dict[str, Any]]:
         return []
 
     query_terms = {
-        token for token in re.findall(r"[a-z0-9]+", query.lower())
+        token for token in _expanded_query_terms(query)
         if len(token) > 2 and token not in {
             "the", "and", "for", "about", "tell", "what", "how", "does",
             "case", "law", "legal", "court",
@@ -872,7 +1169,7 @@ def _fallback_rerank_score(query: str, candidate: dict[str, Any]) -> float:
         ]
     ).lower()
     terms = [
-        token for token in re.findall(r"[a-z0-9]+", query.lower())
+        token for token in _expanded_query_terms(query)
         if len(token) > 2 and token not in {"tell", "about", "what", "case", "law", "legal"}
     ]
     lexical_hits = sum(1 for term in terms if term in haystack)
@@ -897,12 +1194,32 @@ def _fallback_rerank_score(query: str, candidate: dict[str, Any]) -> float:
         score += 1.5
     if str(metadata.get("doc_type", "")).lower() == "source_catalog":
         score += 2.0 if _is_source_discovery_query(query) else -1.5
+    if metadata.get("local_fallback"):
+        score += 0.25
+    if "erga_omnes_jus_cogens" in _legal_issue_labels_from_query(query):
+        if any(term in haystack for term in ["erga omnes", "barcelona traction", "wall advisory", "jus cogens"]):
+            score += 1.2
     return score
 
 
 def route_to_collections(issue_labels: list[str]) -> list[str]:
     """Map issue labels to relevant Qdrant collections."""
     normalized_labels = [str(label or "").lower() for label in issue_labels]
+    if "comparative_all_jurisdictions" in normalized_labels:
+        ordered: list[str] = []
+        seen_all: set[str] = set()
+        for collection in _COMPARATIVE_ALL_COLLECTIONS:
+            if collection not in seen_all:
+                seen_all.add(collection)
+                ordered.append(collection)
+        for label in issue_labels:
+            key = str(label or "").lower()
+            for collection in ISSUE_COLLECTION_MAP.get(key, []):
+                if collection not in seen_all:
+                    seen_all.add(collection)
+                    ordered.append(collection)
+        return ordered
+
     if "source_catalog" in normalized_labels:
         source_country_collections: list[str] = []
         seen_source_countries: set[str] = set()
@@ -1008,11 +1325,18 @@ def multi_collection_retrieve(
     """
     collections = expand_collection_aliases(route_to_collections(issue_labels))
     collections = _drop_domestic_case_law_without_country(collections, issue_labels)
+    requested_collections = list(collections)
     existing = _existing_collections()
     if existing:
         collections = [col for col in collections if col in existing]
     allowed_countries = _country_constraints(issue_labels)
     results_per_col: dict[str, list[dict[str, Any]]] = {}
+
+    if _prefer_local_corpus_first(query, issue_labels):
+        _merge_local_corpus_hits(query, requested_collections, results_per_col, allowed_countries, k=k)
+        local_first = _finalize_results(query, requested_collections, results_per_col, allowed_countries, k=k)
+        if local_first:
+            return local_first
 
     start_time = time.time()
     for col in collections:
@@ -1020,7 +1344,7 @@ def multi_collection_retrieve(
             print("Retrieval hard deadline exceeded, returning partial results.")
             break
         try:
-            hits = hybrid_search(query, col, k=RETRIEVAL_TOP_K_CANDIDATES)
+            hits = _search_collection_with_variants(query, col, k=RETRIEVAL_TOP_K_CANDIDATES)
             if hits:
                 filtered: list[dict[str, Any]] = []
                 for hit in hits:
@@ -1034,14 +1358,8 @@ def multi_collection_retrieve(
         except Exception as exc:
             print(f"Warning: search failed for collection {col}: {exc}")
 
-    if not results_per_col:
-        return []
-
-    merged = _filter_by_anchor_terms(query, _rrf_merge(results_per_col))
-    ranked = rerank(query, merged, top_n=min(len(merged), max(k * 20, k)))
-    ranked = _diversify_by_collection(ranked, limit=k, preferred_order=collections)
-    expanded = expand_linked_passages(ranked, max_results=max(k * 3, k))
-    return _diversify_by_collection(expanded, limit=k, preferred_order=collections)
+    _merge_local_corpus_hits(query, requested_collections, results_per_col, allowed_countries, k=k)
+    return _finalize_results(query, requested_collections, results_per_col, allowed_countries, k=k)
 
 
 # ── Backward-compat helpers for existing Streamlit pages / services ──────
@@ -1095,11 +1413,18 @@ def search_documents(
     target_cols = expand_collection_aliases(collections or route_to_collections(issue_labels) or ALL_COLLECTIONS)
     if not explicit_collections:
         target_cols = _drop_domestic_case_law_without_country(target_cols, issue_labels)
+    requested_cols = list(target_cols)
     allowed_countries = _country_constraints(issue_labels)
     existing = _existing_collections()
     if existing:
         target_cols = [col for col in target_cols if col in existing]
     results_per_col: dict[str, list[dict[str, Any]]] = {}
+
+    if _prefer_local_corpus_first(query, issue_labels):
+        _merge_local_corpus_hits(query, requested_cols, results_per_col, allowed_countries, k=k)
+        local_first = _finalize_results(query, requested_cols, results_per_col, allowed_countries, k=k)
+        if local_first:
+            return local_first
     
     start_time = time.time()
     for col in target_cols:
@@ -1107,7 +1432,7 @@ def search_documents(
             print("Retrieval hard deadline exceeded, returning partial results.")
             break
         try:
-            hits = hybrid_search(query, col, k=RETRIEVAL_TOP_K_CANDIDATES)
+            hits = _search_collection_with_variants(query, col, k=RETRIEVAL_TOP_K_CANDIDATES)
             if hits:
                 filtered: list[dict[str, Any]] = []
                 for hit in hits:
@@ -1120,13 +1445,9 @@ def search_documents(
                     results_per_col[col] = filtered
         except Exception as exc:
             print(f"Warning: search failed for {col}: {exc}")
-    if not results_per_col:
-        return []
-    merged = _filter_by_anchor_terms(query, _rrf_merge(results_per_col))
-    ranked = rerank(query, merged, top_n=min(len(merged), max(k * 20, k)))
-    ranked = _diversify_by_collection(ranked, limit=k, preferred_order=target_cols)
-    expanded = expand_linked_passages(ranked, max_results=max(k * 3, k))
-    return _diversify_by_collection(expanded, limit=k, preferred_order=target_cols)
+
+    _merge_local_corpus_hits(query, requested_cols, results_per_col, allowed_countries, k=k)
+    return _finalize_results(query, requested_cols, results_per_col, allowed_countries, k=k)
 
 
 def get_hybrid_retriever(

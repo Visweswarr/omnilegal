@@ -52,7 +52,7 @@ class CouncilRequest(BaseModel):
 class ResearchRequest(BaseModel):
     query: str
     persona: str = Field(default="researcher")
-    k: int = 6
+    k: int = 10
 
 
 # ── Atlas ──────────────────────────────────────────────────────────────────

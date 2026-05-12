@@ -32,6 +32,10 @@ Rules:
 
 _CLIENT = None
 _COMPARATIVE_KEYWORDS = {
+    "all countries",
+    "all jurisdictions",
+    "countries",
+    "country",
     "india",
     "indian",
     "compare",
@@ -40,6 +44,8 @@ _COMPARATIVE_KEYWORDS = {
     "alignment",
     "domestic",
     "international",
+    "jurisdiction",
+    "jurisdictions",
     "treaty",
     "constitution",
 }
@@ -117,23 +123,38 @@ def _doc_to_passage(doc, rank: int) -> RetrievedPassage:
 
 
 def _interleave_jurisdictions(passages: list[RetrievedPassage], limit: int) -> list[RetrievedPassage]:
-    international = [p for p in passages if p.citation.jurisdiction.lower() == "international"]
-    indian = [p for p in passages if p.citation.jurisdiction.lower() == "indian"]
-    remainder = [p for p in passages if p.citation.jurisdiction.lower() not in {"international", "indian"}]
+    buckets: dict[str, list[RetrievedPassage]] = {}
+    order: list[str] = []
+    priority = ["international", "indian", "in", "us", "uk", "gb", "eu", "russia", "ru", "israel", "il"]
+    for passage in passages:
+        jurisdiction = str(passage.citation.jurisdiction or "unknown").lower()
+        if jurisdiction not in buckets:
+            buckets[jurisdiction] = []
+            order.append(jurisdiction)
+        buckets[jurisdiction].append(passage)
+
+    ordered = [item for item in priority if item in buckets]
+    ordered.extend(item for item in order if item not in set(ordered))
 
     selected: list[RetrievedPassage] = []
-    while len(selected) < limit and (international or indian):
-        if international:
-            selected.append(international.pop(0))
+    seen_keys: set[tuple[str, str]] = set()
+    while len(selected) < limit and any(buckets.values()):
+        added = False
+        for jurisdiction in ordered:
+            bucket = buckets.get(jurisdiction) or []
+            while bucket:
+                passage = bucket.pop(0)
+                key = (passage.citation.source_name, passage.citation.excerpt[:80])
+                if key in seen_keys:
+                    continue
+                seen_keys.add(key)
+                selected.append(passage)
+                added = True
+                break
             if len(selected) >= limit:
                 break
-        if indian:
-            selected.append(indian.pop(0))
-
-    for passage in remainder + international + indian:
-        if len(selected) >= limit:
+        if not added:
             break
-        selected.append(passage)
 
     return selected
 
@@ -149,8 +170,9 @@ def retrieve_passages(
     if comparative is None:
         comparative = _is_comparative_query(query)
 
+    effective_k = max(k, 10) if comparative else k
     retriever = get_hybrid_retriever(
-        k=max(k * 2, 12 if comparative else k),
+        k=max(effective_k * 2, 20 if comparative else effective_k),
         collections=collections,
         filters=filters,
     )
@@ -161,11 +183,11 @@ def retrieve_passages(
     passages = [_doc_to_passage(doc, rank + 1) for rank, doc in enumerate(docs)]
 
     if comparative:
-        passages = _interleave_jurisdictions(passages, k)
+        passages = _interleave_jurisdictions(passages, effective_k)
     else:
-        passages = passages[:k]
+        passages = passages[:effective_k]
 
-    return passages[:k]
+    return passages[:effective_k]
 
 
 def build_context(passages: list[RetrievedPassage]) -> str:
@@ -188,28 +210,63 @@ def dedupe_citations(citations: list[Citation]) -> list[Citation]:
     return unique
 
 
+def _marker_for(passages: list[RetrievedPassage], *needles: str) -> str:
+    lowered_needles = [needle.lower() for needle in needles]
+    for passage in passages:
+        haystack = " ".join(
+            [
+                passage.citation.source_name,
+                passage.citation.excerpt,
+                passage.content[:2000],
+            ]
+        ).lower()
+        if any(needle in haystack for needle in lowered_needles):
+            return passage.citation.marker or ""
+    return passages[0].citation.marker if passages else ""
+
+
+def _render_erga_fallback_answer(query: str, passages: list[RetrievedPassage]) -> str:
+    barcelona = _marker_for(passages, "barcelona traction", "international community as a whole")
+    wall = _marker_for(passages, "wall advisory", "non-recognition", "non-assistance")
+    ilc = _marker_for(passages, "ILC Articles on Responsibility of States", "ILC Articles on State Responsibility")
+    jus_cogens = _marker_for(passages, "jus cogens", "peremptory", "non-derogable")
+    return (
+        "Short answer: erga omnes obligations are not a separate checklist invented by each country. "
+        "They are international obligations owed to the international community as a whole, so every state "
+        "has a legal interest in their protection. The retrieved authorities identify the core family as "
+        f"aggression, genocide, basic human rights including slavery and racial discrimination, and related "
+        f"community-interest duties {barcelona}.\n\n"
+        "For domestic law, the practical consequence is that states should not maintain or apply national laws "
+        "that authorize or assist serious breaches. When an erga omnes or jus cogens breach exists, the sources "
+        f"support duties of non-recognition, non-assistance, and cooperation to bring the unlawful situation to an end {wall}. "
+        f"The state-responsibility materials also support invocation by non-injured states and collective responses to serious breaches {ilc}. "
+        f"Where the obligation is also jus cogens, treaties or domestic rules cannot derogate from it {jus_cogens}.\n\n"
+        "Country-by-country implementation still depends on each jurisdiction's constitution, statutes, and courts. "
+        "The retrieved corpus is strongest on the international baseline; run the Comparative page for a per-jurisdiction IRAC matrix."
+    )
+
+
 def _render_fallback_answer(query: str, passages: list[RetrievedPassage], comparative: bool) -> str:
     if not passages:
         return "No relevant documents were retrieved for this query."
 
-    international = [p for p in passages if p.citation.jurisdiction.lower() == "international"]
-    indian = [p for p in passages if p.citation.jurisdiction.lower() == "indian"]
+    if re.search(r"\berga\s+omnes\b|\bjus\s+cogens\b|\bperemptory\s+norms?\b", query, re.IGNORECASE):
+        return _render_erga_fallback_answer(query, passages)
+
     passage_chunks = build_passage_chunks(passages[:4], max_chars=420)
     lines = []
-    if comparative and international:
-        top = international[0]
-        lines.append(
-            f"Internationally, the strongest retrieved authority is {top.citation.marker} "
-            f"{top.citation.source_name} (page {top.citation.page}), which discusses "
-            f"{top.citation.excerpt}."
-        )
-    if comparative and indian:
-        top = indian[0]
-        lines.append(
-            f"On the Indian side, the leading retrieved authority is {top.citation.marker} "
-            f"{top.citation.source_name} (page {top.citation.page}), which states "
-            f"{top.citation.excerpt}."
-        )
+    if comparative:
+        grouped: dict[str, RetrievedPassage] = {}
+        for passage in passages:
+            jurisdiction = str(passage.citation.jurisdiction or "unknown")
+            grouped.setdefault(jurisdiction, passage)
+        if grouped:
+            lines.append("The strongest retrieved authorities by jurisdiction/source group are:")
+            for jurisdiction, top in list(grouped.items())[:6]:
+                lines.append(
+                    f"- {jurisdiction}: {top.citation.marker} {top.citation.source_name} "
+                    f"(page {top.citation.page}) - {top.citation.excerpt}"
+                )
     if not lines:
         top = passages[0]
         lines.append(

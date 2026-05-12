@@ -26,6 +26,9 @@ frontend/node_modules/
 
 # Logs
 *.log
+ingestion_logs.txt
+~$*
+frontend/test-results/
 
 # Data
 data/remote_sources/raw/

@@ -31,7 +31,7 @@ export default function Research() {
     if (!query.trim()) return;
     setBusy(true); setError(null); setData(null);
     try {
-      const res = await askResearch(query.trim(), persona.key, 6);
+      const res = await askResearch(query.trim(), persona.key, 10);
       setData(res);
     } catch (e) {
       setError(e?.response?.data?.detail || e?.message || "Research failed");

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, Link, useLocation } from "react-router-dom";
 import {
   Globe, ShieldCheck, FileText, Radio, Users2, BookOpen, Scale, Menu, X,
@@ -42,11 +42,52 @@ const NAV_LIBRARY = [
 ];
 
 const ALL_NAV = [...NAV_ORIGINAL, ...NAV_TIER2, ...NAV_LIBRARY, ...NAV_SOTA];
+const NAV_TOP = [
+  { to: "/atlas",        label: "Atlas",        icon: Globe       },
+  { to: "/research",     label: "Research",     icon: BookOpen    },
+  { to: "/comparative",  label: "Comparative",  icon: Layers      },
+  { to: "/forensics",    label: "Forensics",    icon: ShieldCheck },
+  { to: "/advocacy",     label: "Advocacy",     icon: FileText    },
+  { to: "/live",         label: "Live",         icon: Radio       },
+];
+
+const DRAWER_GROUPS = [
+  { title: "Main", items: NAV_TOP },
+  {
+    title: "Research Tools",
+    items: [
+      { to: "/council",      label: "Council",      icon: Users2      },
+      { to: "/graph",        label: "Graph",        icon: Network     },
+      { to: "/time-machine", label: "Doctrine",     icon: History     },
+      { to: "/diff",         label: "Diff",         icon: GitCompare  },
+      { to: "/reading",      label: "Reading",      icon: Highlighter },
+      { to: "/library",      label: "Library",      icon: Library     },
+    ],
+  },
+  {
+    title: "Labs",
+    items: [
+      { to: "/redteam",      label: "Red Team",     icon: Swords      },
+      { to: "/voice",        label: "Voice",        icon: Mic         },
+      { to: "/adversarial",  label: "Adversarial",  icon: Target      },
+      { to: "/arbitrage",    label: "Arbitrage",    icon: Compass     },
+      { to: "/drift",        label: "Drift",        icon: TrendingUp  },
+      { to: "/sentinel",     label: "Sentinel",     icon: ShieldAlert },
+      { to: "/stress",       label: "Stress",       icon: TestTube    },
+      { to: "/longitudinal", label: "Longitudinal", icon: Clock       },
+    ],
+  },
+];
 
 export default function NavBar() {
   const [open, setOpen] = useState(false);
   const loc = useLocation();
   const onLanding = loc.pathname === "/";
+  const hiddenCount = ALL_NAV.length - NAV_TOP.length;
+
+  useEffect(() => {
+    setOpen(false);
+  }, [loc.pathname]);
 
   return (
     <header
@@ -68,8 +109,8 @@ export default function NavBar() {
           </span>
         </Link>
 
-        <nav className="hidden xl:flex items-center gap-0.5 flex-1 overflow-x-auto">
-          {ALL_NAV.map(({ to, label, icon: Icon }) => (
+        <nav className="hidden lg:flex items-center gap-0.5 flex-1 overflow-x-auto">
+          {NAV_TOP.map(({ to, label, icon: Icon }) => (
             <NavLink
               key={to}
               to={to}
@@ -89,22 +130,37 @@ export default function NavBar() {
         </nav>
 
         <button
-          aria-label="Open menu"
+          aria-label={open ? "Close feature menu" : "Open feature menu"}
           onClick={() => setOpen(o => !o)}
-          className="xl:hidden p-2 border border-white/10 hover:border-white/30"
+          className={`p-2 border transition-colors inline-flex items-center gap-2 ${
+            open ? "border-verdict-gold text-paper-100" : "border-white/10 text-paper-300 hover:border-white/30 hover:text-paper-100"
+          }`}
           data-testid="mobile-menu-btn"
         >
           {open ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+          <span className="hidden md:inline text-xs font-mono uppercase tracking-widest2">
+            More {hiddenCount}
+          </span>
         </button>
       </div>
 
       {open && (
-        <div className="xl:hidden border-t border-white/10 bg-ink-900 max-h-[80vh] overflow-y-auto">
-          <Group title="Flagship" items={NAV_ORIGINAL} setOpen={setOpen} />
-          <Group title="Tier-2"   items={NAV_TIER2}    setOpen={setOpen} />
-          <Group title="Library"  items={NAV_LIBRARY}  setOpen={setOpen} />
-          <Group title="State of the Art" items={NAV_SOTA} setOpen={setOpen} />
-        </div>
+        <>
+          <button
+            aria-label="Close feature menu overlay"
+            className="fixed inset-x-0 top-16 bottom-0 z-40 bg-black/40"
+            onClick={() => setOpen(false)}
+            data-testid="feature-menu-overlay"
+          />
+          <aside
+            className="fixed top-16 right-0 z-50 h-[calc(100vh-4rem)] w-full max-w-sm border-l border-white/10 bg-ink-900 overflow-y-auto shadow-2xl"
+            data-testid="feature-sidebar"
+          >
+            {DRAWER_GROUPS.map(group => (
+              <Group key={group.title} title={group.title} items={group.items} setOpen={setOpen} />
+            ))}
+          </aside>
+        </>
       )}
     </header>
   );
